@@ -1,8 +1,8 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { AuthProvider } from "./auth/AuthProvider";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
-import { LoginPage } from "./pages/LoginPage";
-import { HomePage } from "./pages/HomePage";
+import { LoginPage } from "./pages/LoginPage/LoginPage";
+import { HomePage } from "./pages/HomePage/HomePage";
 
 export default function App() {
   return (

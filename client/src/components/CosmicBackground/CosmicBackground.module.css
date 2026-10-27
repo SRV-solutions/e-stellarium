@@ -1,0 +1,130 @@
+.root {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Nebulosas: manchas de color muy difusas */
+.nebula {
+  position: absolute;
+}
+
+.blue {
+  width: 120%;
+  height: 90%;
+  left: -45%;
+  bottom: -40%;
+  background: radial-gradient(closest-side, rgba(0, 123, 255, 0.38), rgba(0, 123, 255, 0.12) 55%, transparent);
+}
+
+.indigo {
+  width: 100%;
+  height: 80%;
+  right: -40%;
+  top: -35%;
+  background: radial-gradient(closest-side, rgba(86, 78, 220, 0.3), rgba(86, 78, 220, 0.08) 60%, transparent);
+}
+
+.green {
+  width: 60%;
+  height: 45%;
+  left: 10%;
+  top: 24%;
+  background: radial-gradient(closest-side, rgba(2, 170, 109, 0.08), transparent);
+}
+
+/* Vía láctea: una banda diagonal apenas visible */
+.milkyway {
+  position: absolute;
+  width: 180%;
+  height: 34%;
+  left: -40%;
+  top: 34%;
+  transform: rotate(-24deg);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(170, 195, 255, 0.1), transparent 70%);
+  filter: blur(24px);
+}
+
+/* Estrellas */
+.stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.stars circle {
+  fill: #dce7ff;
+}
+
+.twinkle {
+  animation: twinkle var(--t, 4s) ease-in-out var(--d, 0s) infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: var(--o, 0.8);
+  }
+  50% {
+    opacity: 0.12;
+  }
+}
+
+/* Constelación */
+.constellation line {
+  stroke: rgba(200, 216, 255, 0.22);
+  stroke-width: 1;
+}
+
+.constellation circle {
+  fill: #fff;
+}
+
+.constellation .goal {
+  fill: var(--orange);
+}
+
+/* Estrella fugaz */
+.shooting {
+  position: absolute;
+  top: 14%;
+  left: 62%;
+  width: 140px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.9));
+  opacity: 0;
+  transform: rotate(-32deg);
+  animation: shoot 11s ease-out 3.4s infinite;
+}
+
+@keyframes shoot {
+  0% {
+    opacity: 0;
+    transform: rotate(-32deg) translateX(0);
+  }
+  2% {
+    opacity: 1;
+  }
+  7%,
+  100% {
+    opacity: 0;
+    transform: rotate(-32deg) translateX(-260px);
+  }
+}
+
+@media (max-width: 860px) {
+  .constellation,
+  .shooting {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .twinkle,
+  .shooting {
+    animation: none;
+  }
+}

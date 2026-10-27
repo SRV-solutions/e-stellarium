@@ -1,10 +1,12 @@
 import { useState, type SubmitEvent } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
-import { useAuth } from "../auth/useAuth";
-import { BrandGauge } from "../components/BrandGauge";
-import logo from "../assets/logo-srv.png";
+import { useAuth } from "../../auth/useAuth";
+import { BrandGauge } from "../../components/BrandGauge/BrandGauge";
+import logo from "../../assets/logo-srv.png";
 import styles from "./LoginPage.module.css";
-import { SUPPORT_HREF } from "../config";
+import { SUPPORT_HREF } from "../../config";
+import { CosmicBackground } from "../../components/CosmicBackground/CosmicBackground";
+import { Orbit } from "../../components/Orbit/Orbit";
 
 type FieldErrors = { email?: string; password?: string };
 
@@ -44,28 +46,18 @@ export function LoginPage() {
   return (
     <main className={styles.screen}>
       <section className={styles.sky}>
-        <svg className={styles.stars} aria-hidden="true">
-          <circle cx="12%" cy="18%" r="1.2" opacity=".7" />
-          <circle cx="28%" cy="9%" r="1" opacity=".5" />
-          <circle cx="47%" cy="22%" r="1.4" opacity=".6" />
-          <circle cx="71%" cy="12%" r="1" opacity=".4" />
-          <circle cx="86%" cy="27%" r="1.3" opacity=".6" />
-          <circle cx="9%" cy="54%" r="1" opacity=".4" />
-          <circle cx="91%" cy="58%" r="1.1" opacity=".5" />
-          <circle cx="18%" cy="78%" r="1.3" opacity=".5" />
-          <circle cx="62%" cy="84%" r="1" opacity=".4" />
-          <circle cx="80%" cy="92%" r="1.2" opacity=".6" />
-          <circle cx="38%" cy="66%" r=".9" opacity=".35" />
-          <circle cx="55%" cy="45%" r=".9" opacity=".3" />
-        </svg>
+        <CosmicBackground />
 
         <div className={styles.brand}>
-          <img src={logo} alt="" className={styles.brandLogo} />
-          E-Stellarium
+            <img src={logo} alt="" className={styles.brandLogo} />
+            E-Stellarium
         </div>
 
         <div className={styles.gaugeWrap}>
-          <BrandGauge />
+            <Orbit />
+            <div className={styles.gaugeLayer}>
+            <BrandGauge />
+            </div>
         </div>
 
         <div className={styles.tagline}>

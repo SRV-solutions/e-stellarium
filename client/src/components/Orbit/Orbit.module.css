@@ -1,0 +1,24 @@
+.orbit {
+  position: absolute;
+  top: -30%;
+  left: -34%;
+  width: 168%;
+  height: 160%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ring {
+  fill: none;
+  stroke: rgba(170, 190, 235, 0.16);
+  stroke-width: 1.2;
+  stroke-dasharray: 2 6;
+}
+
+.moon {
+  fill: #cfe0ff;
+}
+
+.moonGlow {
+  fill: rgba(207, 224, 255, 0.18);
+}
