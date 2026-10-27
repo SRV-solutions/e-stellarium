@@ -11,3 +11,16 @@ export function hashPassword(plain: string): Promise<string> {
 export function verifyPassword(plain: string, hash: string): Promise<boolean> {
   return bcrypt.compare(plain, hash);
 }
+
+export function validatePassword(password: unknown): string | null {
+  if (typeof password !== "string" || !password) {
+    return "Escribí una contraseña.";
+  }
+  if (password.length < PASSWORD_MIN) {
+    return `La contraseña tiene que tener al menos ${PASSWORD_MIN} caracteres.`;
+  }
+  if (Buffer.byteLength(password, "utf8") > PASSWORD_MAX) {
+    return "La contraseña es demasiado larga.";
+  }
+  return null;
+}

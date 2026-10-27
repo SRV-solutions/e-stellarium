@@ -8,9 +8,7 @@ import { createPasswordToken } from "../lib/passwordTokens.js";
 import { generateUniqueAlias } from "../lib/alias.js";
 import { sendMail } from "../lib/mailer.js";
 import { welcomeEmail, newCoursesEmail } from "../lib/email.js";
-
-const APP_URL = process.env.APP_URL;
-if (!APP_URL) throw new Error("Falta APP_URL en las variables de entorno");
+import { config } from "../config.js";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -101,7 +99,7 @@ provisionRouter.post("/provision", requireInternalKey, async (req, res) => {
   let emailSent = true;
   try {
     const mail = token
-      ? welcomeEmail(user.name, `${APP_URL}/crear-contrasena?token=${token}`, courseNames)
+      ? welcomeEmail(user.name, `${config.appUrl}/crear-contrasena?token=${token}`, courseNames)
       : newCoursesEmail(user.name, courseNames);
     await sendMail({ to: user.email, ...mail });
   } catch (err) {

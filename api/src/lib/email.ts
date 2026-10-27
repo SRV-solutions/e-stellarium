@@ -30,3 +30,13 @@ ${courseList(courses)}
 <p>Entrá a E-Stellarium con tu email y tu contraseña de siempre.</p>`,
   };
 }
+
+export function resetPasswordEmail(name: string, link: string) {
+  return {
+    subject: "Cambiá tu contraseña de E-Stellarium",
+    html: `<p>¡Hola ${escapeHtml(name)}!</p>
+<p>Pediste cambiar tu contraseña. Usá este link, que vence en 1 hora:</p>
+<p><a href="${link}">${link}</a></p>
+<p>Si no fuiste vos, ignorá este mail: tu contraseña sigue igual.</p>`,
+  };
+}
