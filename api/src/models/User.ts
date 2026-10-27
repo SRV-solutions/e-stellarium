@@ -70,7 +70,7 @@ User.init(
       attributes: { exclude: ["passwordHash"] },
     },
     scopes: {
-      withPassword: { attributes: { include: ["passwordHash"] } },
+      withPassword: {},
     },
   }
 );

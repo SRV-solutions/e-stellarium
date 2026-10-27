@@ -4,6 +4,7 @@ import { Product } from "./Product.js";
 import { Enrollment } from "./Enrollment.js";
 import { ProcessedPayment } from "./ProcessedPayment.js";
 
+
 User.hasMany(PasswordToken, { foreignKey: "userId" });
 PasswordToken.belongsTo(User, { foreignKey: "userId" });
 
