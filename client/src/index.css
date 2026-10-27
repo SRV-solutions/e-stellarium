@@ -1,0 +1,53 @@
+:root {
+  --night: #0a1735;
+  --night-2: #11214a;
+  --night-3: #172a5a;
+  --line: #24376b;
+  --line-hover: #33498a;
+  --track: #1a2c5c;
+  --blue: #007bff;
+  --blue-hover: #2b92ff;
+  --orange: #ff9900;
+  --green: #02aa6d;
+  --error: #ff6b6b;
+  --text: #eef3ff;
+  --muted: #9aaad0;
+  --placeholder: #5f709c;
+  --font: "Bricolage Grotesque", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-optical-sizing: auto;
+  background: var(--night);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}

@@ -1,0 +1,96 @@
+.gauge {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.track,
+.fill {
+  fill: none;
+  stroke-width: 16;
+  stroke-linecap: round;
+}
+
+.track {
+  stroke: var(--track);
+}
+
+.pivot {
+  fill: var(--green);
+}
+
+/* ---------- Modo progreso (inicio): arco y aguja van juntos hasta el valor ---------- */
+.fill {
+  stroke: var(--blue);
+  stroke-dasharray: 377;
+  stroke-dashoffset: 377;
+  animation: fill 2s cubic-bezier(0.45, 0, 0.25, 1) 0.3s forwards;
+}
+
+.needle {
+  fill: var(--orange);
+  transform-origin: 100px 100px;
+  transform: rotate(0deg);
+  animation: sweep 2s cubic-bezier(0.45, 0, 0.25, 1) 0.3s forwards;
+}
+
+@keyframes fill {
+  to {
+    stroke-dashoffset: var(--gauge-offset);
+  }
+}
+
+@keyframes sweep {
+  to {
+    transform: rotate(var(--needle-to));
+  }
+}
+
+/* ---------- Modo logo (login): la aguja sigue al arco y después vuelve arriba ---------- */
+.brand .fill {
+  animation: brandFill 2.6s 0.3s forwards;
+}
+
+.brand .needle {
+  animation: brandSweep 2.6s 0.3s forwards;
+}
+
+@keyframes brandFill {
+  0% {
+    stroke-dashoffset: 377;
+    animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1);
+  }
+  75%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes brandSweep {
+  0% {
+    transform: rotate(0deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1);
+  }
+  75% {
+    transform: rotate(-270deg);
+    animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+/* ---------- Sin animaciones para quien las desactivó ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .fill,
+  .brand .fill {
+    animation: none;
+    stroke-dashoffset: var(--gauge-offset);
+  }
+  .needle,
+  .brand .needle {
+    animation: none;
+    transform: rotate(var(--needle-to));
+  }
+}
