@@ -28,8 +28,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }
 
+  async function setPassword(token: string, password: string) {
+    const data = await api<{ user: User }>("/auth/password/set", {
+      method: "POST",
+      body: JSON.stringify({ token, password }),
+    });
+    setUser(data.user);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, setPassword }}>
       {children}
     </AuthContext.Provider>
   );

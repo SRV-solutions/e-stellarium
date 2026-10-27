@@ -75,7 +75,7 @@ passwordRouter.post("/auth/password/forgot", async (req, res) => {
   if (user) {
     const token = await createPasswordToken(user.id, "reset_password");
     try {
-      const link = `${config.appUrl}/crear-contrasena?token=${token}`;
+      const link = `${config.appUrl}/create-password?token=${token}`;
       await sendMail({ to: user.email, ...resetPasswordEmail(user.name, link) });
     } catch (err) {
       console.error("No se pudo enviar el mail de recuperación", err);

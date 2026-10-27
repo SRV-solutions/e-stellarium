@@ -1,0 +1,108 @@
+.screen {
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+}
+
+.sky {
+  position: relative;
+  overflow: hidden;
+  padding: 48px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #07112a;
+}
+
+.brand {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+
+.brandLogo {
+  width: 36px;
+  height: 36px;
+}
+
+.gaugeWrap {
+  position: relative;
+  align-self: center;
+  width: min(360px, 70%);
+}
+
+.gaugeWrap::before {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 123, 255, 0.2), transparent 70%);
+}
+
+.gaugeLayer {
+  position: relative;
+}
+
+.tagline {
+  position: relative;
+  max-width: 30ch;
+}
+
+.tagline p {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.tagline small {
+  display: block;
+  margin-top: 14px;
+  max-width: 40ch;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.access {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px;
+  background: var(--night-2);
+  border-left: 1px solid var(--line);
+}
+
+.box {
+  width: 100%;
+  max-width: 380px;
+}
+
+@media (max-width: 860px) {
+  .screen {
+    grid-template-columns: 1fr;
+  }
+  .sky {
+    padding: 24px 20px 32px;
+    gap: 24px;
+  }
+  .gaugeWrap {
+    width: 140px;
+  }
+  .tagline p {
+    font-size: 21px;
+  }
+  .tagline small {
+    font-size: 15px;
+  }
+  .access {
+    align-items: flex-start;
+    padding: 32px 20px 48px;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}

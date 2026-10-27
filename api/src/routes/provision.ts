@@ -99,7 +99,7 @@ provisionRouter.post("/provision", requireInternalKey, async (req, res) => {
   let emailSent = true;
   try {
     const mail = token
-      ? welcomeEmail(user.name, `${config.appUrl}/crear-contrasena?token=${token}`, courseNames)
+      ? welcomeEmail(user.name, `${config.appUrl}/create-password?token=${token}`, courseNames)
       : newCoursesEmail(user.name, courseNames);
     await sendMail({ to: user.email, ...mail });
   } catch (err) {
