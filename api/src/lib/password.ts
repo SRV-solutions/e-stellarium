@@ -5,11 +5,11 @@ export const PASSWORD_MIN = 8;
 export const PASSWORD_MAX = 72; // Max de Bcrypt
 
 export function hashPassword(plain: string): Promise<string> {
-  return bcrypt.hash(plain, COST);
+  return bcrypt.hash(plain.normalize("NFC"), COST);
 }
 
 export function verifyPassword(plain: string, hash: string): Promise<boolean> {
-  return bcrypt.compare(plain, hash);
+  return bcrypt.compare(plain.normalize("NFC"), hash);
 }
 
 export function validatePassword(password: unknown): string | null {

@@ -51,4 +51,12 @@ describe("login, logout y /me", () => {
     await agent.post("/auth/logout").expect(204);
     expect((await agent.get("/me")).status).toBe(401);
   });
+
+  it("acepta la contraseña aunque los acentos lleguen en otra forma interna", async () => {
+  await createUser("alumno@test.com", "Contraseña123".normalize("NFC"));
+  const res = await http()
+    .post("/auth/login")
+    .send({ email: "alumno@test.com", password: "Contraseña123".normalize("NFD") });
+  expect(res.status).toBe(200);
+});
 });
