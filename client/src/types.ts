@@ -8,3 +8,10 @@ export type User = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type Course = {
+  key: string;
+  name: string;
+  driveUrl: string | null;
+  purchasedAt: string;
+};

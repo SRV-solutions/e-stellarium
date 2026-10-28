@@ -1,0 +1,218 @@
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------- Nivel ---------- */
+.hero {
+  padding: 48px 0 40px;
+  border-bottom: 1px solid var(--line);
+}
+
+.hero .container {
+  display: grid;
+  grid-template-columns: auto 1fr minmax(300px, 380px);
+  gap: 40px;
+  align-items: center;
+}
+
+.gauge {
+  width: 200px;
+}
+
+.level {
+  margin: 0;
+  font-size: 56px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.xp {
+  margin: 10px 0 0;
+  font-size: 18px;
+  color: var(--muted);
+}
+
+.xp strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.lead {
+  margin: 16px 0 0;
+  max-width: 38ch;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.soon {
+  padding: 24px;
+  background: var(--night-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.soonTitle {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.soon p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* ---------- Bloques ---------- */
+.block {
+  padding: 44px 0 8px;
+}
+
+.blockTitle {
+  margin: 0 0 18px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.muted {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.muted a {
+  color: var(--text);
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--error);
+  border-radius: 10px;
+  color: var(--error);
+}
+
+/* Cursos */
+.courses {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.course {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px 32px;
+  align-items: center;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.courseName {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.courseMeta {
+  margin: 4px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+  background: none;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.secondary:hover {
+  border-color: var(--muted);
+}
+
+/* Cupones */
+.emptyCoupon {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 420px;
+  padding: 20px 22px;
+  border: 1.5px dashed var(--line);
+  border-radius: 14px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.emptyCoupon strong {
+  font-size: 17px;
+  color: var(--text);
+}
+
+/* ---------- Pie ---------- */
+.footer {
+  padding: 48px 0 40px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.footer a {
+  color: var(--text);
+  text-underline-offset: 3px;
+}
+
+/* ---------- Pantallas chicas ---------- */
+@media (max-width: 900px) {
+  .hero .container {
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+  }
+  .soon {
+    grid-column: 1 / -1;
+  }
+  .gauge {
+    width: 140px;
+  }
+  .level {
+    font-size: 42px;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0 18px;
+  }
+  .hero {
+    padding: 28px 0;
+  }
+  .hero .container {
+    gap: 18px;
+    align-items: start;
+  }
+  .gauge {
+    width: 104px;
+  }
+  .level {
+    font-size: 34px;
+  }
+  .course {
+    grid-template-columns: 1fr;
+  }
+}
