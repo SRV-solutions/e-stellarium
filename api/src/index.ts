@@ -2,10 +2,11 @@ import "dotenv/config";
 import express from "express";
 import cookieParser from "cookie-parser";
 import { sequelize } from "./db.js";
-import { authRouter } from "./routes/auth.js";
 import { provisionRouter } from "./routes/provision.js";
-import { errorHandler } from "./middlewares/errorHandler.js";
+import { authRouter } from "./routes/auth.js";
 import { passwordRouter } from "./routes/password.js";
+import { coursesRouter } from "./routes/courses.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 app.disable("x-powered-by");
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use(authRouter);
 app.use(provisionRouter);
 app.use(passwordRouter);
+app.use(coursesRouter);
 
 app.get("/health", async (_req, res) => {
     try {

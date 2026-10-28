@@ -4,8 +4,10 @@ import {
   type CreationOptional,
   type InferAttributes,
   type InferCreationAttributes,
+  type NonAttribute
 } from "sequelize";
 import { sequelize } from "../db.js";
+import { Product } from "./Product.js";
 
 export type EnrollmentStatus = "active" | "revoked";
 
@@ -18,6 +20,7 @@ export class Enrollment extends Model<InferAttributes<Enrollment>, InferCreation
   declare purchasedAt: CreationOptional<Date>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
+  declare Product?: NonAttribute<Product>
 }
 
 Enrollment.init(
