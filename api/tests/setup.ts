@@ -9,7 +9,7 @@ vi.mock("../src/lib/mailer.js", () => ({
 beforeEach(async () => {
   vi.clearAllMocks();
   // Vacía los datos que generan los tests. CASCADE vacía también las tablas que dependen de users.
-  await sequelize.query("TRUNCATE users, processed_payments RESTART IDENTITY CASCADE");
+  await sequelize.query("TRUNCATE users, processed_payments, constellations RESTART IDENTITY CASCADE");
 });
 
 afterAll(async () => {
