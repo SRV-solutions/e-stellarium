@@ -5,6 +5,7 @@ import { Enrollment } from "./Enrollment.js";
 import { ProcessedPayment } from "./ProcessedPayment.js";
 import { Constellation } from "./Constellation.js";
 import { Star } from "./Star.js";
+import { Question } from "./Question.js";
 
 User.hasMany(PasswordToken, { foreignKey: "userId" });
 PasswordToken.belongsTo(User, { foreignKey: "userId" });
@@ -21,4 +22,10 @@ Constellation.belongsTo(Product, { foreignKey: "productId" });
 Constellation.hasMany(Star, { foreignKey: "constellationId" });
 Star.belongsTo(Constellation, { foreignKey: "constellationId" });
 
-export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star };
+Product.hasMany(Question, { foreignKey: "productId" });
+Question.belongsTo(Product, { foreignKey: "productId" });
+
+Star.hasMany(Question, { foreignKey: "starId" });
+Question.belongsTo(Star, { foreignKey: "starId" });
+
+export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question };
