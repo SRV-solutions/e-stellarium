@@ -3,6 +3,7 @@ import { permutation } from "../src/games/shuffle.js";
 import { displayOrders, present } from "../src/games/present.js";
 import { grade, InvalidResponseError } from "../src/games/grade.js";
 import { unlockedStarIds } from "../src/games/unlock.js";
+import { validateQuestion } from "../src/games/validate.js";
 
 const output = {
   id: "q1",
@@ -137,5 +138,32 @@ describe("desbloqueo de estrellas", () => {
   it("el examen se abre solo con todas las lecciones completas", () => {
     expect(unlockedStarIds(stars, new Set(["s1", "s2"])).has("exam")).toBe(false);
     expect(unlockedStarIds(stars, new Set(["s1", "s2", "s3"])).has("exam")).toBe(true);
+  });
+});
+
+describe("validador de preguntas", () => {
+  it("acepta preguntas bien armadas de los cuatro tipos", () => {
+    expect(validateQuestion("output", { code: "print(1)", options: ["1", "2"] }, { correct: 0 })).toEqual([]);
+    expect(validateQuestion("multiple_choice", { options: ["Sí", "No"] }, { correct: 1 })).toEqual([]);
+    expect(
+      validateQuestion("fill_blank", { code: "___(1)", blanks: [["print", "echo"]] }, { correct: [0] })
+    ).toEqual([]);
+    expect(validateQuestion("order_lines", { lines: ["a = 1", "print(a)"] }, { order: [0, 1] })).toEqual([]);
+  });
+
+  it("detecta los errores más comunes", () => {
+    expect(validateQuestion("output", { code: "print(1)", options: ["1", "2"] }, { correct: 5 })).toEqual([
+      "La respuesta correcta no es ninguna de las opciones.",
+    ]);
+    expect(validateQuestion("multiple_choice", { options: ["Sí", "Sí"] }, { correct: 0 })).toEqual([
+      "Hay opciones repetidas.",
+    ]);
+    expect(
+      validateQuestion("fill_blank", { code: "___(___)", blanks: [["print", "echo"]] }, { correct: [0] })
+    ).toContain("El código tiene 2 huecos, pero hay opciones para 1.");
+    expect(validateQuestion("order_lines", { lines: ["a", "b"] }, { order: [0, 0] })).toEqual([
+      "El orden correcto tiene que incluir cada línea una sola vez.",
+    ]);
+    expect(validateQuestion("sudoku", {}, {})).toEqual(["Tipo de juego desconocido: sudoku."]);
   });
 });
