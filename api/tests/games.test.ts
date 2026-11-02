@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { permutation } from "../src/games/shuffle.js";
 import { displayOrders, present } from "../src/games/present.js";
 import { grade, InvalidResponseError } from "../src/games/grade.js";
+import { unlockedStarIds } from "../src/games/unlock.js";
 
 const output = {
   id: "q1",
@@ -114,5 +115,27 @@ describe("corrector", () => {
     }
     expect(() => grade(lines, seed, { order: [0, 0, 0] })).toThrow(InvalidResponseError);
     expect(() => grade(lines, seed, { order: [0, 1] })).toThrow(InvalidResponseError);
+  });
+});
+
+describe("desbloqueo de estrellas", () => {
+  const stars = [
+    { id: "s3", position: 3, kind: "lesson" as const },
+    { id: "s1", position: 1, kind: "lesson" as const },
+    { id: "s2", position: 2, kind: "lesson" as const },
+    { id: "exam", position: 4, kind: "exam" as const },
+  ];
+
+  it("sin nada completado, solo se abre la primera", () => {
+    expect(unlockedStarIds(stars, new Set())).toEqual(new Set(["s1"]));
+  });
+
+  it("al completar una, se abre la siguiente y la completada sigue abierta", () => {
+    expect(unlockedStarIds(stars, new Set(["s1"]))).toEqual(new Set(["s1", "s2"]));
+  });
+
+  it("el examen se abre solo con todas las lecciones completas", () => {
+    expect(unlockedStarIds(stars, new Set(["s1", "s2"])).has("exam")).toBe(false);
+    expect(unlockedStarIds(stars, new Set(["s1", "s2", "s3"])).has("exam")).toBe(true);
   });
 });
