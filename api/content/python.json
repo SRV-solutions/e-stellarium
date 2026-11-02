@@ -1,0 +1,509 @@
+{
+  "course": "python",
+  "constellation": {
+    "name": "Constelación Python",
+    "description": "El recorrido del Master en Python, estrella por estrella.",
+    "published": true
+  },
+  "stars": [
+    {
+      "title": "Variables y print",
+      "description": "Guardar datos y mostrarlos en pantalla",
+      "questions": [
+        {
+          "slug": "py-var-print-saludo",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "nombre = \"Ana\"\nprint(\"Hola\", nombre)",
+            "options": [
+              "Hola Ana",
+              "Hola nombre",
+              "HolaAna",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "print muestra cada valor separado por un espacio. nombre es una variable, así que se reemplaza por lo que guarda: \"Ana\"."
+        },
+        {
+          "slug": "py-var-reasignar",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "x = 5\nx = x + 2\nprint(x)",
+            "options": [
+              "7",
+              "5",
+              "x + 2",
+              "52"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La segunda línea toma el valor actual de x (5), le suma 2 y guarda el resultado en x. Al imprimir, x vale 7."
+        },
+        {
+          "slug": "py-var-nombre-valido",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "¿Cuál de estos nombres de variable es válido en Python?",
+          "content": {
+            "options": [
+              "mi_edad",
+              "2edad",
+              "mi-edad",
+              "mi edad"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Un nombre puede tener letras, números y guiones bajos, pero no puede empezar con un número ni tener guiones medios o espacios."
+        },
+        {
+          "slug": "py-var-suma-print",
+          "type": "fill_blank",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "Completá el código para que imprima 10.",
+          "content": {
+            "code": "a = 4\nb = 6\n___(a ___ b)",
+            "blanks": [
+              [
+                "print",
+                "echo",
+                "show"
+              ],
+              [
+                "+",
+                "*",
+                "-"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ]
+          },
+          "explanation": "En Python se imprime con print. 4 + 6 da 10; con * daría 24 y con - daría -2."
+        },
+        {
+          "slug": "py-var-ordenar-saludo",
+          "type": "order_lines",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "Ordená las líneas para que el programa imprima \"Hola, Ana\".",
+          "content": {
+            "lines": [
+              "nombre = \"Ana\"",
+              "saludo = \"Hola, \" + nombre",
+              "print(saludo)"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2
+            ]
+          },
+          "explanation": "Primero hay que crear nombre, después usarlo para armar saludo, y recién al final se puede imprimir."
+        }
+      ]
+    },
+    {
+      "title": "Tipos de datos",
+      "description": "Números, textos y verdadero o falso",
+      "questions": [
+        {
+          "slug": "py-tipos-float",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "tipos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "print(type(3.5))",
+            "options": [
+              "<class 'float'>",
+              "<class 'int'>",
+              "<class 'str'>",
+              "3.5"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "3.5 tiene parte decimal, así que es un float. type() devuelve la clase del valor."
+        },
+        {
+          "slug": "py-tipos-concatenar",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "tipos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "print(\"3\" + \"4\")",
+            "options": [
+              "34",
+              "7",
+              "Error",
+              "3 + 4"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "\"3\" y \"4\" están entre comillas: son textos, no números. Sumar textos los pega uno detrás del otro."
+        },
+        {
+          "slug": "py-tipos-int-texto",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "tipos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "print(int(\"8\") + 2)",
+            "options": [
+              "10",
+              "82",
+              "Error",
+              "8 + 2"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "int(\"8\") convierte el texto \"8\" en el número 8, y 8 + 2 es 10."
+        },
+        {
+          "slug": "py-tipos-bool",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "tipos",
+          "prompt": "¿De qué tipo es el valor True?",
+          "content": {
+            "options": [
+              "bool",
+              "str",
+              "int",
+              "float"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "True y False son los dos valores del tipo bool, que representa verdadero o falso."
+        },
+        {
+          "slug": "py-tipos-multiplicar-texto",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "tipos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "print(\"3\" * 3)",
+            "options": [
+              "333",
+              "9",
+              "Error",
+              "3 3 3"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Multiplicar un texto por un número lo repite esa cantidad de veces: \"3\" * 3 es \"333\"."
+        },
+        {
+          "slug": "py-tipos-convertir-edad",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "tipos",
+          "prompt": "Completá para convertir el texto en número y sumarle 1.",
+          "content": {
+            "code": "edad = \"20\"\nprint(___(edad) + 1)",
+            "blanks": [
+              [
+                "int",
+                "str",
+                "len"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ]
+          },
+          "explanation": "int convierte \"20\" en el número 20, y 20 + 1 es 21. Con str seguiría siendo texto, y sumarle 1 daría error."
+        }
+      ]
+    },
+    {
+      "title": "Condicionales",
+      "description": "Tomar decisiones con if, elif y else",
+      "questions": [
+        {
+          "slug": "py-cond-if-else",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "condicionales",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "x = 7\nif x > 5:\n    print(\"grande\")\nelse:\n    print(\"chico\")",
+            "options": [
+              "grande",
+              "chico",
+              "grande\nchico",
+              "No imprime nada"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "7 es mayor que 5, así que se ejecuta el bloque del if. El else se ejecuta solo cuando la condición es falsa."
+        },
+        {
+          "slug": "py-cond-elif",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "condicionales",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "x = 5\nif x > 5:\n    print(\"A\")\nelif x == 5:\n    print(\"B\")\nelse:\n    print(\"C\")",
+            "options": [
+              "B",
+              "A",
+              "C",
+              "A\nB"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "x > 5 es falso (5 no es mayor que 5), así que pasa al elif: x == 5 es verdadero e imprime B. Solo se ejecuta un bloque."
+        },
+        {
+          "slug": "py-cond-igualdad",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "condicionales",
+          "prompt": "¿Qué operador compara si dos valores son iguales?",
+          "content": {
+            "options": [
+              "==",
+              "=",
+              "!=",
+              "==="
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "== compara. Un solo = asigna un valor a una variable, y != pregunta si son distintos."
+        },
+        {
+          "slug": "py-cond-ordenar-nota",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "condicionales",
+          "prompt": "Ordená las líneas para que imprima si la nota aprueba o no.",
+          "content": {
+            "lines": [
+              "nota = 8",
+              "if nota >= 6:",
+              "    print(\"aprobado\")",
+              "else:",
+              "    print(\"desaprobado\")"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          "explanation": "La variable va primero. Después el if con su bloque indentado, y el else con el suyo."
+        },
+        {
+          "slug": "py-cond-or",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "condicionales",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "edad = 17\ntiene_permiso = True\nif edad >= 18 or tiene_permiso:\n    print(\"entra\")\nelse:\n    print(\"no entra\")",
+            "options": [
+              "entra",
+              "no entra",
+              "Error",
+              "No imprime nada"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con or alcanza con que una de las dos condiciones sea verdadera. edad >= 18 es falso, pero tiene_permiso es True."
+        },
+        {
+          "slug": "py-cond-par",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "condicionales",
+          "prompt": "Completá para que imprima \"par\" si el número es par.",
+          "content": {
+            "code": "n = 4\nif n ___ 2 == 0:\n    print(\"par\")",
+            "blanks": [
+              [
+                "%",
+                "/",
+                "//"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ]
+          },
+          "explanation": "% da el resto de la división. Un número es par si el resto de dividirlo por 2 es 0."
+        }
+      ]
+    }
+  ],
+  "bank": [
+    {
+      "slug": "py-banco-sep",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "texto",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(\"a\", \"b\", sep=\"-\")",
+        "options": [
+          "a-b",
+          "a b",
+          "ab",
+          "a - b"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "sep cambia lo que print pone entre cada valor. Por defecto es un espacio; acá es un guion."
+    },
+    {
+      "slug": "py-banco-len",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "texto",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(len(\"hola\"))",
+        "options": [
+          "4",
+          "5",
+          "hola",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "len devuelve la cantidad de caracteres. \"hola\" tiene 4."
+    },
+    {
+      "slug": "py-banco-division-entera",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "operadores",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(7 // 2)",
+        "options": [
+          "3",
+          "3.5",
+          "4",
+          "2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "// es la división entera: divide y descarta la parte decimal. 7 / 2 es 3.5, y 7 // 2 es 3."
+    },
+    {
+      "slug": "py-banco-resto",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "operadores",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(10 % 3)",
+        "options": [
+          "1",
+          "3",
+          "0",
+          "3.33"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "% da el resto de la división. 10 dividido 3 da 3, y sobra 1."
+    },
+    {
+      "slug": "py-banco-bool-vacio",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(bool(\"\"))",
+        "options": [
+          "False",
+          "True",
+          "Error",
+          "None"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un texto vacío se considera falso. Cualquier texto con al menos un carácter se considera verdadero."
+    },
+    {
+      "slug": "py-banco-input",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "prompt": "¿De qué tipo es lo que devuelve input()?",
+      "content": {
+        "options": [
+          "str",
+          "int",
+          "float",
+          "Depende de lo que escriba el usuario"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "input siempre devuelve un texto (str), aunque el usuario escriba un número. Para usarlo como número hay que convertirlo con int o float."
+    }
+  ]
+}
