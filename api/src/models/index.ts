@@ -8,6 +8,7 @@ import { Star } from "./Star.js";
 import { Question } from "./Question.js";
 import { Answer } from "./Answer.js";
 import { StarCompletion } from "./StarCompletion.js";
+import { XpEvent } from "./XpEvent.js";
 
 User.hasMany(PasswordToken, { foreignKey: "userId" });
 PasswordToken.belongsTo(User, { foreignKey: "userId" });
@@ -42,4 +43,7 @@ StarCompletion.belongsTo(User, { foreignKey: "userId" });
 Star.hasMany(StarCompletion, { foreignKey: "starId" });
 StarCompletion.belongsTo(Star, { foreignKey: "starId" });
 
-export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion };
+User.hasMany(XpEvent, { foreignKey: "userId" });
+XpEvent.belongsTo(User, { foreignKey: "userId" });
+
+export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent };
