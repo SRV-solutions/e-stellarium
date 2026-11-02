@@ -3,15 +3,15 @@ import { Constellation, Enrollment, Product, Question, Star } from "../models/in
 import { requireAuth } from "../middlewares/requireAuth.js";
 import { HttpError } from "../lib/errors.js";
 import { present, seedFor } from "../games/present.js";
+import { isUuid } from "../lib/uuid.js";
 
 export const starsRouter = Router();
 
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 starsRouter.get("/stars/:id", requireAuth, async (req, res) => {
   const notFound = new HttpError(404, "No encontramos esa estrella.");
   const { id } = req.params;
-  if (typeof id !== "string" || !UUID.test(id)) throw notFound;
+  if (!isUuid(id)) throw notFound;
 
   // La estrella, solo si su constelación está publicada y su curso activo
   const star = await Star.findByPk(id, {
