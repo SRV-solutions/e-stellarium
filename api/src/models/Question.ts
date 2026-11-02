@@ -47,6 +47,7 @@ export class Question extends Model<InferAttributes<Question>, InferCreationAttr
   declare updatedAt: CreationOptional<Date>;
   declare Product?: NonAttribute<Product>;
   declare Star?: NonAttribute<Star>;
+  declare slug: CreationOptional<string | null>;
 }
 
 Question.init(
@@ -71,6 +72,7 @@ Question.init(
       defaultValue: "draft",
     },
     authorId: { type: DataTypes.UUID, allowNull: true },
+    slug: { type: DataTypes.STRING(80), allowNull: true, unique: true },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },
