@@ -10,8 +10,8 @@ beforeEach(async () => {
   vi.clearAllMocks();
   // Vacía los datos que generan los tests. CASCADE vacía también las tablas que dependen de users.
   await sequelize.query(
-  "TRUNCATE users, processed_payments, constellations, questions RESTART IDENTITY CASCADE"
-);
+    "TRUNCATE users, processed_payments, constellations, questions, answers RESTART IDENTITY CASCADE"
+  );
 });
 
 afterAll(async () => {

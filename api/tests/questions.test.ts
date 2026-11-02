@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { Constellation, Product, Question, Star } from "../src/models/index.js";
+import { Answer, Constellation, Product, Question, Star } from "../src/models/index.js";
+import { createUser } from "./helpers.js";
 
 async function productId(key: string) {
   const product = await Product.findOne({ where: { key } });
@@ -72,5 +73,20 @@ describe("preguntas", () => {
     const question = await Question.findByPk(id);
     expect(question).not.toBeNull();
     expect(question!.starId).toBeNull();
+  });
+
+    it("no permite borrar una pregunta que ya tiene respuestas", async () => {
+    const question = await outputQuestion({ productId: await productId("python") });
+    const user = await createUser();
+    await Answer.create({
+      userId: user.id,
+      questionId: question.id,
+      context: "star",
+      correct: true,
+      response: { choice: 0 },
+    });
+
+    await expect(question.destroy()).rejects.toThrow(/answers_question_id_fkey/);
+    expect(await Question.findByPk(question.id)).not.toBeNull();
   });
 });
