@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { UniqueConstraintError } from "sequelize";
-import { Constellation, Product, Star } from "../src/models/index.js";
+import { Constellation, Product, Star, StarCompletion, User } from "../src/models/index.js";
+import { createPythonStar, enrolledStudent, http } from "./helpers.js";
 
 async function createPythonConstellation() {
   const product = await Product.findOne({ where: { key: "python" } });
@@ -51,5 +52,45 @@ describe("constelaciones y estrellas", () => {
 
     await expect(product!.destroy()).rejects.toThrow(/constellations_product_id_fkey/);
     expect(await Product.findByPk(constellation.productId)).not.toBeNull();
+  });
+});
+
+describe("GET /constellations", () => {
+  it("pide sesión", async () => {
+    expect((await http().get("/constellations")).status).toBe(401);
+  });
+
+  it("muestra las estrellas completadas y cuáles se pueden abrir", async () => {
+    const { constellation, star } = await createPythonStar();
+    const second = await Star.create({ constellationId: constellation.id, position: 2, title: "Condicionales" });
+    await Star.create({ constellationId: constellation.id, position: 3, title: "Bucles" });
+    const agent = await enrolledStudent();
+    const user = await User.findOne({ where: { email: "alumno@test.com" } });
+    await StarCompletion.create({ userId: user!.id, starId: star.id });
+
+    const res = await agent.get("/constellations");
+
+    expect(res.status).toBe(200);
+    expect(res.body.constellations).toHaveLength(1);
+    const [python] = res.body.constellations;
+    expect(python).toMatchObject({ course: { key: "python" }, completedStars: 1, totalStars: 3 });
+    expect(python.stars.map((s: { title: string; completed: boolean; unlocked: boolean }) => [s.title, s.completed, s.unlocked]))
+      .toEqual([
+        ["Variables", true, true],
+        ["Condicionales", false, true],
+        ["Bucles", false, false],
+      ]);
+    expect(second.id).toBe(python.stars[1].id);
+  });
+
+  it("no muestra constelaciones sin publicar ni de cursos que el alumno no tiene", async () => {
+    await createPythonStar({ published: false });
+    const other = await Product.findOne({ where: { key: "fundamentos-backend" } });
+    await Constellation.create({ productId: other!.id, name: "Constelación JavaScript", published: true });
+    const agent = await enrolledStudent(["python"]);
+
+    const res = await agent.get("/constellations");
+
+    expect(res.body.constellations).toEqual([]);
   });
 });
