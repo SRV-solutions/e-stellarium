@@ -4,6 +4,7 @@ import { requireAuth } from "../middlewares/requireAuth.js";
 import { HttpError } from "../lib/errors.js";
 import { present, seedFor } from "../games/present.js";
 import { isUuid } from "../lib/uuid.js";
+import { canOpenStar } from "../games/access.js";
 
 export const starsRouter = Router();
 
@@ -30,6 +31,11 @@ starsRouter.get("/stars/:id", requireAuth, async (req, res) => {
     where: { userId: req.user!.id, productId: star.Constellation!.productId, status: "active" },
   });
   if (!enrollment) throw notFound;
+
+  // La estrella tiene que estar desbloqueada
+  if (!(await canOpenStar(req.user!.id, star))) {
+    throw new HttpError(403, "Completá la estrella anterior para abrir esta.");
+  }
 
   // Las preguntas publicadas, en orden.
   const questions = await Question.findAll({

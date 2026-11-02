@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { createPythonStar, createQuestion, createUser, enrolledStudent, http, loginAs } from "./helpers.js";
+import { Star } from "../src/models/index.js";
 
 describe("GET /stars/:id", () => {
   it("pide sesión", async () => {
@@ -45,5 +46,15 @@ describe("GET /stars/:id", () => {
 
     expect((await agent.get(`/stars/${randomUUID()}`)).status).toBe(404);
     expect((await agent.get("/stars/abc")).status).toBe(404);
+  });
+
+    it("da 403 si la estrella está bloqueada", async () => {
+    const { constellation } = await createPythonStar();
+    const second = await Star.create({ constellationId: constellation.id, position: 2, title: "Condicionales" });
+    const agent = await enrolledStudent();
+
+    const res = await agent.get(`/stars/${second.id}`);
+
+    expect(res.status).toBe(403);
   });
 });

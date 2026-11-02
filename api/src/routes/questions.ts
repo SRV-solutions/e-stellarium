@@ -6,6 +6,7 @@ import { HttpError } from "../lib/errors.js";
 import { isUuid } from "../lib/uuid.js";
 import { seedFor } from "../games/present.js";
 import { grade, InvalidResponseError } from "../games/grade.js";
+import { canOpenStar } from "../games/access.js";
 
 export const questionsRouter = Router();
 
@@ -39,6 +40,11 @@ questionsRouter.post("/questions/:id/answer", requireAuth, async (req, res) => {
     where: { userId, productId: question.productId, status: "active" },
   });
   if (!enrollment) throw notFound;
+
+    // La estrella de la pregunta tiene que estar desbloqueada
+  if (!(await canOpenStar(userId, question.Star!))) {
+    throw new HttpError(403, "Completá la estrella anterior para responder esta pregunta.");
+  }
 
   // Corregir, con la misma semilla con la que se le mostró
   const response = req.body?.response;

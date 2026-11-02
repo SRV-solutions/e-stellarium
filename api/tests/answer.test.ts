@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import type { Agent } from "supertest";
-import { Answer, StarCompletion, User, XpEvent } from "../src/models/index.js";
+import { Answer, Star, StarCompletion, User, XpEvent } from "../src/models/index.js";
 import { createPythonStar, createQuestion, createUser, enrolledStudent, http, loginAs } from "./helpers.js";
 
 async function shownOptions(agent: Agent, starId: string): Promise<string[]> {
@@ -117,5 +117,17 @@ describe("POST /questions/:id/answer", () => {
     expect(await XpEvent.count()).toBe(2);
     expect(await StarCompletion.count()).toBe(1);
     expect(await Answer.count()).toBe(2);
+  });
+
+    it("da 403 si la pregunta es de una estrella bloqueada, y no guarda nada", async () => {
+    const { product, constellation } = await createPythonStar();
+    const second = await Star.create({ constellationId: constellation.id, position: 2, title: "Condicionales" });
+    const question = await createQuestion({ productId: product.id, starId: second.id, position: 1 });
+    const agent = await enrolledStudent();
+
+    const res = await agent.post(`/questions/${question.id}/answer`).send({ response: { choice: 0 } });
+
+    expect(res.status).toBe(403);
+    expect(await Answer.count()).toBe(0);
   });
 });
