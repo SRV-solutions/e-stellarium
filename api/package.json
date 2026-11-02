@@ -11,6 +11,7 @@
     "migrate:undo": "sequelize-cli db:migrate:undo --config db/config.js --migrations-path db/migrations",
     "migration:new": "sequelize-cli migration:generate --migrations-path db/migrations --name",
     "create-admin": "tsx src/scripts/create-admin.ts",
+    "create-student": "tsx src/scripts/create-student.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },
