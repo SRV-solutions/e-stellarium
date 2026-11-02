@@ -12,6 +12,7 @@
     "migration:new": "sequelize-cli migration:generate --migrations-path db/migrations --name",
     "create-admin": "tsx src/scripts/create-admin.ts",
     "create-student": "tsx src/scripts/create-student.ts",
+    "load-content": "tsx src/scripts/load-content.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },
