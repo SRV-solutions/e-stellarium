@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { Answer, Constellation, Enrollment, Product, Question, Star } from "../models/index.js";
+import { Constellation, Enrollment, Product, Question, Star } from "../models/index.js";
+import { recordStarAnswer } from "../games/progress.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
 import { HttpError } from "../lib/errors.js";
 import { isUuid } from "../lib/uuid.js";
@@ -51,11 +52,11 @@ questionsRouter.post("/questions/:id/answer", requireAuth, async (req, res) => {
     throw err;
   }
 
-  // Guardar la respuesta
-  await Answer.create({
+    // Guardar la respuesta, la experiencia y la estrella completada, todo junto
+  const { xpGained, starCompleted } = await recordStarAnswer({
     userId,
     questionId: question.id,
-    context: "star",
+    starId: question.starId!,
     correct: result.correct,
     response,
   });
@@ -65,5 +66,7 @@ questionsRouter.post("/questions/:id/answer", requireAuth, async (req, res) => {
     correct: result.correct,
     solution: result.solution,
     explanation: question.explanation,
+    xpGained,
+    starCompleted,
   });
 });

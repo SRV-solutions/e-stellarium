@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import type { Agent } from "supertest";
-import { Answer } from "../src/models/index.js";
+import { Answer, StarCompletion, User, XpEvent } from "../src/models/index.js";
 import { createPythonStar, createQuestion, createUser, enrolledStudent, http, loginAs } from "./helpers.js";
 
 async function shownOptions(agent: Agent, starId: string): Promise<string[]> {
@@ -24,7 +24,13 @@ describe("POST /questions/:id/answer", () => {
     const res = await agent.post(`/questions/${question.id}/answer`).send({ response: { choice: right } });
 
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ correct: true, solution: { choice: right }, explanation: "2 + 2 es 4." });
+    expect(res.body).toEqual({
+      correct: true,
+      solution: { choice: right },
+      explanation: "2 + 2 es 4.",
+      xpGained: 60,
+      starCompleted: true,
+    });
     const answers = await Answer.findAll();
     expect(answers).toHaveLength(1);
     expect(answers[0]).toMatchObject({ correct: true, context: "star", response: { choice: right } });
@@ -75,5 +81,41 @@ describe("POST /questions/:id/answer", () => {
       const res = await agent.post(`/questions/${question.id}/answer`).send({ response: { choice: 0 } });
       expect(res.status).toBe(404);
     }
+  });
+
+    it("da experiencia por cada pregunta, y el premio al completar la estrella", async () => {
+    const { product, star } = await createPythonStar();
+    const first = await createQuestion({ productId: product.id, starId: star.id, position: 1 });
+    const second = await createQuestion({ productId: product.id, starId: star.id, position: 2 });
+    const agent = await enrolledStudent();
+    const res1 = await agent.get(`/stars/${star.id}`);
+    const right = (i: number) => res1.body.questions[i].content.options.indexOf("4");
+
+    const a1 = await agent.post(`/questions/${first.id}/answer`).send({ response: { choice: right(0) } });
+    expect(a1.body).toMatchObject({ xpGained: 10, starCompleted: false });
+
+    const a2 = await agent.post(`/questions/${second.id}/answer`).send({ response: { choice: right(1) } });
+    expect(a2.body).toMatchObject({ xpGained: 60, starCompleted: true });
+
+    const user = await User.findOne({ where: { email: "alumno@test.com" } });
+    expect(user!.totalXp).toBe(70);
+    expect(await StarCompletion.count()).toBe(1);
+  });
+
+  it("no vuelve a dar experiencia por la misma pregunta ni por la misma estrella", async () => {
+    const { product, star } = await createPythonStar();
+    const question = await createQuestion({ productId: product.id, starId: star.id, position: 1 });
+    const agent = await enrolledStudent();
+    const right = (await shownOptions(agent, star.id)).indexOf("4");
+
+    await agent.post(`/questions/${question.id}/answer`).send({ response: { choice: right } });
+    const again = await agent.post(`/questions/${question.id}/answer`).send({ response: { choice: right } });
+
+    expect(again.body).toMatchObject({ correct: true, xpGained: 0, starCompleted: false });
+    const user = await User.findOne({ where: { email: "alumno@test.com" } });
+    expect(user!.totalXp).toBe(60);
+    expect(await XpEvent.count()).toBe(2);
+    expect(await StarCompletion.count()).toBe(1);
+    expect(await Answer.count()).toBe(2);
   });
 });
