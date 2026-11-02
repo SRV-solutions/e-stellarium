@@ -5,6 +5,7 @@ import { authRouter } from "./routes/auth.js";
 import { provisionRouter } from "./routes/provision.js";
 import { passwordRouter } from "./routes/password.js";
 import { coursesRouter } from "./routes/courses.js";
+import { starsRouter } from "./routes/stars.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
 export const app = express();
@@ -17,6 +18,7 @@ app.use(authRouter);
 app.use(provisionRouter);
 app.use(passwordRouter);
 app.use(coursesRouter);
+app.use(starsRouter);
 
 app.get("/health", async (_req, res) => {
   try {
