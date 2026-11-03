@@ -1,15 +1,16 @@
 .bar {
   border-bottom: 1px solid var(--line);
+  background: var(--night);
 }
 
 .inner {
-  max-width: 1080px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 0 24px;
   height: 68px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 28px;
 }
 
 .brand {
@@ -27,11 +28,57 @@
   height: 30px;
 }
 
+/* El menú */
+.nav {
+  display: flex;
+  gap: 4px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  border-radius: 10px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.navLink:hover {
+  color: var(--text);
+  background: var(--night-2);
+}
+
+.navLink svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.active {
+  color: var(--text);
+  background: var(--night-3);
+}
+
+/* El usuario */
 .user {
+  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 12px;
   font-size: 15px;
+}
+
+.xp {
+  font-weight: 700;
+  color: var(--orange);
 }
 
 .avatar {
@@ -65,11 +112,23 @@
   color: var(--text);
 }
 
-@media (max-width: 600px) {
-  .inner {
-    padding: 0 18px;
-  }
+@media (max-width: 900px) {
   .alias {
     display: none;
+  }
+}
+
+/* En el celular: el menú solo con íconos, y sin el nombre de la marca */
+@media (max-width: 600px) {
+  .inner {
+    padding: 0 16px;
+    gap: 12px;
+  }
+  .brandName,
+  .navLink span {
+    display: none;
+  }
+  .navLink {
+    padding: 9px;
   }
 }
