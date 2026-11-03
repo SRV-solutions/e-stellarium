@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { StarMap } from "../../components/StarMap/StarMap";
 import { useConstellations } from "../../hooks/useConstellations";
+import { StarReadout } from "../../components/StarReadout/StarReadout";
 import type { Constellation, StarSummary } from "../../types";
 import styles from "./ConstellationPage.module.css";
 
@@ -31,25 +32,39 @@ export function ConstellationPage() {
           </div>
         )}
 
-        {state.status === "ready" && <ReadyView constellations={state.constellations} courseKey={courseKey} />}
+        {state.status === "ready" && (
+          <ReadyView
+            constellations={state.constellations}
+            courseKey={courseKey}
+          />
+        )}
       </main>
     </>
   );
 }
 
-function ReadyView({ constellations, courseKey }: { constellations: Constellation[]; courseKey?: string }) {
+function ReadyView({
+  constellations,
+  courseKey,
+}: {
+  constellations: Constellation[];
+  courseKey?: string;
+}) {
   const constellation = constellations.find((c) => c.course.key === courseKey);
 
   if (!constellation) {
     return (
       <p className={`${styles.container} ${styles.message}`}>
-        No encontramos esa constelación entre tus cursos. <Link to="/">Volver al inicio</Link>
+        No encontramos esa constelación entre tus cursos.{" "}
+        <Link to="/">Volver al inicio</Link>
       </p>
     );
   }
 
   // La key hace que, al cambiar de constelación, el componente arranque de cero
-  return <ConstellationView key={constellation.id} constellation={constellation} />;
+  return (
+    <ConstellationView key={constellation.id} constellation={constellation} />
+  );
 }
 
 // La estrella que se muestra al entrar: la primera que se puede jugar, o la última abierta
@@ -59,9 +74,18 @@ function defaultStarId(stars: StarSummary[]) {
   return (playable ?? lastOpen ?? stars[0])?.id ?? null;
 }
 
-function ConstellationView({ constellation }: { constellation: Constellation }) {
-  const [selectedId, setSelectedId] = useState(() => defaultStarId(constellation.stars));
-  const selected = constellation.stars.find((s) => s.id === selectedId) ?? null;
+function ConstellationView({
+  constellation,
+}: {
+  constellation: Constellation;
+}) {
+  const [selectedId, setSelectedId] = useState(() =>
+    defaultStarId(constellation.stars),
+  );
+  const selectedIndex = constellation.stars.findIndex(
+    (s) => s.id === selectedId,
+  );
+  const selected = constellation.stars[selectedIndex];
 
   return (
     <>
@@ -82,11 +106,21 @@ function ConstellationView({ constellation }: { constellation: Constellation }) 
             </p>
           </div>
 
-          <StarMap stars={constellation.stars} selectedId={selectedId} onSelect={setSelectedId} />
+          <StarMap
+            stars={constellation.stars}
+            selectedId={selectedId}
+            onSelect={setSelectedId}
+          />
         </div>
       </section>
 
-      {selected && <p className={`${styles.container} ${styles.message}`}>Elegida: {selected.title}</p>}
+      {selected && (
+        <StarReadout
+          star={selected}
+          index={selectedIndex}
+          previous={constellation.stars[selectedIndex - 1]}
+        />
+      )}
     </>
   );
 }

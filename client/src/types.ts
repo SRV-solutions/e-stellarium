@@ -21,8 +21,10 @@ export type StarKind = "lesson" | "exam";
 export type StarSummary = {
   id: string;
   title: string;
+  description: string | null;
   position: number;
   kind: StarKind;
+  questionCount: number;
   completed: boolean;
   unlocked: boolean;
 };
@@ -36,3 +38,4 @@ export type Constellation = {
   totalStars: number;
   stars: StarSummary[];
 };
+
