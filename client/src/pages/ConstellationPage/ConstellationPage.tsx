@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, NavLink, useParams } from "react-router";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { StarMap } from "../../components/StarMap/StarMap";
 import { useConstellations } from "../../hooks/useConstellations";
 import { StarReadout } from "../../components/StarReadout/StarReadout";
 import type { Constellation, StarSummary } from "../../types";
 import styles from "./ConstellationPage.module.css";
+
 
 export function ConstellationPage() {
   const { courseKey } = useParams();
@@ -62,9 +63,7 @@ function ReadyView({
   }
 
   // La key hace que, al cambiar de constelación, el componente arranque de cero
-  return (
-    <ConstellationView key={constellation.id} constellation={constellation} />
-  );
+    return <ConstellationView key={constellation.id} constellation={constellation} all={constellations} />;
 }
 
 // La estrella que se muestra al entrar: la primera que se puede jugar, o la última abierta
@@ -74,11 +73,7 @@ function defaultStarId(stars: StarSummary[]) {
   return (playable ?? lastOpen ?? stars[0])?.id ?? null;
 }
 
-function ConstellationView({
-  constellation,
-}: {
-  constellation: Constellation;
-}) {
+function ConstellationView({ constellation, all }: { constellation: Constellation; all: Constellation[] }) {
   const [selectedId, setSelectedId] = useState(() =>
     defaultStarId(constellation.stars),
   );
@@ -91,6 +86,31 @@ function ConstellationView({
     <>
       <section className={styles.sky} aria-labelledby="constellation-title">
         <div className={styles.container}>
+                    <div className={styles.trail}>
+            <Link to="/" className={styles.back}>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15 6l-6 6 6 6" />
+              </svg>
+              Inicio
+            </Link>
+
+            {all.length > 1 && (
+              <nav className={styles.switch} aria-label="Tus constelaciones">
+                {all.map((c) => (
+                  <NavLink
+                    key={c.id}
+                    to={`/constellations/${c.course.key}`}
+                    className={({ isActive }) => `${styles.switchItem} ${isActive ? styles.switchActive : ""}`}
+                  >
+                    {c.course.name}
+                    <small>
+                      {c.completedStars}/{c.totalStars}
+                    </small>
+                  </NavLink>
+                ))}
+              </nav>
+            )}
+          </div>
           <div className={styles.head}>
             <div>
               <p className={styles.course}>{constellation.course.name}</p>
