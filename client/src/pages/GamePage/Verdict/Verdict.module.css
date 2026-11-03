@@ -1,0 +1,140 @@
+.sheet {
+  position: fixed;
+  z-index: 6;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  animation: rise 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+
+/* La línea de luz de arriba, del color del veredicto */
+.sheet::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 30px 6px var(--accent);
+}
+
+.right {
+  --accent: var(--green);
+  background: linear-gradient(180deg, #0b2a3a, #071c2a);
+}
+
+.wrong {
+  --accent: var(--orange);
+  background: linear-gradient(180deg, #2a1e22, #1a1220);
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+.inner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 22px 24px 26px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.badge {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.right .badge {
+  color: #3fe0a2;
+  background: rgba(2, 170, 109, 0.2);
+}
+
+.wrong .badge {
+  color: var(--orange);
+  background: rgba(255, 153, 0, 0.16);
+}
+
+.badge svg {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.text {
+  flex: 1;
+}
+
+.text strong {
+  display: block;
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.right strong {
+  color: #3fe0a2;
+}
+
+.wrong strong {
+  color: #ffc266;
+}
+
+.text p {
+  max-width: 54ch;
+  margin: 6px 0 0;
+  font-size: 15.5px;
+}
+
+.next {
+  flex-shrink: 0;
+  padding: 16px 28px;
+  font-size: 18px;
+  font-weight: 700;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.right .next {
+  color: #fff;
+  background: var(--green);
+  box-shadow: 0 0 30px rgba(2, 170, 109, 0.4);
+}
+
+.wrong .next {
+  color: #050d24;
+  background: var(--text);
+}
+
+@media (max-width: 600px) {
+  .inner {
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 18px 16px 20px;
+  }
+  .badge {
+    width: 44px;
+    height: 44px;
+  }
+  .next {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet {
+    animation: none;
+  }
+}

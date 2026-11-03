@@ -123,8 +123,21 @@ main.wrap {
 
 .dock .wrap {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+  gap: 16px;
   padding-bottom: 24px;
+}
+
+.error {
+  pointer-events: auto;
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 15px;
+  color: var(--error);
+  background: rgba(5, 13, 36, 0.9);
+  border: 1px solid var(--error);
+  border-radius: 10px;
 }
 
 .go {
