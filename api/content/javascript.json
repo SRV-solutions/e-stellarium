@@ -1,0 +1,76 @@
+{
+  "course": "fundamentos-backend",
+  "constellation": {
+    "name": "Constelación JavaScript",
+    "description": "El recorrido del Master en JavaScript, estrella por estrella.",
+    "published": true
+  },
+  "stars": [
+    {
+      "title": "Variables",
+      "description": "Guardar datos con let y const",
+      "questions": [
+        {
+          "slug": "js-var-let",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "let x = 2;\nx = x * 3;\nconsole.log(x);",
+            "options": [
+              "6",
+              "2",
+              "x * 3",
+              "23"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "let crea una variable que se puede reasignar. x vale 2, se multiplica por 3 y se guarda de nuevo: 6."
+        },
+        {
+          "slug": "js-tipos-concatenar",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "tipos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(\"2\" + 3);",
+            "options": [
+              "23",
+              "5",
+              "Error",
+              "2 + 3"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si uno de los dos es un texto, + los pega: el 3 se convierte en \"3\" y queda \"23\"."
+        },
+        {
+          "slug": "js-var-const",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "¿Con qué palabra se declara una variable que no se puede reasignar?",
+          "content": {
+            "options": [
+              "const",
+              "let",
+              "var",
+              "static"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "const crea una variable que, una vez asignada, no se puede volver a asignar. let y var sí se pueden reasignar."
+        }
+      ]
+    }
+  ],
+  "bank": []
+}
