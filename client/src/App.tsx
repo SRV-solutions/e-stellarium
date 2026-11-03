@@ -5,6 +5,7 @@ import { LoginPage } from "./pages/LoginPage/LoginPage";
 import { HomePage } from "./pages/HomePage/HomePage";
 import { SetPasswordPage } from "./pages/SetPasswordPage/SetPasswordPage";
 import { ForgotPasswordPage } from "./pages/ForgotPasswordPage/ForgotPasswordPage";
+import { ConstellationPage } from "./pages/ConstellationPage/ConstellationPage";
 
 export default function App() {
   return (
@@ -14,6 +15,14 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/create-password" element={<SetPasswordPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route
+            path="/constellations/:courseKey"
+            element={
+              <ProtectedRoute>
+                <ConstellationPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/"
             element={
