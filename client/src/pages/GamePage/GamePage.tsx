@@ -5,6 +5,8 @@ import { greekLetter } from "../../lib/sky";
 import { MiniConstellation, type StepResult } from "../../components/MiniConstellation/MiniConstellation";
 import styles from "./GamePage.module.css";
 import { ChoiceGame } from "./games/ChoiceGame";
+import { FillBlankGame } from "./games/FillBlankGame";
+import { OrderLinesGame } from "./games/OrderLinesGame";
 import type { AnswerResponse, AnswerResult, StarPlay, StudentQuestion } from "../../types";
 
 const KIND: Record<StudentQuestion["type"], string> = {
@@ -76,6 +78,12 @@ function Game({ play }: { play: StarPlay }) {
               onChange={setResponse}
               result={result}
             />
+          )}
+          {question.type === "fill_blank" && (
+            <FillBlankGame question={question} onChange={setResponse} result={result} />
+          )}
+          {question.type === "order_lines" && (
+            <OrderLinesGame question={question} onChange={setResponse} result={result} />
           )}
         </div>
       </main>
