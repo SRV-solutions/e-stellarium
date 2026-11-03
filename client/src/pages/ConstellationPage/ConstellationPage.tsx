@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
+import { StarMap } from "../../components/StarMap/StarMap";
 import { useConstellations } from "../../hooks/useConstellations";
 import type { Constellation, StarSummary } from "../../types";
 import styles from "./ConstellationPage.module.css";
@@ -12,21 +13,25 @@ export function ConstellationPage() {
   return (
     <>
       <AppHeader />
-      <main className={styles.page}>
+      <main>
         {state.status === "loading" && (
-          <p className={styles.muted} role="status">Cargando tu constelación...</p>
+          <p className={`${styles.container} ${styles.message}`} role="status">
+            Cargando tu constelación...
+          </p>
         )}
 
         {state.status === "error" && (
-          <div className={styles.error} role="alert">
-            No pudimos cargar tu constelación.
-            <button type="button" className={styles.retry} onClick={reload}>Reintentar</button>
+          <div className={styles.container}>
+            <div className={styles.error} role="alert">
+              No pudimos cargar tu constelación.
+              <button type="button" className={styles.retry} onClick={reload}>
+                Reintentar
+              </button>
+            </div>
           </div>
         )}
 
-        {state.status === "ready" && (
-          <ReadyView constellations={state.constellations} courseKey={courseKey} />
-        )}
+        {state.status === "ready" && <ReadyView constellations={state.constellations} courseKey={courseKey} />}
       </main>
     </>
   );
@@ -37,7 +42,7 @@ function ReadyView({ constellations, courseKey }: { constellations: Constellatio
 
   if (!constellation) {
     return (
-      <p className={styles.muted}>
+      <p className={`${styles.container} ${styles.message}`}>
         No encontramos esa constelación entre tus cursos. <Link to="/">Volver al inicio</Link>
       </p>
     );
@@ -60,23 +65,28 @@ function ConstellationView({ constellation }: { constellation: Constellation }) 
 
   return (
     <>
-      <p className={styles.muted}>{constellation.course.name}</p>
-      <h1>{constellation.name}</h1>
-      <p>
-        {constellation.completedStars} / {constellation.totalStars} estrellas encendidas
-      </p>
+      <section className={styles.sky} aria-labelledby="constellation-title">
+        <div className={styles.container}>
+          <div className={styles.head}>
+            <div>
+              <p className={styles.course}>{constellation.course.name}</p>
+              <h1 id="constellation-title" className={styles.title}>
+                {constellation.name}
+              </h1>
+            </div>
+            <p className={styles.count}>
+              <b>
+                {constellation.completedStars} / {constellation.totalStars}
+              </b>
+              estrellas encendidas
+            </p>
+          </div>
 
-      <ul>
-        {constellation.stars.map((star) => (
-          <li key={star.id}>
-            <button type="button" aria-pressed={star.id === selectedId} onClick={() => setSelectedId(star.id)}>
-              {star.position}. {star.title} ({star.completed ? "encendida" : star.unlocked ? "lista" : "bloqueada"})
-            </button>
-          </li>
-        ))}
-      </ul>
+          <StarMap stars={constellation.stars} selectedId={selectedId} onSelect={setSelectedId} />
+        </div>
+      </section>
 
-      {selected && <p>Elegida: {selected.title}</p>}
+      {selected && <p className={`${styles.container} ${styles.message}`}>Elegida: {selected.title}</p>}
     </>
   );
 }

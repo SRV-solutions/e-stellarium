@@ -1,18 +1,24 @@
-.page {
+.container {
   max-width: 1180px;
   margin: 0 auto;
-  padding: 32px 24px;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
-.muted {
-  margin: 0;
+.message {
+  padding-top: 32px;
   color: var(--muted);
+}
+
+.message a {
+  color: var(--text);
 }
 
 .error {
   display: flex;
   align-items: center;
   gap: 16px;
+  margin-top: 32px;
   padding: 14px 16px;
   border: 1px solid var(--error);
   border-radius: 10px;
@@ -26,4 +32,83 @@
   border: 1.5px solid var(--line);
   border-radius: 10px;
   cursor: pointer;
+}
+
+/* El cielo */
+.sky {
+  position: relative;
+  overflow: hidden;
+  padding-top: 32px;
+  background:
+    radial-gradient(45% 55% at 18% 85%, rgba(0, 123, 255, 0.22), transparent 70%),
+    radial-gradient(40% 45% at 88% 12%, rgba(118, 92, 240, 0.22), transparent 70%),
+    linear-gradient(180deg, var(--night) 0%, #050d24 100%);
+}
+
+/* La vía láctea: una banda diagonal apenas visible */
+.sky::before {
+  content: "";
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  top: 38%;
+  height: 28%;
+  transform: rotate(-16deg);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(175, 198, 255, 0.11), transparent 72%);
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+.sky .container {
+  position: relative;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 20px;
+}
+
+.course {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(34px, 5vw, 60px);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.count {
+  margin: 8px 0 0;
+  text-align: right;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.count b {
+  display: block;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--text);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .sky {
+    padding-top: 24px;
+  }
+  .count b {
+    font-size: 24px;
+  }
 }
