@@ -1,3 +1,21 @@
+
+.page {
+  min-height: calc(100dvh - 69px);
+  display: flex;
+  flex-direction: column;
+}
+
+
+.mapArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.mapArea > svg {
+  width: 100%;
+}
+
 .container {
   max-width: 1180px;
   margin: 0 auto;
@@ -34,9 +52,11 @@
   cursor: pointer;
 }
 
-/* El cielo */
 .sky {
   position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   padding-top: 32px;
   background:
@@ -61,6 +81,10 @@
 
 .sky .container {
   position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .head {

@@ -14,7 +14,7 @@ export function ConstellationPage() {
   return (
     <>
       <AppHeader />
-      <main>
+      <main className={styles.page}>
         {state.status === "loading" && (
           <p className={`${styles.container} ${styles.message}`} role="status">
             Cargando tu constelación...
@@ -106,11 +106,9 @@ function ConstellationView({
             </p>
           </div>
 
-          <StarMap
-            stars={constellation.stars}
-            selectedId={selectedId}
-            onSelect={setSelectedId}
-          />
+          <div className={styles.mapArea}>
+            <StarMap stars={constellation.stars} selectedId={selectedId} onSelect={setSelectedId} />
+          </div>
         </div>
       </section>
 
