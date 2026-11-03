@@ -27,6 +27,7 @@ describe("POST /questions/:id/answer", () => {
     expect(res.body).toEqual({
       correct: true,
       solution: { choice: right },
+      output: "4",
       explanation: "2 + 2 es 4.",
       xpGained: 60,
       starCompleted: true,

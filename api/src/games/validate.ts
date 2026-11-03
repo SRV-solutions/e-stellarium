@@ -82,5 +82,13 @@ export function validateQuestion(type: string, content: unknown, answer: unknown
       errors.push(`Tipo de juego desconocido: ${type}.`);
   }
 
+  if (answer.output !== undefined) {
+    if (type !== "fill_blank" && type !== "order_lines") {
+      errors.push("Solo Completá el hueco y Ordená las líneas llevan la salida (output).");
+    } else if (typeof answer.output !== "string" || answer.output.length === 0) {
+      errors.push("La salida (output) tiene que ser un texto.");
+    }
+  }
+
   return errors;
 }

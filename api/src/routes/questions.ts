@@ -68,9 +68,10 @@ questionsRouter.post("/questions/:id/answer", requireAuth, async (req, res) => {
   });
 
   // Ahora sí, la solución y la explicación
-  res.json({
+    res.json({
     correct: result.correct,
     solution: result.solution,
+    output: result.output,
     explanation: question.explanation,
     xpGained,
     starCompleted,

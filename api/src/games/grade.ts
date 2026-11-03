@@ -1,4 +1,4 @@
-import type { OrderLinesContent, Question } from "../models/Question.js";
+import type { OrderLinesContent, OutputContent, Question } from "../models/Question.js";
 import { displayOrders } from "./present.js";
 
 type GradableQuestion = Pick<Question, "id" | "type" | "difficulty" | "prompt" | "content" | "answer">;
@@ -6,6 +6,7 @@ type GradableQuestion = Pick<Question, "id" | "type" | "difficulty" | "prompt" |
 export type GradeResult = {
   correct: boolean;
   solution: { choice: number } | { choices: number[] } | { order: number[] };
+  output: string | null;
 };
 
 // La respuesta del alumno no tiene la forma esperada
@@ -40,11 +41,13 @@ export function grade(question: GradableQuestion, seed: string, response: unknow
       return {
         correct: order[choice] === correct,
         solution: { choice: order.indexOf(correct) },
+        // En "¿Qué imprime?", la salida es la opción correcta, y se muestra siempre
+        output: question.type === "output" ? (question.content as OutputContent).options[correct]! : null,
       };
     }
 
     case "fill_blank": {
-      const { correct } = question.answer as { correct: number[] };
+      const { correct, output } = question.answer as { correct: number[]; output?: string };
       const choices = body.choices;
       if (
         !Array.isArray(choices) ||
@@ -54,16 +57,19 @@ export function grade(question: GradableQuestion, seed: string, response: unknow
         throw new InvalidResponseError();
       }
 
+      const isCorrect = choices.every((c, b) => orders[b]![c] === correct[b]);
       return {
-        correct: choices.every((c, b) => orders[b]![c] === correct[b]),
+        correct: isCorrect,
         solution: { choices: correct.map((c, b) => orders[b]!.indexOf(c)) },
+        // La salida es la del programa correcto: solo se muestra si lo armó bien
+        output: isCorrect ? (output ?? null) : null,
       };
     }
 
     case "order_lines": {
       const order = orders[0]!;
       const { lines } = question.content as OrderLinesContent;
-      const answerOrder = (question.answer as { order: number[] }).order;
+      const { order: answerOrder, output } = question.answer as { order: number[]; output?: string };
       const studentOrder = body.order;
       if (!isPermutation(studentOrder, order.length)) throw new InvalidResponseError();
 
@@ -71,9 +77,11 @@ export function grade(question: GradableQuestion, seed: string, response: unknow
       const studentLines = studentOrder.map((d) => lines[order[d]!]);
       const correctLines = answerOrder.map((i) => lines[i]);
 
+      const isCorrect = studentLines.every((line, i) => line === correctLines[i]);
       return {
-        correct: studentLines.every((line, i) => line === correctLines[i]),
+        correct: isCorrect,
         solution: { order: answerOrder.map((i) => order.indexOf(i)) },
+        output: isCorrect ? (output ?? null) : null,
       };
     }
   }

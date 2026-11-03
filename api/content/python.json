@@ -94,7 +94,8 @@
             "correct": [
               0,
               0
-            ]
+            ],
+            "output": "10"
           },
           "explanation": "En Python se imprime con print. 4 + 6 da 10; con * daría 24 y con - daría -2."
         },
@@ -116,7 +117,8 @@
               0,
               1,
               2
-            ]
+            ],
+            "output": "Hola, Ana"
           },
           "explanation": "Primero hay que crear nombre, después usarlo para armar saludo, y recién al final se puede imprimir."
         }
@@ -244,7 +246,8 @@
           "answer": {
             "correct": [
               0
-            ]
+            ],
+            "output": "21"
           },
           "explanation": "int convierte \"20\" en el número 20, y 20 + 1 es 21. Con str seguiría siendo texto, y sumarle 1 daría error."
         }
@@ -335,7 +338,8 @@
               2,
               3,
               4
-            ]
+            ],
+            "output": "aprobado"
           },
           "explanation": "La variable va primero. Después el if con su bloque indentado, y el else con el suyo."
         },
@@ -378,7 +382,8 @@
           "answer": {
             "correct": [
               0
-            ]
+            ],
+            "output": "par"
           },
           "explanation": "% da el resto de la división. Un número es par si el resto de dividirlo por 2 es 0."
         }

@@ -26,7 +26,10 @@ export type QuestionContent =
   | MultipleChoiceContent;
 
 // La respuesta correcta, según el tipo de juego
-export type QuestionAnswer = { correct: number } | { correct: number[] } | { order: number[] };
+export type QuestionAnswer =
+  | { correct: number }
+  | { correct: number[]; output?: string }
+  | { order: number[]; output?: string };
 
 export class Question extends Model<InferAttributes<Question>, InferCreationAttributes<Question>> {
   declare id: CreationOptional<string>;

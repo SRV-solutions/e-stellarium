@@ -68,8 +68,8 @@ describe("corrector", () => {
     const right = shown.indexOf("4");
     const wrong = shown.indexOf("22");
 
-    expect(grade(question, seed, { choice: right })).toEqual({ correct: true, solution: { choice: right } });
-    expect(grade(question, seed, { choice: wrong })).toEqual({ correct: false, solution: { choice: right } });
+    expect(grade(question, seed, { choice: right })).toEqual({ correct: true, solution: { choice: right }, output: "4" });
+    expect(grade(question, seed, { choice: wrong })).toEqual({ correct: false, solution: { choice: right }, output: "4" });
   });
 
   it("Completá el hueco: corrige cada hueco con su propio orden", () => {
@@ -79,7 +79,7 @@ describe("corrector", () => {
       difficulty: "easy" as const,
       prompt: "Completá el código",
       content: { code: "for i in ___(5):\n    ___(i)", blanks: [["range", "list", "len"], ["print", "echo", "show"]] },
-      answer: { correct: [0, 0] },
+      answer: { correct: [0, 0], output: "0\n1\n2\n3\n4" },
     };
     const view = present(question, seed);
     const [first, second] = (view.content as { blanks: string[][] }).blanks;
@@ -87,6 +87,8 @@ describe("corrector", () => {
 
     expect(grade(question, seed, { choices: right }).correct).toBe(true);
     expect(grade(question, seed, { choices: [first!.indexOf("len"), right[1]] }).correct).toBe(false);
+    expect(grade(question, seed, { choices: right }).output).toBe("0\n1\n2\n3\n4");
+    expect(grade(question, seed, { choices: [first!.indexOf("len"), right[1]] }).output).toBeNull();
   });
 
   it("Ordená las líneas: acepta el orden correcto aunque dos líneas iguales estén intercambiadas", () => {
@@ -165,5 +167,8 @@ describe("validador de preguntas", () => {
       "El orden correcto tiene que incluir cada línea una sola vez.",
     ]);
     expect(validateQuestion("sudoku", {}, {})).toEqual(["Tipo de juego desconocido: sudoku."]);
+        expect(validateQuestion("output", { code: "print(1)", options: ["1", "2"] }, { correct: 0, output: "1" })).toEqual([
+      "Solo Completá el hueco y Ordená las líneas llevan la salida (output).",
+    ]);
   });
 });
