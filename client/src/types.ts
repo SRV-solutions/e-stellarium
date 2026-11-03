@@ -39,3 +39,27 @@ export type Constellation = {
   stars: StarSummary[];
 };
 
+type QuestionBase = { id: string; difficulty: "easy" | "medium" | "hard"; prompt: string };
+
+export type StudentQuestion =
+  | (QuestionBase & { type: "output"; content: { code: string; options: string[] } })
+  | (QuestionBase & { type: "multiple_choice"; content: { options: string[] } })
+  | (QuestionBase & { type: "fill_blank"; content: { code: string; blanks: string[][] } })
+  | (QuestionBase & { type: "order_lines"; content: { lines: string[] } });
+
+export type StarPlay = {
+  star: { id: string; title: string; description: string | null; kind: StarKind; position: number };
+  questions: StudentQuestion[];
+};
+
+export type AnswerResponse = { choice: number } | { choices: number[] } | { order: number[] };
+
+export type AnswerResult = {
+  correct: boolean;
+  solution: AnswerResponse;
+  output: string | null;
+  explanation: string;
+  xpGained: number;
+  starCompleted: boolean;
+};
+

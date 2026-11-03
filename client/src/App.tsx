@@ -7,6 +7,7 @@ import { SetPasswordPage } from "./pages/SetPasswordPage/SetPasswordPage";
 import { ForgotPasswordPage } from "./pages/ForgotPasswordPage/ForgotPasswordPage";
 import { ConstellationsIndex } from "./pages/ConstellationsIndex/ConstellationsIndex";
 import { ConstellationPage } from "./pages/ConstellationPage/ConstellationPage";
+import { GamePage } from "./pages/GamePage/GamePage";
 
 export default function App() {
   return (
@@ -29,6 +30,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <ConstellationPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/stars/:starId"
+            element={
+              <ProtectedRoute>
+                <GamePage />
               </ProtectedRoute>
             }
           />
