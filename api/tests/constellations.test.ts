@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { UniqueConstraintError } from "sequelize";
 import { Constellation, Product, Star, StarCompletion, User } from "../src/models/index.js";
-import { createPythonStar, enrolledStudent, http } from "./helpers.js";
+import { createPythonStar, createQuestion, enrolledStudent, http } from "./helpers.js";
 
 async function createPythonConstellation() {
   const product = await Product.findOne({ where: { key: "python" } });
@@ -92,5 +92,17 @@ describe("GET /constellations", () => {
     const res = await agent.get("/constellations");
 
     expect(res.body.constellations).toEqual([]);
+  });
+
+    it("cuenta solo las preguntas publicadas de cada estrella", async () => {
+    const { product, star } = await createPythonStar();
+    await createQuestion({ productId: product.id, starId: star.id, position: 1 });
+    await createQuestion({ productId: product.id, starId: star.id, position: 2 });
+    await createQuestion({ productId: product.id, starId: star.id, position: 3, status: "draft" });
+    const agent = await enrolledStudent();
+
+    const res = await agent.get("/constellations");
+
+    expect(res.body.constellations[0].stars[0]).toMatchObject({ title: "Variables", questionCount: 2 });
   });
 });

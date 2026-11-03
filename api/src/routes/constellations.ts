@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { Constellation, Enrollment, Product, Star, StarCompletion } from "../models/index.js";
+import { Constellation, Enrollment, Product, Question, Star, StarCompletion } from "../models/index.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
 import { unlockedStarIds } from "../games/unlock.js";
+import { sequelize } from "../db.js";
 
 export const constellationsRouter = Router();
 
@@ -33,6 +34,19 @@ constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
   const completions = await StarCompletion.findAll({ where: { userId } });
   const completedIds = new Set(completions.map((c) => c.starId));
 
+    // Cuántas preguntas publicadas tiene cada estrella
+  const starIds = constellations.flatMap((c) => (c.Stars ?? []).map((s) => s.id));
+  const counts =
+    starIds.length === 0
+      ? []
+      : ((await Question.findAll({
+          attributes: ["starId", [sequelize.fn("COUNT", sequelize.col("id")), "count"]],
+          where: { starId: starIds, status: "published" },
+          group: ["star_id"],
+          raw: true,
+        })) as unknown as { starId: string; count: string }[]);
+  const questionCount = new Map(counts.map((c) => [c.starId, Number(c.count)]));
+
   res.json({
     constellations: constellations.map((constellation) => {
       const stars = constellation.Stars ?? [];
@@ -48,8 +62,10 @@ constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
         stars: stars.map((star) => ({
           id: star.id,
           title: star.title,
+          description: star.description,
           position: star.position,
           kind: star.kind,
+          questionCount: questionCount.get(star.id) ?? 0,
           completed: completedIds.has(star.id),
           unlocked: unlocked.has(star.id),
         })),
