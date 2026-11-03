@@ -3,8 +3,9 @@ import { Link, useParams } from "react-router";
 import { useStar } from "../../hooks/useStar";
 import { greekLetter } from "../../lib/sky";
 import { MiniConstellation, type StepResult } from "../../components/MiniConstellation/MiniConstellation";
-import type { StarPlay, StudentQuestion } from "../../types";
 import styles from "./GamePage.module.css";
+import { ChoiceGame } from "./games/ChoiceGame";
+import type { AnswerResponse, AnswerResult, StarPlay, StudentQuestion } from "../../types";
 
 const KIND: Record<StudentQuestion["type"], string> = {
   output: "¿Qué imprime?",
@@ -40,6 +41,8 @@ function Game({ play }: { play: StarPlay }) {
   const [index, setIndex] = useState(0);
   const [results, setResults] = useState<StepResult[]>([]);
   const [xp, setXp] = useState(0);
+  const [response, setResponse] = useState<AnswerResponse | null>(null);
+  const [result, setResult] = useState<AnswerResult | null>(null);
 
   const question = questions[index];
   if (!question) return null;
@@ -66,13 +69,20 @@ function Game({ play }: { play: StarPlay }) {
         <div className={styles.stage} key={question.id}>
           <p className={styles.kind}>{KIND[question.type]}</p>
           <h1 className={styles.prompt}>{question.prompt}</h1>
-          {/* Acá va el juego, en el paso siguiente */}
+          {(question.type === "output" || question.type === "multiple_choice") && (
+            <ChoiceGame
+              question={question}
+              response={response as { choice: number } | null}
+              onChange={setResponse}
+              result={result}
+            />
+          )}
         </div>
       </main>
 
       <div className={styles.dock}>
         <div className={styles.wrap}>
-          <button type="button" className={styles.go} disabled>
+          <button type="button" className={styles.go} disabled={response === null}>
             Comprobar
           </button>
         </div>

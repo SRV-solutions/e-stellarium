@@ -1,0 +1,120 @@
+.options {
+  display: grid;
+  gap: 12px;
+}
+
+.option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 17px 20px;
+  text-align: left;
+  font-size: 18px;
+  color: var(--text);
+  background: rgba(17, 33, 74, 0.75);
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+}
+
+/* El puntito de la izquierda, que se enciende al elegir */
+.option::before {
+  content: "";
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid #4c5f92;
+  transition: all 0.2s;
+}
+
+.mono {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 17px;
+}
+
+.optionText {
+  white-space: pre-wrap;
+}
+
+.option:hover:not(:disabled) {
+  border-color: var(--line-hover);
+  transform: translateX(3px);
+}
+
+.option[aria-pressed="true"] {
+  border-color: var(--blue);
+  background: rgba(0, 123, 255, 0.14);
+}
+
+.option[aria-pressed="true"]::before {
+  background: var(--blue);
+  border-color: var(--blue-hover);
+  box-shadow: 0 0 12px var(--blue);
+}
+
+.option:disabled {
+  cursor: default;
+}
+
+.right {
+  border-color: var(--green);
+  background: rgba(2, 170, 109, 0.16);
+  box-shadow: 0 0 0 4px rgba(2, 170, 109, 0.12), 0 0 34px rgba(2, 170, 109, 0.25);
+}
+
+.right::before {
+  background: #fff;
+  border-color: #fff;
+  box-shadow: 0 0 14px #fff;
+}
+
+.wrong {
+  border-color: #ff7a6b;
+  background: rgba(255, 122, 107, 0.1);
+  animation: shake 0.4s;
+}
+
+.wrong::before {
+  border-color: #ff7a6b;
+}
+
+.faded {
+  opacity: 0.45;
+}
+
+.mark {
+  margin-left: auto;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.right .mark {
+  color: #3fe0a2;
+}
+
+.wrong .mark {
+  color: #ff7a6b;
+}
+
+@keyframes shake {
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+@media (max-width: 600px) {
+  .option {
+    padding: 15px 16px;
+    font-size: 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wrong {
+    animation: none;
+  }
+}
