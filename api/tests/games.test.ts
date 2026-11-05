@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { permutation } from "../src/games/shuffle.js";
-import { displayOrders, present } from "../src/games/present.js";
+import { displayOrders, present, seedFor } from "../src/games/present.js";
 import { grade, InvalidResponseError } from "../src/games/grade.js";
 import { unlockedStarIds } from "../src/games/unlock.js";
 import { validateQuestion } from "../src/games/validate.js";
@@ -48,6 +48,19 @@ describe("vista del alumno", () => {
     expect([...(view.content as { options: string[] }).options].sort()).toEqual(
       [...output.content.options].sort()
     );
+  });
+
+  it("el primer intento conserva la semilla de siempre, y los demás la cambian", () => {
+    expect(seedFor("alumno", "q1")).toBe("alumno:q1");
+    expect(seedFor("alumno", "q1", 0)).toBe("alumno:q1");
+    expect(seedFor("alumno", "q1", 1)).toBe("alumno:q1:1");
+  });
+
+  it("cada intento de la misma pregunta se mezcla distinto", () => {
+    const orders = new Set(
+      Array.from({ length: 10 }, (_, i) => displayOrders(output, seedFor("alumno", "q1", i))[0]!.join(","))
+    );
+    expect(orders.size).toBeGreaterThan(1);
   });
 
   it("nunca muestra las líneas ya ordenadas", () => {

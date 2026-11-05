@@ -61,6 +61,35 @@ describe("POST /questions/:id/answer", () => {
     expect(await Answer.count()).toBe(0);
   });
 
+  it("corrige con la mezcla del intento que se le mostró", async () => {
+    const { product, star } = await createPythonStar();
+    const question = await createQuestion({ productId: product.id, starId: star.id, position: 1 });
+    const agent = await enrolledStudent();
+    const first = (await shownOptions(agent, star.id)).indexOf("22");
+    await agent.post(`/questions/${question.id}/answer`).send({ response: { choice: first }, attempt: 0 });
+
+    // Segundo intento: la pregunta viene con attempt 1 y su propia mezcla
+    const res = await agent.get(`/stars/${star.id}`);
+    const { attempt, content } = res.body.questions[0];
+    const right = content.options.indexOf("4");
+    const answer = await agent.post(`/questions/${question.id}/answer`).send({ response: { choice: right }, attempt });
+
+    expect(attempt).toBe(1);
+    expect(answer.body).toMatchObject({ correct: true, solution: { choice: right } });
+  });
+
+  it("da 400 si el intento no es un entero no negativo, y no guarda nada", async () => {
+    const { product, star } = await createPythonStar();
+    const question = await createQuestion({ productId: product.id, starId: star.id, position: 1 });
+    const agent = await enrolledStudent();
+
+    for (const attempt of [-1, 1.5, "1", null]) {
+      const res = await agent.post(`/questions/${question.id}/answer`).send({ response: { choice: 0 }, attempt });
+      expect(res.status).toBe(400);
+    }
+    expect(await Answer.count()).toBe(0);
+  });
+
   it("da 404 si el alumno no tiene el curso", async () => {
     const { product, star } = await createPythonStar();
     const question = await createQuestion({ productId: product.id, starId: star.id, position: 1 });

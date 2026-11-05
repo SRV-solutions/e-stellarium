@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Constellation, Enrollment, Product, Question, Star } from "../models/index.js";
+import { Answer, Constellation, Enrollment, Product, Question, Star } from "../models/index.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
 import { HttpError } from "../lib/errors.js";
 import { present, seedFor } from "../games/present.js";
@@ -43,7 +43,14 @@ starsRouter.get("/stars/:id", requireAuth, async (req, res) => {
     order: [["position", "ASC"]],
   });
 
-  // Cada pregunta mezclada para este alumno
+  // Cuántas veces respondió el alumno cada pregunta: ese es el intento que va a jugar ahora
+  const counts = (await Answer.count({
+    where: { userId: req.user!.id, questionId: questions.map((q) => q.id) },
+    group: ["questionId"],
+  })) as unknown as { questionId: string; count: number }[];
+  const attemptOf = new Map(counts.map((c) => [c.questionId, Number(c.count)]));
+
+  // Cada pregunta mezclada para este alumno y este intento
   res.json({
     star: {
       id: star.id,
@@ -52,6 +59,9 @@ starsRouter.get("/stars/:id", requireAuth, async (req, res) => {
       kind: star.kind,
       position: star.position,
     },
-    questions: questions.map((q) => present(q, seedFor(req.user!.id, q.id))),
+    questions: questions.map((q) => {
+      const attempt = attemptOf.get(q.id) ?? 0;
+      return { ...present(q, seedFor(req.user!.id, q.id, attempt)), attempt };
+    }),
   });
 });

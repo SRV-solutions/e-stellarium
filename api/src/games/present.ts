@@ -12,8 +12,10 @@ type GameQuestion = Pick<Question, "id" | "type" | "difficulty" | "prompt" | "co
 
 export type StudentQuestion = GameQuestion;
 
-export function seedFor(userId: string, questionId: string) {
-  return `${userId}:${questionId}`;
+// El intento es cuántas veces respondió el alumno esa pregunta: cada intento se mezcla distinto.
+// El primero (0) conserva la semilla de siempre
+export function seedFor(userId: string, questionId: string, attempt = 0) {
+  return attempt === 0 ? `${userId}:${questionId}` : `${userId}:${questionId}:${attempt}`;
 }
 
 function isIdentity(order: number[]) {

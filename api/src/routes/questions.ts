@@ -46,11 +46,17 @@ questionsRouter.post("/questions/:id/answer", requireAuth, async (req, res) => {
     throw new HttpError(403, "Completá la estrella anterior para responder esta pregunta.");
   }
 
+  // El intento que se le mostró. Si no viene, es el primero
+  const attempt = req.body?.attempt === undefined ? 0 : req.body.attempt;
+  if (!Number.isInteger(attempt) || attempt < 0) {
+    throw new HttpError(400, "La respuesta no tiene un formato válido.");
+  }
+
   // Corregir, con la misma semilla con la que se le mostró
   const response = req.body?.response;
   let result;
   try {
-    result = grade(question, seedFor(userId, question.id), response);
+    result = grade(question, seedFor(userId, question.id, attempt), response);
   } catch (err) {
     if (err instanceof InvalidResponseError) {
       throw new HttpError(400, "La respuesta no tiene un formato válido.");

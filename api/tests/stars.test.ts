@@ -26,6 +26,22 @@ describe("GET /stars/:id", () => {
     }
   });
 
+  it("cada pregunta trae su intento: cuántas veces la respondió el alumno", async () => {
+    const { product, star } = await createPythonStar();
+    const first = await createQuestion({ productId: product.id, starId: star.id, position: 1 });
+    await createQuestion({ productId: product.id, starId: star.id, position: 2 });
+    const agent = await enrolledStudent();
+
+    const before = await agent.get(`/stars/${star.id}`);
+    expect(before.body.questions.map((q: { attempt: number }) => q.attempt)).toEqual([0, 0]);
+
+    await agent.post(`/questions/${first.id}/answer`).send({ response: { choice: 0 }, attempt: 0 });
+    await agent.post(`/questions/${first.id}/answer`).send({ response: { choice: 1 }, attempt: 0 });
+
+    const after = await agent.get(`/stars/${star.id}`);
+    expect(after.body.questions.map((q: { attempt: number }) => q.attempt)).toEqual([2, 0]);
+  });
+
   it("da 404 si el alumno no tiene el curso", async () => {
     const { star } = await createPythonStar();
     await createUser("alumno@test.com");
