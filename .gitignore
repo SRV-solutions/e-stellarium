@@ -23,3 +23,6 @@ Thumbs.db
 
 # Pruebas con curl
 cookies.txt
+
+# Contexto local para Claude Code: no va al repo
+CLAUDE.md
