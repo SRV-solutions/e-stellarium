@@ -30,6 +30,7 @@ describe("POST /questions/:id/answer", () => {
       output: "4",
       explanation: "2 + 2 es 4.",
       xpGained: 60,
+      starXp: 50,
       starCompleted: true,
     });
     const answers = await Answer.findAll();
@@ -47,7 +48,12 @@ describe("POST /questions/:id/answer", () => {
       .post(`/questions/${question.id}/answer`)
       .send({ response: { choice: options.indexOf("22") } });
 
-    expect(res.body).toMatchObject({ correct: false, solution: { choice: options.indexOf("4") } });
+    expect(res.body).toMatchObject({
+      correct: false,
+      solution: { choice: options.indexOf("4") },
+      xpGained: 0,
+      starXp: 0,
+    });
     expect(await Answer.count({ where: { correct: false } })).toBe(1);
   });
 
@@ -122,10 +128,10 @@ describe("POST /questions/:id/answer", () => {
     const right = (i: number) => res1.body.questions[i].content.options.indexOf("4");
 
     const a1 = await agent.post(`/questions/${first.id}/answer`).send({ response: { choice: right(0) } });
-    expect(a1.body).toMatchObject({ xpGained: 10, starCompleted: false });
+    expect(a1.body).toMatchObject({ xpGained: 10, starXp: 0, starCompleted: false });
 
     const a2 = await agent.post(`/questions/${second.id}/answer`).send({ response: { choice: right(1) } });
-    expect(a2.body).toMatchObject({ xpGained: 60, starCompleted: true });
+    expect(a2.body).toMatchObject({ xpGained: 60, starXp: 50, starCompleted: true });
 
     const user = await User.findOne({ where: { email: "alumno@test.com" } });
     expect(user!.totalXp).toBe(70);
@@ -141,7 +147,7 @@ describe("POST /questions/:id/answer", () => {
     await agent.post(`/questions/${question.id}/answer`).send({ response: { choice: right } });
     const again = await agent.post(`/questions/${question.id}/answer`).send({ response: { choice: right } });
 
-    expect(again.body).toMatchObject({ correct: true, xpGained: 0, starCompleted: false });
+    expect(again.body).toMatchObject({ correct: true, xpGained: 0, starXp: 0, starCompleted: false });
     const user = await User.findOne({ where: { email: "alumno@test.com" } });
     expect(user!.totalXp).toBe(60);
     expect(await XpEvent.count()).toBe(2);

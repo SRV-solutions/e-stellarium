@@ -49,9 +49,11 @@ export async function recordStarAnswer({ userId, questionId, starId, correct, re
 
     await Answer.create({ userId, questionId, context: "star", correct, response }, { transaction: t });
 
+    // xpGained es el total; starXp, la parte de ese total que se dio por encender la estrella
     let xpGained = 0;
+    let starXp = 0;
     let starCompleted = false;
-    if (!correct) return { xpGained, starCompleted };
+    if (!correct) return { xpGained, starXp, starCompleted };
 
     xpGained += await awardXp(user, "question_correct", questionId, XP.questionCorrect, t);
 
@@ -62,10 +64,11 @@ export async function recordStarAnswer({ userId, questionId, starId, correct, re
       });
       if (created) {
         starCompleted = true;
-        xpGained += await awardXp(user, "star_completed", starId, XP.starCompleted, t);
+        starXp = await awardXp(user, "star_completed", starId, XP.starCompleted, t);
+        xpGained += starXp;
       }
     }
 
-    return { xpGained, starCompleted };
+    return { xpGained, starXp, starCompleted };
   });
 }

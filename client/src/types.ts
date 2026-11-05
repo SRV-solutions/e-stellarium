@@ -75,6 +75,7 @@ export type AnswerResult = {
   output: string | null;
   explanation: string;
   xpGained: number;
+  starXp: number; // la parte de xpGained que se dio por encender la estrella
   starCompleted: boolean;
 };
 

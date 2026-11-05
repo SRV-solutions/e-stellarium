@@ -65,7 +65,7 @@ questionsRouter.post("/questions/:id/answer", requireAuth, async (req, res) => {
   }
 
     // Guardar la respuesta, la experiencia y la estrella completada, todo junto
-  const { xpGained, starCompleted } = await recordStarAnswer({
+  const { xpGained, starXp, starCompleted } = await recordStarAnswer({
     userId,
     questionId: question.id,
     starId: question.starId!,
@@ -80,6 +80,7 @@ questionsRouter.post("/questions/:id/answer", requireAuth, async (req, res) => {
     output: result.output,
     explanation: question.explanation,
     xpGained,
+    starXp,
     starCompleted,
   });
 });
