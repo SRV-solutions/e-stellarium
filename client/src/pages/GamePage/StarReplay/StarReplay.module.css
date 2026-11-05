@@ -1,0 +1,195 @@
+.end {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 40px 24px 60px;
+  text-align: center;
+}
+
+.inner {
+  width: 100%;
+  max-width: 560px;
+}
+
+/* La estrella ya encendida: quieta, sin ondas, solo titila */
+.lit {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 10px;
+}
+
+.lit svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.twinkle {
+  transform-origin: 100px 100px;
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+
+.corona {
+  fill: url(#replay-corona);
+  animation: fade 0.8s both;
+}
+
+.ray {
+  stroke: var(--orange);
+  stroke-width: 3;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.spike {
+  stroke: #fff;
+  stroke-width: 1.2;
+  opacity: 0.7;
+}
+
+.core {
+  fill: #fff;
+  filter: url(#replay-bloom);
+}
+
+@keyframes twinkle {
+  50% {
+    transform: scale(1.06);
+    opacity: 0.8;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Los textos */
+.kicker {
+  margin: 0;
+  font-size: 16px;
+  color: var(--muted);
+  animation: up 0.6s 0.5s both;
+}
+
+.kicker b {
+  font-family: var(--greek);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.title {
+  margin: 4px 0 0;
+  font-size: 42px;
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  animation: up 0.6s 0.6s both;
+}
+
+.lead {
+  max-width: 46ch;
+  margin: 14px auto 0;
+  font-size: 18px;
+  color: var(--muted);
+  animation: up 0.6s 0.7s both;
+}
+
+.lead b {
+  color: var(--text);
+}
+
+@keyframes up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* Los botones */
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 32px;
+  animation: up 0.6s 0.8s both;
+}
+
+.go {
+  composes: go from "../GamePage.module.css";
+  text-decoration: none;
+}
+
+.go svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+.ghost {
+  padding: 16px 26px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+}
+
+.ghost:hover {
+  border-color: var(--muted);
+}
+
+.textButton {
+  margin-top: 18px;
+  padding: 6px 4px;
+  font-size: 15px;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  animation: up 0.6s 0.9s both;
+}
+
+.textButton:hover {
+  color: var(--text);
+}
+
+@media (max-width: 600px) {
+  .end {
+    padding: 32px 16px 48px;
+  }
+  .title {
+    font-size: 32px;
+  }
+  .lead {
+    font-size: 16px;
+  }
+  .actions {
+    flex-direction: column-reverse;
+  }
+  .go,
+  .ghost {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .twinkle,
+  .corona,
+  .kicker,
+  .title,
+  .lead,
+  .actions,
+  .textButton {
+    animation: none;
+  }
+}
