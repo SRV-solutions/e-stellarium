@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { createPythonStar, createQuestion, createUser, enrolledStudent, http, loginAs } from "./helpers.js";
-import { Star } from "../src/models/index.js";
+import { Star, StarCompletion, User } from "../src/models/index.js";
 
 describe("GET /stars/:id", () => {
   it("pide sesión", async () => {
@@ -40,6 +40,30 @@ describe("GET /stars/:id", () => {
 
     const after = await agent.get(`/stars/${star.id}`);
     expect(after.body.questions.map((q: { attempt: number }) => q.attempt)).toEqual([2, 0]);
+  });
+
+  it("trae el curso, la estrella que sigue y si ya estaba encendida", async () => {
+    const { product, constellation, star } = await createPythonStar();
+    const question = await createQuestion({ productId: product.id, starId: star.id, position: 1 });
+    const exam = await Star.create({ constellationId: constellation.id, position: 3, title: "Examen", kind: "exam" });
+    const second = await Star.create({ constellationId: constellation.id, position: 2, title: "Condicionales" });
+    const agent = await enrolledStudent();
+
+    const before = await agent.get(`/stars/${star.id}`);
+    expect(before.body.star.completed).toBe(false);
+    expect(before.body.course).toEqual({ key: "python", name: product.name });
+    expect(before.body.nextStar).toEqual({ id: second.id, title: "Condicionales", kind: "lesson", position: 2 });
+
+    const right = before.body.questions[0].content.options.indexOf("4");
+    await agent.post(`/questions/${question.id}/answer`).send({ response: { choice: right }, attempt: 0 });
+
+    const after = await agent.get(`/stars/${star.id}`);
+    expect(after.body.star.completed).toBe(true);
+
+    // La última estrella no tiene siguiente
+    await StarCompletion.create({ userId: (await User.findOne())!.id, starId: second.id });
+    const last = await agent.get(`/stars/${exam.id}`);
+    expect(last.body.nextStar).toBeNull();
   });
 
   it("da 404 si el alumno no tiene el curso", async () => {

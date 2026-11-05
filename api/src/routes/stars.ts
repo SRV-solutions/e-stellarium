@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { Answer, Constellation, Enrollment, Product, Question, Star } from "../models/index.js";
+import { Op } from "sequelize";
+import { Answer, Constellation, Enrollment, Product, Question, Star, StarCompletion } from "../models/index.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
 import { HttpError } from "../lib/errors.js";
 import { present, seedFor } from "../games/present.js";
@@ -43,6 +44,13 @@ starsRouter.get("/stars/:id", requireAuth, async (req, res) => {
     order: [["position", "ASC"]],
   });
 
+  // Si ya la había encendido, y cuál es la estrella que sigue en la constelación
+  const completed = (await StarCompletion.count({ where: { userId: req.user!.id, starId: star.id } })) > 0;
+  const next = await Star.findOne({
+    where: { constellationId: star.constellationId, position: { [Op.gt]: star.position } },
+    order: [["position", "ASC"]],
+  });
+
   // Cuántas veces respondió el alumno cada pregunta: ese es el intento que va a jugar ahora
   const counts = (await Answer.count({
     where: { userId: req.user!.id, questionId: questions.map((q) => q.id) },
@@ -58,7 +66,10 @@ starsRouter.get("/stars/:id", requireAuth, async (req, res) => {
       description: star.description,
       kind: star.kind,
       position: star.position,
+      completed,
     },
+    course: { key: star.Constellation!.Product!.key, name: star.Constellation!.Product!.name },
+    nextStar: next && { id: next.id, title: next.title, kind: next.kind, position: next.position },
     questions: questions.map((q) => {
       const attempt = attemptOf.get(q.id) ?? 0;
       return { ...present(q, seedFor(req.user!.id, q.id, attempt)), attempt };
