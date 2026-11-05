@@ -12,19 +12,8 @@ import { FillBlankGame } from "./games/FillBlankGame";
 import { OrderLinesGame } from "./games/OrderLinesGame";
 import { api, ApiError } from "../../lib/api";
 import { Verdict } from "./Verdict/Verdict";
-import type {
-  AnswerResponse,
-  AnswerResult,
-  StarPlay,
-  StudentQuestion,
-} from "../../types";
-
-const KIND: Record<StudentQuestion["type"], string> = {
-  output: "¿Qué imprime?",
-  fill_blank: "Completá el hueco",
-  order_lines: "Ordená las líneas",
-  multiple_choice: "Opción múltiple",
-};
+import { KIND } from "./kinds";
+import type { AnswerResponse, AnswerResult, StarPlay } from "../../types";
 
 export function GamePage() {
   const { starId } = useParams();
