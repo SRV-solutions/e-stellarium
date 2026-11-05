@@ -72,7 +72,7 @@ function Game({ play }: { play: StarPlay }) {
         `/questions/${question!.id}/answer`,
         {
           method: "POST",
-          body: JSON.stringify({ response }),
+          body: JSON.stringify({ response, attempt: question!.attempt }),
         },
       );
       setResult(answer);

@@ -39,7 +39,13 @@ export type Constellation = {
   stars: StarSummary[];
 };
 
-type QuestionBase = { id: string; difficulty: "easy" | "medium" | "hard"; prompt: string };
+// attempt: cuántas veces la respondió el alumno. Se devuelve al responder, para corregir con la misma mezcla
+type QuestionBase = {
+  id: string;
+  difficulty: "easy" | "medium" | "hard";
+  prompt: string;
+  attempt: number;
+};
 
 export type StudentQuestion =
   | (QuestionBase & { type: "output"; content: { code: string; options: string[] } })
@@ -48,7 +54,16 @@ export type StudentQuestion =
   | (QuestionBase & { type: "order_lines"; content: { lines: string[] } });
 
 export type StarPlay = {
-  star: { id: string; title: string; description: string | null; kind: StarKind; position: number };
+  star: {
+    id: string;
+    title: string;
+    description: string | null;
+    kind: StarKind;
+    position: number;
+    completed: boolean;
+  };
+  course: { key: string; name: string };
+  nextStar: { id: string; title: string; kind: StarKind; position: number } | null;
   questions: StudentQuestion[];
 };
 
