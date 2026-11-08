@@ -5,6 +5,7 @@ import { useStar } from "../../hooks/useStar";
 import { useAuth } from "../../auth/useAuth";
 import { greekLetter } from "../../lib/sky";
 import { burst, centerOf, travel } from "../../lib/effects";
+import { useAnimatedNumber } from "../../hooks/useAnimatedNumber";
 import {
   MiniConstellation,
   type StepResult,
@@ -68,6 +69,9 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
   // en results (para el resto de la pantalla), pero la mini constelación no lo muestra todavía
   const [landing, setLanding] = useState<number | null>(null);
   const [xp, setXp] = useState(0);
+  // El XP del encabezado del juego: suma recién cuando la chispa llega a su estrellita, y cuenta hacia arriba
+  const [headerXp, setHeaderXp] = useState(0);
+  const shownXp = useAnimatedNumber(headerXp);
   const [roundStartXp, setRoundStartXp] = useState(0);
   const [starXp, setStarXp] = useState<number | null>(null);
   const [response, setResponse] = useState<AnswerResponse | null>(null);
@@ -105,7 +109,7 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
         if (answer.starCompleted) setStarXp(answer.starXp);
       });
       if (answer.xpGained > 0) addXp(answer.xpGained);
-      animateVerdict(answer.correct, index);
+      animateVerdict(answer.correct, index, answer.xpGained);
     } catch (err) {
       setError(
         err instanceof ApiError
@@ -119,8 +123,11 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
 
   // Si acertó: estallido en la respuesta y una chispa que viaja hasta su estrellita, que se enciende al llegar.
   // Si no: la estrellita se pone naranja un momento después
-  function animateVerdict(correct: boolean, landed: number) {
-    const land = () => setLanding((current) => (current === landed ? null : current));
+  function animateVerdict(correct: boolean, landed: number, gained: number) {
+    const land = () => {
+      setLanding((current) => (current === landed ? null : current));
+      if (gained > 0) setHeaderXp((previous) => previous + gained);
+    };
     const origin = document.querySelector("[data-answer]");
     const target = document.querySelector(`[data-step="${landed}"]`);
 
@@ -233,7 +240,10 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
             current={index}
             results={results.map((r, i) => (i === landing ? undefined : r))}
           />
-          <span className={styles.xp}>+{xp} XP</span>
+          {/* key: cada vez que sube, el elemento se crea de nuevo y el salto se repite */}
+          <span key={headerXp} className={`${styles.xp} ${headerXp > 0 ? styles.bump : ""}`}>
+            +{shownXp} XP
+          </span>
         </div>
         <p className={styles.where}>
           <b>{greekLetter(star.position - 1)}</b>

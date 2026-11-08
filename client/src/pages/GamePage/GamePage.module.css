@@ -65,6 +65,17 @@
   font-variant-numeric: tabular-nums;
 }
 
+.bump {
+  animation: bump 0.45s ease-out;
+}
+
+@keyframes bump {
+  40% {
+    transform: scale(1.25);
+    color: #ffc266;
+  }
+}
+
 .where {
   margin: 10px 0 0 62px;
   font-size: 14px;
@@ -197,7 +208,8 @@ main.wrap {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .stage {
+  .stage,
+  .bump {
     animation: none;
   }
 }
