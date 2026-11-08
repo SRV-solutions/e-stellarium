@@ -3,6 +3,7 @@ import { useCourses } from "../../hooks/useCourses";
 import { SUPPORT_HREF } from "../../config";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { BrandGauge } from "../../components/BrandGauge/BrandGauge";
+import { Cosmos } from "../../components/Cosmos/Cosmos";
 import type { Course } from "../../types";
 import styles from "./HomePage.module.css";
 
@@ -16,6 +17,7 @@ export function HomePage() {
 
   return (
     <>
+      <Cosmos />
       <AppHeader />
 
       <main>

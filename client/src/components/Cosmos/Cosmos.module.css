@@ -1,0 +1,89 @@
+/* Fijo detrás de todo: las secciones de la página no tienen fondo propio, así se ve un solo cielo */
+.cosmos {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(45% 55% at 82% 22%, rgba(0, 123, 255, 0.2), transparent 70%),
+    radial-gradient(40% 50% at 8% 78%, rgba(118, 92, 240, 0.16), transparent 70%),
+    radial-gradient(60% 40% at 50% 110%, rgba(0, 123, 255, 0.1), transparent 70%),
+    linear-gradient(180deg, var(--night) 0%, #050d24 70%);
+}
+
+/* La vía láctea: una banda diagonal apenas visible */
+.cosmos::before {
+  content: "";
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  top: 30%;
+  height: 30%;
+  transform: rotate(-14deg);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(175, 198, 255, 0.09), transparent 72%);
+  filter: blur(30px);
+}
+
+/* Dos capas de estrellas que se desplazan en diagonal. La lejana, más lento: eso da la sensación de viaje.
+   Cada capa es más grande que la pantalla, y se mueve justo un múltiplo de su dibujo, así la vuelta no salta */
+.drift {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% + 1040px);
+  height: calc(100% + 1040px);
+  will-change: transform;
+}
+
+.far {
+  background-image:
+    radial-gradient(1px 1px at 30px 40px, rgba(220, 231, 255, 0.55), transparent 60%),
+    radial-gradient(1px 1px at 190px 120px, rgba(220, 231, 255, 0.4), transparent 60%),
+    radial-gradient(1px 1px at 330px 300px, rgba(220, 231, 255, 0.5), transparent 60%),
+    radial-gradient(1px 1px at 460px 70px, rgba(220, 231, 255, 0.35), transparent 60%),
+    radial-gradient(1px 1px at 90px 420px, rgba(220, 231, 255, 0.45), transparent 60%),
+    radial-gradient(1px 1px at 400px 470px, rgba(220, 231, 255, 0.3), transparent 60%);
+  background-size: 520px 520px;
+  animation: driftFar 240s linear infinite;
+}
+
+.near {
+  background-image:
+    radial-gradient(1.6px 1.6px at 60px 90px, rgba(230, 240, 255, 0.8), transparent 60%),
+    radial-gradient(1.4px 1.4px at 240px 30px, rgba(230, 240, 255, 0.6), transparent 60%),
+    radial-gradient(1.8px 1.8px at 150px 230px, rgba(200, 225, 255, 0.7), transparent 60%),
+    radial-gradient(1.2px 1.2px at 270px 180px, rgba(230, 240, 255, 0.5), transparent 60%);
+  background-size: 300px 300px;
+  animation: driftNear 110s linear infinite;
+}
+
+@keyframes driftFar {
+  to {
+    transform: translate(-1040px, -520px);
+  }
+}
+
+@keyframes driftNear {
+  to {
+    transform: translate(-900px, -300px);
+  }
+}
+
+/* La estrella fugaz: una línea con la cabeza brillante y la estela que se apaga */
+.meteor {
+  position: fixed;
+  width: 150px;
+  height: 1.6px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(170, 210, 255, 0.5) 30%, transparent);
+  box-shadow: 0 0 6px rgba(200, 225, 255, 0.6);
+  transform-origin: 0 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .far,
+  .near {
+    animation: none;
+  }
+}
