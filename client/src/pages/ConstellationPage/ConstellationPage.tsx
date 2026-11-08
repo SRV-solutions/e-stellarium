@@ -102,7 +102,7 @@ function ConstellationView({ constellation, all }: { constellation: Constellatio
                     to={`/constellations/${c.course.key}`}
                     className={({ isActive }) => `${styles.switchItem} ${isActive ? styles.switchActive : ""}`}
                   >
-                    {c.course.name}
+                    <span className={styles.switchName}>{c.course.name}</span>
                     <small>
                       {c.completedStars}/{c.totalStars}
                     </small>

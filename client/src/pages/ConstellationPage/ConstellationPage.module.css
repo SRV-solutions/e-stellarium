@@ -205,11 +205,24 @@
   .sky {
     padding-top: 24px;
   }
-  /* Las constelaciones no entran a lo ancho: se deslizan de costado, sin partir los nombres */
+  /* El selector ocupa todo el ancho y cada constelación, una parte igual. Si el nombre no entra,
+     se corta con "…", pero la cuenta (0/1) se ve siempre */
+  .trail {
+    flex-wrap: wrap;
+  }
   .switch {
-    max-width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
+    width: 100%;
+  }
+  .switchItem {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: space-between;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  .switchName {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   /* El título arriba y la cuenta debajo, en una línea, en vez de uno al lado del otro */
   .head {
