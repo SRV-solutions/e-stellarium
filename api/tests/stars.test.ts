@@ -42,6 +42,26 @@ describe("GET /stars/:id", () => {
     expect(after.body.questions.map((q: { attempt: number }) => q.attempt)).toEqual([2, 0]);
   });
 
+  it("marca las preguntas que el alumno ya acertó alguna vez", async () => {
+    const { product, star } = await createPythonStar();
+    const first = await createQuestion({ productId: product.id, starId: star.id, position: 1 });
+    const second = await createQuestion({ productId: product.id, starId: star.id, position: 2 });
+    const agent = await enrolledStudent();
+    const shown = await agent.get(`/stars/${star.id}`);
+    expect(shown.body.questions.map((q: { solved: boolean }) => q.solved)).toEqual([false, false]);
+
+    // La primera: mal y después bien. La segunda: solo mal
+    const options = (i: number) => shown.body.questions[i].content.options as string[];
+    await agent.post(`/questions/${first.id}/answer`).send({ response: { choice: options(0).indexOf("22") }, attempt: 0 });
+    const again = await agent.get(`/stars/${star.id}`);
+    const right = again.body.questions[0].content.options.indexOf("4");
+    await agent.post(`/questions/${first.id}/answer`).send({ response: { choice: right }, attempt: 1 });
+    await agent.post(`/questions/${second.id}/answer`).send({ response: { choice: options(1).indexOf("22") }, attempt: 0 });
+
+    const after = await agent.get(`/stars/${star.id}`);
+    expect(after.body.questions.map((q: { solved: boolean }) => q.solved)).toEqual([true, false]);
+  });
+
   it("trae el curso, la estrella que sigue y si ya estaba encendida", async () => {
     const { product, constellation, star } = await createPythonStar();
     const question = await createQuestion({ productId: product.id, starId: star.id, position: 1 });

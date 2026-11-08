@@ -58,6 +58,13 @@ starsRouter.get("/stars/:id", requireAuth, async (req, res) => {
   })) as unknown as { questionId: string; count: number }[];
   const attemptOf = new Map(counts.map((c) => [c.questionId, Number(c.count)]));
 
+  // Las que ya acertó alguna vez: para la estrella ya cuentan, así que el cliente juega solo las otras
+  const rights = (await Answer.count({
+    where: { userId: req.user!.id, questionId: questions.map((q) => q.id), correct: true },
+    group: ["questionId"],
+  })) as unknown as { questionId: string; count: number }[];
+  const solved = new Set(rights.map((r) => r.questionId));
+
   // Cada pregunta mezclada para este alumno y este intento
   res.json({
     star: {
@@ -72,7 +79,7 @@ starsRouter.get("/stars/:id", requireAuth, async (req, res) => {
     nextStar: next && { id: next.id, title: next.title, kind: next.kind, position: next.position },
     questions: questions.map((q) => {
       const attempt = attemptOf.get(q.id) ?? 0;
-      return { ...present(q, seedFor(req.user!.id, q.id, attempt)), attempt };
+      return { ...present(q, seedFor(req.user!.id, q.id, attempt)), attempt, solved: solved.has(q.id) };
     }),
   });
 });
