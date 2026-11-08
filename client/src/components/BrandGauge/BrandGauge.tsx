@@ -7,10 +7,11 @@ const ARC_PATH = "M100 20 A80 80 0 1 0 180 100";
 type Props = {
   progress?: number; // de 0 a 1; sin valor, hace la animación del logo
   label?: string;    // texto para lectores de pantalla, si el medidor informa algo
+  still?: boolean;   // muestra el valor directo, sin animar (para el encabezado, que aparece en cada pantalla)
   className?: string;
 };
 
-export function BrandGauge({ progress, label, className }: Props) {
+export function BrandGauge({ progress, label, still, className }: Props) {
   const isBrand = progress === undefined;
   const value = isBrand ? 1 : Math.min(Math.max(progress, 0), 1);
 
@@ -19,7 +20,7 @@ export function BrandGauge({ progress, label, className }: Props) {
     "--needle-to": `${-270 * value}deg`,
   } as CSSProperties;
 
-  const classes = [styles.gauge, isBrand ? styles.brand : "", className ?? ""].join(" ");
+  const classes = [styles.gauge, isBrand ? styles.brand : "", still ? styles.still : "", className ?? ""].join(" ");
 
   return (
     <svg

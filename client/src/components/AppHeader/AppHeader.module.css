@@ -1,6 +1,10 @@
+/* Semitransparente: en el inicio deja ver el cosmos de fondo */
 .bar {
-  border-bottom: 1px solid var(--line);
-  background: var(--night);
+  position: relative;
+  z-index: 2;
+  border-bottom: 1px solid rgba(36, 55, 107, 0.7);
+  background: rgba(10, 23, 53, 0.65);
+  backdrop-filter: blur(10px);
 }
 
 .inner {
@@ -76,9 +80,36 @@
   font-size: 15px;
 }
 
+/* El nivel: el medidor en chiquito, el nivel y la experiencia, en una sola pieza que lleva al inicio */
+.level {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 14px 5px 6px;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(5, 13, 36, 0.6);
+  transition: border-color 0.15s;
+}
+
+.level:hover {
+  border-color: var(--muted);
+}
+
+.gauge {
+  width: 28px;
+  flex-shrink: 0;
+}
+
+.levelNumber {
+  font-weight: 800;
+}
+
 .xp {
-  font-weight: 700;
+  font-weight: 800;
   color: var(--orange);
+  font-variant-numeric: tabular-nums;
 }
 
 .avatar {
@@ -130,5 +161,9 @@
   }
   .navLink {
     padding: 9px;
+  }
+  /* El nivel queda en el medidor y los XP; el "Nivel 2" se lee al tocarlo */
+  .levelNumber {
+    display: none;
   }
 }

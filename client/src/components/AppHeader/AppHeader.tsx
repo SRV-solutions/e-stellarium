@@ -1,6 +1,8 @@
 import { Link, NavLink } from "react-router";
 import { useAuth } from "../../auth/useAuth";
 import logo from "../../assets/logo-srv.png";
+import { levelFor } from "../../lib/levels";
+import { BrandGauge } from "../BrandGauge/BrandGauge";
 import styles from "./AppHeader.module.css";
 
 const navClass = ({ isActive }: { isActive: boolean }) => `${styles.navLink} ${isActive ? styles.active : ""}`;
@@ -8,6 +10,7 @@ const navClass = ({ isActive }: { isActive: boolean }) => `${styles.navLink} ${i
 export function AppHeader() {
   const { user, logout } = useAuth();
   if (!user) return null;
+  const level = levelFor(user.totalXp);
 
   return (
     <header className={styles.bar}>
@@ -36,7 +39,16 @@ export function AppHeader() {
         </nav>
 
         <div className={styles.user}>
-          <span className={styles.xp}>{user.totalXp} XP</span>
+          <Link
+            to="/"
+            className={styles.level}
+            aria-label={`Nivel ${level.level}, ${level.name}, ${user.totalXp} XP`}
+            title={`${level.name}. Te faltan ${level.xpToNext} XP para el nivel ${level.level + 1}`}
+          >
+            <BrandGauge progress={level.progress} still className={styles.gauge} />
+            <b className={styles.levelNumber}>Nivel {level.level}</b>
+            <span className={styles.xp}>{user.totalXp} XP</span>
+          </Link>
           <span className={styles.avatar} aria-hidden="true">
             {user.alias.slice(0, 2).toUpperCase()}
           </span>

@@ -81,6 +81,17 @@
   }
 }
 
+/* ---------- Quieto: el valor directo, sin animar ---------- */
+.still .fill {
+  animation: none;
+  stroke-dashoffset: var(--gauge-offset);
+}
+
+.still .needle {
+  animation: none;
+  transform: rotate(var(--needle-to));
+}
+
 /* ---------- Sin animaciones para quien las desactivó ---------- */
 @media (prefers-reduced-motion: reduce) {
   .fill,
