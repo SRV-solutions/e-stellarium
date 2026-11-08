@@ -1,5 +1,9 @@
 .page {
   min-height: 100dvh;
+  /* La pregunta entra desde la derecha: sin esto, en el celular la página queda más ancha que la pantalla
+     mientras dura la animación, y el botón de abajo se sale de lo visible. clip (y no hidden) para no
+     crear una caja con su propio scroll */
+  overflow-x: clip;
   background:
     radial-gradient(60% 40% at 50% -5%, rgba(0, 123, 255, 0.22), transparent 70%),
     radial-gradient(40% 30% at 100% 100%, rgba(118, 92, 240, 0.16), transparent 70%),

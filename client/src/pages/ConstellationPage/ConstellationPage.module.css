@@ -173,6 +173,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
+  white-space: nowrap;
   padding: 6px 14px;
   font-size: 14px;
   font-weight: 600;
@@ -203,7 +205,24 @@
   .sky {
     padding-top: 24px;
   }
+  /* Las constelaciones no entran a lo ancho: se deslizan de costado, sin partir los nombres */
+  .switch {
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  /* El título arriba y la cuenta debajo, en una línea, en vez de uno al lado del otro */
+  .head {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .count {
+    margin: 0;
+    text-align: left;
+  }
   .count b {
-    font-size: 24px;
+    display: inline;
+    margin-right: 6px;
+    font-size: 20px;
   }
 }
