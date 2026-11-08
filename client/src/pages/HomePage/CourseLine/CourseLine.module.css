@@ -18,8 +18,46 @@
   text-decoration: none;
 }
 
-a.title:hover {
+a.title {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 12px;
+  transition: color 0.15s;
+}
+
+/* "Ver constelación": escondido hasta que el mouse pasa por el nombre o por el dibujo */
+.hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--blue-hover);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.hint svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+a.title:hover,
+.line:has(.trackLink:hover) a.title {
   color: #fff;
+}
+
+a.title:hover .hint,
+.line:has(.trackLink:hover) .hint {
+  opacity: 1;
+  transform: none;
 }
 
 .meta {
@@ -131,9 +169,19 @@ a.title:hover {
   transition: stroke 0.25s;
 }
 
+/* Al pasar por el dibujo o por el nombre, se encienden los dos juntos: se nota que llevan al mismo lugar */
+.trackLink svg {
+  transition: filter 0.2s;
+}
+
 .trackLink:hover .band,
-.line:hover .band {
-  stroke: rgba(154, 170, 208, 0.13);
+.line:has(a.title:hover) .band {
+  stroke: rgba(154, 170, 208, 0.16);
+}
+
+.trackLink:hover svg,
+.line:has(a.title:hover) .trackLink svg {
+  filter: brightness(1.3);
 }
 
 .segment {

@@ -67,6 +67,16 @@ export function CourseLine({ course, constellation }: Props) {
           {constellation ? (
             <Link to={href} className={styles.title}>
               {course.name}
+              {/* Aparece al pasar el mouse por el nombre o por el dibujo: avisa adónde lleva */}
+              <span className={styles.hint} aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="5" cy="18" r="2" />
+                  <circle cx="11" cy="9" r="2" />
+                  <circle cx="19" cy="5" r="2" />
+                  <path d="M6.5 16.5l3-6M12.8 8l4.4-2.2" />
+                </svg>
+                Ver constelación
+              </span>
             </Link>
           ) : (
             <span className={styles.title}>{course.name}</span>
@@ -94,8 +104,15 @@ export function CourseLine({ course, constellation }: Props) {
 
       {hasTrack && (
         // El dibujo también lleva a la constelación. Para el teclado y los lectores ya está el título
-        <Link to={href} className={styles.trackLink} tabIndex={-1} aria-hidden="true">
-          <div ref={box} className={styles.track} style={{ maxWidth: Math.max(1, n - 1) * GAP + 28 }}>
+        // El ancho máximo va en el enlace: así solo el dibujo es clickeable, no el espacio vacío de la derecha
+        <Link
+          to={href}
+          className={styles.trackLink}
+          style={{ maxWidth: Math.max(1, n - 1) * GAP + 28 }}
+          tabIndex={-1}
+          aria-hidden="true"
+        >
+          <div ref={box} className={styles.track}>
             {width > 0 && (
               <svg viewBox={`0 0 ${width} ${HEIGHT}`}>
                 <StarGlyphDefs />
