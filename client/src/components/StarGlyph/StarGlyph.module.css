@@ -1,0 +1,98 @@
+/* Por defecto, apagada: núcleo oscuro con un aro tenue. Lo demás aparece al encenderse */
+.star {
+  transform-origin: 0 0;
+}
+
+.halo {
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.flare,
+.flareSmall {
+  fill: #fff;
+  opacity: 0;
+  transform-origin: 0 0;
+  transition: opacity 0.4s, transform 0.5s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+
+.flare {
+  transform: scale(0.3);
+}
+
+.flareSmall {
+  transform: rotate(45deg) scale(0.3);
+}
+
+.core {
+  fill: var(--night-3);
+  stroke: #4c5f92;
+  stroke-width: 1.6;
+  transition: fill 0.3s, stroke 0.3s;
+}
+
+.ring {
+  fill: none;
+  stroke: rgba(154, 170, 208, 0.22);
+  stroke-width: 1;
+}
+
+/* Encendida: halo, destello grande en cruz y uno chico en diagonal */
+.lit .halo {
+  opacity: 1;
+}
+
+.lit .flare {
+  opacity: 0.95;
+  transform: none;
+}
+
+.lit .flareSmall {
+  opacity: 0.5;
+  transform: rotate(45deg) scale(0.6);
+}
+
+.lit .core {
+  fill: #fff;
+  stroke: #fff;
+}
+
+.lit .ring {
+  stroke: transparent;
+}
+
+/* Apuntada: la próxima, en azul */
+.aim .halo {
+  opacity: 1;
+}
+
+.aim .core {
+  fill: var(--blue);
+  stroke: #8cc4ff;
+}
+
+.aim .ring {
+  stroke: rgba(43, 146, 255, 0.5);
+}
+
+.pop {
+  animation: pop 0.55s cubic-bezier(0.2, 1.8, 0.4, 1);
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.7);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .halo,
+  .flare,
+  .flareSmall,
+  .core {
+    transition: none;
+  }
+  .pop {
+    animation: none;
+  }
+}
