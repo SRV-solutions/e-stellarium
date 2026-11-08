@@ -1,0 +1,24 @@
+/* fixed: se ubican respecto de la pantalla, como getBoundingClientRect.
+   El margen negativo centra cada elemento en su punto */
+.spark,
+.bit {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.spark {
+  z-index: 30;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  background: #fff;
+  box-shadow: 0 0 12px 4px rgba(170, 215, 255, 0.9);
+}
+
+.bit {
+  z-index: 29;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+}
