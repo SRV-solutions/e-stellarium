@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { flushSync } from "react-dom";
 import { Link, useParams } from "react-router";
 import { useStar } from "../../hooks/useStar";
 import { useAuth } from "../../auth/useAuth";
 import { greekLetter } from "../../lib/sky";
+import { burst, centerOf, travel } from "../../lib/effects";
 import {
   MiniConstellation,
   type StepResult,
@@ -62,6 +64,9 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
   const [intro, setIntro] = useState(start.resume);
   const [isRetry, setIsRetry] = useState(false);
   const [results, setResults] = useState<StepResult[]>(start.solved);
+  // La pregunta recién respondida cuya estrellita espera a que llegue la chispa. Su resultado ya está
+  // en results (para el resto de la pantalla), pero la mini constelación no lo muestra todavía
+  const [landing, setLanding] = useState<number | null>(null);
   const [xp, setXp] = useState(0);
   const [roundStartXp, setRoundStartXp] = useState(0);
   const [starXp, setStarXp] = useState<number | null>(null);
@@ -87,15 +92,20 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
           body: JSON.stringify({ response, attempt: question!.attempt }),
         },
       );
-      setResult(answer);
-      setResults((previous) => {
-        const next = [...previous];
-        next[index] = answer.correct ? "ok" : "bad";
-        return next;
+      // flushSync aplica estos cambios ya, así la pantalla muestra el veredicto antes de animar
+      flushSync(() => {
+        setResult(answer);
+        setResults((previous) => {
+          const next = [...previous];
+          next[index] = answer.correct ? "ok" : "bad";
+          return next;
+        });
+        setLanding(index);
+        setXp((previous) => previous + answer.xpGained);
+        if (answer.starCompleted) setStarXp(answer.starXp);
       });
-      setXp((previous) => previous + answer.xpGained);
       if (answer.xpGained > 0) addXp(answer.xpGained);
-      if (answer.starCompleted) setStarXp(answer.starXp);
+      animateVerdict(answer.correct, index);
     } catch (err) {
       setError(
         err instanceof ApiError
@@ -107,9 +117,32 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
     }
   }
 
+  // Si acertó: estallido en la respuesta y una chispa que viaja hasta su estrellita, que se enciende al llegar.
+  // Si no: la estrellita se pone naranja un momento después
+  function animateVerdict(correct: boolean, landed: number) {
+    const land = () => setLanding((current) => (current === landed ? null : current));
+    const origin = document.querySelector("[data-answer]");
+    const target = document.querySelector(`[data-step="${landed}"]`);
+
+    if (!correct) {
+      setTimeout(land, 350);
+      return;
+    }
+    if (!origin || !target) {
+      land();
+      return;
+    }
+    burst(centerOf(origin), "#bdf5dc");
+    travel(centerOf(origin), centerOf(target), () => {
+      land();
+      burst(centerOf(target), "#ffffff", 10);
+    });
+  }
+
   function next() {
     setResponse(null);
     setResult(null);
+    setLanding(null);
     if (step + 1 >= round.length) {
       setFinished(true);
       return;
@@ -198,7 +231,7 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
           <MiniConstellation
             total={questions.length}
             current={index}
-            results={results}
+            results={results.map((r, i) => (i === landing ? undefined : r))}
           />
           <span className={styles.xp}>+{xp} XP</span>
         </div>

@@ -5,7 +5,8 @@ export type StepResult = "ok" | "bad";
 type Props = {
   total: number;
   current: number;
-  results: StepResult[];
+  // Una por pregunta; undefined si todavía no se muestra su resultado
+  results: (StepResult | undefined)[];
 };
 
 export function MiniConstellation({ total, current, results }: Props) {
