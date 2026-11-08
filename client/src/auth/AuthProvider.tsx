@@ -36,8 +36,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(data.user);
   }
 
+  // Suma la experiencia que la API acaba de dar, sin volver a pedir el usuario
+  function addXp(xp: number) {
+    setUser((previous) => previous && { ...previous, totalXp: previous.totalXp + xp });
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, setPassword }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, setPassword, addXp }}>
       {children}
     </AuthContext.Provider>
   );

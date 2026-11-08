@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
 import { useStar } from "../../hooks/useStar";
+import { useAuth } from "../../auth/useAuth";
 import { greekLetter } from "../../lib/sky";
 import {
   MiniConstellation,
@@ -44,6 +45,7 @@ export function GamePage() {
 function Game({ play: initialPlay }: { play: StarPlay }) {
   // play se reemplaza al reintentar: trae los intentos nuevos y, con ellos, otra mezcla
   const [play, setPlay] = useState(initialPlay);
+  const { addXp } = useAuth();
   const { star, questions, course, nextStar } = play;
   // Si la dejó a medias, sigue donde quedó: las que ya acertó cuentan y se juegan solo las otras.
   // Una estrella ya encendida se repasa entera
@@ -92,6 +94,7 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
         return next;
       });
       setXp((previous) => previous + answer.xpGained);
+      if (answer.xpGained > 0) addXp(answer.xpGained);
       if (answer.starCompleted) setStarXp(answer.starXp);
     } catch (err) {
       setError(

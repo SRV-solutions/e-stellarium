@@ -7,6 +7,7 @@ export type AuthState = {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   setPassword: (token: string, password: string) => Promise<void>;
+  addXp: (xp: number) => void;
 };
 
 export const AuthContext = createContext<AuthState | null>(null);
