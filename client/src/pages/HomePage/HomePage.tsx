@@ -1,19 +1,57 @@
+import { useState } from "react";
 import { useAuth } from "../../auth/useAuth";
 import { useCourses } from "../../hooks/useCourses";
+import { useConstellations } from "../../hooks/useConstellations";
 import { SUPPORT_HREF } from "../../config";
+import { levelFor } from "../../lib/levels";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { BrandGauge } from "../../components/BrandGauge/BrandGauge";
 import { Cosmos } from "../../components/Cosmos/Cosmos";
-import type { Course } from "../../types";
+import { Eyepiece } from "../../components/Eyepiece/Eyepiece";
+import { NextStar, type Sighting } from "./NextStar/NextStar";
+import type { Constellation, Course } from "../../types";
 import styles from "./HomePage.module.css";
 
 const dateFormat = new Intl.DateTimeFormat("es-AR", { day: "numeric", month: "long", year: "numeric" });
 
+// Adónde apunta el telescopio: la primera lección abierta y sin encender. Primero en los cursos que ya empezó
+// (para seguir donde viene), después en los demás. Si ya encendió todo, a la última estrella del último curso.
+// Si no hay estrellas, a ninguna
+function aimTelescope(constellations: Constellation[]) {
+  const started = constellations.filter((c) => c.completedStars > 0);
+  const notStarted = constellations.filter((c) => c.completedStars === 0);
+  for (const c of [...started, ...notStarted]) {
+    const index = c.stars.findIndex((s) => s.kind === "lesson" && s.unlocked && !s.completed);
+    if (index !== -1) {
+      return {
+        lit: c.stars.map((s) => s.completed),
+        focus: index,
+        aiming: true,
+        sighting: { kind: "next", star: c.stars[index]!, index, courseName: c.course.name } as Sighting,
+      };
+    }
+  }
+  const last = constellations.filter((c) => c.stars.length > 0).at(-1);
+  if (last) {
+    return {
+      lit: last.stars.map((s) => s.completed),
+      focus: last.stars.length - 1,
+      aiming: false,
+      sighting: { kind: "done", courseKey: last.course.key } as Sighting,
+    };
+  }
+  return { lit: [], focus: -1, aiming: false, sighting: { kind: "empty" } as Sighting };
+}
+
 export function HomePage() {
   const { user } = useAuth();
   const { state, reload } = useCourses();
+  const sky = useConstellations();
+  const [settled, setSettled] = useState(false);
 
   if (!user) return null;
+  const level = levelFor(user.totalXp);
+  const telescope = sky.state.status === "ready" ? aimTelescope(sky.state.constellations) : null;
 
   return (
     <>
@@ -21,28 +59,59 @@ export function HomePage() {
       <AppHeader />
 
       <main>
-        <section className={styles.hero} aria-labelledby="level-title">
-          <div className={styles.container}>
-            <div className={styles.gauge}>
-              <BrandGauge progress={0} label="Todavía no sumaste experiencia" />
+        <section className={styles.observatory} aria-labelledby="level-title">
+          <div className={`${styles.container} ${styles.observatoryGrid}`}>
+            <div className={styles.left}>
+              <div className={styles.level}>
+                <BrandGauge
+                  progress={level.progress}
+                  label={`${Math.round(level.progress * 100)} % del nivel ${level.level}`}
+                  className={styles.gauge}
+                />
+                <div>
+                  <p className={styles.levelName}>{level.name}</p>
+                  <h1 id="level-title" className={styles.levelTitle}>
+                    Nivel {level.level}
+                  </h1>
+                  <p className={styles.points}>
+                    <b>{user.totalXp}</b> XP
+                  </p>
+                  <div className={styles.bar} aria-hidden="true">
+                    <i style={{ width: `${level.progress * 100}%` }} />
+                  </div>
+                  <p className={styles.toNext}>
+                    {user.totalXp > 0 ? (
+                      <>
+                        Te faltan <b>{level.xpToNext} XP</b> para el nivel {level.level + 1}
+                      </>
+                    ) : (
+                      "Encendé tu primera estrella para empezar"
+                    )}
+                  </p>
+                </div>
+              </div>
+
+              {telescope && <NextStar sighting={telescope.sighting} show={settled} />}
+              {sky.state.status === "error" && (
+                <div className={styles.error} role="alert">
+                  No pudimos cargar tus constelaciones.
+                  <button type="button" className={styles.secondary} onClick={sky.reload}>
+                    Reintentar
+                  </button>
+                </div>
+              )}
             </div>
 
-            <div>
-              {/* TODO: calcular el nivel a partir de totalXp cuando definamos la tabla de niveles */}
-              <h1 id="level-title" className={styles.level}>Nivel 1</h1>
-              <p className={styles.xp}><strong>{user.totalXp} XP</strong></p>
-              <p className={styles.lead}>
-                Resolvé desafíos para sumar experiencia. Al subir de nivel ganás descuentos para tus próximos cursos.
-              </p>
+            <div className={styles.eyepiece}>
+              {/* key: al llegar los datos, el ocular se crea de nuevo y su animación arranca desde cero */}
+              <Eyepiece
+                key={telescope ? "sky" : "loading"}
+                lit={telescope?.lit ?? []}
+                focus={telescope?.focus ?? -1}
+                aiming={telescope?.aiming ?? false}
+                onSettled={telescope ? () => setSettled(true) : undefined}
+              />
             </div>
-
-            <aside className={styles.soon}>
-              <h2 className={styles.soonTitle}>Los desafíos llegan pronto</h2>
-              <p>
-                Estamos preparando los desafíos de tus cursos. Mientras tanto, el material de cada curso ya está
-                en Drive.
-              </p>
-            </aside>
           </div>
         </section>
 

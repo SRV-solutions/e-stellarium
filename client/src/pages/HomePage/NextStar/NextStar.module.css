@@ -1,0 +1,84 @@
+/* Aparece suave cuando el ocular se traba en la estrella */
+.readout {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.45s, transform 0.45s;
+}
+
+.show {
+  opacity: 1;
+  transform: none;
+}
+
+.state {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.name {
+  margin: 6px 0 0;
+  font-size: clamp(38px, 5vw, 60px);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.name i {
+  display: inline-block;
+  margin-right: 12px;
+  font-family: var(--greek);
+  font-weight: 600;
+  color: var(--orange);
+  transform: translateY(0.04em);
+}
+
+.course,
+.note {
+  margin: 14px 0 26px;
+  font-size: 17px;
+  color: var(--muted);
+}
+
+.note {
+  max-width: 40ch;
+}
+
+.course b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.go {
+  composes: go from "../../GamePage/GamePage.module.css";
+  text-decoration: none;
+}
+
+.go svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.ghost {
+  display: inline-flex;
+  padding: 13px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+}
+
+.ghost:hover {
+  border-color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .readout {
+    transition: none;
+  }
+}
