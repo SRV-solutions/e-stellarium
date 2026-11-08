@@ -156,7 +156,7 @@ export function HomePage() {
             <h2 id="coupons-title" className={styles.blockTitle}>Mis cupones</h2>
             <div className={styles.emptyCoupon}>
               <strong>Todavía no tenés cupones</strong>
-              Ganás el primero, del 10 %, al llegar al nivel 3.
+              Ganás tu primer cupón al aprobar el examen de una constelación.
             </div>
           </div>
         </section>
