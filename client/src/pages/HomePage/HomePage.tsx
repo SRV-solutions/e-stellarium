@@ -9,10 +9,10 @@ import { BrandGauge } from "../../components/BrandGauge/BrandGauge";
 import { Cosmos } from "../../components/Cosmos/Cosmos";
 import { Eyepiece } from "../../components/Eyepiece/Eyepiece";
 import { NextStar, type Sighting } from "./NextStar/NextStar";
-import type { Constellation, Course } from "../../types";
+import { CourseLine } from "./CourseLine/CourseLine";
+import type { Constellation } from "../../types";
 import styles from "./HomePage.module.css";
 
-const dateFormat = new Intl.DateTimeFormat("es-AR", { day: "numeric", month: "long", year: "numeric" });
 
 // Adónde apunta el telescopio: la primera lección abierta y sin encender. Primero en los cursos que ya empezó
 // (para seguir donde viene), después en los demás. Si ya encendió todo, a la última estrella del último curso.
@@ -51,7 +51,8 @@ export function HomePage() {
 
   if (!user) return null;
   const level = levelFor(user.totalXp);
-  const telescope = sky.state.status === "ready" ? aimTelescope(sky.state.constellations) : null;
+  const constellations = sky.state.status === "ready" ? sky.state.constellations : [];
+  const telescope = sky.state.status === "ready" ? aimTelescope(constellations) : null;
 
   return (
     <>
@@ -118,6 +119,7 @@ export function HomePage() {
         <section className={styles.block} aria-labelledby="courses-title">
           <div className={styles.container}>
             <h2 id="courses-title" className={styles.blockTitle}>Mis cursos</h2>
+            <p className={styles.blockLead}>Cada curso es una constelación. Tocá una para verla entera.</p>
 
             {state.status === "loading" && <p className={styles.muted} role="status">Cargando tus cursos...</p>}
 
@@ -138,7 +140,11 @@ export function HomePage() {
             {state.status === "ready" && state.courses.length > 0 && (
               <ul className={styles.courses}>
                 {state.courses.map((course) => (
-                  <CourseItem key={course.key} course={course} />
+                  <CourseLine
+                    key={course.key}
+                    course={course}
+                    constellation={constellations.find((c) => c.course.key === course.key)}
+                  />
                 ))}
               </ul>
             )}
@@ -162,25 +168,5 @@ export function HomePage() {
         </div>
       </footer>
     </>
-  );
-}
-
-function CourseItem({ course }: { course: Course }) {
-  return (
-    <li className={styles.course}>
-      <div>
-        <h3 className={styles.courseName}>{course.name}</h3>
-        <p className={styles.courseMeta}>
-          Lo compraste el {dateFormat.format(new Date(course.purchasedAt))}. Los desafíos de este curso llegan pronto.
-        </p>
-      </div>
-      {course.driveUrl ? (
-        <a className={styles.secondary} href={course.driveUrl} target="_blank" rel="noopener noreferrer">
-          Abrir material en Drive
-        </a>
-      ) : (
-        <span className={styles.muted}>El material se habilita pronto</span>
-      )}
-    </li>
   );
 }

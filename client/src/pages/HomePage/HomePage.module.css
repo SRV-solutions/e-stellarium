@@ -90,10 +90,16 @@
 }
 
 .blockTitle {
-  margin: 0 0 18px;
-  font-size: 24px;
+  margin: 0 0 6px;
+  font-size: 22px;
   font-weight: 700;
   letter-spacing: -0.015em;
+}
+
+.blockLead {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
 }
 
 .muted {
@@ -116,34 +122,11 @@
   color: var(--error);
 }
 
-/* Cursos */
+/* Cursos: sin líneas divisorias, flotando en el cosmos */
 .courses {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--line);
-}
-
-.course {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px 32px;
-  align-items: center;
-  padding: 22px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.courseName {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-.courseMeta {
-  margin: 4px 0 0;
-  font-size: 15px;
-  color: var(--muted);
 }
 
 .secondary {
@@ -232,8 +215,5 @@
   }
   .levelTitle {
     font-size: 32px;
-  }
-  .course {
-    grid-template-columns: 1fr;
   }
 }
