@@ -35,7 +35,8 @@ export function MiniConstellation({ total, current, results }: Props) {
         const isCurrent = i === current && !result;
         const cls = result === "ok" ? styles.ok : result === "bad" ? styles.bad : isCurrent ? styles.now : "";
         return (
-          <span key={i} className={styles.step} style={{ left: `${step.x}%`, top: step.y }}>
+          // data-step: adonde llega la chispa cuando se acierta esa pregunta
+          <span key={i} className={styles.step} style={{ left: `${step.x}%`, top: step.y }} data-step={i}>
             {isCurrent && <span className={styles.ring} />}
             <span className={`${styles.dot} ${cls}`} />
           </span>

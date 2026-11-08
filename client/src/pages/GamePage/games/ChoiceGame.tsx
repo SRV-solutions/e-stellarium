@@ -49,6 +49,8 @@ export function ChoiceGame({ question, response, onChange, result }: Props) {
               className={`${styles.option} ${isOutput ? styles.mono : ""} ${state}`}
               aria-pressed={picked === i}
               disabled={result !== null}
+              // Desde la respuesta elegida sale la chispa (o el estallido) del veredicto
+              data-answer={result && i === picked ? true : undefined}
               onClick={() => onChange({ choice: i })}
             >
               <span className={styles.optionText}>{option}</span>

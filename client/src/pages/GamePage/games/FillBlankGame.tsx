@@ -45,7 +45,15 @@ export function FillBlankGame({ question, onChange, result }: Props) {
     if (solution) cls += ` ${value === solution[blank] ? styles.slotRight : styles.slotWrong}`;
 
     return (
-      <button key={`slot-${blank}`} type="button" className={cls} onClick={() => clear(blank)} aria-label={`Hueco ${blank + 1}`}>
+      <button
+        key={`slot-${blank}`}
+        type="button"
+        className={cls}
+        onClick={() => clear(blank)}
+        aria-label={`Hueco ${blank + 1}`}
+        // Desde el primer hueco sale la chispa (o el estallido) del veredicto
+        data-answer={result && blank === 0 ? true : undefined}
+      >
         {value === null ? "\u00a0" : blanks[blank]![value]}
       </button>
     );

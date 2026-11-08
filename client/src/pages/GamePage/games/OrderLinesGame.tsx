@@ -25,7 +25,8 @@ export function OrderLinesGame({ question, onChange, result }: Props) {
   return (
     <>
       <p className={styles.areaTitle}>Tu programa</p>
-      <div className={styles.program}>
+      {/* Desde el programa armado sale la chispa (o el estallido) del veredicto */}
+      <div className={styles.program} data-answer={result ? true : undefined}>
         {order.length === 0 && <p className={styles.empty}>Tocá las líneas en el orden en que se ejecutan.</p>}
         {order.map((lineIndex, position) => {
           // Se compara el texto, como en la API: dos líneas iguales son intercambiables
