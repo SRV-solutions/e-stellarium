@@ -1,19 +1,8 @@
 import { useNavigate } from "react-router";
-import { greekLetter } from "../../lib/sky";
+import { greekLetter, ordinal } from "../../lib/sky";
+import { xpToGain } from "../../lib/xp";
 import type { StarSummary } from "../../types";
 import styles from "./StarReadout.module.css";
-
-const XP_PER_QUESTION = 10;
-const XP_PER_STAR = 50;
-
-const ORDINALS = [
-  "Primera", "Segunda", "Tercera", "Cuarta", "Quinta", "Sexta", "Séptima", "Octava",
-  "Novena", "Décima", "Undécima", "Duodécima",
-];
-
-function ordinal(index: number) {
-  return ORDINALS[index] ? `${ORDINALS[index]} estrella` : `Estrella ${index + 1}`;
-}
 
 function StarIcon() {
   return (
@@ -89,7 +78,7 @@ export function StarReadout({ star, index, previous }: Props) {
               juegos
             </div>
             <div className={styles.gain}>
-              <b>+{star.questionCount * XP_PER_QUESTION + XP_PER_STAR}</b>
+              <b>+{xpToGain(star.questionCount)}</b>
               XP para ganar
             </div>
           </div>
