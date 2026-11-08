@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { usePrefersReducedMotion } from "../../../hooks/usePrefersReducedMotion";
 import { greekLetter } from "../../../lib/sky";
+import { burst, centerOf } from "../../../lib/effects";
 import type { StarPlay } from "../../../types";
 import styles from "./StarLit.module.css";
 
@@ -52,6 +53,15 @@ function useCountUp(target: number, delay: number, duration: number) {
 
 export function StarLit({ star, nextStar, courseKey, answersXp, starXp }: Props) {
   const total = useCountUp(answersXp + starXp, 1600, 1100);
+  const ignite = useRef<HTMLDivElement>(null);
+
+  // Al segundo, cuando se dibujan los rayos, un estallido de partículas desde el centro de la estrella
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (ignite.current) burst(centerOf(ignite.current), "#ffd18a", 26);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
   // El examen no se abre al encender la última lección, así que solo seguimos si viene otra lección
   const next = nextStar?.kind === "lesson" ? nextStar : null;
   const nextName = next && `${greekLetter(next.position - 1)} ${next.title}`;
@@ -59,7 +69,7 @@ export function StarLit({ star, nextStar, courseKey, answersXp, starXp }: Props)
   return (
     <main className={styles.done}>
       <div>
-        <div className={styles.ignite} aria-hidden="true">
+        <div ref={ignite} className={styles.ignite} aria-hidden="true">
           <svg viewBox="0 0 240 240">
             <defs>
               <radialGradient id="starlit-corona">
