@@ -45,11 +45,21 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
   // play se reemplaza al reintentar: trae los intentos nuevos y, con ellos, otra mezcla
   const [play, setPlay] = useState(initialPlay);
   const { star, questions, course, nextStar } = play;
+  // Si la dejó a medias, sigue donde quedó: las que ya acertó cuentan y se juegan solo las otras.
+  // Una estrella ya encendida se repasa entera
+  const [start] = useState(() => {
+    const pending = questions.flatMap((q, i) => (q.solved ? [] : [i]));
+    const resume = !star.completed && pending.length > 0 && pending.length < questions.length;
+    const solved: StepResult[] = [];
+    if (resume) questions.forEach((q, i) => q.solved && (solved[i] = "ok"));
+    return { resume, round: resume ? pending : questions.map((_, i) => i), solved };
+  });
   // round: las posiciones de las preguntas que se juegan en esta vuelta. step: cuál de ellas va
-  const [round, setRound] = useState(() => questions.map((_, i) => i));
+  const [round, setRound] = useState(start.round);
   const [step, setStep] = useState(0);
+  const [intro, setIntro] = useState(start.resume);
   const [isRetry, setIsRetry] = useState(false);
-  const [results, setResults] = useState<StepResult[]>([]);
+  const [results, setResults] = useState<StepResult[]>(start.solved);
   const [xp, setXp] = useState(0);
   const [roundStartXp, setRoundStartXp] = useState(0);
   const [starXp, setStarXp] = useState<number | null>(null);
@@ -138,6 +148,7 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
     }
     return (
       <StarUnfinished
+        mode="end"
         star={star}
         questions={questions}
         results={results}
@@ -147,6 +158,26 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
       />
     );
   }
+
+  // Antes de jugar una estrella que dejó a medias, le mostramos lo que ya tiene
+  if (intro) {
+    return (
+      <StarUnfinished
+        mode="resume"
+        star={star}
+        questions={questions}
+        results={results}
+        xp={0}
+        courseKey={course.key}
+        onRetry={() => setIntro(false)}
+      />
+    );
+  }
+
+  let progress;
+  if (isRetry) progress = `reintento ${step + 1} de ${round.length}`;
+  else if (start.resume) progress = `te faltan ${round.length - step}`;
+  else progress = `pregunta ${step + 1} de ${round.length}`;
 
   return (
     <div className={styles.page}>
@@ -170,8 +201,7 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
         </div>
         <p className={styles.where}>
           <b>{greekLetter(star.position - 1)}</b>
-          {star.title},{" "}
-          {isRetry ? `reintento ${step + 1} de ${round.length}` : `pregunta ${step + 1} de ${round.length}`}
+          {star.title}, {progress}
         </p>
       </header>
 

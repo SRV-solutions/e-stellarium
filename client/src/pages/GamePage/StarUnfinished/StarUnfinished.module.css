@@ -211,6 +211,13 @@
   stroke-linejoin: round;
 }
 
+.starIcon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
 .ghost {
   padding: 16px 26px;
   font-size: 17px;

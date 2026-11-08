@@ -39,12 +39,14 @@ export type Constellation = {
   stars: StarSummary[];
 };
 
-// attempt: cuántas veces la respondió el alumno. Se devuelve al responder, para corregir con la misma mezcla
+// attempt: cuántas veces la respondió el alumno. Se devuelve al responder, para corregir con la misma mezcla.
+// solved: si ya la acertó alguna vez (para la estrella, ya cuenta)
 type QuestionBase = {
   id: string;
   difficulty: "easy" | "medium" | "hard";
   prompt: string;
   attempt: number;
+  solved: boolean;
 };
 
 export type StudentQuestion =

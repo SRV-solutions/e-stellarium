@@ -6,6 +6,8 @@ import { KIND } from "../kinds";
 import styles from "./StarUnfinished.module.css";
 
 type Props = {
+  // "end": terminó una vuelta sin encenderla. "resume": vuelve a una estrella que dejó a medias
+  mode: "end" | "resume";
   star: StarPlay["star"];
   questions: StudentQuestion[];
   results: StepResult[];
@@ -31,20 +33,42 @@ function arc(i: number, n: number) {
   return `M${from.x} ${from.y} A${R} ${R} 0 0 1 ${to.x} ${to.y}`;
 }
 
-export function StarUnfinished({ star, questions, results, xp, courseKey, onRetry }: Props) {
+export function StarUnfinished({ mode, star, questions, results, xp, courseKey, onRetry }: Props) {
   const n = questions.length;
   const ok = results.filter((r) => r === "ok").length;
   const missing = questions.filter((_, i) => results[i] !== "ok");
+  const resume = mode === "resume";
 
   let title;
-  if (ok === 0) title = "Esta todavía no enciende";
+  if (resume) title = "Seguís donde quedaste";
+  else if (ok === 0) title = "Esta todavía no enciende";
   else if (missing.length === 1) title = "Te falta 1 para encenderla";
   else title = `Te faltan ${missing.length} para encenderla`;
 
   let retry;
-  if (ok === 0) retry = "Reintentar la estrella";
+  if (resume) retry = missing.length === 1 ? "Seguir con la que falta" : `Seguir con las ${missing.length} que faltan`;
+  else if (ok === 0) retry = "Reintentar la estrella";
   else if (missing.length === 1) retry = "Reintentar la que fallé";
   else retry = `Reintentar las ${missing.length} que fallé`;
+
+  let lead;
+  if (resume) {
+    lead = (
+      <>
+        Ya acertaste <b>{ok} de {n}</b>. Te {missing.length === 1 ? "queda 1" : `quedan ${missing.length}`} para
+        encenderla.
+      </>
+    );
+  } else if (ok === 0) {
+    lead = "No pasa nada: así se aprende. Leé las explicaciones y probá de nuevo.";
+  } else {
+    lead = (
+      <>
+        Acertaste <b>{ok} de {n}</b>. Lo que acertaste ya queda guardado: solo tenés que repetir{" "}
+        {missing.length === 1 ? "la que fallaste" : "las que fallaste"}.
+      </>
+    );
+  }
 
   // Los arcos acertados se dibujan de a uno: cada uno espera según cuántos acertados tiene antes
   const delays = results.map((_, i) => 0.3 + results.slice(0, i).filter((r) => r === "ok").length * 0.12);
@@ -90,16 +114,7 @@ export function StarUnfinished({ star, questions, results, xp, courseKey, onRetr
           <b>{greekLetter(star.position - 1)}</b> {star.title}
         </p>
         <h1 className={styles.title}>{title}</h1>
-        <p className={styles.lead}>
-          {ok === 0 ? (
-            "No pasa nada: así se aprende. Leé las explicaciones y probá de nuevo."
-          ) : (
-            <>
-              Acertaste <b>{ok} de {n}</b>. Lo que acertaste ya queda guardado: solo tenés que repetir{" "}
-              {missing.length === 1 ? "la que fallaste" : "las que fallaste"}.
-            </>
-          )}
-        </p>
+        <p className={styles.lead}>{lead}</p>
         {xp > 0 && (
           <p className={styles.gain}>
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -126,10 +141,16 @@ export function StarUnfinished({ star, questions, results, xp, courseKey, onRetr
             Volver a la constelación
           </Link>
           <button type="button" className={styles.go} onClick={onRetry}>
-            <svg viewBox="0 0 24 24" aria-hidden="true" className={styles.retryIcon}>
-              <path d="M4 12a8 8 0 1 0 2.4-5.7" />
-              <path d="M4 4v4.5h4.5" />
-            </svg>
+            {resume ? (
+              <svg viewBox="0 0 24 24" aria-hidden="true" className={styles.starIcon}>
+                <path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" aria-hidden="true" className={styles.retryIcon}>
+                <path d="M4 12a8 8 0 1 0 2.4-5.7" />
+                <path d="M4 4v4.5h4.5" />
+              </svg>
+            )}
             {retry}
           </button>
         </div>
