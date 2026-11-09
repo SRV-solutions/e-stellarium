@@ -26,8 +26,8 @@ export function AuthLayout({ children }: { children: ReactNode }) {
         <div className={styles.tagline}>
           <p>Practicá lo que aprendiste en tus cursos de SRV.</p>
           <small>
-            Cada desafío que resolvés suma experiencia. Al subir de nivel ganás descuentos para tu próximo
-            curso.
+            Cada desafío que resolvés suma experiencia. Aprobá el examen de un curso y ganás un descuento
+            para el próximo.
           </small>
         </div>
       </section>
