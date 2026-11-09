@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { QuestionType } from "../src/models/Question.js";
+import { computeExamState } from "../src/games/examState.js";
 import {
   couponExpiresAt,
   couponPercent,
@@ -90,5 +91,45 @@ describe("cupón del examen", () => {
     expect(generateCouponCode("fundamentos-backend")).toMatch(/^ESTL-FB-/);
     const codes = new Set(Array.from({ length: 200 }, () => generateCouponCode("python")));
     expect(codes.size).toBe(200);
+  });
+});
+
+describe("estado del examen", () => {
+  const at = (iso: string) => new Date(`2026-11-${iso}Z`);
+  const opensAt = at("10T10:00:00");
+  const failed = { id: "a1", finishedAt: at("12T10:00:00"), correctCount: 5, passed: false };
+
+  it("cerrado si faltan lecciones, y esperando si faltan los 3 días", () => {
+    expect(computeExamState(null, [], at("20T10:00:00"))).toEqual({ status: "locked" });
+    expect(computeExamState(opensAt, [], at("09T10:00:00"))).toEqual({ status: "waiting", opensAt });
+  });
+
+  it("abierto cuando se cumplen los 3 días", () => {
+    expect(computeExamState(opensAt, [], opensAt)).toEqual({ status: "open", attempts: 0 });
+  });
+
+  it("en curso si tiene un intento sin terminar", () => {
+    const running = { id: "a2", finishedAt: null, correctCount: null, passed: null };
+    expect(computeExamState(opensAt, [failed, running], at("20T10:00:00"))).toEqual({
+      status: "in_progress",
+      attemptId: "a2",
+    });
+  });
+
+  it("si no aprobó, espera 2 días para reintentar", () => {
+    expect(computeExamState(opensAt, [failed], at("13T10:00:00"))).toEqual({
+      status: "retry_wait",
+      opensAt: at("14T10:00:00"),
+      lastCorrect: 5,
+    });
+    expect(computeExamState(opensAt, [failed], at("14T10:00:00"))).toEqual({ status: "open", attempts: 1 });
+  });
+
+  it("aprobado queda aprobado", () => {
+    const passed = { id: "a2", finishedAt: at("15T10:00:00"), correctCount: 8, passed: true };
+    expect(computeExamState(opensAt, [failed, passed], at("20T10:00:00"))).toEqual({
+      status: "passed",
+      correctCount: 8,
+    });
   });
 });
