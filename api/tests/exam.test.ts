@@ -1,6 +1,16 @@
 import { describe, expect, it } from "vitest";
 import type { QuestionType } from "../src/models/Question.js";
-import { deadlineFor, drawExamQuestions, EXAM_SIZE, isLate } from "../src/games/exam.js";
+import {
+  couponExpiresAt,
+  couponPercent,
+  deadlineFor,
+  drawExamQuestions,
+  EXAM_SIZE,
+  generateCouponCode,
+  hasPassed,
+  isLate,
+  retryOpensAt,
+} from "../src/games/exam.js";
 
 // Un banco de prueba: muchas de "¿Qué imprime?" y una sola de cada uno de los otros juegos
 function makeBank(): { id: string; type: QuestionType }[] {
@@ -49,5 +59,36 @@ describe("reloj del examen", () => {
     expect(isLate(deadline, new Date("2026-11-09T10:00:29Z"))).toBe(false);
     expect(isLate(deadline, new Date("2026-11-09T10:00:32Z"))).toBe(false);
     expect(isLate(deadline, new Date("2026-11-09T10:00:32.001Z"))).toBe(true);
+  });
+});
+
+describe("resultado del examen", () => {
+  it("aprueba con 7 de 10", () => {
+    expect(hasPassed(6)).toBe(false);
+    expect(hasPassed(7)).toBe(true);
+    expect(hasPassed(10)).toBe(true);
+  });
+
+  it("si no aprueba, puede reintentar 2 días después", () => {
+    expect(retryOpensAt(new Date("2026-11-09T10:00:00Z"))).toEqual(new Date("2026-11-11T10:00:00Z"));
+  });
+});
+
+describe("cupón del examen", () => {
+  it("60 % el primero y 40 % los siguientes", () => {
+    expect(couponPercent(0)).toBe(60);
+    expect(couponPercent(1)).toBe(40);
+    expect(couponPercent(3)).toBe(40);
+  });
+
+  it("vence a los 60 días", () => {
+    expect(couponExpiresAt(new Date("2026-11-09T10:00:00Z"))).toEqual(new Date("2027-01-08T10:00:00Z"));
+  });
+
+  it("el código lleva el curso y caracteres que no se confunden", () => {
+    expect(generateCouponCode("python")).toMatch(/^ESTL-PY-[2-9A-HJKMNP-TW-Z]{6}$/);
+    expect(generateCouponCode("fundamentos-backend")).toMatch(/^ESTL-FB-/);
+    const codes = new Set(Array.from({ length: 200 }, () => generateCouponCode("python")));
+    expect(codes.size).toBe(200);
   });
 });

@@ -1,3 +1,4 @@
+import { randomInt } from "node:crypto";
 import type { QuestionType } from "../models/Question.js";
 import { permutation } from "./shuffle.js";
 
@@ -55,4 +56,57 @@ export function drawExamQuestions(bank: BankQuestion[], seed: string): string[] 
 
   // Se mezclan otra vez, para que las cuatro primeras no sean siempre una de cada juego
   return permutation(`${seed}:order`, picked.length).map((i) => picked[i]!.id);
+}
+
+// La mezcla de opciones de una pregunta del examen: distinta en cada intento.
+// present() y grade() la usan igual que en las estrellas comunes.
+export function examSeed(attemptId: string, questionId: string) {
+  return `exam:${attemptId}:${questionId}`;
+}
+
+// Se aprueba con 7 de 10
+export const PASS_MARK = 7;
+
+export function hasPassed(correctCount: number) {
+  return correctCount >= PASS_MARK;
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+// Si no aprueba, puede volver a rendir 2 días después de terminar
+export const RETRY_AFTER_DAYS = 2;
+
+export function retryOpensAt(finishedAt: Date): Date {
+  return new Date(finishedAt.getTime() + RETRY_AFTER_DAYS * DAY_MS);
+}
+
+// El cupón: 60 % en la primera constelación que aprueba (de cualquier curso), 40 % en las siguientes
+export const FIRST_COUPON_PERCENT = 60;
+export const LATER_COUPON_PERCENT = 40;
+export const COUPON_VALID_DAYS = 60;
+
+export function couponPercent(couponsAlreadyEarned: number) {
+  return couponsAlreadyEarned === 0 ? FIRST_COUPON_PERCENT : LATER_COUPON_PERCENT;
+}
+
+export function couponExpiresAt(createdAt: Date): Date {
+  return new Date(createdAt.getTime() + COUPON_VALID_DAYS * DAY_MS);
+}
+
+// Sin 0/O, 1/I/L ni U/V, que se confunden al copiarlos a mano
+const CODE_ALPHABET = "23456789ABCDEFGHJKMNPQRSTWXYZ";
+const CODE_LENGTH = 6;
+
+// Dos letras del curso: "python" → PY, "fundamentos-backend" → FB
+function coursePrefix(courseKey: string) {
+  const parts = courseKey.split("-");
+  const letters = parts.length > 1 ? parts.map((p) => p[0]).join("") : courseKey;
+  return letters.slice(0, 2).toUpperCase();
+}
+
+// Por ejemplo ESTL-PY-7K3QM2. Si justo sale uno que ya existe, la base lo rechaza y se pide otro.
+export function generateCouponCode(courseKey: string) {
+  let random = "";
+  for (let i = 0; i < CODE_LENGTH; i++) random += CODE_ALPHABET[randomInt(CODE_ALPHABET.length)];
+  return `ESTL-${coursePrefix(courseKey)}-${random}`;
 }
