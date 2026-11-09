@@ -6,10 +6,11 @@ import type { XpReason } from "../models/XpEvent.js";
 export const XP = {
   questionCorrect: 10,
   starCompleted: 50,
+  examPassed: 100,
 };
 
 // Da experiencia solo si nunca la dio por este mismo motivo. Devuelve cuánta dio
-async function awardXp(user: User, reason: XpReason, referenceId: string, xp: number, t: Transaction) {
+export async function awardXp(user: User, reason: XpReason, referenceId: string, xp: number, t: Transaction) {
   const already = await XpEvent.findOne({
     where: { userId: user.id, reason, referenceId },
     transaction: t,

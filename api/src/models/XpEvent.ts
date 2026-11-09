@@ -7,7 +7,7 @@ import {
 } from "sequelize";
 import { sequelize } from "../db.js";
 
-export type XpReason = "question_correct" | "star_completed";
+export type XpReason = "question_correct" | "star_completed" | "exam_passed";
 
 export class XpEvent extends Model<InferAttributes<XpEvent>, InferCreationAttributes<XpEvent>> {
   declare id: CreationOptional<string>;
