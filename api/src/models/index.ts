@@ -9,6 +9,9 @@ import { Question } from "./Question.js";
 import { Answer } from "./Answer.js";
 import { StarCompletion } from "./StarCompletion.js";
 import { XpEvent } from "./XpEvent.js";
+import { ExamAttempt } from "./ExamAttempt.js";
+import { ExamAttemptQuestion } from "./ExamAttemptQuestion.js";
+import { Coupon } from "./Coupon.js";
 
 User.hasMany(PasswordToken, { foreignKey: "userId" });
 PasswordToken.belongsTo(User, { foreignKey: "userId" });
@@ -46,4 +49,25 @@ StarCompletion.belongsTo(Star, { foreignKey: "starId" });
 User.hasMany(XpEvent, { foreignKey: "userId" });
 XpEvent.belongsTo(User, { foreignKey: "userId" });
 
-export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent };
+User.hasMany(ExamAttempt, { foreignKey: "userId" });
+ExamAttempt.belongsTo(User, { foreignKey: "userId" });
+
+Star.hasMany(ExamAttempt, { foreignKey: "starId" });
+ExamAttempt.belongsTo(Star, { foreignKey: "starId" });
+
+ExamAttempt.hasMany(ExamAttemptQuestion, { foreignKey: "attemptId" });
+ExamAttemptQuestion.belongsTo(ExamAttempt, { foreignKey: "attemptId" });
+
+Question.hasMany(ExamAttemptQuestion, { foreignKey: "questionId" });
+ExamAttemptQuestion.belongsTo(Question, { foreignKey: "questionId" });
+
+User.hasMany(Coupon, { foreignKey: "userId" });
+Coupon.belongsTo(User, { foreignKey: "userId" });
+
+Constellation.hasMany(Coupon, { foreignKey: "constellationId" });
+Coupon.belongsTo(Constellation, { foreignKey: "constellationId" });
+
+ExamAttempt.hasOne(Coupon, { foreignKey: "examAttemptId" });
+Coupon.belongsTo(ExamAttempt, { foreignKey: "examAttemptId" });
+
+export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon };
