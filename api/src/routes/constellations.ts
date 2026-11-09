@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { Constellation, Enrollment, Product, Question, Star, StarCompletion } from "../models/index.js";
+import { Constellation, Coupon, Enrollment, ExamAttempt, Product, Question, Star, StarCompletion } from "../models/index.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
-import { unlockedStarIds } from "../games/unlock.js";
+import { examOpensAt, unlockedStarIds } from "../games/unlock.js";
+import { computeExamState } from "../games/examState.js";
+import { couponPercent } from "../games/exam.js";
 import { sequelize } from "../db.js";
 
 export const constellationsRouter = Router();
@@ -34,6 +36,10 @@ constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
   const completions = await StarCompletion.findAll({ where: { userId } });
   const completedAt = new Map(completions.map((c) => [c.starId, c.createdAt]));
 
+  // Los intentos de examen, y el porcentaje del cupón que ganaría si aprueba uno ahora
+  const attempts = await ExamAttempt.findAll({ where: { userId }, order: [["number", "ASC"]] });
+  const nextCouponPercent = couponPercent(await Coupon.count({ where: { userId } }));
+
     // Cuántas preguntas publicadas tiene cada estrella
   const starIds = constellations.flatMap((c) => (c.Stars ?? []).map((s) => s.id));
   const counts =
@@ -51,6 +57,7 @@ constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
     constellations: constellations.map((constellation) => {
       const stars = constellation.Stars ?? [];
       const unlocked = unlockedStarIds(stars, completedAt);
+      const opensAt = examOpensAt(stars, completedAt);
 
       return {
         id: constellation.id,
@@ -68,6 +75,16 @@ constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
           questionCount: questionCount.get(star.id) ?? 0,
           completed: completedAt.has(star.id),
           unlocked: unlocked.has(star.id),
+          // Solo en la estrella de examen: en qué estado está, para el mapa y el visor
+          ...(star.kind === "exam" && {
+            exam: {
+              ...computeExamState(
+                opensAt,
+                attempts.filter((a) => a.starId === star.id)
+              ),
+              couponPercent: nextCouponPercent,
+            },
+          }),
         })),
       };
     }),

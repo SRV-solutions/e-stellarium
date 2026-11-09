@@ -4,7 +4,9 @@ import { app } from "../src/app.js";
 import { User } from "../src/models/index.js";
 import { hashPassword } from "../src/lib/password.js";
 import { sendMail } from "../src/lib/mailer.js";
-import { Constellation, Product, Question, Star, StarCompletion } from "../src/models/index.js";
+import { Constellation, ExamAttemptQuestion, Product, Question, Star, StarCompletion } from "../src/models/index.js";
+import { examSeed } from "../src/games/exam.js";
+import { grade } from "../src/games/grade.js";
 import type { QuestionStatus } from "../src/models/Question.js";
 
 export const PASSWORD = "Prueba1234";
@@ -122,4 +124,25 @@ export async function createExamReady(userId: string, daysAgo = 4) {
   await StarCompletion.update({ createdAt }, { where: { id: completion.id } });
   await createExamBank(product.id);
   return { product, constellation, lesson: star, exam };
+}
+
+// Una respuesta con la forma correcta para cada juego (no necesariamente acertada)
+function anyResponse(q: Question) {
+  if (q.type === "fill_blank") return { choices: (q.content as { blanks: string[][] }).blanks.map(() => 0) };
+  if (q.type === "order_lines") return { order: (q.content as { lines: string[] }).lines.map((_, i) => i) };
+  return { choice: 0 };
+}
+
+// La respuesta correcta, en las posiciones de la pantalla del alumno (lo que devuelve grade como solución)
+export async function rightResponse(attemptId: string, position: number) {
+  const row = await ExamAttemptQuestion.findOne({ where: { attemptId, position } });
+  const q = await Question.scope("withAnswer").findByPk(row!.questionId);
+  return grade(q!, examSeed(attemptId, q!.id), anyResponse(q!)).solution;
+}
+
+export async function wrongResponse(attemptId: string, position: number) {
+  const right = await rightResponse(attemptId, position);
+  if ("choice" in right) return { choice: right.choice === 0 ? 1 : 0 };
+  if ("choices" in right) return { choices: right.choices.map((c) => (c === 0 ? 1 : 0)) };
+  return { order: [...right.order].reverse() };
 }

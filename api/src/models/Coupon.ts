@@ -4,8 +4,10 @@ import {
   type CreationOptional,
   type InferAttributes,
   type InferCreationAttributes,
+  type NonAttribute,
 } from "sequelize";
 import { sequelize } from "../db.js";
+import type { Constellation } from "./Constellation.js";
 
 export class Coupon extends Model<InferAttributes<Coupon>, InferCreationAttributes<Coupon>> {
   declare id: CreationOptional<string>;
@@ -17,6 +19,8 @@ export class Coupon extends Model<InferAttributes<Coupon>, InferCreationAttribut
   declare constellationId: string;
   declare examAttemptId: string;
   declare createdAt: CreationOptional<Date>;
+
+  declare Constellation?: NonAttribute<Constellation>;
 }
 
 Coupon.init(

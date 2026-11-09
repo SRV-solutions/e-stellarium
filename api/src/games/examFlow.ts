@@ -1,6 +1,8 @@
 import type { Transaction } from "sequelize";
 import { sequelize } from "../db.js";
 import { HttpError } from "../lib/errors.js";
+import { couponEmail } from "../lib/email.js";
+import { sendMail } from "../lib/mailer.js";
 import {
   Constellation,
   Coupon,
@@ -222,7 +224,7 @@ async function finish(user: User, attempt: ExamAttempt, rows: Row[], now: Date, 
     const constellation = star!.Constellation!;
     const earned = await Coupon.count({ where: { userId: user.id }, transaction: t });
 
-    await Coupon.create(
+    const coupon = await Coupon.create(
       {
         code: await uniqueCouponCode(constellation.Product!.key, t),
         percent: couponPercent(earned),
@@ -233,6 +235,12 @@ async function finish(user: User, attempt: ExamAttempt, rows: Row[], now: Date, 
       },
       { transaction: t }
     );
+
+    // El mail, solo si la transacción se guardó
+    const mail = couponEmail(user.name, constellation.Product!.name, coupon.code, coupon.percent, coupon.expiresAt);
+    t.afterCommit(() => {
+      sendMail({ to: user.email, ...mail }).catch((err) => console.error("No se pudo enviar el mail del cupón", err));
+    });
   }
 
   return buildResult(attempt, t, rows);

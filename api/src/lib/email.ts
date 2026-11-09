@@ -40,3 +40,15 @@ export function resetPasswordEmail(name: string, link: string) {
 <p>Si no fuiste vos, ignorá este mail: tu contraseña sigue igual.</p>`,
   };
 }
+export function couponEmail(name: string, courseName: string, code: string, percent: number, expiresAt: Date) {
+  const until = expiresAt.toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" });
+  return {
+    subject: `Aprobaste el examen de ${courseName}: tu cupón del ${percent} %`,
+    html: `<p>¡Felicitaciones, ${escapeHtml(name)}!</p>
+<p>Aprobaste el examen de <strong>${escapeHtml(courseName)}</strong> en E-Stellarium y ganaste un
+${percent} % de descuento en tu próximo curso de WeAreSRV.</p>
+<p style="font-size:20px"><strong>${escapeHtml(code)}</strong></p>
+<p>Vale para una sola compra, hasta el ${until}.</p>
+<p><strong>No lo compartas:</strong> el que lo use primero se queda con el descuento.</p>`,
+  };
+}

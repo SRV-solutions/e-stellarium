@@ -8,6 +8,8 @@ import { coursesRouter } from "./routes/courses.js";
 import { starsRouter } from "./routes/stars.js";
 import { questionsRouter } from "./routes/questions.js";
 import { constellationsRouter } from "./routes/constellations.js";
+import { examsRouter } from "./routes/exams.js";
+import { couponsRouter } from "./routes/coupons.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
 export const app = express();
@@ -23,6 +25,8 @@ app.use(coursesRouter);
 app.use(starsRouter);
 app.use(questionsRouter);
 app.use(constellationsRouter);
+app.use(examsRouter);
+app.use(couponsRouter);
 
 app.get("/health", async (_req, res) => {
   try {

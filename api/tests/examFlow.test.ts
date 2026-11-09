@@ -1,30 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Coupon, ExamAttempt, ExamAttemptQuestion, Question, StarCompletion, User } from "../src/models/index.js";
 import { answerQuestion, getProgress, startAttempt, type ExamProgress } from "../src/games/examFlow.js";
-import { examSeed } from "../src/games/exam.js";
-import { grade } from "../src/games/grade.js";
-import { createExamReady, createUser } from "./helpers.js";
-
-// Una respuesta con la forma correcta para cada juego (no necesariamente acertada)
-function anyResponse(q: Question) {
-  if (q.type === "fill_blank") return { choices: (q.content as { blanks: string[][] }).blanks.map(() => 0) };
-  if (q.type === "order_lines") return { order: (q.content as { lines: string[] }).lines.map((_, i) => i) };
-  return { choice: 0 };
-}
-
-// La respuesta correcta, en las posiciones de la pantalla del alumno (lo que devuelve grade como solución)
-async function rightResponse(attemptId: string, position: number) {
-  const row = await ExamAttemptQuestion.findOne({ where: { attemptId, position } });
-  const q = await Question.scope("withAnswer").findByPk(row!.questionId);
-  return grade(q!, examSeed(attemptId, q!.id), anyResponse(q!)).solution;
-}
-
-async function wrongResponse(attemptId: string, position: number) {
-  const right = await rightResponse(attemptId, position);
-  if ("choice" in right) return { choice: right.choice === 0 ? 1 : 0 };
-  if ("choices" in right) return { choices: right.choices.map((c) => (c === 0 ? 1 : 0)) };
-  return { order: [...right.order].reverse() };
-}
+import { createExamReady, createUser, rightResponse, wrongResponse } from "./helpers.js";
 
 async function setup() {
   const user = await createUser();
