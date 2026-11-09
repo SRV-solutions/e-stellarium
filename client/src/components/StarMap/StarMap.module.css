@@ -2,6 +2,8 @@
   display: block;
   width: 100%;
   height: auto;
+  /* Los halos de las estrellas de los bordes (el examen suele quedar arriba de todo) se salen del dibujo */
+  overflow: visible;
 }
 
 .dust,
