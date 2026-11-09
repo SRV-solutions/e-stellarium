@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { QuestionType } from "../src/models/Question.js";
-import { drawExamQuestions, EXAM_SIZE } from "../src/games/exam.js";
+import { deadlineFor, drawExamQuestions, EXAM_SIZE, isLate } from "../src/games/exam.js";
 
 // Un banco de prueba: muchas de "¿Qué imprime?" y una sola de cada uno de los otros juegos
 function makeBank(): { id: string; type: QuestionType }[] {
@@ -31,5 +31,23 @@ describe("sorteo del examen", () => {
     expect(() => drawExamQuestions(makeBank().slice(0, 9), "a")).toThrow();
     const withoutMc = makeBank().filter((q) => q.type !== "multiple_choice");
     expect(() => drawExamQuestions(withoutMc, "a")).toThrow(/multiple_choice/);
+  });
+});
+
+describe("reloj del examen", () => {
+  const shownAt = new Date("2026-11-09T10:00:00Z");
+
+  it("cada juego tiene su tiempo", () => {
+    expect(deadlineFor("output", shownAt)).toEqual(new Date("2026-11-09T10:00:30Z"));
+    expect(deadlineFor("multiple_choice", shownAt)).toEqual(new Date("2026-11-09T10:00:30Z"));
+    expect(deadlineFor("fill_blank", shownAt)).toEqual(new Date("2026-11-09T10:00:40Z"));
+    expect(deadlineFor("order_lines", shownAt)).toEqual(new Date("2026-11-09T10:00:45Z"));
+  });
+
+  it("acepta la respuesta hasta 2 segundos después del límite, por la demora de la red", () => {
+    const deadline = deadlineFor("output", shownAt);
+    expect(isLate(deadline, new Date("2026-11-09T10:00:29Z"))).toBe(false);
+    expect(isLate(deadline, new Date("2026-11-09T10:00:32Z"))).toBe(false);
+    expect(isLate(deadline, new Date("2026-11-09T10:00:32.001Z"))).toBe(true);
   });
 });

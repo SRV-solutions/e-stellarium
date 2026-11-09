@@ -6,6 +6,27 @@ export const EXAM_SIZE = 10;
 
 const ALL_TYPES: QuestionType[] = ["output", "fill_blank", "order_lines", "multiple_choice"];
 
+// Segundos para responder cada juego
+export const SECONDS_PER_TYPE: Record<QuestionType, number> = {
+  output: 30,
+  multiple_choice: 30,
+  fill_blank: 40,
+  order_lines: 45,
+};
+
+// Margen para lo que tarda la respuesta en viajar por la red: no se le muestra al alumno
+const NETWORK_GRACE_MS = 2000;
+
+// Hasta cuándo puede responder una pregunta que se mostró en shownAt
+export function deadlineFor(type: QuestionType, shownAt: Date): Date {
+  return new Date(shownAt.getTime() + SECONDS_PER_TYPE[type] * 1000);
+}
+
+// Si una respuesta que llega en `now` ya está fuera de tiempo
+export function isLate(deadline: Date, now = new Date()): boolean {
+  return now.getTime() > deadline.getTime() + NETWORK_GRACE_MS;
+}
+
 type BankQuestion = { id: string; type: QuestionType };
 
 // Sortea las preguntas de un intento: EXAM_SIZE del banco, al menos una de cada juego.
