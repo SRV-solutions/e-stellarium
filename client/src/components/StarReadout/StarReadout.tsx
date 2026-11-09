@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import { greekLetter, ordinal } from "../../lib/sky";
 import { xpToGain } from "../../lib/xp";
 import type { StarSummary } from "../../types";
+import { ExamReadout } from "./ExamReadout";
 import styles from "./StarReadout.module.css";
 
 function StarIcon() {
@@ -16,9 +17,15 @@ type Props = {
   star: StarSummary;
   index: number;
   previous?: StarSummary;
+  onExamOpens?: () => void;
 };
 
-export function StarReadout({ star, index, previous }: Props) {
+export function StarReadout({ star, index, previous, onExamOpens }: Props) {
+  if (star.exam) return <ExamReadout star={star} index={index} previous={previous} onOpen={onExamOpens} />;
+  return <LessonReadout star={star} index={index} previous={previous} />;
+}
+
+function LessonReadout({ star, index, previous }: Props) {
   const navigate = useNavigate();
   const exam = star.kind === "exam";
   const play = () => navigate(`/stars/${star.id}`);

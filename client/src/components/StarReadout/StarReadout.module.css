@@ -55,6 +55,11 @@
   color: var(--muted);
 }
 
+.examPassed {
+  font-weight: 600;
+  color: #ffd38a;
+}
+
 .name {
   margin: 2px 0;
   font-size: 34px;
@@ -143,6 +148,69 @@
   color: var(--text);
 }
 
+/* El examen: naranja liso, para que no se confunda con el botón de las lecciones */
+.examCta {
+  color: #1a1205;
+  background: var(--orange);
+  box-shadow: none;
+}
+
+.examCta:hover {
+  background: #ffad33;
+  box-shadow: none;
+}
+
+.action {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+.clock {
+  font-family: var(--mono);
+  font-size: 26px;
+  font-weight: 600;
+  color: #ffc266;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.clock small {
+  margin-right: 8px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0;
+}
+
+.toHome {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.toHome a {
+  color: var(--text);
+  text-underline-offset: 3px;
+}
+
+.figures b {
+  font-variant-numeric: tabular-nums;
+}
+
+/* El examen tiene más cosas a la derecha: pasan abajo antes que en las lecciones */
+@media (max-width: 1100px) {
+  .examInner {
+    grid-template-columns: auto 1fr;
+    gap: 18px 22px;
+  }
+  .examInner .figures,
+  .examInner .action {
+    grid-column: 1 / -1;
+  }
+}
+
 @media (max-width: 900px) {
   .inner {
     grid-template-columns: auto 1fr;
@@ -158,6 +226,9 @@
   .cta {
     width: 100%;
     justify-content: center;
+  }
+  .action {
+    justify-items: stretch;
   }
 }
 

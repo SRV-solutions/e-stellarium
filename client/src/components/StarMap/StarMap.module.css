@@ -175,6 +175,135 @@
   opacity: 1;
 }
 
+/* El último tramo, hacia el examen: una línea de puntos naranja */
+.toExam {
+  fill: none;
+  pointer-events: none;
+  stroke: rgba(255, 153, 0, 0.35);
+  stroke-width: 2.2;
+  stroke-dasharray: 1 7;
+  stroke-linecap: round;
+}
+
+.toExamOn {
+  stroke: rgba(255, 153, 0, 0.8);
+}
+
+.toExamLit {
+  stroke: rgba(255, 214, 150, 0.85);
+  stroke-dasharray: none;
+  stroke-width: 1.6;
+}
+
+/* Los estados del examen */
+.exam .halo {
+  opacity: 0.5;
+  transition: opacity 0.4s;
+}
+
+.examLocked .ray {
+  opacity: 0.2;
+}
+
+.examLocked .core {
+  fill: #23202a;
+  stroke: #8a6a3a;
+}
+
+.examLocked .name {
+  fill: var(--muted);
+  font-weight: 500;
+}
+
+.examWaiting .ray,
+.examRetry .ray {
+  opacity: 0.45;
+}
+
+.examOpen .halo,
+.examOpen .ray {
+  opacity: 1;
+}
+
+.examOpen .core {
+  fill: var(--orange);
+  filter: url(#bloom);
+}
+
+.examPassed .halo {
+  fill: url(#goldGlow);
+  opacity: 1;
+}
+
+.examPassed .ray {
+  stroke: #ffd38a;
+  stroke-width: 2;
+  opacity: 1;
+}
+
+.examPassed .core {
+  fill: #fff;
+  stroke: #fff;
+  filter: url(#bloomBig);
+}
+
+/* El anillo de la cúpula: se va cerrando mientras pasa la espera */
+.dome {
+  fill: none;
+  stroke: rgba(255, 153, 0, 0.22);
+  stroke-width: 3;
+}
+
+.wait {
+  fill: none;
+  stroke: var(--orange);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: rotate(-90deg);
+}
+
+.count {
+  fill: #ffc266;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.sub {
+  fill: var(--muted);
+}
+
+.subOpen {
+  fill: #ffc266;
+  font-weight: 600;
+}
+
+.subPassed {
+  fill: #ffd38a;
+  font-weight: 600;
+}
+
+.sight {
+  fill: none;
+  stroke: var(--orange);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 6;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spin 18s linear infinite;
+}
+
+.beat {
+  fill: none;
+  stroke: var(--orange);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 2.6s ease-out infinite;
+}
+
 /* Los nombres */
 .greek {
   fill: var(--orange);
@@ -220,6 +349,8 @@
   .twinkle,
   .orbit,
   .pulse,
+  .sight,
+  .beat,
   .lit {
     animation: none;
   }

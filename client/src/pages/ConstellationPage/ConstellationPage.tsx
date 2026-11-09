@@ -37,6 +37,7 @@ export function ConstellationPage() {
           <ReadyView
             constellations={state.constellations}
             courseKey={courseKey}
+            reload={reload}
           />
         )}
       </main>
@@ -47,9 +48,11 @@ export function ConstellationPage() {
 function ReadyView({
   constellations,
   courseKey,
+  reload,
 }: {
   constellations: Constellation[];
   courseKey?: string;
+  reload: () => void;
 }) {
   const constellation = constellations.find((c) => c.course.key === courseKey);
 
@@ -63,17 +66,26 @@ function ReadyView({
   }
 
   // La key hace que, al cambiar de constelación, el componente arranque de cero
-    return <ConstellationView key={constellation.id} constellation={constellation} all={constellations} />;
+    return <ConstellationView key={constellation.id} constellation={constellation} all={constellations} reload={reload} />;
 }
 
-// La estrella que se muestra al entrar: la primera que se puede jugar, o la última abierta
+// La estrella que se muestra al entrar: la primera que se puede jugar, el examen si ya encendió
+// todas las lecciones (aunque esté esperando), o la última abierta
 function defaultStarId(stars: StarSummary[]) {
-  const playable = stars.find((s) => s.unlocked && !s.completed);
+  const playable = stars.find((s) => s.unlocked && !s.completed) ?? stars.find((s) => s.exam && s.exam.status !== "locked");
   const lastOpen = stars.filter((s) => s.unlocked).at(-1);
   return (playable ?? lastOpen ?? stars[0])?.id ?? null;
 }
 
-function ConstellationView({ constellation, all }: { constellation: Constellation; all: Constellation[] }) {
+function ConstellationView({
+  constellation,
+  all,
+  reload,
+}: {
+  constellation: Constellation;
+  all: Constellation[];
+  reload: () => void;
+}) {
   const [selectedId, setSelectedId] = useState(() =>
     defaultStarId(constellation.stars),
   );
@@ -137,6 +149,7 @@ function ConstellationView({ constellation, all }: { constellation: Constellatio
           star={selected}
           index={selectedIndex}
           previous={constellation.stars[selectedIndex - 1]}
+          onExamOpens={reload}
         />
       )}
     </>

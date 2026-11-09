@@ -388,6 +388,12 @@
           "explanation": "% da el resto de la división. Un número es par si el resto de dividirlo por 2 es 0."
         }
       ]
+    },
+    {
+      "title": "Examen",
+      "kind": "exam",
+      "description": "Diez preguntas nuevas de toda la constelación, con tiempo. Aprobalo y ganás un descuento para tu próximo curso.",
+      "questions": []
     }
   ],
   "bank": [

@@ -27,7 +27,20 @@ export type StarSummary = {
   questionCount: number;
   completed: boolean;
   unlocked: boolean;
+  exam?: ExamSummary; // solo en la estrella de examen
 };
+
+// En qué situación está el examen de una constelación (lo calcula la API)
+export type ExamState =
+  | { status: "locked" } // le faltan lecciones
+  | { status: "waiting"; opensAt: string } // faltan los 3 días
+  | { status: "open"; attempts: number }
+  | { status: "in_progress"; attemptId: string }
+  | { status: "retry_wait"; opensAt: string; lastCorrect: number } // no aprobó, faltan los 2 días
+  | { status: "passed"; correctCount: number };
+
+// couponPercent: el descuento que ganaría si aprueba ahora
+export type ExamSummary = ExamState & { couponPercent: number };
 
 export type Constellation = {
   id: string;
