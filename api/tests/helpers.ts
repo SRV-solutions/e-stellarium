@@ -4,7 +4,7 @@ import { app } from "../src/app.js";
 import { User } from "../src/models/index.js";
 import { hashPassword } from "../src/lib/password.js";
 import { sendMail } from "../src/lib/mailer.js";
-import { Constellation, Product, Question, Star } from "../src/models/index.js";
+import { Constellation, Product, Question, Star, StarCompletion } from "../src/models/index.js";
 import type { QuestionStatus } from "../src/models/Question.js";
 
 export const PASSWORD = "Prueba1234";
@@ -82,4 +82,44 @@ export async function enrolledStudent(courses = ["python"], email = "alumno@test
   await createUser(email);
   await provision({ email, name: "Alumno", paymentId: "3001", courses });
   return loginAs(email);
+}
+// El banco del examen de un curso: 10 preguntas sin estrella, al menos una de cada juego
+export async function createExamBank(productId: string) {
+  const common = { productId, difficulty: "easy" as const, topic: "examen", explanation: "Así.", status: "published" as const };
+  for (let i = 0; i < 7; i++) {
+    await createQuestion({ productId, status: "published" });
+  }
+  await Question.create({
+    ...common,
+    type: "fill_blank",
+    prompt: "Completá el hueco",
+    content: { code: "print(___)", blanks: [["1", "x"]] },
+    answer: { correct: [0], output: "1" },
+  });
+  await Question.create({
+    ...common,
+    type: "order_lines",
+    prompt: "Ordená las líneas",
+    content: { lines: ["a = 1", "print(a)"] },
+    answer: { order: [0, 1], output: "1" },
+  });
+  await Question.create({
+    ...common,
+    type: "multiple_choice",
+    prompt: "¿Cuál es un número?",
+    content: { options: ["1", "uno"] },
+    answer: { correct: 0 },
+  });
+}
+
+// Una constelación de Python con una lección encendida hace `daysAgo` días, un examen y su banco
+export async function createExamReady(userId: string, daysAgo = 4) {
+  const { product, constellation, star } = await createPythonStar();
+  const exam = await Star.create({ constellationId: constellation.id, position: 2, title: "Examen", kind: "exam" });
+  const completion = await StarCompletion.create({ userId, starId: star.id });
+  // La fecha de creación solo se puede cambiar con el update del modelo, no el de la fila
+  const createdAt = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000);
+  await StarCompletion.update({ createdAt }, { where: { id: completion.id } });
+  await createExamBank(product.id);
+  return { product, constellation, lesson: star, exam };
 }

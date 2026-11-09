@@ -1,3 +1,4 @@
+import type { Transaction } from "sequelize";
 import { ExamAttempt, Star, StarCompletion } from "../models/index.js";
 import { retryOpensAt } from "./exam.js";
 import { examOpensAt } from "./unlock.js";
@@ -37,16 +38,23 @@ export function computeExamState(
 }
 
 // Busca en la base lo que necesita la regla
-export async function getExamState(userId: string, exam: Star, now = new Date()): Promise<ExamState> {
-  const stars = await Star.findAll({ where: { constellationId: exam.constellationId } });
+export async function getExamState(
+  userId: string,
+  exam: Star,
+  now = new Date(),
+  transaction?: Transaction
+): Promise<ExamState> {
+  const stars = await Star.findAll({ where: { constellationId: exam.constellationId }, transaction });
   const completions = await StarCompletion.findAll({
     where: { userId, starId: stars.map((s) => s.id) },
+    transaction,
   });
   const completedAt = new Map(completions.map((c) => [c.starId, c.createdAt]));
 
   const attempts = await ExamAttempt.findAll({
     where: { userId, starId: exam.id },
     order: [["number", "ASC"]],
+    transaction,
   });
 
   return computeExamState(examOpensAt(stars, completedAt), attempts, now);
