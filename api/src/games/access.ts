@@ -7,7 +7,7 @@ export async function canOpenStar(userId: string, star: Star) {
   const completions = await StarCompletion.findAll({
     where: { userId, starId: stars.map((s) => s.id) },
   });
-  const completedIds = new Set(completions.map((c) => c.starId));
+  const completedAt = new Map(completions.map((c) => [c.starId, c.createdAt]));
 
-  return unlockedStarIds(stars, completedIds).has(star.id);
+  return unlockedStarIds(stars, completedAt).has(star.id);
 }

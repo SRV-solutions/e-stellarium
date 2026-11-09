@@ -32,7 +32,7 @@ constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
 
   // Lo que ya completó
   const completions = await StarCompletion.findAll({ where: { userId } });
-  const completedIds = new Set(completions.map((c) => c.starId));
+  const completedAt = new Map(completions.map((c) => [c.starId, c.createdAt]));
 
     // Cuántas preguntas publicadas tiene cada estrella
   const starIds = constellations.flatMap((c) => (c.Stars ?? []).map((s) => s.id));
@@ -50,14 +50,14 @@ constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
   res.json({
     constellations: constellations.map((constellation) => {
       const stars = constellation.Stars ?? [];
-      const unlocked = unlockedStarIds(stars, completedIds);
+      const unlocked = unlockedStarIds(stars, completedAt);
 
       return {
         id: constellation.id,
         name: constellation.name,
         description: constellation.description,
         course: { key: constellation.Product!.key, name: constellation.Product!.name },
-        completedStars: stars.filter((s) => completedIds.has(s.id)).length,
+        completedStars: stars.filter((s) => completedAt.has(s.id)).length,
         totalStars: stars.length,
         stars: stars.map((star) => ({
           id: star.id,
@@ -66,7 +66,7 @@ constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
           position: star.position,
           kind: star.kind,
           questionCount: questionCount.get(star.id) ?? 0,
-          completed: completedIds.has(star.id),
+          completed: completedAt.has(star.id),
           unlocked: unlocked.has(star.id),
         })),
       };

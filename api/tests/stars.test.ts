@@ -82,6 +82,9 @@ describe("GET /stars/:id", () => {
 
     // La última estrella no tiene siguiente
     await StarCompletion.create({ userId: (await User.findOne())!.id, starId: second.id });
+    // El examen se abre 3 días después de la última lección
+    const fourDaysAgo = new Date(Date.now() - 4 * 24 * 60 * 60 * 1000);
+    await StarCompletion.update({ createdAt: fourDaysAgo }, { where: {} });
     const last = await agent.get(`/stars/${exam.id}`);
     expect(last.body.nextStar).toBeNull();
   });

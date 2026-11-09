@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { permutation } from "../src/games/shuffle.js";
 import { displayOrders, present, seedFor } from "../src/games/present.js";
 import { grade, InvalidResponseError } from "../src/games/grade.js";
-import { unlockedStarIds } from "../src/games/unlock.js";
+import { examOpensAt, unlockedStarIds } from "../src/games/unlock.js";
 import { validateQuestion } from "../src/games/validate.js";
 
 const output = {
@@ -142,17 +142,35 @@ describe("desbloqueo de estrellas", () => {
     { id: "exam", position: 4, kind: "exam" as const },
   ];
 
+  const day = (n: number) => new Date(Date.UTC(2026, 10, n));
+  const done = (...ids: string[]) => new Map(ids.map((id) => [id, day(1)]));
+
   it("sin nada completado, solo se abre la primera", () => {
-    expect(unlockedStarIds(stars, new Set())).toEqual(new Set(["s1"]));
+    expect(unlockedStarIds(stars, new Map())).toEqual(new Set(["s1"]));
   });
 
   it("al completar una, se abre la siguiente y la completada sigue abierta", () => {
-    expect(unlockedStarIds(stars, new Set(["s1"]))).toEqual(new Set(["s1", "s2"]));
+    expect(unlockedStarIds(stars, done("s1"))).toEqual(new Set(["s1", "s2"]));
   });
 
-  it("el examen se abre solo con todas las lecciones completas", () => {
-    expect(unlockedStarIds(stars, new Set(["s1", "s2"])).has("exam")).toBe(false);
-    expect(unlockedStarIds(stars, new Set(["s1", "s2", "s3"])).has("exam")).toBe(true);
+  it("el examen no se abre si faltan lecciones", () => {
+    expect(examOpensAt(stars, done("s1", "s2"))).toBeNull();
+    expect(unlockedStarIds(stars, done("s1", "s2"), day(30)).has("exam")).toBe(false);
+  });
+
+  it("el examen se abre 3 días después de la última lección", () => {
+    const completedAt = new Map([
+      ["s1", day(1)],
+      ["s2", day(5)],
+      ["s3", day(2)],
+    ]);
+    expect(examOpensAt(stars, completedAt)).toEqual(day(8));
+    expect(unlockedStarIds(stars, completedAt, new Date(day(8).getTime() - 1)).has("exam")).toBe(false);
+    expect(unlockedStarIds(stars, completedAt, day(8)).has("exam")).toBe(true);
+  });
+
+  it("un examen aprobado sigue abierto para repasar", () => {
+    expect(unlockedStarIds(stars, done("s1", "s2", "s3", "exam"), day(1)).has("exam")).toBe(true);
   });
 });
 
