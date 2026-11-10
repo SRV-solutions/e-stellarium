@@ -533,6 +533,7 @@
   padding: 7px 14px;
   font-size: 14px;
   font-weight: 700;
+  color: var(--text);
   background: none;
   border: 1.5px solid var(--line);
   border-radius: 999px;
