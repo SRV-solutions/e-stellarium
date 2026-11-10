@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { usePrefersReducedMotion } from "../../../hooks/usePrefersReducedMotion";
-import { greekLetter } from "../../../lib/sky";
 import { burst, centerOf } from "../../../lib/effects";
 import type { StarPlay } from "../../../types";
 import styles from "./StarLit.module.css";
@@ -64,7 +63,7 @@ export function StarLit({ star, nextStar, courseKey, answersXp, starXp }: Props)
   }, []);
   // El examen no se abre al encender la última lección, así que solo seguimos si viene otra lección
   const next = nextStar?.kind === "lesson" ? nextStar : null;
-  const nextName = next && `${greekLetter(next.position - 1)} ${next.title}`;
+  const nextName = next && `${next.letter} ${next.title}`;
 
   return (
     <main className={styles.done}>
@@ -99,7 +98,7 @@ export function StarLit({ star, nextStar, courseKey, answersXp, starXp }: Props)
         </div>
 
         <p className={styles.kicker}>
-          <b>{greekLetter(star.position - 1)}</b> {star.title}
+          <b>{star.letter}</b> {star.title}
         </p>
         <h1 className={styles.title}>Estrella encendida</h1>
         {nextName && (

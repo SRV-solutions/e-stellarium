@@ -78,10 +78,11 @@ export type StarPlay = {
     description: string | null;
     kind: StarKind;
     position: number;
+    letter: string;
     completed: boolean;
   };
   course: { key: string; name: string };
-  nextStar: { id: string; title: string; kind: StarKind; position: number } | null;
+  nextStar: { id: string; title: string; kind: StarKind; position: number; letter: string } | null;
   questions: StudentQuestion[];
 };
 
@@ -100,7 +101,7 @@ export type AnswerResult = {
 
 // GET /exams/:starId
 export type ExamInfo = {
-  star: { id: string; title: string; position: number };
+  star: { id: string; title: string; position: number; letter: string };
   course: { key: string; name: string };
   constellationId: string;
   state: ExamState;

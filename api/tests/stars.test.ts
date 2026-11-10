@@ -72,7 +72,8 @@ describe("GET /stars/:id", () => {
     const before = await agent.get(`/stars/${star.id}`);
     expect(before.body.star.completed).toBe(false);
     expect(before.body.course).toEqual({ key: "python", name: product.name });
-    expect(before.body.nextStar).toEqual({ id: second.id, title: "Condicionales", kind: "lesson", position: 2 });
+    expect(before.body.star.letter).toBe("α");
+    expect(before.body.nextStar).toEqual({ id: second.id, title: "Condicionales", kind: "lesson", position: 2, letter: "β" });
 
     const right = before.body.questions[0].content.options.indexOf("4");
     await agent.post(`/questions/${question.id}/answer`).send({ response: { choice: right }, attempt: 0 });
@@ -87,6 +88,7 @@ describe("GET /stars/:id", () => {
     await StarCompletion.update({ createdAt: fourDaysAgo }, { where: {} });
     const last = await agent.get(`/stars/${exam.id}`);
     expect(last.body.nextStar).toBeNull();
+    expect(last.body.star.letter).toBe("Ω");
   });
 
   it("da 404 si el alumno no tiene el curso", async () => {

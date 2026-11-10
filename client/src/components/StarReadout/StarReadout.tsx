@@ -3,6 +3,7 @@ import { ordinal } from "../../lib/sky";
 import { xpToGain } from "../../lib/xp";
 import type { StarSummary } from "../../types";
 import { ExamReadout } from "./ExamReadout";
+import { BigLetter } from "./BigLetter";
 import styles from "./StarReadout.module.css";
 
 function StarIcon() {
@@ -66,9 +67,7 @@ function LessonReadout({ star, index, previous }: Props) {
   return (
     <section className={styles.readout} aria-live="polite">
       <div className={styles.inner}>
-        <div className={styles.letter} aria-hidden="true">
-          {star.letter}
-        </div>
+        <BigLetter letter={star.letter} />
 
         <div>
           <p className={styles.ordinal}>

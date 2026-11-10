@@ -4,6 +4,7 @@ import { ordinal } from "../../lib/sky";
 import { formatCountdown, formatMoment } from "../../lib/time";
 import type { ExamSummary, StarSummary } from "../../types";
 import styles from "./StarReadout.module.css";
+import { BigLetter } from "./BigLetter";
 
 const DEFAULT_DESCRIPTION =
   "Diez preguntas nuevas de toda la constelación, con tiempo. Aprobalo y ganás un descuento para tu próximo curso.";
@@ -99,9 +100,7 @@ export function ExamReadout({ star, index, previous, onOpen }: Props) {
   return (
     <section className={styles.readout} aria-live="polite">
       <div className={`${styles.inner} ${styles.examInner}`}>
-        <div className={styles.letter} aria-hidden="true">
-          {star.letter}
-        </div>
+        <BigLetter letter={star.letter} />
 
         <div>
           <p className={styles.ordinal}>

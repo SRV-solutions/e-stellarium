@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { StarGlyph, StarGlyphDefs, type GlyphState } from "../../../components/StarGlyph/StarGlyph";
-import { greekLetter } from "../../../lib/sky";
 import type { Constellation, Course } from "../../../types";
 import styles from "./CourseLine.module.css";
 
@@ -54,7 +53,7 @@ export function CourseLine({ course, constellation }: Props) {
         <b>{lit}</b> de {n} estrellas encendidas
         {next !== -1 && (
           <>
-            . <span className={styles.next}>Tu próxima estrella es {greekLetter(next)}</span>
+            . <span className={styles.next}>Tu próxima estrella es {stars[next]!.letter}</span>
           </>
         )}
       </>

@@ -33,6 +33,7 @@ describe("GET /exams/:starId", () => {
     const res = await agent.get(`/exams/${exam.id}`);
     expect(res.status).toBe(200);
     expect(res.body.state.status).toBe("waiting");
+    expect(res.body.star.letter).toBe("Ω");
     expect(res.body.rules).toMatchObject({ questions: 10, passMark: 7, couponPercent: 60 });
     expect(res.body.course).toEqual({ key: "python", name: expect.any(String) });
     expect(res.body.coupon).toBeNull();

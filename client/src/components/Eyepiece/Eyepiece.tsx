@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
 import { seededRandom } from "../../lib/random";
-import { greekLetter } from "../../lib/sky";
 import { StarGlyph, StarGlyphDefs } from "../StarGlyph/StarGlyph";
 import styles from "./Eyepiece.module.css";
 
 type Props = {
   lit: boolean[]; // una por estrella de la constelación: si ya está encendida
+  letters: string[]; // el nombre de cada una (α, β², Ω)
   focus: number; // la estrella que queda en el centro; -1 si no hay ninguna
   aiming: boolean; // true: la del centro es la próxima (la mira se traba). false: es la última, ya encendida
   onSettled?: () => void; // cuando la vista termina de moverse
@@ -36,7 +36,7 @@ const DIAL = Array.from({ length: 72 }, (_, k) => {
   return { k, major, from: at(188), to: at(major ? 176 : 182), label: major && k > 0 ? at(166) : null };
 });
 
-export function Eyepiece({ lit, focus, aiming, onSettled }: Props) {
+export function Eyepiece({ lit, letters, focus, aiming, onSettled }: Props) {
   const reduced = usePrefersReducedMotion();
   const world = useRef<SVGGElement>(null);
   const dial = useRef<SVGGElement>(null);
@@ -132,7 +132,7 @@ export function Eyepiece({ lit, focus, aiming, onSettled }: Props) {
                     pop={animate && shownLit(i) && i >= start}
                   />
                   <text className={`${styles.letter} ${aiming && i === focus ? styles.letterAim : ""}`} x={p.x + 16} y={p.y - 16}>
-                    {greekLetter(i)}
+                    {letters[i]}
                   </text>
                 </g>
               );

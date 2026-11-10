@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { Op } from "sequelize";
 import { Answer, Constellation, Enrollment, Product, Question, Star, StarCompletion } from "../models/index.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
 import { HttpError } from "../lib/errors.js";
 import { present, seedFor } from "../games/present.js";
 import { isUuid } from "../lib/uuid.js";
 import { canOpenStar } from "../games/access.js";
+import { starLetters } from "../games/starLetter.js";
 
 export const starsRouter = Router();
 
@@ -46,10 +46,13 @@ starsRouter.get("/stars/:id", requireAuth, async (req, res) => {
 
   // Si ya la había encendido, y cuál es la estrella que sigue en la constelación
   const completed = (await StarCompletion.count({ where: { userId: req.user!.id, starId: star.id } })) > 0;
-  const next = await Star.findOne({
-    where: { constellationId: star.constellationId, position: { [Op.gt]: star.position } },
+  // Todas las de su constelación: para saber cuál sigue y el nombre de cada una (β², que depende de su módulo)
+  const siblings = await Star.findAll({
+    where: { constellationId: star.constellationId },
     order: [["position", "ASC"]],
   });
+  const letters = starLetters(siblings);
+  const next = siblings.find((s) => s.position > star.position) ?? null;
 
   // Cuántas veces respondió el alumno cada pregunta en la estrella (el repaso no cuenta): ese es el intento que va a jugar ahora
   const counts = (await Answer.count({
@@ -73,10 +76,11 @@ starsRouter.get("/stars/:id", requireAuth, async (req, res) => {
       description: star.description,
       kind: star.kind,
       position: star.position,
+      letter: letters.get(star.id)!,
       completed,
     },
     course: { key: star.Constellation!.Product!.key, name: star.Constellation!.Product!.name },
-    nextStar: next && { id: next.id, title: next.title, kind: next.kind, position: next.position },
+    nextStar: next && { id: next.id, title: next.title, kind: next.kind, position: next.position, letter: letters.get(next.id)! },
     questions: questions.map((q) => {
       const attempt = attemptOf.get(q.id) ?? 0;
       return { ...present(q, seedFor(req.user!.id, q.id, attempt)), attempt, solved: solved.has(q.id) };

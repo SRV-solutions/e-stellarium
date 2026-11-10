@@ -27,6 +27,7 @@ function aimTelescope(constellations: Constellation[]) {
     if (index !== -1) {
       return {
         lit: c.stars.map((s) => s.completed),
+        letters: c.stars.map((s) => s.letter),
         focus: index,
         aiming: true,
         sighting: { kind: "next", star: c.stars[index]!, index, courseName: c.course.name } as Sighting,
@@ -37,12 +38,13 @@ function aimTelescope(constellations: Constellation[]) {
   if (last) {
     return {
       lit: last.stars.map((s) => s.completed),
+      letters: last.stars.map((s) => s.letter),
       focus: last.stars.length - 1,
       aiming: false,
       sighting: { kind: "done", courseKey: last.course.key } as Sighting,
     };
   }
-  return { lit: [], focus: -1, aiming: false, sighting: { kind: "empty" } as Sighting };
+  return { lit: [], letters: [], focus: -1, aiming: false, sighting: { kind: "empty" } as Sighting };
 }
 
 export function HomePage() {
@@ -115,6 +117,7 @@ export function HomePage() {
               <Eyepiece
                 key={telescope ? "sky" : "loading"}
                 lit={telescope?.lit ?? []}
+                letters={telescope?.letters ?? []}
                 focus={telescope?.focus ?? -1}
                 aiming={telescope?.aiming ?? false}
                 onSettled={telescope ? () => setSettled(true) : undefined}

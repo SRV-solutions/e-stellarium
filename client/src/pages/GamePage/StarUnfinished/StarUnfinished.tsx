@@ -1,6 +1,5 @@
 import { Link } from "react-router";
 import type { StepResult } from "../../../components/MiniConstellation/MiniConstellation";
-import { greekLetter } from "../../../lib/sky";
 import type { StarPlay, StudentQuestion } from "../../../types";
 import { KIND } from "../kinds";
 import styles from "./StarUnfinished.module.css";
@@ -111,7 +110,7 @@ export function StarUnfinished({ mode, star, questions, results, xp, courseKey, 
         </div>
 
         <p className={styles.kicker}>
-          <b>{greekLetter(star.position - 1)}</b> {star.title}
+          <b>{star.letter}</b> {star.title}
         </p>
         <h1 className={styles.title}>{title}</h1>
         <p className={styles.lead}>{lead}</p>

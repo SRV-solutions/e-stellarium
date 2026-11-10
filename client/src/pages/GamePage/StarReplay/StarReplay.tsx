@@ -1,6 +1,5 @@
 import { Link } from "react-router";
 import type { StepResult } from "../../../components/MiniConstellation/MiniConstellation";
-import { greekLetter } from "../../../lib/sky";
 import type { StarPlay } from "../../../types";
 import styles from "./StarReplay.module.css";
 
@@ -62,7 +61,7 @@ export function StarReplay({ star, nextStar, courseKey, results, onRetry }: Prop
         </div>
 
         <p className={styles.kicker}>
-          <b>{greekLetter(star.position - 1)}</b> {star.title}
+          <b>{star.letter}</b> {star.title}
         </p>
         <h1 className={styles.title}>{bad ? "Repaso terminado" : "Repaso perfecto"}</h1>
         <p className={styles.lead}>
@@ -84,7 +83,7 @@ export function StarReplay({ star, nextStar, courseKey, results, onRetry }: Prop
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" />
                 </svg>
-                Seguir con {greekLetter(next.position - 1)} {next.title}
+                Seguir con {next.letter} {next.title}
               </Link>
             </>
           ) : (

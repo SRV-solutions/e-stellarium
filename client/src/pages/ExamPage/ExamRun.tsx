@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../auth/useAuth";
 import { api, ApiError } from "../../lib/api";
-import { greekLetter } from "../../lib/sky";
 import type { AnswerResponse, ExamInfo, ExamProgress, StudentQuestion } from "../../types";
 import game from "../GamePage/GamePage.module.css";
 import { ChoiceGame } from "../GamePage/games/ChoiceGame";
@@ -137,7 +136,7 @@ export function ExamRun({ info, initial, onFinished }: Props) {
           </div>
         </div>
         <p className={game.where}>
-          <b>{greekLetter(info.star.position - 1)}</b>
+          <b>{info.star.letter}</b>
           {info.star.title}, pregunta {position} de {total} <em className={styles.keepsGoing}>· si salís, el reloj sigue</em>
         </p>
       </header>

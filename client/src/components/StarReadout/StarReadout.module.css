@@ -15,7 +15,8 @@
 
 /* La letra griega grande, solo con el contorno */
 .letter {
-  width: 1.1ch;
+  min-width: 1.1ch;
+  white-space: nowrap;
   font-family: var(--greek);
   font-style: italic;
   font-weight: 500;
@@ -24,6 +25,14 @@
   text-align: center;
   color: transparent;
   -webkit-text-stroke: 1.5px var(--orange);
+}
+
+/* El número de la letra (el ² de κ²): chico y arriba */
+.letterIndex {
+  font-size: 0.38em;
+  vertical-align: top;
+  margin-left: 0.04em;
+  -webkit-text-stroke-width: 1px;
 }
 
 .ordinal {

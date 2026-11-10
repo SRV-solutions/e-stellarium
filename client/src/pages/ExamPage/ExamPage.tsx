@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import { useAuth } from "../../auth/useAuth";
 import { api, ApiError } from "../../lib/api";
-import { greekLetter } from "../../lib/sky";
 import { formatMoment } from "../../lib/time";
 import type { ExamInfo, ExamProgress } from "../../types";
 import { Countdown } from "./Countdown";
@@ -77,7 +76,7 @@ export function ExamPage() {
   const { info } = view;
   const kicker = (
     <p className={styles.kicker}>
-      <b>{greekLetter(info.star.position - 1)}</b> {info.star.title} de {info.course.name}
+      <b>{info.star.letter}</b> {info.star.title} de {info.course.name}
     </p>
   );
 

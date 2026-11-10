@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { greekLetter, ordinal } from "../../../lib/sky";
+import { ordinal } from "../../../lib/sky";
 import { xpToGain } from "../../../lib/xp";
 import type { StarSummary } from "../../../types";
 import styles from "./NextStar.module.css";
@@ -23,7 +23,7 @@ export function NextStar({ sighting, show }: Props) {
       <>
         <p className={styles.state}>{ordinal(index)}, lista para encender</p>
         <h2 className={styles.name}>
-          <i>{greekLetter(index)}</i>
+          <i>{star.letter}</i>
           {star.title}
         </h2>
         <p className={styles.course}>

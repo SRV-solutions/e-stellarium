@@ -3,7 +3,6 @@ import { flushSync } from "react-dom";
 import { Link, useParams } from "react-router";
 import { useStar } from "../../hooks/useStar";
 import { useAuth } from "../../auth/useAuth";
-import { greekLetter } from "../../lib/sky";
 import { burst, centerOf, travel } from "../../lib/effects";
 import { useAnimatedNumber } from "../../hooks/useAnimatedNumber";
 import {
@@ -247,7 +246,7 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
           </span>
         </div>
         <p className={styles.where}>
-          <b>{greekLetter(star.position - 1)}</b>
+          <b>{star.letter}</b>
           {star.title}, {progress}
         </p>
       </header>

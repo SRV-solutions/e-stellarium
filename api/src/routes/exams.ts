@@ -45,7 +45,7 @@ examsRouter.get("/exams/:starId", requireAuth, async (req, res) => {
   const earned = await Coupon.count({ where: { userId } });
 
   res.json({
-    star: { id: star.id, title: star.title, position: star.position },
+    star: { id: star.id, title: star.title, position: star.position, letter: "Ω" },
     course: { key: constellation.Product!.key, name: constellation.Product!.name },
     constellationId: constellation.id,
     state,

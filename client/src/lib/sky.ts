@@ -1,10 +1,3 @@
-const GREEK = "αβγδεζηθικλμνξοπρστυφχψω";
-
-// La letra griega de la estrella en esa posición (desde 0). Después de la 24.ª, un número
-export function greekLetter(index: number) {
-  return GREEK[index] ?? String(index + 1);
-}
-
 const ORDINALS = [
   "Primera", "Segunda", "Tercera", "Cuarta", "Quinta", "Sexta", "Séptima", "Octava",
   "Novena", "Décima", "Undécima", "Duodécima",
