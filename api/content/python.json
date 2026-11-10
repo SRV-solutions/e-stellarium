@@ -74,6 +74,135 @@
   ],
   "stars": [
     {
+      "slug": "py-primeros-pasos",
+      "module": 1,
+      "title": "Primeros pasos",
+      "description": "Las herramientas, el intérprete, las etapas de programar y tu primer Hola mundo.",
+      "questions": [
+        {
+          "slug": "py-pp-interprete",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "herramientas",
+          "prompt": "¿Para qué sirve el intérprete de Python?",
+          "content": {
+            "options": [
+              "Lee y ejecuta tus archivos .py",
+              "Es el editor donde escribís el código",
+              "Guarda las versiones de tu código",
+              "Es la terminal para moverte entre carpetas"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Sin el intérprete, la computadora no entiende el código Python. El editor es VS Code y la terminal, Git Bash."
+        },
+        {
+          "slug": "py-pp-hola",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "print",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "# Mi primer programa en Python\nprint(\"Hola mundo\")",
+            "options": [
+              "Hola mundo",
+              "# Mi primer programa en Python\nHola mundo",
+              "\"Hola mundo\"",
+              "print(Hola mundo)"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La línea que empieza con # es un comentario: Python la ignora. print muestra el texto sin las comillas."
+        },
+        {
+          "slug": "py-pp-path",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "herramientas",
+          "prompt": "Al instalar Python en Windows, ¿qué opción es obligatorio marcar?",
+          "content": {
+            "options": [
+              "\"Add python.exe to PATH\"",
+              "\"Install for all users\"",
+              "\"Disable path length limit\"",
+              "\"Install launcher\""
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Sin ella, la terminal no encuentra Python y no vas a poder ejecutar tus archivos. Si te la olvidaste, lo más simple es reinstalar marcándola."
+        },
+        {
+          "slug": "py-pp-etapas",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "programación",
+          "prompt": "¿Cuál es el orden de las etapas de la programación?",
+          "content": {
+            "options": [
+              "Identificar el problema, diseñar una solución, codificar, depurar, implementar",
+              "Codificar, identificar el problema, depurar, diseñar, implementar",
+              "Diseñar, codificar, implementar, identificar el problema, depurar",
+              "Identificar el problema, codificar, implementar, diseñar, depurar"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Programar no es solo escribir código: primero se entiende el problema y se diseña, y después de codificar se depura y se pone a funcionar."
+        },
+        {
+          "slug": "py-pp-orden-terminal",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "terminal",
+          "prompt": "Ordená los comandos para crear la carpeta, el archivo y ejecutarlo.",
+          "content": {
+            "lines": [
+              "mkdir workspace",
+              "cd workspace",
+              "echo 'print(\"Hola mundo\")' > holamundo.py",
+              "python holamundo.py"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "Hola mundo"
+          },
+          "explanation": "Primero se crea la carpeta, se entra, se crea el archivo adentro y recién ahí se ejecuta. La terminal tiene que estar en la carpeta del archivo."
+        },
+        {
+          "slug": "py-pp-no-existe",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "terminal",
+          "prompt": "Ejecutás py holamundo.py y la terminal dice que el archivo no existe, aunque lo creaste. ¿Cuál es la causa más probable?",
+          "content": {
+            "options": [
+              "La terminal no está parada en la carpeta donde está el archivo",
+              "El archivo tiene un comentario",
+              "Falta instalar VS Code",
+              "print está mal escrito"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Para ejecutar un archivo, la terminal tiene que estar en su carpeta. Con ls ves qué hay y con cd entrás a otra carpeta."
+        }
+      ]
+    },
+    {
       "slug": "py-variables-print",
       "module": 2,
       "title": "Variables y print",
@@ -325,6 +454,142 @@
       ]
     },
     {
+      "slug": "py-fstrings",
+      "module": 2,
+      "title": "Pedir datos y mostrarlos",
+      "description": "input(), las f-strings, snake_case y convertir el texto que llega en número.",
+      "questions": [
+        {
+          "slug": "py-fs-fstring",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "f-strings",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "nombre = \"Agustín\"\nedad = 23\nprint(f\"Hola, me llamo {nombre} y tengo {edad} años\")",
+            "options": [
+              "Hola, me llamo Agustín y tengo 23 años",
+              "Hola, me llamo {nombre} y tengo {edad} años",
+              "Hola, me llamo nombre y tengo edad años",
+              "f\"Hola, me llamo Agustín y tengo 23 años\""
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En una f-string (con f antes de las comillas), lo que va entre llaves se reemplaza por el valor de la variable."
+        },
+        {
+          "slug": "py-fs-snake",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "¿Cuál de estos nombres sigue la convención de Python?",
+          "content": {
+            "options": [
+              "nombre_animal",
+              "nombreAnimal",
+              "NombreAnimal",
+              "nombre-animal"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Python usa snake_case: minúsculas separadas por guion bajo. camelCase es de JavaScript, y con guion medio Python lo leería como una resta."
+        },
+        {
+          "slug": "py-fs-input-str",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "input",
+          "prompt": "El usuario escribe 20 en input(\"Edad: \"). ¿De qué tipo es lo que devuelve input?",
+          "content": {
+            "options": [
+              "str: input siempre devuelve texto",
+              "int, porque escribió un número",
+              "float",
+              "Depende de lo que escriba"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Aunque el usuario escriba un número, input devuelve un string. Para hacer cuentas hay que convertirlo con int() o float()."
+        },
+        {
+          "slug": "py-fs-concat-espacios",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "variables",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "nombre = \"Agustín\"\nprint(\"Hola, mi nombre es\" + nombre)",
+            "options": [
+              "Hola, mi nombre esAgustín",
+              "Hola, mi nombre es Agustín",
+              "Hola, mi nombre es nombre",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Al concatenar con + no se agrega ningún espacio: hay que dejarlo dentro de las comillas. Con coma, print sí pone el espacio."
+        },
+        {
+          "slug": "py-fs-fill-convertir",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "conversión",
+          "prompt": "Completá para que imprima La suma es 15 (los números llegaron como texto, como de un input).",
+          "content": {
+            "code": "numero1 = \"10\"\nnumero2 = \"5\"\nprint(f\"La suma es {___(numero1) ___ int(numero2)}\")",
+            "blanks": [
+              [
+                "int",
+                "str",
+                "len"
+              ],
+              [
+                "+",
+                "*",
+                "-"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "La suma es 15"
+          },
+          "explanation": "Sin convertir, \"10\" + \"5\" daría \"105\". Con int() los dos pasan a número y se suman."
+        },
+        {
+          "slug": "py-fs-division-entera",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "operadores",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "print(17 // 5, 17 % 5)",
+            "options": [
+              "3 2",
+              "3.4 2",
+              "2 3",
+              "3 0"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "// es la división entera: 17 entre 5 da 3, sin decimales. % es el resto: 5 × 3 = 15 y sobran 2."
+        }
+      ]
+    },
+    {
       "slug": "py-condicionales",
       "module": 3,
       "title": "Condicionales",
@@ -459,6 +724,2695 @@
             "output": "par"
           },
           "explanation": "% da el resto de la división. Un número es par si el resto de dividirlo por 2 es 0."
+        }
+      ]
+    },
+    {
+      "slug": "py-logica",
+      "module": 3,
+      "title": "and, or y not",
+      "description": "Combinar condiciones, las tablas de verdad, comparaciones encadenadas y la sangría.",
+      "questions": [
+        {
+          "slug": "py-log-and",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "operadores lógicos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "x = 5\ny = 10\nprint(x > 3 and y < 15)",
+            "options": [
+              "True",
+              "False",
+              "5",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "and es verdadero solo si las dos condiciones lo son: 5 > 3 y 10 < 15 se cumplen."
+        },
+        {
+          "slug": "py-log-tres",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "operadores lógicos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "x = 4\nprint(x > 2 and x < 3, x > 2 or x < 3, not x == 4)",
+            "options": [
+              "False True False",
+              "True True False",
+              "False False True",
+              "False True True"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "and pide las dos (4 < 3 falla), or alcanza con una (4 > 2) y not invierte: x == 4 es True, así que da False."
+        },
+        {
+          "slug": "py-log-encadenar",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "comparación",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "edad = 15\nprint(13 <= edad < 20)",
+            "options": [
+              "True",
+              "False",
+              "Error",
+              "15"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Python permite encadenar comparaciones como en matemática: es lo mismo que edad >= 13 and edad < 20."
+        },
+        {
+          "slug": "py-log-fill-or",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "operadores lógicos",
+          "prompt": "Completá para que imprima fin de semana.",
+          "content": {
+            "code": "dia = \"domingo\"\nif dia == \"sábado\" ___ dia == \"domingo\":\n    print(\"fin de semana\")\nelse:\n    print(\"día hábil\")",
+            "blanks": [
+              [
+                "or",
+                "and",
+                "not"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "fin de semana"
+          },
+          "explanation": "Con or alcanza con que se cumpla una. Con and haría falta que el día sea sábado y domingo a la vez, y eso nunca pasa."
+        },
+        {
+          "slug": "py-log-sangria",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "if",
+          "prompt": "Verdadero o falso: si olvidás la sangría dentro de un if, Python lo ejecuta igual.",
+          "content": {
+            "options": [
+              "Falso: da un IndentationError",
+              "Verdadero",
+              "Verdadero, pero muestra un aviso",
+              "Falso: el if se saltea sin avisar"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Python usa la sangría para saber qué está dentro del bloque. Sin ella, no puede seguir."
+        },
+        {
+          "slug": "py-log-orden-validar",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "if",
+          "prompt": "Ordená las líneas para que imprima Nota inválida.",
+          "content": {
+            "lines": [
+              "nota = 110",
+              "if nota < 0 or nota > 100:",
+              "    print(\"Nota inválida\")",
+              "elif nota >= 70:",
+              "    print(\"Bueno\")"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "output": "Nota inválida"
+          },
+          "explanation": "La validación va primero: 110 no está entre 0 y 100, así que se ejecuta ese bloque y el elif se ignora."
+        }
+      ]
+    },
+    {
+      "slug": "py-listas",
+      "module": 4,
+      "title": "Listas y matrices",
+      "description": "Guardar varios datos bajo un nombre: índices, índices negativos, matrices y los métodos de listas.",
+      "questions": [
+        {
+          "slug": "py-lis-indice",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "listas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "lista_nombres = [\"Agustín\", \"Marcos\", \"Fabio\", \"Rocky\"]\nprint(lista_nombres[1])",
+            "options": [
+              "Marcos",
+              "Agustín",
+              "Fabio",
+              "Rocky"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los índices empiezan en 0: Agustín es el 0 y Marcos el 1."
+        },
+        {
+          "slug": "py-lis-negativo",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "listas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "letras = [\"a\", \"b\", \"c\", \"d\"]\nprint(letras[-1], letras[-2])",
+            "options": [
+              "d c",
+              "a b",
+              "c d",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los índices negativos cuentan desde el final: -1 es el último y -2 el anteúltimo."
+        },
+        {
+          "slug": "py-lis-matriz",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "listas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "matriz = [\n    [0, 1, 2],\n    [3, 4, 5],\n    [6, 7, 8],\n]\nprint(matriz[1][2])",
+            "options": [
+              "5",
+              "7",
+              "3",
+              "1"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El primer índice elige la fila (la [3, 4, 5]) y el segundo, la columna: el elemento 2 de esa fila es 5."
+        },
+        {
+          "slug": "py-lis-metodos",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "listas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "numeros = [1, 2, 3]\nnumeros.append(4)\nnumeros.extend([5, 6, 7])\ndel numeros[2]\nnumeros.pop()\nprint(numeros)",
+            "options": [
+              "[1, 2, 4, 5, 6]",
+              "[1, 2, 3, 4, 5, 6]",
+              "[1, 3, 4, 5, 6]",
+              "[1, 2, 4, 5, 6, 7]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "append agrega el 4, extend suma 5, 6 y 7, del borra el índice 2 (el 3) y pop saca el último (el 7)."
+        },
+        {
+          "slug": "py-lis-fill-append",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "listas",
+          "prompt": "Completá para que imprima ['pan', 'leche'] 2.",
+          "content": {
+            "code": "compras = [\"pan\"]\ncompras.___(\"leche\")\nprint(compras, ___(compras))",
+            "blanks": [
+              [
+                "append",
+                "extend",
+                "pop"
+              ],
+              [
+                "len",
+                "str",
+                "index"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "['pan', 'leche'] 2"
+          },
+          "explanation": "append agrega un elemento al final y len devuelve la cantidad. Con extend(\"leche\") se agregaría letra por letra."
+        },
+        {
+          "slug": "py-lis-orden-cambiar",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "listas",
+          "prompt": "Ordená las líneas para que imprima ['Agustín', 24, 'Argentina'].",
+          "content": {
+            "lines": [
+              "lista_persona = [\"Agustín\", 23, \"Argentina\"]",
+              "pais = lista_persona.pop()",
+              "lista_persona.pop()",
+              "lista_persona.append(24)",
+              "lista_persona.append(pais)",
+              "print(lista_persona)"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "output": "['Agustín', 24, 'Argentina']"
+          },
+          "explanation": "Es el ejercicio del módulo con pop y append: se guarda el país (el último) para no perderlo, se saca la edad, y se agregan el 24 y el país de nuevo."
+        }
+      ]
+    },
+    {
+      "slug": "py-tuplas-dicts",
+      "module": 4,
+      "title": "Tuplas y diccionarios",
+      "description": "Los tipos compuestos: la tupla que no cambia y el diccionario de pares clave: valor.",
+      "questions": [
+        {
+          "slug": "py-tup-dict-clave",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "diccionarios",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "persona = {\n    \"nombre\": \"Agustín\",\n    \"edad\": 23,\n    \"pais\": \"Argentina\"\n}\nprint(persona[\"pais\"])",
+            "options": [
+              "Argentina",
+              "pais",
+              "2",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En un diccionario no se accede por posición, sino por el nombre de la clave."
+        },
+        {
+          "slug": "py-tup-simbolos",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "tipos compuestos",
+          "prompt": "¿Con qué símbolos se escriben las listas, las tuplas y los diccionarios?",
+          "content": {
+            "options": [
+              "Listas [ ], tuplas ( ), diccionarios { }",
+              "Listas ( ), tuplas [ ], diccionarios { }",
+              "Listas { }, tuplas ( ), diccionarios [ ]",
+              "Los tres con corchetes [ ]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Corchetes para listas, paréntesis para tuplas y llaves para diccionarios."
+        },
+        {
+          "slug": "py-tup-inmutable",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "tuplas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "mi_tupla = (1, 2, 3)\ntry:\n    mi_tupla[0] = \"Agustín\"\nexcept TypeError:\n    print(\"No se puede\")\nprint(mi_tupla)",
+            "options": [
+              "No se puede\n(1, 2, 3)",
+              "('Agustín', 2, 3)",
+              "No se puede\n('Agustín', 2, 3)",
+              "(1, 2, 3)"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Las tuplas son inmutables: intentar cambiar un elemento da TypeError, y la tupla queda igual."
+        },
+        {
+          "slug": "py-tup-fstring-dict",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "diccionarios",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "persona = {\"nombre\": \"Ana\", \"edad\": 30}\nprint(f\"{persona['nombre']} tiene {persona['edad']} años\")",
+            "options": [
+              "Ana tiene 30 años",
+              "nombre tiene edad años",
+              "{persona['nombre']} tiene {persona['edad']} años",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Dentro de una f-string con comillas dobles, la clave del diccionario va con comillas simples."
+        },
+        {
+          "slug": "py-tup-fill-modificar",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "diccionarios",
+          "prompt": "Completá para que imprima 24.",
+          "content": {
+            "code": "persona = {\"nombre\": \"Agustín\", \"edad\": 23}\npersona[___] = 24\nprint(persona[\"edad\"])",
+            "blanks": [
+              [
+                "\"edad\"",
+                "\"nombre\"",
+                "1"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "24"
+          },
+          "explanation": "Los diccionarios son mutables: con la clave se cambia su valor. persona[1] crearía otra clave, el número 1."
+        },
+        {
+          "slug": "py-tup-un-elemento",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "tuplas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "print(type((5)), type((5,)))",
+            "options": [
+              "<class 'int'> <class 'tuple'>",
+              "<class 'tuple'> <class 'tuple'>",
+              "<class 'int'> <class 'int'>",
+              "<class 'tuple'> <class 'int'>"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Una tupla de un solo elemento necesita la coma. Sin ella, (5) es el número 5 entre paréntesis."
+        }
+      ]
+    },
+    {
+      "slug": "py-modulos",
+      "module": 5,
+      "title": "import, datetime y math",
+      "description": "Sumar funcionalidades ya escritas: las dos formas de importar, las fechas y la matemática.",
+      "questions": [
+        {
+          "slug": "py-mod-import",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "módulos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "import math\nprint(math.sqrt(16))",
+            "options": [
+              "4.0",
+              "4",
+              "16",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con import math se trae el módulo entero, y sus funciones se usan con el nombre del módulo adelante. sqrt devuelve un decimal."
+        },
+        {
+          "slug": "py-mod-fecha",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "datetime",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "from datetime import date\nmi_fecha = date(2024, 12, 31)\nprint(mi_fecha)",
+            "options": [
+              "2024-12-31",
+              "31-12-2024",
+              "31/12/2024",
+              "date(2024, 12, 31)"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "date recibe año, mes y día, y se muestra en ese mismo orden: es el formato internacional ISO 8601."
+        },
+        {
+          "slug": "py-mod-floor-ceil",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "math",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "import math\nprint(math.floor(5.9), math.ceil(5.1), math.trunc(-4.9))",
+            "options": [
+              "5 6 -4",
+              "6 6 -5",
+              "5 5 -4",
+              "5 6 -5"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "floor redondea hacia abajo, ceil hacia arriba y trunc elimina la parte decimal (con -4.9 queda -4)."
+        },
+        {
+          "slug": "py-mod-comparar-fechas",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "datetime",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "from datetime import date\nfecha1 = date(2024, 12, 30)\nfecha2 = date(2024, 12, 31)\nprint(fecha1 < fecha2, fecha1 == fecha2)",
+            "options": [
+              "True False",
+              "False False",
+              "False True",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Las fechas se comparan con los operadores de siempre: una fecha anterior es \"menor\" que una posterior."
+        },
+        {
+          "slug": "py-mod-fill-from",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "módulos",
+          "prompt": "Completá para importar solo date y usarla directamente: que imprima 2025.",
+          "content": {
+            "code": "___ datetime ___ date\nprint(date(2025, 1, 1).year)",
+            "blanks": [
+              [
+                "from",
+                "import",
+                "use"
+              ],
+              [
+                "import",
+                "from",
+                "as"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "2025"
+          },
+          "explanation": "from módulo import parte trae solo una parte, que después se usa sin el nombre del módulo adelante."
+        },
+        {
+          "slug": "py-mod-factorial",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "math",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "import math\nprint(math.factorial(5), math.pow(2, 3))",
+            "options": [
+              "120 8.0",
+              "120 8",
+              "15 8.0",
+              "25 6.0"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "5! es 5 × 4 × 3 × 2 × 1 = 120. math.pow siempre devuelve un decimal, a diferencia de 2 ** 3, que da 8."
+        }
+      ]
+    },
+    {
+      "slug": "py-random",
+      "module": 5,
+      "title": "Números al azar",
+      "description": "El módulo random: randint, choice, shuffle y por qué no llamar a tu archivo random.py.",
+      "questions": [
+        {
+          "slug": "py-ran-randint-6",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "random",
+          "prompt": "¿random.randint(1, 6) puede devolver el 6?",
+          "content": {
+            "options": [
+              "Sí: los dos extremos están incluidos",
+              "No: el último no se incluye",
+              "Solo si se llama dos veces",
+              "No: devuelve decimales"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "randint(a, b) da un entero entre a y b, ambos incluidos. Ideal para simular un dado."
+        },
+        {
+          "slug": "py-ran-choice",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "random",
+          "prompt": "¿Qué función usarías para elegir un ganador al azar de una lista de participantes?",
+          "content": {
+            "options": [
+              "random.choice(lista)",
+              "random.shuffle(lista)",
+              "random.randint(lista)",
+              "random.random(lista)"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "choice devuelve un elemento al azar. shuffle mezcla la lista entera, sin devolver un ganador."
+        },
+        {
+          "slug": "py-ran-random",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "random",
+          "prompt": "¿Qué devuelve random.random()?",
+          "content": {
+            "options": [
+              "Un decimal aleatorio entre 0 y 1",
+              "Un entero aleatorio entre 0 y 100",
+              "Un elemento de una lista",
+              "Siempre el mismo número"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Para decimales en otro rango está random.uniform(a, b)."
+        },
+        {
+          "slug": "py-ran-shuffle",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "random",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "import random\nnumeros = [1, 2, 3, 4, 5]\nrandom.shuffle(numeros)\nprint(len(numeros), sum(numeros))",
+            "options": [
+              "5 15",
+              "5 1",
+              "1 15",
+              "Cambia en cada ejecución"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "shuffle mezcla la lista como un mazo de cartas: cambia el orden, pero siguen siendo los mismos 5 números, que suman 15."
+        },
+        {
+          "slug": "py-ran-nombre-archivo",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "random",
+          "prompt": "¿Por qué no conviene llamar a tu archivo random.py?",
+          "content": {
+            "options": [
+              "Porque Python importa tu archivo en lugar del módulo real y aparecen errores raros",
+              "Porque Python no acepta archivos con nombres en inglés",
+              "Porque random es una palabra reservada",
+              "Porque el archivo se borra al ejecutarlo"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Al hacer import random, Python busca primero en tu carpeta. Llamalo aleatorio.py o algo distinto."
+        },
+        {
+          "slug": "py-ran-orden-mayor",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "random",
+          "prompt": "Ordená las líneas para que imprima 7 es mayor que 3 (con números fijos en vez de al azar).",
+          "content": {
+            "lines": [
+              "numero1 = 3",
+              "numero2 = numero1 + 4",
+              "if numero1 > numero2:",
+              "    print(f\"{numero1} es mayor que {numero2}\")",
+              "else:",
+              "    print(f\"{numero2} es mayor que {numero1}\")"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "output": "7 es mayor que 3"
+          },
+          "explanation": "Es el ejercicio del módulo: numero2 se calcula a partir de numero1 (vale 7), se comparan y se muestra el mayor primero. Como 3 no es mayor que 7, va por el else."
+        }
+      ]
+    },
+    {
+      "slug": "py-while",
+      "module": 6,
+      "title": "El bucle while",
+      "description": "Repetir mientras se cumpla una condición, el bucle infinito, break y los acumuladores.",
+      "questions": [
+        {
+          "slug": "py-whi-contador",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "while",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "contador = 0\nwhile contador < 3:\n    print(contador)\n    contador += 1",
+            "options": [
+              "0\n1\n2",
+              "0\n1\n2\n3",
+              "1\n2\n3",
+              "3"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Cuando contador vale 3, la condición 3 < 3 es falsa y el bucle termina sin imprimirlo."
+        },
+        {
+          "slug": "py-whi-infinito",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "while",
+          "prompt": "Un while quedó en un bucle infinito. ¿Cómo frenás el programa?",
+          "content": {
+            "options": [
+              "Con Ctrl + C",
+              "Con Ctrl + Z",
+              "Escribiendo break en la terminal",
+              "Cerrando VS Code y volviendo a abrirlo"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Para que no pase, dentro del bucle algo tiene que volver falsa la condición, como contador += 1."
+        },
+        {
+          "slug": "py-whi-break",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "while",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "n = 0\nwhile True:\n    n += 2\n    if n > 5:\n        break\nprint(n)",
+            "options": [
+              "6",
+              "5",
+              "4",
+              "Se queda trabado"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "while True repite para siempre, y break lo corta en el momento: n pasa por 2, 4 y 6, y al llegar a 6 se cumple n > 5."
+        },
+        {
+          "slug": "py-whi-validar",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "while",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "intentos = [9000, -3, 200]\ni = 0\nsaldo = intentos[i]\nwhile saldo < 1 or saldo > 5000:\n    print(\"Cantidad incorrecta\")\n    i += 1\n    saldo = intentos[i]\nprint(\"Depósito de\", saldo)",
+            "options": [
+              "Cantidad incorrecta\nCantidad incorrecta\nDepósito de 200",
+              "Depósito de 9000",
+              "Cantidad incorrecta\nDepósito de 200",
+              "Cantidad incorrecta\nDepósito de -3"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es la validación del depósito, con los intentos en una lista en vez de input. 9000 y -3 están fuera del rango; recién 200 sale del bucle."
+        },
+        {
+          "slug": "py-whi-fill",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "while",
+          "prompt": "Completá para que imprima 5 4 3 2 1 en renglones distintos.",
+          "content": {
+            "code": "n = 5\nwhile n ___ 0:\n    print(n)\n    n ___ 1",
+            "blanks": [
+              [
+                ">",
+                ">=",
+                "<"
+              ],
+              [
+                "-=",
+                "+=",
+                "="
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "5\n4\n3\n2\n1"
+          },
+          "explanation": "Mientras n sea mayor que 0 se imprime y se le resta 1. Con >= también imprimiría el 0."
+        },
+        {
+          "slug": "py-whi-orden-acumular",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "while",
+          "prompt": "Ordená las líneas para que imprima 3, 2, 1 y después fin.",
+          "content": {
+            "lines": [
+              "n = 4",
+              "while n > 1:",
+              "    n -= 1",
+              "    print(n)",
+              "print(\"fin\")"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "output": "3\n2\n1\nfin"
+          },
+          "explanation": "Dentro del bucle primero se resta y después se imprime: al revés, se verían 4, 3 y 2. El print de fin va afuera, sin sangría, para que salga una sola vez al terminar."
+        }
+      ]
+    },
+    {
+      "slug": "py-for",
+      "module": 6,
+      "title": "El bucle for",
+      "description": "Recorrer iterables con for y range, por elemento o por índice, y más métodos de listas.",
+      "questions": [
+        {
+          "slug": "py-for-range",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "for",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "for numero in range(4):\n    print(numero)",
+            "options": [
+              "0\n1\n2\n3",
+              "1\n2\n3\n4",
+              "0\n1\n2\n3\n4",
+              "4"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "range(4) genera del 0 al 3: el número final no se incluye."
+        },
+        {
+          "slug": "py-for-string",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "for",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "contador = 0\nfor letra in \"Python\":\n    contador += 1\nprint(contador)",
+            "options": [
+              "6",
+              "1",
+              "5",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Un string es iterable: el for lo recorre letra por letra. Es como medir su largo a mano."
+        },
+        {
+          "slug": "py-for-range-paso",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "for",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "print(list(range(2, 11, 2)), list(range(5, 0, -1)))",
+            "options": [
+              "[2, 4, 6, 8, 10] [5, 4, 3, 2, 1]",
+              "[2, 4, 6, 8] [5, 4, 3, 2, 1, 0]",
+              "[2, 4, 6, 8, 10] [5, 4, 3, 2, 1, 0]",
+              "[2, 11, 2] [5, 0, -1]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "range(inicio, fin, paso): el fin nunca se incluye. Con paso negativo cuenta hacia atrás."
+        },
+        {
+          "slug": "py-for-indice",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "for",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "frutas = [\"banana\", \"manzana\"]\nfor i in range(len(frutas)):\n    print(i, frutas[i])",
+            "options": [
+              "0 banana\n1 manzana",
+              "1 banana\n2 manzana",
+              "banana\nmanzana",
+              "0\n1"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Recorrer por índice sirve cuando necesitás la posición: range(len(frutas)) da 0 y 1."
+        },
+        {
+          "slug": "py-for-metodos",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "listas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "lista = [1, 2, 3]\nlista.insert(1, 10)\nlista.remove(10)\nlista += [10, 10, 10]\nprint(lista.count(10))",
+            "options": [
+              "3",
+              "4",
+              "1",
+              "0"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "insert pone el 10 en el índice 1, remove lo saca (por valor), y después se suman tres 10."
+        },
+        {
+          "slug": "py-for-entero",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "for",
+          "prompt": "¿Qué pasa con for x in 5: print(x)?",
+          "content": {
+            "options": [
+              "Da un TypeError: un entero no es iterable",
+              "Imprime del 0 al 4",
+              "Imprime 5",
+              "Imprime del 1 al 5"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "for necesita un iterable: una lista, un string, un diccionario o un range. Para repetir 5 veces, range(5)."
+        }
+      ]
+    },
+    {
+      "slug": "py-funciones",
+      "module": 7,
+      "title": "Funciones",
+      "description": "def, parámetros y argumentos, return y las cuatro combinaciones de funciones.",
+      "questions": [
+        {
+          "slug": "py-fun-def",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "funciones",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "def saludar_al_mundo():\n    print(\"Hola mundo\")\n\nfor _ in range(2):\n    saludar_al_mundo()",
+            "options": [
+              "Hola mundo\nHola mundo",
+              "Hola mundo",
+              "No imprime nada",
+              "saludar_al_mundo\nsaludar_al_mundo"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Se escribe una vez y se reutiliza: el for la llama dos veces."
+        },
+        {
+          "slug": "py-fun-return",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "funciones",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "def sumar_dos_numeros(numero1: int, numero2: int) -> int:\n    resultado = numero1 + numero2\n    return resultado\n\ntotal = sumar_dos_numeros(10, 5)\nprint(total * 2)",
+            "options": [
+              "30",
+              "15",
+              "105",
+              "None"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "return devuelve el resultado, y quien la llama lo guarda y lo usa: 15 por 2 es 30."
+        },
+        {
+          "slug": "py-fun-none",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "funciones",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "def saludar():\n    print(\"Hola\")\n\nprint(saludar())",
+            "options": [
+              "Hola\nNone",
+              "Hola",
+              "None",
+              "Hola\nHola"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Toda función devuelve algo: si no tiene return, devuelve None. Primero se ve el saludo y después lo que devolvió."
+        },
+        {
+          "slug": "py-fun-despues-return",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "funciones",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "def probar():\n    return \"listo\"\n    print(\"después\")\n\nprint(probar())",
+            "options": [
+              "listo",
+              "después\nlisto",
+              "listo\ndespués",
+              "None"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Cuando Python llega a un return, la función termina. Lo que está debajo no se ejecuta."
+        },
+        {
+          "slug": "py-fun-fill-paridad",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "funciones",
+          "prompt": "Completá validar_paridad para que imprima True False.",
+          "content": {
+            "code": "def validar_paridad(numero: int) -> bool:\n    es_par = False\n    if numero ___ 2 == 0:\n        es_par = True\n    ___ es_par\n\nprint(validar_paridad(2), validar_paridad(3))",
+            "blanks": [
+              [
+                "%",
+                "//",
+                "/"
+              ],
+              [
+                "return",
+                "print",
+                "pass"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "True False"
+          },
+          "explanation": "Un número es par si el resto de dividirlo por 2 es 0. Y la función tiene que devolver la bandera con return."
+        },
+        {
+          "slug": "py-fun-anotaciones",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "funciones",
+          "prompt": "Verdadero o falso: si una función tiene la anotación numero: int, Python da error si le pasás un texto.",
+          "content": {
+            "options": [
+              "Falso: las anotaciones son descriptivas, Python no obliga a respetarlas",
+              "Verdadero",
+              "Verdadero, salvo que el texto sea un número",
+              "Falso: Python lo convierte a int solo"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Le indican a otro programador qué tipo se espera. Con un texto, doble(\"ab\") daría \"abab\" sin ningún error."
+        }
+      ]
+    },
+    {
+      "slug": "py-scope",
+      "module": 7,
+      "title": "Scope y funciones que colaboran",
+      "description": "Variables locales y globales, valores por defecto y funciones que se usan entre sí.",
+      "questions": [
+        {
+          "slug": "py-sco-local",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "scope",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "def saludar():\n    mensaje = \"Hola\"\n\nsaludar()\ntry:\n    print(mensaje)\nexcept NameError:\n    print(\"No existe afuera\")",
+            "options": [
+              "No existe afuera",
+              "Hola",
+              "None",
+              "mensaje"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Una variable creada dentro de una función es local: solo existe ahí adentro."
+        },
+        {
+          "slug": "py-sco-global-leer",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "scope",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "nombre = \"Ana\"\n\ndef saludar():\n    print(\"Hola\", nombre)\n\nsaludar()",
+            "options": [
+              "Hola Ana",
+              "Hola nombre",
+              "Error",
+              "Hola"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Una variable global, creada fuera de toda función, se puede leer desde cualquier parte del archivo."
+        },
+        {
+          "slug": "py-sco-if-no-scope",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "scope",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "if True:\n    color = \"azul\"\nprint(color)",
+            "options": [
+              "azul",
+              "Error",
+              "None",
+              "color"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En Python, los bloques if, while y for no crean un ámbito propio: solo las funciones y las clases. color existe después del if."
+        },
+        {
+          "slug": "py-sco-defecto",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "funciones",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "def saludar(nombre=\"amigo\"):\n    return f\"Hola, {nombre}\"\n\nprint(saludar(), \"/\", saludar(\"Ana\"))",
+            "options": [
+              "Hola, amigo / Hola, Ana",
+              "Hola, Ana / Hola, Ana",
+              "Hola, amigo / Hola, amigo",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Un parámetro con valor por defecto se usa cuando no le pasás ese argumento."
+        },
+        {
+          "slug": "py-sco-colaboran",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "funciones",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "def validar_numero_en_rango(numero, minimo, maximo):\n    return minimo <= numero <= maximo\n\ndef filtrar(numeros, minimo, maximo):\n    validos = []\n    for n in numeros:\n        if validar_numero_en_rango(n, minimo, maximo):\n            validos.append(n)\n    return validos\n\nprint(filtrar([0, 5, 20, 15], 1, 15))",
+            "options": [
+              "[5, 15]",
+              "[5]",
+              "[0, 5, 20, 15]",
+              "[0, 20]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Cada función hace una sola tarea: una valida y la otra junta los válidos. El rango incluye los extremos, así que el 15 entra."
+        },
+        {
+          "slug": "py-sco-orden-medir",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "funciones",
+          "prompt": "Ordená las líneas de medir_iterable (un len casero) para que imprima 6.",
+          "content": {
+            "lines": [
+              "def medir_iterable(iterable):",
+              "    contador = 0",
+              "    for _ in iterable:",
+              "        contador += 1",
+              "    return contador",
+              "print(medir_iterable(\"Python\"))"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "output": "6"
+          },
+          "explanation": "El contador arranca en 0, suma 1 por cada vuelta y se devuelve al final, afuera del for (si el return estuviera adentro, devolvería 1)."
+        }
+      ]
+    },
+    {
+      "slug": "py-algoritmos",
+      "module": 8,
+      "title": "Ordenar a mano",
+      "description": "El swap, el burbuja del curso, la inserción y la selección.",
+      "questions": [
+        {
+          "slug": "py-alg-swap",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "ordenamiento",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "lista = [9, 4]\nauxiliar = lista[0]\nlista[0] = lista[1]\nlista[1] = auxiliar\nprint(lista)",
+            "options": [
+              "[4, 9]",
+              "[9, 4]",
+              "[4, 4]",
+              "[9, 9]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La variable auxiliar guarda el 9 antes de pisarlo, así no se pierde ningún dato."
+        },
+        {
+          "slug": "py-alg-swap-una-linea",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "ordenamiento",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "lista = [1, 2, 3]\nlista[0], lista[2] = lista[2], lista[0]\nprint(lista)",
+            "options": [
+              "[3, 2, 1]",
+              "[1, 2, 3]",
+              "[3, 2, 3]",
+              "[1, 2, 1]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En Python el swap se hace en una sola línea y sin variable auxiliar."
+        },
+        {
+          "slug": "py-alg-burbuja",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "ordenamiento",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "lista = [3, -5, 9, 1]\nfor i in range(len(lista) - 1):\n    for j in range(i + 1, len(lista)):\n        if lista[i] > lista[j]:\n            lista[i], lista[j] = lista[j], lista[i]\nprint(lista)",
+            "options": [
+              "[-5, 1, 3, 9]",
+              "[9, 3, 1, -5]",
+              "[3, -5, 9, 1]",
+              "[-5, 3, 1, 9]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es el burbuja del curso: el bucle de afuera se para en una posición y el de adentro la compara con todas las que siguen."
+        },
+        {
+          "slug": "py-alg-fill-descendente",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "ordenamiento",
+          "prompt": "Completá para que el burbuja ordene de mayor a menor: que imprima [9, 5, 2].",
+          "content": {
+            "code": "lista = [2, 9, 5]\nfor i in range(len(lista) - 1):\n    for j in range(i + 1, len(lista)):\n        if lista[i] ___ lista[j]:\n            lista[i], lista[j] = lista[j], lista[i]\nprint(lista)",
+            "blanks": [
+              [
+                "<",
+                ">",
+                "=="
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "[9, 5, 2]"
+          },
+          "explanation": "Para el orden descendente, el único cambio es dar vuelta la comparación: > ordena de menor a mayor y < de mayor a menor."
+        },
+        {
+          "slug": "py-alg-insercion",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "ordenamiento",
+          "prompt": "¿Cuál es la idea del insertion sort?",
+          "content": {
+            "options": [
+              "Tomar cada elemento e insertarlo en su lugar entre los ya ordenados, corriendo los mayores a la derecha",
+              "Buscar el mínimo de lo que falta y ponerlo en su lugar",
+              "Comparar cada posición con todas las siguientes e intercambiar",
+              "Mezclar la lista hasta que quede ordenada"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Como cuando ordenás las cartas en la mano. Arranca en el índice 1, porque el primero solo ya está \"ordenado\"."
+        },
+        {
+          "slug": "py-alg-seleccion",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "ordenamiento",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "lista = [5, 2, 9, 1, 4]\nintercambios = 0\nfor i in range(len(lista)):\n    indice_minimo = i\n    for j in range(i + 1, len(lista)):\n        if lista[j] < lista[indice_minimo]:\n            indice_minimo = j\n    if indice_minimo != i:\n        lista[i], lista[indice_minimo] = lista[indice_minimo], lista[i]\n        intercambios += 1\nprint(lista, intercambios)",
+            "options": [
+              "[1, 2, 4, 5, 9] 2",
+              "[1, 2, 4, 5, 9] 5",
+              "[1, 2, 4, 5, 9] 10",
+              "[9, 5, 4, 2, 1] 2"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El selection sort primero encuentra el mínimo y recién después lo mueve: hace como mucho un intercambio por vuelta. Acá alcanzó con 2: en las otras vueltas el mínimo ya estaba en su lugar."
+        }
+      ]
+    },
+    {
+      "slug": "py-sort",
+      "module": 8,
+      "title": "sort() y sorted()",
+      "description": "Lo que Python ya trae: ordenar la lista original o pedir una nueva, en los dos sentidos.",
+      "questions": [
+        {
+          "slug": "py-sor-sort",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "sort",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "lista = [5, 2, 9, 1, 4]\nlista.sort()\nprint(lista)",
+            "options": [
+              "[1, 2, 4, 5, 9]",
+              "[9, 5, 4, 2, 1]",
+              "[5, 2, 9, 1, 4]",
+              "None"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "sort ordena la lista original de menor a mayor."
+        },
+        {
+          "slug": "py-sor-reverse",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "sort",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "lista = [5, 2, 9]\nlista.sort(reverse=True)\nprint(lista)",
+            "options": [
+              "[9, 5, 2]",
+              "[2, 5, 9]",
+              "[9, 2, 5]",
+              "[5, 2, 9]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con reverse=True ordena de mayor a menor."
+        },
+        {
+          "slug": "py-sor-sorted",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "sort",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "otra = [3, 1, 2]\nordenada = sorted(otra)\nprint(otra, ordenada)",
+            "options": [
+              "[3, 1, 2] [1, 2, 3]",
+              "[1, 2, 3] [1, 2, 3]",
+              "[3, 1, 2] None",
+              "None [1, 2, 3]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "sorted devuelve una lista nueva ordenada y deja la original como estaba."
+        },
+        {
+          "slug": "py-sor-sort-none",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "sort",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "lista = [3, 1, 2]\nresultado = lista.sort()\nprint(resultado)",
+            "options": [
+              "None",
+              "[1, 2, 3]",
+              "[3, 1, 2]",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "sort ordena la lista original y no devuelve nada (None). Si querés una lista nueva, sorted(lista)."
+        },
+        {
+          "slug": "py-sor-textos",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "sort",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "nombres = [\"Marcos\", \"agustín\", \"Fabio\"]\nprint(sorted(nombres))",
+            "options": [
+              "['Fabio', 'Marcos', 'agustín']",
+              "['agustín', 'Fabio', 'Marcos']",
+              "['Marcos', 'Fabio', 'agustín']",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los textos se ordenan alfabéticamente, pero las mayúsculas van antes que las minúsculas. Por eso \"agustín\" queda último."
+        },
+        {
+          "slug": "py-sor-orden",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "sort",
+          "prompt": "Ordená las líneas para que imprima 3 (la nota más alta menos la más baja).",
+          "content": {
+            "lines": [
+              "notas = [7, 4, 6]",
+              "notas.sort()",
+              "diferencia = notas[-1] - notas[0]",
+              "print(diferencia)"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "3"
+          },
+          "explanation": "Una vez ordenada, la más baja queda en el índice 0 y la más alta en el -1: 7 - 4 = 3. Sin ordenar antes daría 6 - 7."
+        }
+      ]
+    },
+    {
+      "slug": "py-clases",
+      "module": 9,
+      "title": "Clases y objetos",
+      "description": "El molde y lo que sale de él: __init__, self, atributos, métodos y encapsulamiento.",
+      "questions": [
+        {
+          "slug": "py-cla-init",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "POO",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Persona:\n    def __init__(self, nombre, edad):\n        self.nombre = nombre\n        self.edad = edad\n\npersona = Persona(\"Agustín\", 24)\nprint(persona.nombre)",
+            "options": [
+              "Agustín",
+              "nombre",
+              "24",
+              "Persona"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Al instanciar, __init__ se ejecuta solo y le asigna los atributos al objeto. Con el punto se leen."
+        },
+        {
+          "slug": "py-cla-metodo",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "POO",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Coche:\n    def __init__(self, marca, modelo):\n        self.marca = marca\n        self.modelo = modelo\n\n    def describir(self):\n        print(f\"Este coche es un {self.marca} {self.modelo}\")\n\nmi_coche = Coche(\"Toyota\", \"Corolla\")\nmi_coche.describir()",
+            "options": [
+              "Este coche es un Toyota Corolla",
+              "Este coche es un {self.marca} {self.modelo}",
+              "Este coche es un marca modelo",
+              "No imprime nada"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es el ejercicio del módulo: dentro del método, self es el objeto, así que self.marca es \"Toyota\"."
+        },
+        {
+          "slug": "py-cla-solo-clase",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "POO",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "print(\"inicio\")\n\nclass Persona:\n    def saludar(self):\n        print(\"Hola\")\n\nprint(\"fin\")",
+            "options": [
+              "inicio\nfin",
+              "inicio\nHola\nfin",
+              "Hola",
+              "inicio"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Escribir la clase no crea ningún objeto ni ejecuta sus métodos. Para eso hay que instanciarla y llamar a saludar()."
+        },
+        {
+          "slug": "py-cla-dos-objetos",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "POO",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Contador:\n    def __init__(self):\n        self.valor = 0\n\n    def sumar(self):\n        self.valor += 1\n\na = Contador()\nb = Contador()\na.sumar()\na.sumar()\nb.sumar()\nprint(a.valor, b.valor)",
+            "options": [
+              "2 1",
+              "3 3",
+              "1 1",
+              "2 2"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los objetos comparten la estructura, pero cada uno tiene sus propios datos."
+        },
+        {
+          "slug": "py-cla-fill-self",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "POO",
+          "prompt": "Completá para que imprima Firulais.",
+          "content": {
+            "code": "class Perro:\n    def ___(self, nombre):\n        ___.nombre = nombre\n\nprint(Perro(\"Firulais\").nombre)",
+            "blanks": [
+              [
+                "__init__",
+                "init",
+                "constructor"
+              ],
+              [
+                "self",
+                "this",
+                "nombre"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "Firulais"
+          },
+          "explanation": "El constructor se llama __init__, con dos guiones bajos de cada lado, y self.nombre guarda el atributo en el objeto."
+        },
+        {
+          "slug": "py-cla-privado",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "encapsulamiento",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Cuenta:\n    def __init__(self):\n        self.__saldo = 100\n\n    def ver_saldo(self):\n        return self.__saldo\n\nc = Cuenta()\ntry:\n    print(c.__saldo)\nexcept AttributeError:\n    print(\"privado\", c.ver_saldo())",
+            "options": [
+              "privado 100",
+              "100",
+              "None",
+              "privado None"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con dos guiones bajos, Python oculta el atributo y no se accede con ese nombre desde afuera. Desde un método de la clase, sí."
+        }
+      ]
+    },
+    {
+      "slug": "py-herencia",
+      "module": 9,
+      "title": "Herencia y polimorfismo",
+      "description": "Clases hijas que heredan con super() y el mismo método que hace algo distinto en cada una.",
+      "questions": [
+        {
+          "slug": "py-her-hereda",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "herencia",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Animal:\n    def __init__(self, nombre):\n        self.nombre = nombre\n\n    def hablar(self):\n        print(f\"{self.nombre} hace un sonido\")\n\nclass Perro(Animal):\n    pass\n\nPerro(\"Firulais\").hablar()",
+            "options": [
+              "Firulais hace un sonido",
+              "Error: Perro no tiene hablar",
+              "No imprime nada",
+              "Perro hace un sonido"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Perro no tiene ningún método hablar, pero lo puede usar porque lo heredó de Animal."
+        },
+        {
+          "slug": "py-her-super",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "herencia",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Animal:\n    def __init__(self, nombre):\n        self.nombre = nombre\n\nclass Perro(Animal):\n    def __init__(self, nombre, raza):\n        super().__init__(nombre)\n        self.raza = raza\n\nmi_perro = Perro(\"Firulais\", \"Pastor alemán\")\nprint(mi_perro.nombre, \"-\", mi_perro.raza)",
+            "options": [
+              "Firulais - Pastor alemán",
+              "None - Pastor alemán",
+              "Firulais - None",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "super().__init__(nombre) reutiliza el constructor del padre para el nombre, y después Perro suma su atributo propio."
+        },
+        {
+          "slug": "py-her-polimorfismo",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "polimorfismo",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Animal:\n    def hablar(self):\n        return \"...\"\n\nclass Perro(Animal):\n    def hablar(self):\n        return \"guau\"\n\nclass Vaca(Animal):\n    def hablar(self):\n        return \"muu\"\n\nfor animal in [Perro(), Animal(), Vaca()]:\n    print(animal.hablar())",
+            "options": [
+              "guau\n...\nmuu",
+              "...\n...\n...",
+              "guau\nguau\nmuu",
+              "guau\nmuu"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Polimorfismo: el mismo método hace algo distinto según el objeto. Cada hija sobrescribe hablar; Animal usa el suyo."
+        },
+        {
+          "slug": "py-her-fill",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "herencia",
+          "prompt": "Completá para que Gato herede de Animal e imprima Michi.",
+          "content": {
+            "code": "class Animal:\n    def __init__(self, nombre):\n        self.nombre = nombre\n\nclass Gato(___):\n    def __init__(self, nombre):\n        ___().__init__(nombre)\n\nprint(Gato(\"Michi\").nombre)",
+            "blanks": [
+              [
+                "Animal",
+                "self",
+                "object"
+              ],
+              [
+                "super",
+                "self",
+                "Animal"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "Michi"
+          },
+          "explanation": "La clase padre va entre paréntesis al definir la hija, y super() da acceso al padre para reutilizar su constructor."
+        },
+        {
+          "slug": "py-her-pilares",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "POO",
+          "prompt": "¿Cuáles son los cuatro pilares de la programación orientada a objetos?",
+          "content": {
+            "options": [
+              "Encapsulamiento, herencia, polimorfismo y abstracción",
+              "Clases, objetos, métodos y atributos",
+              "Variables, funciones, bucles y condicionales",
+              "Listas, tuplas, diccionarios y sets"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La abstracción es quedarse con lo esencial: para manejar un auto no necesitás saber cómo funciona el motor."
+        },
+        {
+          "slug": "py-her-todo-objeto",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "POO",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "print(\"hola\".upper(), type(5).__name__)",
+            "options": [
+              "HOLA int",
+              "hola int",
+              "HOLA 5",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En Python todo es un objeto: los strings tienen métodos como upper(), y hasta un número es un objeto de la clase int."
+        }
+      ]
+    },
+    {
+      "slug": "py-excepciones",
+      "module": 10,
+      "title": "try y except",
+      "description": "Reconocer los errores por su nombre y atraparlos para que el programa no se rompa.",
+      "questions": [
+        {
+          "slug": "py-exc-value",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "errores",
+          "prompt": "¿Qué error aparece al hacer int(\"hola\")?",
+          "content": {
+            "options": [
+              "ValueError",
+              "TypeError",
+              "KeyError",
+              "IndexError"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "ValueError: falla una conversión de tipo. \"hola\" no se puede convertir en un número."
+        },
+        {
+          "slug": "py-exc-key",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "errores",
+          "prompt": "¿Qué error aparece al hacer {\"nombre\": \"Agus\"}[\"edad\"]?",
+          "content": {
+            "options": [
+              "KeyError",
+              "IndexError",
+              "ValueError",
+              "AttributeError"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "KeyError: la clave no existe en el diccionario. Con un índice de lista fuera de rango sería IndexError."
+        },
+        {
+          "slug": "py-exc-varios-except",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "try/except",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "for dato in [\"abc\", \"0\", \"5\"]:\n    try:\n        resultado = 10 / int(dato)\n    except ValueError:\n        print(\"Debés ingresar un número\")\n    except ZeroDivisionError:\n        print(\"No se puede dividir por cero\")\n    else:\n        print(f\"El resultado es {resultado}\")",
+            "options": [
+              "Debés ingresar un número\nNo se puede dividir por cero\nEl resultado es 2.0",
+              "Debés ingresar un número\nNo se puede dividir por cero\nEl resultado es 2",
+              "Debés ingresar un número",
+              "El resultado es 2.0"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Cada except atrapa un tipo de error. \"abc\" da ValueError, \"0\" da ZeroDivisionError y con \"5\" no hay error: corre el else."
+        },
+        {
+          "slug": "py-exc-attribute",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "errores",
+          "prompt": "¿Qué error da \"hola\".append(\"!\")?",
+          "content": {
+            "options": [
+              "AttributeError",
+              "TypeError",
+              "ValueError",
+              "NameError"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "AttributeError: el objeto no tiene ese método. append es de las listas, no de los strings."
+        },
+        {
+          "slug": "py-exc-fill",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "try/except",
+          "prompt": "Completá para que imprima Ocurrió un error: division by zero.",
+          "content": {
+            "code": "try:\n    print(10 / 0)\n___ Exception ___ e:\n    print(f\"Ocurrió un error: {e}\")",
+            "blanks": [
+              [
+                "except",
+                "catch",
+                "else"
+              ],
+              [
+                "as",
+                "in",
+                "is"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "Ocurrió un error: division by zero"
+          },
+          "explanation": "except Exception as e atrapa cualquier error y lo guarda con el alias e, para mostrar su mensaje."
+        },
+        {
+          "slug": "py-exc-finally",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "try/except",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "try:\n    print(\"A\")\n    int(\"x\")\n    print(\"B\")\nexcept ValueError:\n    print(\"C\")\nelse:\n    print(\"D\")\nfinally:\n    print(\"E\")",
+            "options": [
+              "A\nC\nE",
+              "A\nB\nC\nE",
+              "A\nC\nD\nE",
+              "A\nE"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Al fallar int(\"x\") se saltea el resto del try (B). Corre el except (C), el else no (hubo error) y finally corre siempre (E)."
+        }
+      ]
+    },
+    {
+      "slug": "py-archivos",
+      "module": 10,
+      "title": "Leer y escribir archivos",
+      "description": "with open, los modos r, w y a, y las formas de leer un archivo.",
+      "questions": [
+        {
+          "slug": "py-arc-escribir-leer",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "archivos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "with open(\"archivo.txt\", \"w\") as archivo:\n    archivo.write(\"Esto es SRV\")\n\nwith open(\"archivo.txt\", \"r\") as archivo:\n    print(archivo.read())",
+            "options": [
+              "Esto es SRV",
+              "archivo.txt",
+              "None",
+              "Error: el archivo no existe"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El modo \"w\" crea el archivo si no existe y escribe. Después \"r\" lo lee, y read() trae todo el texto."
+        },
+        {
+          "slug": "py-arc-w-pisa",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "archivos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "with open(\"notas.txt\", \"w\") as f:\n    f.write(\"uno\\n\")\nwith open(\"notas.txt\", \"w\") as f:\n    f.write(\"dos\\n\")\nwith open(\"notas.txt\", \"a\") as f:\n    f.write(\"tres\\n\")\nwith open(\"notas.txt\", \"r\") as f:\n    print(f.readlines())",
+            "options": [
+              "['dos\\n', 'tres\\n']",
+              "['uno\\n', 'dos\\n', 'tres\\n']",
+              "['tres\\n']",
+              "['uno\\n', 'tres\\n']"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "\"w\" borra todo lo que había y escribe lo nuevo: \"uno\" se pierde. \"a\" agrega al final sin borrar. readlines da una lista con cada renglón."
+        },
+        {
+          "slug": "py-arc-no-existe",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "archivos",
+          "prompt": "¿Qué pasa si abrís con modo \"r\" un archivo que no existe?",
+          "content": {
+            "options": [
+              "Da FileNotFoundError",
+              "Lo crea vacío",
+              "Devuelve None",
+              "Lo crea con el texto \"r\""
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "\"r\" solo lee. En cambio, \"w\" y \"a\" crean el archivo si no existe."
+        },
+        {
+          "slug": "py-arc-with",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "archivos",
+          "prompt": "¿Qué ventaja tiene usar with open() en lugar de open() solo?",
+          "content": {
+            "options": [
+              "Cierra el archivo solo al terminar el bloque, aunque te olvides",
+              "Lee el archivo más rápido",
+              "Permite abrir archivos que no existen",
+              "Convierte el contenido en números"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con with, al salir del bloque el archivo se cierra automáticamente."
+        },
+        {
+          "slug": "py-arc-end",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "archivos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "with open(\"lista.txt\", \"w\") as f:\n    f.write(\"pan\\nleche\\n\")\nwith open(\"lista.txt\", \"r\") as archivo:\n    for linea in archivo:\n        print(linea, end=\"\")\nprint(\"fin\")",
+            "options": [
+              "pan\nleche\nfin",
+              "pan\n\nleche\n\nfin",
+              "panlechefin",
+              "pan leche fin"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Cada línea ya trae su \\n al final. Con end=\"\", print no agrega otro, y no quedan renglones en blanco de más."
+        },
+        {
+          "slug": "py-arc-orden-suma",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "archivos",
+          "prompt": "Ordená las líneas para que imprima La suma es 15 (sumando los números de input.txt).",
+          "content": {
+            "lines": [
+              "with open(\"input.txt\", \"w\") as f: f.write(\"10\\n5\\n\")",
+              "with open(\"input.txt\", \"r\") as entrada: lineas = entrada.readlines()",
+              "suma = sum(int(linea) for linea in lineas)",
+              "print(f\"La suma es {suma}\")"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "La suma es 15"
+          },
+          "explanation": "Primero tiene que existir el archivo, después se leen sus renglones, se convierte cada uno a entero para sumar, y se muestra."
+        }
+      ]
+    },
+    {
+      "slug": "py-http",
+      "module": 11,
+      "title": "Peticiones HTTP",
+      "description": "Cliente y servidor, qué es una API, la librería requests y los códigos de estado.",
+      "questions": [
+        {
+          "slug": "py-htt-peticion",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "HTTP",
+          "prompt": "¿Qué es una petición HTTP?",
+          "content": {
+            "options": [
+              "Una solicitud que hace un cliente (un navegador, una app, tu programa) a un servidor para obtener información",
+              "Un error que aparece cuando no hay internet",
+              "Un archivo que se descarga solo",
+              "Un tipo de variable de Python"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El servidor recibe la petición y devuelve una respuesta. Así funciona cuando escribís una dirección en el navegador."
+        },
+        {
+          "slug": "py-htt-api",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "APIs",
+          "prompt": "¿Qué es una API?",
+          "content": {
+            "options": [
+              "Un conjunto de reglas que permite que dos programas se comuniquen entre sí",
+              "Un lenguaje de programación",
+              "Una base de datos",
+              "Un editor de código"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Application Programming Interface. Como el mozo de un restaurante: lleva tu pedido a la cocina (el servidor) y te trae el plato."
+        },
+        {
+          "slug": "py-htt-pip",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "requests",
+          "prompt": "¿Qué comando instala la librería requests?",
+          "content": {
+            "options": [
+              "pip install requests",
+              "import requests",
+              "npm install requests",
+              "python requests"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "requests no viene con Python: se instala desde la terminal con pip, el gestor de paquetes. Después se importa en el código."
+        },
+        {
+          "slug": "py-htt-get-post",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "HTTP",
+          "prompt": "¿Qué diferencia hay entre una petición GET y una POST?",
+          "content": {
+            "options": [
+              "GET obtiene información; POST envía información al servidor",
+              "GET envía y POST obtiene",
+              "GET es para textos y POST para imágenes",
+              "No hay diferencia"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En el curso se usa GET, para pedir datos a una API."
+        },
+        {
+          "slug": "py-htt-codigos",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "HTTP",
+          "prompt": "Una petición responde con el código 404. ¿Qué significa?",
+          "content": {
+            "options": [
+              "No se encontró lo que pediste",
+              "Todo salió bien",
+              "Hubo un error en el servidor",
+              "Soy una tetera"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "200 es éxito, 404 no encontrado y 500 error del servidor. El 418 (\"soy una tetera\") nació como broma en 1998."
+        },
+        {
+          "slug": "py-htt-sincronico",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "requests",
+          "prompt": "La librería requests, ¿trabaja de forma sincrónica o asincrónica?",
+          "content": {
+            "options": [
+              "Sincrónica: espera a que llegue la respuesta antes de seguir",
+              "Asincrónica: sigue con el programa mientras espera",
+              "Depende del código de estado",
+              "Asincrónica, por eso usa await"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Para tareas realmente asincrónicas, Python tiene async, await y el módulo asyncio."
+        }
+      ]
+    },
+    {
+      "slug": "py-json",
+      "module": 11,
+      "title": "Navegar la respuesta",
+      "description": "Recorrer lo que devuelve una API: diccionarios dentro de listas dentro de diccionarios.",
+      "questions": [
+        {
+          "slug": "py-jso-results",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "JSON",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "data = {\"results\": [{\"name\": \"bulbasaur\"}, {\"name\": \"ivysaur\"}]}\nprint(data[\"results\"][1][\"name\"])",
+            "options": [
+              "ivysaur",
+              "bulbasaur",
+              "name",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Se navega de afuera hacia adentro: la clave \"results\" es una lista, el índice 1 es un diccionario y \"name\" es su nombre."
+        },
+        {
+          "slug": "py-jso-json-loads",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "JSON",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "import json\ntexto = '{\"name\": \"Rick Sanchez\", \"species\": \"Human\"}'\ndata = json.loads(texto)\nprint(data[\"name\"], \"-\", data[\"species\"])",
+            "options": [
+              "Rick Sanchez - Human",
+              "name - species",
+              "Error",
+              "{\"name\": \"Rick Sanchez\"} - Human"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Las APIs responden en JSON, un texto parecido a los diccionarios de Python. Convertirlo es lo que hace .json() con la respuesta de requests."
+        },
+        {
+          "slug": "py-jso-buscar-url",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "JSON",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "data = {\"results\": [\n    {\"name\": \"bulbasaur\", \"url\": \"pokemon/1/\"},\n    {\"name\": \"charmander\", \"url\": \"pokemon/4/\"},\n]}\nfor pokemon in data[\"results\"]:\n    if pokemon[\"name\"] == \"charmander\":\n        url_pokemon = pokemon[\"url\"]\nprint(url_pokemon)",
+            "options": [
+              "pokemon/4/",
+              "pokemon/1/",
+              "charmander",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es lo que se hace con la PokeAPI: recorrer la lista general, encontrar el que buscás y guardar su URL para pedir sus datos."
+        },
+        {
+          "slug": "py-jso-cinco",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "JSON",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "data = {\"results\": [{\"name\": n} for n in [\"Rick\", \"Morty\", \"Summer\", \"Beth\", \"Jerry\", \"Abadango\"]]}\nfor i in range(3):\n    print(data[\"results\"][i][\"name\"])",
+            "options": [
+              "Rick\nMorty\nSummer",
+              "Rick\nMorty\nSummer\nBeth",
+              "Rick",
+              "Abadango\nJerry\nBeth"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Como en el ejercicio de Rick and Morty: range da los índices y con cada uno se lee el nombre de un personaje."
+        },
+        {
+          "slug": "py-jso-fill",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "JSON",
+          "prompt": "Completá para que imprima tackle.",
+          "content": {
+            "code": "data = {\"moves\": [{\"move\": {\"name\": \"tackle\"}}]}\nprint(data[___][0][___][\"name\"])",
+            "blanks": [
+              [
+                "\"moves\"",
+                "\"move\"",
+                "0"
+              ],
+              [
+                "\"move\"",
+                "\"moves\"",
+                "\"name\""
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "tackle"
+          },
+          "explanation": "Primero la lista \"moves\", su primer elemento (0), y adentro el diccionario \"move\", que tiene el nombre."
+        },
+        {
+          "slug": "py-jso-orden",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "JSON",
+          "prompt": "Ordená las líneas para que imprima 2 personajes.",
+          "content": {
+            "lines": [
+              "import json",
+              "data = json.loads('{\"results\": [{\"name\": \"Rick\"}, {\"name\": \"Morty\"}]}')",
+              "nombres = [personaje[\"name\"] for personaje in data[\"results\"]]",
+              "print(len(nombres), \"personajes\")"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "2 personajes"
+          },
+          "explanation": "Primero se importa json, después se convierte el texto en diccionario, se juntan los nombres de \"results\" y recién ahí se cuentan."
+        }
+      ]
+    },
+    {
+      "slug": "py-tkinter",
+      "module": 12,
+      "title": "Tu primera ventana",
+      "description": "Tkinter: la ventana, los widgets, pack, mainloop y conectar un botón con una función.",
+      "questions": [
+        {
+          "slug": "py-tk-gui",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "Tkinter",
+          "prompt": "¿Qué es una aplicación con interfaz gráfica (GUI)?",
+          "content": {
+            "options": [
+              "Una en la que el usuario interactúa con ventanas, botones y cajas de texto",
+              "Una que solo funciona en la consola",
+              "Una que se conecta a internet",
+              "Una que no necesita Python"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Como cualquier programa de escritorio. Hasta ahora, todos tus programas funcionaban en la consola."
+        },
+        {
+          "slug": "py-tk-instalar",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "Tkinter",
+          "prompt": "¿Hace falta instalar Tkinter aparte?",
+          "content": {
+            "options": [
+              "No: viene incluido con Python",
+              "Sí, con pip install tkinter",
+              "Sí, con npm",
+              "Solo en Windows"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Se importa directamente, con un alias más corto: import tkinter as tk."
+        },
+        {
+          "slug": "py-tk-mainloop",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Tkinter",
+          "prompt": "¿Qué pasa si te olvidás de ventana.mainloop()?",
+          "content": {
+            "options": [
+              "La ventana no aparece: mainloop es el bucle que la mantiene abierta y atenta al usuario",
+              "La ventana aparece sin título",
+              "Los botones no tienen texto",
+              "Nada: es opcional"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Las interfaces funcionan con programación orientada a eventos: el programa espera a que pase algo (un clic) y reacciona."
+        },
+        {
+          "slug": "py-tk-pack",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Tkinter",
+          "prompt": "Creaste un botón con tk.Button(...) pero no aparece en la ventana. ¿Qué te faltó?",
+          "content": {
+            "options": [
+              "Posicionarlo, por ejemplo con .pack()",
+              "Ponerle un color",
+              "Importar random",
+              "Llamar a la función del botón"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Crear un widget no lo muestra. pack() los acomoda uno debajo del otro, centrados."
+        },
+        {
+          "slug": "py-tk-command",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "Tkinter",
+          "prompt": "¿Por qué en command=mostrar_mensaje la función va sin paréntesis?",
+          "content": {
+            "options": [
+              "Porque se le pasa la función para que Tkinter la ejecute al hacer clic; con paréntesis se ejecutaría una sola vez al abrir",
+              "Porque Tkinter no acepta paréntesis",
+              "Porque la función no tiene parámetros",
+              "Es indistinto: con o sin paréntesis funciona igual"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "command=mostrar_mensaje() ejecuta la función en ese momento y le pasa al botón lo que devolvió (None): el botón no hace nada."
+        },
+        {
+          "slug": "py-tk-widgets",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Tkinter",
+          "prompt": "¿Qué widget usarías para mostrar texto, y cuál para que el usuario escriba?",
+          "content": {
+            "options": [
+              "tk.Label para mostrar; tk.Entry para escribir",
+              "tk.Entry para mostrar; tk.Label para escribir",
+              "tk.Button para los dos",
+              "tk.Frame para mostrar; tk.Listbox para escribir"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con .get() se lee lo que el usuario escribió en un Entry."
+        }
+      ]
+    },
+    {
+      "slug": "py-tk-proyectos",
+      "module": 12,
+      "title": "Adivinar y tareas",
+      "description": "La lógica de los dos proyectos: comparar la suposición, .get(), .config() y la lista de tareas.",
+      "questions": [
+        {
+          "slug": "py-tkp-adivinar",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "proyecto",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "numero_secreto = 42\n\ndef comprobar(suposicion):\n    if suposicion == numero_secreto:\n        return \"¡Felicidades! Adivinaste el número\"\n    elif suposicion < numero_secreto:\n        return \"Más alto. Intentá de nuevo\"\n    else:\n        return \"Más bajo. Intentá de nuevo\"\n\nprint(comprobar(50))",
+            "options": [
+              "Más bajo. Intentá de nuevo",
+              "Más alto. Intentá de nuevo",
+              "¡Felicidades! Adivinaste el número",
+              "50"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es la lógica del proyecto, sin la ventana: 50 es mayor que el secreto, así que hay que probar más bajo."
+        },
+        {
+          "slug": "py-tkp-get",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "Tkinter",
+          "prompt": "¿Qué método usás para leer lo que escribió el usuario en un Entry?",
+          "content": {
+            "options": [
+              ".get()",
+              ".config()",
+              ".pack()",
+              ".read()"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "entrada.get() devuelve el texto. Si es un número, hay que convertirlo con int()."
+        },
+        {
+          "slug": "py-tkp-config",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Tkinter",
+          "prompt": "¿Para qué sirve etiqueta.config(text=\"¡Hola!\")?",
+          "content": {
+            "options": [
+              "Para cambiar una propiedad (acá, el texto) de un widget ya creado",
+              "Para crear una etiqueta nueva",
+              "Para borrar la etiqueta",
+              "Para leer lo que escribió el usuario"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Así se actualiza la pantalla cuando el usuario hace algo, como en el resultado del juego de adivinar."
+        },
+        {
+          "slug": "py-tkp-if-tarea",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "proyecto",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "tareas = []\nfor tarea in [\"Estudiar\", \"\", \"Practicar\"]:\n    if tarea:\n        tareas.append(tarea)\n    else:\n        print(\"Por favor, ingresá una tarea\")\nprint(tareas)",
+            "options": [
+              "Por favor, ingresá una tarea\n['Estudiar', 'Practicar']",
+              "['Estudiar', '', 'Practicar']",
+              "['Estudiar', 'Practicar']",
+              "Por favor, ingresá una tarea"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "if tarea: pregunta si el texto no está vacío, porque un string vacío se considera falso. Es lo que hace agregar_tarea en la lista de tareas."
+        },
+        {
+          "slug": "py-tkp-fill-intentos",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "proyecto",
+          "prompt": "Completá el desafío de contar intentos: que imprima Adivinaste en 3 intentos.",
+          "content": {
+            "code": "secreto = 7\nintentos = 0\nfor suposicion in [3, 9, 7]:\n    intentos ___ 1\n    if suposicion ___ secreto:\n        print(f\"Adivinaste en {intentos} intentos\")",
+            "blanks": [
+              [
+                "+=",
+                "=",
+                "-="
+              ],
+              [
+                "==",
+                "!=",
+                "<"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "Adivinaste en 3 intentos"
+          },
+          "explanation": "El contador suma 1 por cada suposición, y se avisa cuando una es igual al secreto."
+        },
+        {
+          "slug": "py-tkp-try",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "proyecto",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "def comprobar(texto, secreto=10):\n    try:\n        suposicion = int(texto)\n    except ValueError:\n        return \"Escribí un número\"\n    return \"¡Adivinaste!\" if suposicion == secreto else \"Seguí probando\"\n\nprint(comprobar(\"diez\"), \"/\", comprobar(\"10\"))",
+            "options": [
+              "Escribí un número / ¡Adivinaste!",
+              "Seguí probando / ¡Adivinaste!",
+              "Escribí un número / Seguí probando",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es el otro desafío del proyecto: si lo que escribió no es un número, int() da ValueError y se muestra un aviso en vez de romperse."
+        }
+      ]
+    },
+    {
+      "slug": "py-bonus",
+      "module": 13,
+      "title": "Modularizar y contraseñas",
+      "description": "Importar tus propios archivos, el código ASCII con chr y ord, y el generador de contraseñas.",
+      "questions": [
+        {
+          "slug": "py-bon-que-es",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "modularización",
+          "prompt": "¿Qué es modularizar el código?",
+          "content": {
+            "options": [
+              "Dividirlo en varios archivos, cada uno con una responsabilidad",
+              "Escribir todo en un solo archivo",
+              "Borrar las funciones que no se usan",
+              "Instalar módulos con pip"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Un programa en un solo archivo se vuelve largo, poco legible y difícil de mantener."
+        },
+        {
+          "slug": "py-bon-importar-propio",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "modularización",
+          "prompt": "funciones.py tiene def mostrar_dato(dato): print(dato). ¿Qué imprime main.py?\n\nfrom funciones import mostrar_dato\nmostrar_dato(\"SRV\")",
+          "content": {
+            "options": [
+              "SRV",
+              "mostrar_dato",
+              "Error: no existe el módulo funciones",
+              "None"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Así como importabas random o math, podés importar tus propios archivos (sin el .py)."
+        },
+        {
+          "slug": "py-bon-chr-ord",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "ASCII",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "print(chr(65), ord(\"B\"))",
+            "options": [
+              "A 66",
+              "65 B",
+              "A B",
+              "66 A"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En el código ASCII cada carácter tiene un número. chr convierte el número en carácter (65 es la A) y ord hace lo contrario."
+        },
+        {
+          "slug": "py-bon-defecto",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "funciones",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "import random\n\ndef crear_password(longitud: int = 8) -> str:\n    password = \"\"\n    for _ in range(longitud):\n        password += chr(random.randint(33, 126))\n    return password\n\nprint(len(crear_password()), len(crear_password(20)))",
+            "options": [
+              "8 20",
+              "20 20",
+              "8 8",
+              "Cambia en cada ejecución"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La contraseña cambia, pero su largo no: sin argumento usa el valor por defecto (8), y con 20 genera 20 caracteres."
+        },
+        {
+          "slug": "py-bon-fill-chr",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "ASCII",
+          "prompt": "Completá para que imprima abc.",
+          "content": {
+            "code": "texto = \"\"\nfor numero in [97, 98, 99]:\n    texto += ___(numero)\nprint(texto)",
+            "blanks": [
+              [
+                "chr",
+                "ord",
+                "str"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "abc"
+          },
+          "explanation": "chr convierte cada número en su carácter: 97 es la a minúscula. str(97) daría el texto \"97\"."
+        },
+        {
+          "slug": "py-bon-main",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "modularización",
+          "prompt": "¿Para qué sirve el bloque if __name__ == \"__main__\": en un archivo de Python?",
+          "content": {
+            "options": [
+              "Para que esa parte solo se ejecute cuando corrés el archivo directamente, y no cuando otro lo importa",
+              "Para que el archivo no se pueda importar",
+              "Para definir la función principal obligatoria",
+              "Para que el archivo se ejecute dos veces"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es un buen próximo paso para tus proyectos modularizados."
         }
       ]
     },
@@ -1076,6 +4030,730 @@
         "correct": 0
       },
       "explanation": "int puede convertir el texto \"3\", pero no \"3.5\": da un ValueError. Con int(3.5), sin comillas, sí devuelve 3, porque ahí es un número."
+    },
+    {
+      "slug": "py-banco-alto-nivel",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "programación",
+      "module": 1,
+      "prompt": "Verdadero o falso: los lenguajes de alto nivel se parecen más al código binario que al lenguaje humano.",
+      "content": {
+        "options": [
+          "Falso: se parecen al lenguaje humano; los de bajo nivel se acercan al binario",
+          "Verdadero",
+          "Verdadero, salvo Python",
+          "Falso: ninguno se parece al binario"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Python, JavaScript y Java son de alto nivel. El lenguaje ensamblador es de bajo nivel."
+    },
+    {
+      "slug": "py-banco-comillas",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "print",
+      "module": 1,
+      "prompt": "¿Por qué \"Hola mundo\" va entre comillas dentro del print()?",
+      "content": {
+        "options": [
+          "Porque es una cadena de texto (string)",
+          "Porque es un comentario",
+          "Porque así se imprime en mayúsculas",
+          "Porque es el nombre de una variable"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin comillas, Python pensaría que Hola es el nombre de una variable y daría error."
+    },
+    {
+      "slug": "py-banco-constante",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "variables",
+      "module": 2,
+      "prompt": "¿Qué indica una variable escrita toda en mayúsculas, como TOKEN_APP?",
+      "content": {
+        "options": [
+          "Que es una constante: un dato que no va a cambiar",
+          "Que es más importante que las demás",
+          "Que es un texto",
+          "Python no permite mayúsculas en los nombres"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es una convención: Python no lo impide, pero avisa a quien lea el código que ese valor no se toca."
+    },
+    {
+      "slug": "py-banco-typeerror-suma",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "conversión",
+      "module": 2,
+      "prompt": "a = 10 y b = \"5\". ¿Cuál de estas líneas da 15?",
+      "content": {
+        "options": [
+          "a + int(b)",
+          "a + b",
+          "str(a) + b",
+          "int(a + b)"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "a + b da TypeError: Python no suma un número con un texto. str(a) + b da \"105\", porque los concatena."
+    },
+    {
+      "slug": "py-banco-or-tabla",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "operadores lógicos",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(False or False, True and False, not False)",
+        "options": [
+          "False False True",
+          "True False True",
+          "False True False",
+          "False False False"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "or es falso solo si las dos lo son; and es verdadero solo si las dos lo son; not invierte."
+    },
+    {
+      "slug": "py-banco-elif-cuantos",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "if",
+      "module": 3,
+      "prompt": "En un if-elif-elif, si dos condiciones son verdaderas, ¿cuántos bloques se ejecutan?",
+      "content": {
+        "options": [
+          "Uno solo: el de la primera condición verdadera",
+          "Los dos",
+          "Ninguno",
+          "Todos los del if-elif"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Python revisa las condiciones en orden y ejecuta solo la primera verdadera. Las demás se ignoran."
+    },
+    {
+      "slug": "py-banco-index-repetido",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "listas",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "empleados = [\"Marcos\", \"Agustín\", \"Marcos\"]\nprint(empleados.index(\"Marcos\"))",
+        "options": [
+          "0",
+          "2",
+          "[0, 2]",
+          "1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "index devuelve el índice de la primera aparición."
+    },
+    {
+      "slug": "py-banco-append-extend",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "listas",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "a = [1, 2]\nb = [1, 2]\na.append([3, 4])\nb.extend([3, 4])\nprint(len(a), len(b))",
+        "options": [
+          "3 4",
+          "4 4",
+          "3 3",
+          "4 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "append agrega la lista entera como un solo elemento; extend agrega cada elemento por separado."
+    },
+    {
+      "slug": "py-banco-matriz-tres",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "listas",
+      "module": 4,
+      "prompt": "Completá para que imprima 3.",
+      "content": {
+        "code": "matriz = [[1, 2], [3, 4]]\nprint(matriz[___][___])",
+        "blanks": [
+          [
+            "1",
+            "0",
+            "2"
+          ],
+          [
+            "0",
+            "1",
+            "2"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0,
+          0
+        ],
+        "output": "3"
+      },
+      "explanation": "El 3 está en la fila 1 (la segunda lista) y en la columna 0 (su primer elemento)."
+    },
+    {
+      "slug": "py-banco-import-vs-from",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "módulos",
+      "module": 5,
+      "prompt": "¿Cuál es la diferencia entre import math y from datetime import date?",
+      "content": {
+        "options": [
+          "import math trae el módulo entero (se usa math.sqrt); from ... import trae solo una parte, que se usa directo",
+          "import math es para números y from ... import es para fechas",
+          "No hay diferencia",
+          "from ... import es más lento"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con from datetime import date se escribe date(...) en vez de datetime.date(...)."
+    },
+    {
+      "slug": "py-banco-pi",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "math",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "import math\nprint(round(math.pi, 2))",
+        "options": [
+          "3.14",
+          "3.1416",
+          "3",
+          "math.pi"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "math.pi es la constante π (3.14159...). round(x, 2) la deja con dos decimales."
+    },
+    {
+      "slug": "py-banco-secrets",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "random",
+      "module": 5,
+      "prompt": "Para generar contraseñas seguras, ¿qué módulo conviene usar en vez de random?",
+      "content": {
+        "options": [
+          "secrets",
+          "math",
+          "datetime",
+          "random alcanza"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los números de random son pseudoaleatorios: salen de una fórmula. Para juegos está perfecto; para seguridad, secrets."
+    },
+    {
+      "slug": "py-banco-acumulador-lista",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "for",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "numeros = [1, 10, 15, 3]\nsuma = 0\nfor numero in numeros:\n    suma += numero\nprint(suma)",
+        "options": [
+          "29",
+          "4",
+          "15",
+          "1101153"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "suma es un acumulador: arranca en 0 antes del bucle y junta cada número en cada vuelta."
+    },
+    {
+      "slug": "py-banco-remove-del",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "listas",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "a = [5, 2, 8, 2]\nb = [5, 2, 8, 2]\na.remove(2)\ndel b[2]\nprint(a, b)",
+        "options": [
+          "[5, 8, 2] [5, 2, 2]",
+          "[5, 2, 8] [5, 2, 2]",
+          "[5, 8, 2] [5, 8, 2]",
+          "[5, 2, 8] [5, 2, 8]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "remove recibe un valor y borra su primera aparición. del recibe un índice: borra lo que está en la posición 2 (el 8)."
+    },
+    {
+      "slug": "py-banco-while-for",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "while",
+      "module": 6,
+      "prompt": "¿Cuándo conviene usar while y cuándo for?",
+      "content": {
+        "options": [
+          "while cuando no sabés cuántas veces se va a repetir; for cuando lo sabés o para recorrer una colección",
+          "while para listas y for para números",
+          "Siempre for: while es más lento",
+          "while para textos y for para todo lo demás"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Validar lo que ingresa el usuario es un caso típico de while: no sabés cuántas veces se va a equivocar."
+    },
+    {
+      "slug": "py-banco-parametro-argumento",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Cuál es la diferencia entre un parámetro y un argumento?",
+      "content": {
+        "options": [
+          "El parámetro es la variable que recibe el dato; el argumento es el valor que le pasás al llamarla",
+          "El argumento es la variable; el parámetro, el valor",
+          "Son lo mismo",
+          "Los parámetros son para textos y los argumentos para números"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En def sumar(a, b), a y b son parámetros. En sumar(10, 5), 10 y 5 son argumentos."
+    },
+    {
+      "slug": "py-banco-faltan-argumentos",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "numero1 = 10\nnumero2 = 5\n\ndef sumar(numero1, numero2):\n    return numero1 + numero2\n\ntry:\n    print(sumar())\nexcept TypeError:\n    print(\"Faltan argumentos\")",
+        "options": [
+          "Faltan argumentos",
+          "15",
+          "0",
+          "None"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Aunque afuera existan variables con esos nombres, la función solo conoce lo que recibe por parámetro."
+    },
+    {
+      "slug": "py-banco-una-tarea",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Por qué conviene que cada función haga una sola tarea?",
+      "content": {
+        "options": [
+          "Porque así es más fácil de entender, probar y reutilizar",
+          "Porque Python no permite funciones de más de una línea",
+          "Porque así se ejecuta más rápido",
+          "Porque cada función solo puede tener un parámetro"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si una función suma y además muestra, conviene dividirla en dos: una que calcule y otra que muestre."
+    },
+    {
+      "slug": "py-banco-sort-sorted",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "sort",
+      "module": 8,
+      "prompt": "¿Cuál es la diferencia entre lista.sort() y sorted(lista)?",
+      "content": {
+        "options": [
+          "sort() ordena la lista original; sorted() devuelve una lista nueva y no toca la original",
+          "sort() devuelve una lista nueva; sorted() ordena la original",
+          "sort() ordena números y sorted() textos",
+          "No hay diferencia"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Por eso lista.sort() devuelve None, y sorted(lista) se guarda en otra variable."
+    },
+    {
+      "slug": "py-banco-para-que-mano",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "ordenamiento",
+      "module": 8,
+      "prompt": "Si Python ya trae sort(), ¿por qué vale la pena aprender los algoritmos a mano?",
+      "content": {
+        "options": [
+          "Porque entender cómo funcionan por dentro entrena la lógica y ayuda a resolver problemas cuando algo falla",
+          "Porque sort() no funciona con números negativos",
+          "Porque los algoritmos a mano son más rápidos",
+          "Porque sort() no existe en Python 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La lógica de programación es lo que más se valora."
+    },
+    {
+      "slug": "py-banco-insercion-codigo",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "ordenamiento",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "lista = [5, 2, 9, 1]\nfor i in range(1, len(lista)):\n    valor_actual = lista[i]\n    j = i - 1\n    while j >= 0 and lista[j] > valor_actual:\n        lista[j + 1] = lista[j]\n        j -= 1\n    lista[j + 1] = valor_actual\nprint(lista)",
+        "options": [
+          "[1, 2, 5, 9]",
+          "[9, 5, 2, 1]",
+          "[2, 5, 9, 1]",
+          "[5, 2, 9, 1]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es el insertion sort: cada \"carta\" se inserta en su lugar entre las anteriores, corriendo las mayores a la derecha."
+    },
+    {
+      "slug": "py-banco-self",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "¿Qué representa self dentro de una clase?",
+      "content": {
+        "options": [
+          "Al propio objeto",
+          "A la clase padre",
+          "Al archivo actual",
+          "A la última variable creada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es obligatorio como primer parámetro de los métodos, y con self.atributo se accede a los datos del objeto."
+    },
+    {
+      "slug": "py-banco-protegido",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "encapsulamiento",
+      "module": 9,
+      "prompt": "En Python, ¿qué indica un atributo escrito como self._nombre (con un guion bajo)?",
+      "content": {
+        "options": [
+          "Que es protegido: por convención, no se toca desde afuera",
+          "Que es privado y Python lo oculta",
+          "Que es público",
+          "Que es una constante"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con un guion bajo es solo una convención. Con dos (self.__nombre), Python le cambia el nombre interno para ocultarlo."
+    },
+    {
+      "slug": "py-banco-mangling",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "encapsulamiento",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class Persona:\n    def __init__(self):\n        self.__nombre = \"Ana\"\n\np = Persona()\nprint(p._Persona__nombre)",
+        "options": [
+          "Ana",
+          "Error",
+          "None",
+          "__nombre"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La privacidad es un acuerdo: Python renombra el atributo a _Persona__nombre para que no se toque por accidente, pero con ese nombre se llega igual."
+    },
+    {
+      "slug": "py-banco-json-metodo",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "requests",
+      "module": 11,
+      "prompt": "¿Para qué sirve el método .json() de una respuesta de requests?",
+      "content": {
+        "options": [
+          "Convierte la respuesta JSON en diccionarios y listas de Python",
+          "Guarda la respuesta en un archivo",
+          "Muestra el código de estado",
+          "Envía datos al servidor"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Después se navega como cualquier diccionario: data[\"results\"]."
+    },
+    {
+      "slug": "py-banco-status-code",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "requests",
+      "module": 11,
+      "prompt": "¿Qué muestra print(respuesta.status_code) después de un requests.get() que salió bien?",
+      "content": {
+        "options": [
+          "200",
+          "404",
+          "500",
+          "True"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "status_code es el código de estado: 200 es que todo salió bien."
+    },
+    {
+      "slug": "py-banco-contar-json",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "JSON",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "data = {\"results\": [\n    {\"name\": \"Rick\", \"species\": \"Human\"},\n    {\"name\": \"Morty\", \"species\": \"Human\"},\n    {\"name\": \"Birdperson\", \"species\": \"Alien\"},\n]}\nhumanos = 0\nfor personaje in data[\"results\"]:\n    if personaje[\"species\"] == \"Human\":\n        humanos += 1\nprint(humanos)",
+        "options": [
+          "2",
+          "3",
+          "1",
+          "Human"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se recorre la lista de resultados y se cuenta con un contador los que cumplen la condición."
+    },
+    {
+      "slug": "py-banco-tk-alias",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Tkinter",
+      "module": 12,
+      "prompt": "En import tkinter as tk, ¿qué hace as tk?",
+      "content": {
+        "options": [
+          "Le da un alias más corto: después se escribe tk.Button en vez de tkinter.Button",
+          "Instala Tkinter",
+          "Abre una ventana",
+          "Importa solo los botones"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es el mismo as que se usa en except Exception as e o en with open(...) as archivo."
+    },
+    {
+      "slug": "py-banco-tk-end",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Tkinter",
+      "module": 12,
+      "prompt": "En lista_tareas.insert(tk.END, tarea), ¿qué significa tk.END?",
+      "content": {
+        "options": [
+          "Al final",
+          "Al principio",
+          "Terminar el programa",
+          "Borrar la lista"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La tarea nueva se agrega al final de la Listbox. entrada.delete(0, tk.END) borra desde el principio hasta el final."
+    },
+    {
+      "slug": "py-banco-idle",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "Tkinter",
+      "module": 12,
+      "prompt": "¿Qué aplicación que viene instalada con Python está hecha con Tkinter?",
+      "content": {
+        "options": [
+          "IDLE, el editor de Python",
+          "Visual Studio Code",
+          "Git Bash",
+          "pip"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Ya tenés en tu computadora una aplicación completa construida con la misma herramienta."
+    },
+    {
+      "slug": "py-banco-import-asterisco",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "modularización",
+      "module": 13,
+      "prompt": "¿Qué hace from funciones import *?",
+      "content": {
+        "options": [
+          "Importa todas las funciones del archivo funciones.py de una vez",
+          "Importa solo la primera función",
+          "Multiplica las funciones",
+          "Da error: * no se puede usar en un import"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es cómodo, pero en proyectos grandes conviene nombrar lo que importás, para saber de qué archivo viene cada función."
+    },
+    {
+      "slug": "py-banco-rango-ascii",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "ASCII",
+      "module": 13,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(chr(33), chr(126), ord(\"a\") - ord(\"A\"))",
+        "options": [
+          "! ~ 32",
+          "! ~ 0",
+          "33 126 32",
+          "A z 32"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Del 33 (!) al 126 (~) están las letras, los números y los símbolos que sirven para una contraseña. Entre la a y la A hay 32 lugares."
+    },
+    {
+      "slug": "py-banco-else-try",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "try/except",
+      "module": 10,
+      "prompt": "¿Cuándo se ejecuta el bloque else de un try?",
+      "content": {
+        "options": [
+          "Cuando no hubo ningún error en el try",
+          "Cuando hubo un error",
+          "Siempre",
+          "Nunca, else es solo para if"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Para \"siempre, haya error o no\" está finally."
+    },
+    {
+      "slug": "py-banco-read-readlines",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "archivos",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "with open(\"a.txt\", \"w\") as f:\n    f.write(\"uno\\ndos\")\nwith open(\"a.txt\") as f:\n    texto = f.read()\nwith open(\"a.txt\") as f:\n    lineas = f.readlines()\nprint(type(texto).__name__, len(lineas))",
+        "options": [
+          "str 2",
+          "list 2",
+          "str 7",
+          "list 7"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "read() trae todo en un solo string; readlines(), una lista con cada renglón."
+    },
+    {
+      "slug": "py-banco-index-error",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "errores",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "numeros = [1, 2, 3]\ntry:\n    print(numeros[10])\nexcept KeyError:\n    print(\"clave\")\nexcept IndexError:\n    print(\"índice\")",
+        "options": [
+          "índice",
+          "clave",
+          "None",
+          "Error sin atrapar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Acceder a un índice fuera de rango de una lista da IndexError. KeyError es para claves de diccionarios."
     }
   ],
   "challenges": [
@@ -1738,6 +5416,2099 @@
         "correct": 0
       },
       "explanation": "10 // 3 es la división entera (3) y 10 % 3 es lo que sobra (1). print los separa con un espacio."
+    },
+    {
+      "slug": "py-desafio-monty",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "programación",
+      "module": 1,
+      "prompt": "¿De dónde viene el nombre de Python?",
+      "content": {
+        "options": [
+          "Del grupo de humor británico Monty Python",
+          "De la serpiente pitón",
+          "De una isla griega",
+          "De las iniciales de su creador"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Guido van Rossum lo eligió por Monty Python. La primera versión salió en 1991."
+    },
+    {
+      "slug": "py-desafio-extension",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "herramientas",
+      "module": 1,
+      "prompt": "¿Qué extensión tienen los archivos de Python?",
+      "content": {
+        "options": [
+          ".py",
+          ".pt",
+          ".python",
+          ".js"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Así como JavaScript usa .js y Java .java, Python usa .py."
+    },
+    {
+      "slug": "py-desafio-dos-prints",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "print",
+      "module": 1,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(\"Hola\")\n# print(\"Chau\")\nprint(\"mundo\")",
+        "options": [
+          "Hola\nmundo",
+          "Hola\nChau\nmundo",
+          "Hola mundo",
+          "Hola"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La línea del medio es un comentario. Cada print, además, muestra su texto en un renglón nuevo."
+    },
+    {
+      "slug": "py-desafio-argumento",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "print",
+      "module": 1,
+      "prompt": "En print(\"Hola\"), ¿cómo se llama lo que va entre paréntesis?",
+      "content": {
+        "options": [
+          "Argumento",
+          "Variable",
+          "Comentario",
+          "Extensión"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "print() es una función que ya viene con Python, y lo que le pasás entre paréntesis es su argumento: lo que se va a mostrar."
+    },
+    {
+      "slug": "py-desafio-error-lens",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "herramientas",
+      "module": 1,
+      "prompt": "¿Qué hace la extensión Error Lens de VS Code?",
+      "content": {
+        "options": [
+          "Muestra los errores en tiempo real, al lado de la línea que falla",
+          "Corrige los errores sola",
+          "Ejecuta el código",
+          "Instala Python"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las extensiones son complementos opcionales. Error Lens te ahorra tiempo para encontrar dónde está el error."
+    },
+    {
+      "slug": "py-desafio-zen",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "programación",
+      "module": 1,
+      "prompt": "¿Qué aparece si ejecutás un archivo con import this?",
+      "content": {
+        "options": [
+          "El Zen de Python: 19 principios para escribir buen código",
+          "Un error, porque this no existe",
+          "La versión de Python",
+          "El nombre del archivo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Por ejemplo: \"lo simple es mejor que lo complejo\"."
+    },
+    {
+      "slug": "py-desafio-print-numero",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "print",
+      "module": 1,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(\"2 + 3\")\nprint(2 + 3)",
+        "options": [
+          "2 + 3\n5",
+          "5\n5",
+          "2 + 3\n2 + 3",
+          "5\n2 + 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Entre comillas es texto y se muestra tal cual. Sin comillas, Python hace la cuenta."
+    },
+    {
+      "slug": "py-desafio-orden-dos-saludos",
+      "type": "order_lines",
+      "difficulty": "easy",
+      "topic": "print",
+      "module": 1,
+      "prompt": "Ordená las líneas para que imprima Hola y después mundo.",
+      "content": {
+        "lines": [
+          "print(\"Hola\")",
+          "print(\"mundo\")"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1
+        ],
+        "output": "Hola\nmundo"
+      },
+      "explanation": "Python ejecuta las líneas de arriba hacia abajo, en orden."
+    },
+    {
+      "slug": "py-desafio-flotante",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "tipos",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(0.1 + 0.2)",
+        "options": [
+          "0.30000000000000004",
+          "0.3",
+          "0.30",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las computadoras guardan los decimales en binario, y 0.1 no se puede representar exacto. Pasa en casi todos los lenguajes."
+    },
+    {
+      "slug": "py-desafio-none",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "dato = None\nprint(type(dato))",
+        "options": [
+          "<class 'NoneType'>",
+          "<class 'None'>",
+          "None",
+          "<class 'str'>"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "None es el valor nulo: \"no hay nada\". Su tipo se llama NoneType."
+    },
+    {
+      "slug": "py-desafio-fstring-cuenta",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "f-strings",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "precio = 100\ncantidad = 3\nprint(f\"Total: {precio * cantidad}\")",
+        "options": [
+          "Total: 300",
+          "Total: {precio * cantidad}",
+          "Total: 1003",
+          "Total: 100 * 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Dentro de las llaves de una f-string también se pueden hacer cuentas: se muestra el resultado."
+    },
+    {
+      "slug": "py-desafio-str-mas-str",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "conversión",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "a = 10\nb = \"5\"\nprint(str(a) + b)",
+        "options": [
+          "105",
+          "15",
+          "Error",
+          "10 5"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "str(a) convierte el 10 en texto, y + entre dos textos los concatena."
+    },
+    {
+      "slug": "py-desafio-fill-fstring",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "f-strings",
+      "module": 2,
+      "prompt": "Completá para que imprima Vivo en Córdoba.",
+      "content": {
+        "code": "pais = \"Córdoba\"\nprint(___\"Vivo en {pais}\")",
+        "blanks": [
+          [
+            "f",
+            "s",
+            "r"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "Vivo en Córdoba"
+      },
+      "explanation": "La f antes de las comillas convierte el texto en una f-string. Sin ella se imprimiría {pais} tal cual."
+    },
+    {
+      "slug": "py-desafio-srv",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "if",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "nombre = \"SRV\"\nif nombre == \"\":\n    print(\"Error\")\nelif nombre == \"SRV\":\n    print(\"Somos revolución\")\nelse:\n    print(f\"Hola {nombre}\")",
+        "options": [
+          "Somos revolución",
+          "Hola SRV",
+          "Error",
+          "Somos revolución\nHola SRV"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El nombre no está vacío, así que se pasa al elif, que se cumple. El else se ignora."
+    },
+    {
+      "slug": "py-desafio-distinto",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "comparación",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(2 != 2, 2 <= 2)",
+        "options": [
+          "False True",
+          "True True",
+          "False False",
+          "True False"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "!= pregunta si son distintos (no lo son). <= es \"menor o igual\": 2 es igual a 2."
+    },
+    {
+      "slug": "py-desafio-cortocircuito",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "operadores lógicos",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "x = 0\nprint(x != 0 and 10 / x > 1)",
+        "options": [
+          "False",
+          "Error",
+          "True",
+          "0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Evaluación en cortocircuito: como x != 0 ya es falso, Python ni evalúa 10 / x. Por eso no hay error de división por cero."
+    },
+    {
+      "slug": "py-desafio-boole",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "operadores lógicos",
+      "module": 3,
+      "prompt": "¿Por qué los valores True y False se llaman booleanos?",
+      "content": {
+        "options": [
+          "Por George Boole, el matemático que creó ese álgebra en 1854",
+          "Porque bool significa \"verdad\" en inglés",
+          "Por el lenguaje Boole, anterior a Python",
+          "Porque ocupan un solo bit"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las tablas de verdad de and, or y not son parte de su trabajo, y las usan todas las computadoras."
+    },
+    {
+      "slug": "py-desafio-fill-not",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "operadores lógicos",
+      "module": 3,
+      "prompt": "Completá para que imprima Pasá.",
+      "content": {
+        "code": "lloviendo = False\nif ___ lloviendo:\n    print(\"Pasá\")\nelse:\n    print(\"Esperá\")",
+        "blanks": [
+          [
+            "not",
+            "and",
+            "or"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "Pasá"
+      },
+      "explanation": "not invierte el valor: lloviendo es False, así que not lloviendo es True."
+    },
+    {
+      "slug": "py-desafio-len-lista",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "listas",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "frutas = [\"pera\", \"uva\", \"kiwi\"]\nprint(len(frutas))",
+        "options": [
+          "3",
+          "2",
+          "11",
+          "4"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "len devuelve la cantidad de elementos de la lista."
+    },
+    {
+      "slug": "py-desafio-lista-mezcla",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "listas",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "persona = [\"Agustín\", \"Fernández\", 23, \"Argentina\"]\nprint(f\"{persona[0]} tiene {persona[2]} años\")",
+        "options": [
+          "Agustín tiene 23 años",
+          "Agustín tiene Fernández años",
+          "Fernández tiene 23 años",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una lista puede guardar datos de distinto tipo. El índice 0 es el nombre y el 2, la edad."
+    },
+    {
+      "slug": "py-desafio-del-palabra",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "listas",
+      "module": 4,
+      "prompt": "¿Cómo se elimina el elemento del índice 2 de una lista con del?",
+      "content": {
+        "options": [
+          "del lista[2]",
+          "lista.del(2)",
+          "lista.delete(2)",
+          "del(lista, 2)"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "del no es un método sino una palabra reservada de Python, por eso no va con punto."
+    },
+    {
+      "slug": "py-desafio-indice-c",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "listas",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "letras = [\"a\", \"b\", \"c\", \"d\"]\nprint(letras.index(\"c\"))",
+        "options": [
+          "2",
+          "3",
+          "1",
+          "c"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La c está en el índice 2: a es el 0, b el 1 y c el 2."
+    },
+    {
+      "slug": "py-desafio-fuera-rango",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "listas",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "lista = [\"a\", \"b\"]\ntry:\n    print(lista[2])\nexcept IndexError:\n    print(\"No existe\")",
+        "options": [
+          "No existe",
+          "None",
+          "b",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "A diferencia de JavaScript (que devuelve undefined), Python da un IndexError si el índice no existe."
+    },
+    {
+      "slug": "py-desafio-dict-len",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "diccionarios",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "auto = {\"marca\": \"Fiat\", \"modelo\": \"Uno\", \"anio\": 2010}\nauto[\"color\"] = \"rojo\"\nprint(len(auto))",
+        "options": [
+          "4",
+          "3",
+          "8",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Asignar una clave nueva la agrega al diccionario: quedan 4 pares."
+    },
+    {
+      "slug": "py-desafio-list-convertir",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "tipos compuestos",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(list(\"hola\"))",
+        "options": [
+          "['h', 'o', 'l', 'a']",
+          "['hola']",
+          "hola",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Así como int() y str(), list() convierte: un texto pasa a ser una lista con cada letra."
+    },
+    {
+      "slug": "py-desafio-mas-igual-lista",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "listas",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "numeros = [1, 2, 3]\nnumeros += [4]\nprint(numeros)",
+        "options": [
+          "[1, 2, 3, 4]",
+          "[5, 6, 7]",
+          "[1, 2, 3, [4]]",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "lista += [4] también agrega al final, aunque append() es más claro."
+    },
+    {
+      "slug": "py-desafio-pilas-incluidas",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "módulos",
+      "module": 5,
+      "prompt": "¿Qué significa que Python viene con \"pilas incluidas\"?",
+      "content": {
+        "options": [
+          "Que trae de fábrica cientos de módulos (la biblioteca estándar) sin instalar nada",
+          "Que funciona sin electricidad",
+          "Que incluye un editor de código",
+          "Que no necesita instalarse"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Fechas, archivos, internet, matemática: casi todo tiene un módulo listo en la biblioteca estándar."
+    },
+    {
+      "slug": "py-desafio-fecha-partes",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "datetime",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "from datetime import date\nf = date(2026, 7, 9)\nprint(f.day, f.month)",
+        "options": [
+          "9 7",
+          "7 9",
+          "2026 7",
+          "9 2026"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una fecha tiene .year, .month y .day."
+    },
+    {
+      "slug": "py-desafio-ceil-entero",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "math",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "import math\nprint(math.ceil(7.01))",
+        "options": [
+          "8",
+          "7",
+          "7.0",
+          "7.01"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "ceil redondea hacia arriba, aunque el decimal sea muy chico."
+    },
+    {
+      "slug": "py-desafio-factorial-tres",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "math",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "import math\nprint(math.factorial(4) - math.factorial(3))",
+        "options": [
+          "18",
+          "1",
+          "24",
+          "6"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "4! = 24 y 3! = 6. La resta da 18."
+    },
+    {
+      "slug": "py-desafio-choice-en-lista",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "random",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "import random\nfrutas = [\"banana\", \"naranja\", \"manzana\"]\nelegida = random.choice(frutas)\nprint(elegida in frutas)",
+        "options": [
+          "True",
+          "False",
+          "banana",
+          "Cambia en cada ejecución"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La fruta elegida cambia, pero siempre es una de la lista."
+    },
+    {
+      "slug": "py-desafio-sin",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "math",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "import math\nprint(math.sin(math.pi / 2))",
+        "options": [
+          "1.0",
+          "0.0",
+          "90",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las funciones trigonométricas trabajan en radianes: π / 2 son 90 grados, y el seno de 90° es 1."
+    },
+    {
+      "slug": "py-desafio-fill-randint",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "random",
+      "module": 5,
+      "prompt": "Completá para simular un dado: que siempre imprima True.",
+      "content": {
+        "code": "import random\ndado = random.___(1, 6)\nprint(1 <= dado <= 6 and dado == int(dado))",
+        "blanks": [
+          [
+            "randint",
+            "uniform",
+            "choice"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "True"
+      },
+      "explanation": "randint da un entero entre 1 y 6. uniform daría un decimal (casi nunca entero) y choice necesita una lista."
+    },
+    {
+      "slug": "py-desafio-fechas-resta",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "datetime",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "from datetime import date\nprint((date(2025, 1, 1) - date(2024, 12, 25)).days)",
+        "options": [
+          "7",
+          "6",
+          "-7",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Restar dos fechas da la distancia entre ellas; .days la muestra en días. Del 25 de diciembre al 1 de enero hay 7."
+    },
+    {
+      "slug": "py-desafio-enumerate",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "for",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "for i, letra in enumerate([\"a\", \"b\"]):\n    print(i, letra)",
+        "options": [
+          "0 a\n1 b",
+          "1 a\n2 b",
+          "a 0\nb 1",
+          "a\nb"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "enumerate da las dos cosas a la vez: el índice y el elemento."
+    },
+    {
+      "slug": "py-desafio-sum-max",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "listas",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "notas = [7, 4, 9]\nprint(sum(notas), max(notas), min(notas))",
+        "options": [
+          "20 9 4",
+          "20 4 9",
+          "3 9 4",
+          "794 9 4"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "sum suma todo, max devuelve el mayor y min el menor."
+    },
+    {
+      "slug": "py-desafio-reverse",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "listas",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "lista = [1, 2, 3]\nlista.reverse()\nprint(lista)",
+        "options": [
+          "[3, 2, 1]",
+          "[1, 2, 3]",
+          "None",
+          "[3]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "reverse da vuelta la lista original."
+    },
+    {
+      "slug": "py-desafio-guion-bajo",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "for",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "texto = \"\"\nfor _ in range(3):\n    texto += \"ja\"\nprint(texto)",
+        "options": [
+          "jajaja",
+          "ja",
+          "ja ja ja",
+          "_ja"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "_ es una convención para decir \"esta variable no la voy a usar\": solo importa repetir 3 veces."
+    },
+    {
+      "slug": "py-desafio-for-dict",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "for",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "precios = {\"pan\": 100, \"leche\": 200}\ntotal = 0\nfor producto in precios:\n    total += precios[producto]\nprint(total)",
+        "options": [
+          "300",
+          "pan leche",
+          "2",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un diccionario también es iterable: el for recorre sus claves, y con precios[producto] se lee cada valor."
+    },
+    {
+      "slug": "py-desafio-clear",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "listas",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "lista = [1, 2, 3]\nlista.clear()\nprint(lista, len(lista))",
+        "options": [
+          "[] 0",
+          "None 0",
+          "[1, 2, 3] 3",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "clear vacía la lista, pero la lista sigue existiendo."
+    },
+    {
+      "slug": "py-desafio-pares-impares",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "for",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "pares = []\nimpares = []\nfor i in range(1, 8):\n    if i % 2 == 0:\n        pares.append(i)\n    else:\n        impares.append(i)\nprint(len(pares), len(impares))",
+        "options": [
+          "3 4",
+          "4 3",
+          "3 3",
+          "4 4"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "range(1, 8) va del 1 al 7: pares son 2, 4 y 6; impares, 1, 3, 5 y 7."
+    },
+    {
+      "slug": "py-desafio-fill-for-in",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "for",
+      "module": 6,
+      "prompt": "Completá para que imprima cada fruta en un renglón.",
+      "content": {
+        "code": "frutas = [\"pera\", \"uva\"]\nfor fruta ___ frutas:\n    print(___)",
+        "blanks": [
+          [
+            "in",
+            "of",
+            "="
+          ],
+          [
+            "fruta",
+            "frutas",
+            "i"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0,
+          0
+        ],
+        "output": "pera\nuva"
+      },
+      "explanation": "En Python, el for recorre con in, y la variable (fruta) toma un elemento distinto en cada vuelta."
+    },
+    {
+      "slug": "py-desafio-def-no-ejecuta",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "def avisar():\n    print(\"aviso\")\n\nprint(\"fin\")",
+        "options": [
+          "fin",
+          "aviso\nfin",
+          "fin\naviso",
+          "aviso"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Definir una función no la ejecuta: hay que llamarla con su nombre y paréntesis."
+    },
+    {
+      "slug": "py-desafio-nombre-funcion",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Cuál es el mejor nombre para una función que calcula el total de una compra?",
+      "content": {
+        "options": [
+          "calcular_total",
+          "casita",
+          "CalcularTotal",
+          "total-compra"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un verbo descriptivo en snake_case. casita no dice nada de lo que hace."
+    },
+    {
+      "slug": "py-desafio-return-temprano",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "def clasificar(n):\n    if n < 0:\n        return \"negativo\"\n    return \"positivo\"\n\nprint(clasificar(-3), clasificar(0))",
+        "options": [
+          "negativo positivo",
+          "negativo negativo",
+          "positivo positivo",
+          "negativo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con -3 la función termina en el primer return. Con 0 sigue y llega al segundo."
+    },
+    {
+      "slug": "py-desafio-global-no-cambia",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "scope",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "total = 5\n\ndef cambiar():\n    total = 100\n\ncambiar()\nprint(total)",
+        "options": [
+          "5",
+          "100",
+          "None",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "total = 100 adentro crea una variable local nueva, distinta de la global. La de afuera sigue en 5."
+    },
+    {
+      "slug": "py-desafio-devuelve-dos",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "def dividir(a, b):\n    return a // b, a % b\n\ncociente, resto = dividir(17, 5)\nprint(cociente, resto)",
+        "options": [
+          "3 2",
+          "(3, 2)",
+          "3.4 2",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una función puede devolver varios valores separados por coma (una tupla), y se reparten en dos variables."
+    },
+    {
+      "slug": "py-desafio-fill-def",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "Completá para definir la función: que imprima 9.",
+      "content": {
+        "code": "___ cuadrado(n):\n    ___ n * n\n\nprint(cuadrado(3))",
+        "blanks": [
+          [
+            "def",
+            "function",
+            "func"
+          ],
+          [
+            "return",
+            "print",
+            "yield"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0,
+          0
+        ],
+        "output": "9"
+      },
+      "explanation": "En Python las funciones se crean con def (de definition) y devuelven con return."
+    },
+    {
+      "slug": "py-desafio-funcion-en-funcion",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "def doble(n):\n    return n * 2\n\ndef cuadruple(n):\n    return doble(doble(n))\n\nprint(cuadruple(3))",
+        "options": [
+          "12",
+          "6",
+          "9",
+          "36"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una función puede usar otras: doble(3) es 6 y doble(6) es 12."
+    },
+    {
+      "slug": "py-desafio-mc-cuatro-tipos",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Cómo se clasifica una función como pedir_numero(), que no recibe nada pero devuelve el número que ingresó el usuario?",
+      "content": {
+        "options": [
+          "Sin parámetros y con retorno",
+          "Con parámetros y sin retorno",
+          "Sin parámetros y sin retorno",
+          "Con parámetros y con retorno"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "No tiene nada entre los paréntesis de la definición, pero termina con return numero."
+    },
+    {
+      "slug": "py-desafio-timsort",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "sort",
+      "module": 8,
+      "prompt": "¿Qué algoritmo usa el sort() de Python?",
+      "content": {
+        "options": [
+          "Timsort, creado por Tim Peters para Python",
+          "Bubble sort",
+          "Selection sort",
+          "Insertion sort"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Lo crearon en 2002 especialmente para Python, y después lo adoptaron Java y Android."
+    },
+    {
+      "slug": "py-desafio-sorted-desc",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "sort",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(sorted([4, 10, 7], reverse=True))",
+        "options": [
+          "[10, 7, 4]",
+          "[4, 7, 10]",
+          "[7, 10, 4]",
+          "None"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "sorted también acepta reverse=True."
+    },
+    {
+      "slug": "py-desafio-sorted-texto",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "sort",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(sorted(\"bca\"))",
+        "options": [
+          "['a', 'b', 'c']",
+          "abc",
+          "['bca']",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "sorted acepta cualquier iterable y siempre devuelve una lista: acá, las letras ordenadas."
+    },
+    {
+      "slug": "py-desafio-mayor-sin-max",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "sort",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "edades = [30, 18, 45]\nedades.sort()\nprint(edades[-1])",
+        "options": [
+          "45",
+          "18",
+          "30",
+          "3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Ordenada de menor a mayor, la más grande queda última."
+    },
+    {
+      "slug": "py-desafio-complejidad",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "ordenamiento",
+      "module": 8,
+      "prompt": "Los algoritmos del módulo son O(n²). Si la lista tiene el doble de elementos, ¿cuánto más tardan?",
+      "content": {
+        "options": [
+          "Cuatro veces más",
+          "El doble",
+          "Lo mismo",
+          "La mitad"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "(2n)² = 4n². Por eso con muchos datos son lentos, y Timsort es mucho más eficiente."
+    },
+    {
+      "slug": "py-desafio-burbuja-clasico",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "ordenamiento",
+      "module": 8,
+      "prompt": "En el burbuja \"clásico\", ¿qué elementos se comparan siempre?",
+      "content": {
+        "options": [
+          "Los vecinos: lista[j] con lista[j + 1]",
+          "El primero con el último",
+          "Solo los pares",
+          "Cada uno con el mínimo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En cada pasada, el mayor va subiendo al final como una burbuja en el agua. La versión del curso compara cada posición con todas las siguientes."
+    },
+    {
+      "slug": "py-desafio-fill-sorted",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "sort",
+      "module": 8,
+      "prompt": "Completá para que imprima [3, 1, 2] [1, 2, 3].",
+      "content": {
+        "code": "otra = [3, 1, 2]\nnueva = ___(otra)\nprint(otra, nueva)",
+        "blanks": [
+          [
+            "sorted",
+            "list",
+            "reversed"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "[3, 1, 2] [1, 2, 3]"
+      },
+      "explanation": "sorted devuelve una lista nueva ordenada sin tocar la original. list(otra) solo haría una copia."
+    },
+    {
+      "slug": "py-desafio-sort-len",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "sort",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "palabras = [\"sol\", \"luna\", \"a\"]\npalabras.sort(key=len)\nprint(palabras)",
+        "options": [
+          "['a', 'sol', 'luna']",
+          "['a', 'luna', 'sol']",
+          "['luna', 'sol', 'a']",
+          "['sol', 'luna', 'a']"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con key se elige por qué ordenar: key=len ordena por largo, de la más corta a la más larga."
+    },
+    {
+      "slug": "py-desafio-clase-mayuscula",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "Por convención, ¿cómo se escribe el nombre de una clase en Python?",
+      "content": {
+        "options": [
+          "Con la primera letra en mayúscula: Persona",
+          "En snake_case: persona_clase",
+          "Todo en mayúsculas: PERSONA",
+          "Con guion: mi-persona"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las variables y funciones van en snake_case; las clases, con mayúscula inicial."
+    },
+    {
+      "slug": "py-desafio-instanciar",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "¿Cómo se le dice a crear un objeto a partir de una clase?",
+      "content": {
+        "options": [
+          "Instanciar",
+          "Heredar",
+          "Encapsular",
+          "Importar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "persona = Persona(\"Agustín\", 24) instancia un objeto."
+    },
+    {
+      "slug": "py-desafio-atributo-cambia",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class Luz:\n    def __init__(self):\n        self.encendida = False\n\n    def alternar(self):\n        self.encendida = not self.encendida\n\nluz = Luz()\nfor _ in range(3):\n    luz.alternar()\nprint(luz.encendida)",
+        "options": [
+          "True",
+          "False",
+          "3",
+          "None"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada llamada da vuelta el valor: False → True → False → True."
+    },
+    {
+      "slug": "py-desafio-hija-propio",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "herencia",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class Animal:\n    pass\n\nclass Perro(Animal):\n    def ladrar(self):\n        return \"guau\"\n\nprint(hasattr(Perro(), \"ladrar\"), hasattr(Animal(), \"ladrar\"))",
+        "options": [
+          "True False",
+          "True True",
+          "False False",
+          "False True"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La herencia va del padre a la hija, no al revés: Animal no tiene ladrar."
+    },
+    {
+      "slug": "py-desafio-isinstance",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "herencia",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class Animal:\n    pass\n\nclass Gato(Animal):\n    pass\n\nprint(isinstance(Gato(), Animal))",
+        "options": [
+          "True",
+          "False",
+          "Gato",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un Gato también es un Animal: la hija es un tipo más específico del padre."
+    },
+    {
+      "slug": "py-desafio-metodo-sin-parentesis",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class Perro:\n    def ladrar(self):\n        return \"guau\"\n\np = Perro()\nprint(callable(p.ladrar), p.ladrar())",
+        "options": [
+          "True guau",
+          "False guau",
+          "guau guau",
+          "True None"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "p.ladrar sin paréntesis es el método en sí (algo que se puede llamar); con paréntesis se ejecuta y devuelve \"guau\"."
+    },
+    {
+      "slug": "py-desafio-fill-metodo",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "Completá para que imprima 10.",
+      "content": {
+        "code": "class Rectangulo:\n    def __init__(self, base, altura):\n        self.base = base\n        self.altura = altura\n\n    def area(___):\n        return self.base * self.altura\n\nprint(Rectangulo(2, 5).___())",
+        "blanks": [
+          [
+            "self",
+            "this",
+            "base"
+          ],
+          [
+            "area",
+            "base",
+            "altura"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0,
+          0
+        ],
+        "output": "10"
+      },
+      "explanation": "Todo método recibe self como primer parámetro (en Python no existe this, como en JavaScript), y se llama con el punto y paréntesis."
+    },
+    {
+      "slug": "py-desafio-paradigma",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "¿Qué es un paradigma de programación?",
+      "content": {
+        "options": [
+          "Una forma de organizar el código",
+          "Un lenguaje de programación",
+          "Un tipo de error",
+          "Una librería de Python"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La POO es un paradigma: representa el programa como un conjunto de objetos, como en la vida real."
+    },
+    {
+      "slug": "py-desafio-mozo",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "APIs",
+      "module": 11,
+      "prompt": "En la comparación del restaurante, ¿quién es la API?",
+      "content": {
+        "options": [
+          "El mozo",
+          "La cocina",
+          "El cliente",
+          "El plato"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Vos sos el cliente, la cocina es el servidor y el plato es la respuesta. El mozo (la API) lleva y trae."
+    },
+    {
+      "slug": "py-desafio-respuesta-text",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "requests",
+      "module": 11,
+      "prompt": "Con respuesta = requests.get(\"https://www.google.com\"), ¿qué tiene respuesta.text?",
+      "content": {
+        "options": [
+          "El contenido de la respuesta (en este caso, el HTML de la página)",
+          "El código de estado",
+          "La URL que pediste",
+          "Un diccionario de Python"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "text es el contenido como texto. Para convertir una respuesta JSON en diccionario, .json()."
+    },
+    {
+      "slug": "py-desafio-500",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "HTTP",
+      "module": 11,
+      "prompt": "¿Qué indica un código de estado 500?",
+      "content": {
+        "options": [
+          "Hubo un error en el servidor",
+          "Todo salió bien",
+          "No se encontró lo pedido",
+          "Faltan datos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los 5xx son errores del servidor, no de quien pide."
+    },
+    {
+      "slug": "py-desafio-json-formatter",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "JSON",
+      "module": 11,
+      "prompt": "Una respuesta JSON es larguísima y no se entiende. ¿Qué conviene hacer?",
+      "content": {
+        "options": [
+          "Pegarla en un formateador de JSON, que la muestra ordenada y con sangría",
+          "Borrarla y pedirla de nuevo",
+          "Leerla con readlines()",
+          "Convertirla a int()"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "También ayuda avanzar de a poco: primero ver la lista general y después entrar en lo que te interesa."
+    },
+    {
+      "slug": "py-desafio-json-tipos",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "JSON",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "import json\ndata = json.loads('{\"activo\": true, \"edad\": null, \"notas\": [7, 9]}')\nprint(data[\"activo\"], data[\"edad\"], data[\"notas\"])",
+        "options": [
+          "True None [7, 9]",
+          "true null [7, 9]",
+          "True null [7, 9]",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Al convertir JSON a Python, true pasa a True, null a None, y los arrays a listas."
+    },
+    {
+      "slug": "py-desafio-json-dumps",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "JSON",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "import json\nprint(json.dumps({\"nombre\": \"Ana\", \"activo\": True}))",
+        "options": [
+          "{\"nombre\": \"Ana\", \"activo\": true}",
+          "{'nombre': 'Ana', 'activo': True}",
+          "nombre Ana activo True",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "json.dumps hace el camino inverso: convierte un diccionario en texto JSON (comillas dobles y true en minúscula)."
+    },
+    {
+      "slug": "py-desafio-get-dict",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "JSON",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "personaje = {\"name\": \"Rick\"}\nprint(personaje.get(\"species\", \"Desconocida\"))",
+        "options": [
+          "Desconocida",
+          "None",
+          "Error",
+          "Rick"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "get devuelve el valor de la clave o, si no existe, el valor por defecto. Con corchetes, una clave inexistente daría KeyError."
+    },
+    {
+      "slug": "py-desafio-fill-results",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "JSON",
+      "module": 11,
+      "prompt": "Completá para que imprima Rick y Morty en renglones distintos.",
+      "content": {
+        "code": "data = {\"results\": [{\"name\": \"Rick\"}, {\"name\": \"Morty\"}]}\nfor personaje in data[___]:\n    print(personaje[___])",
+        "blanks": [
+          [
+            "\"results\"",
+            "\"name\"",
+            "0"
+          ],
+          [
+            "\"name\"",
+            "\"results\"",
+            "0"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0,
+          0
+        ],
+        "output": "Rick\nMorty"
+      },
+      "explanation": "Se recorre la lista de \"results\", y de cada personaje (un diccionario) se lee su \"name\"."
+    },
+    {
+      "slug": "py-desafio-geometry",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "Tkinter",
+      "module": 12,
+      "prompt": "En ventana.geometry(\"650x150\"), ¿qué indican los números?",
+      "content": {
+        "options": [
+          "El ancho y el alto de la ventana, en píxeles",
+          "La posición en la pantalla",
+          "La cantidad de botones",
+          "El tamaño de la letra"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Primero el ancho y después el alto."
+    },
+    {
+      "slug": "py-desafio-side-left",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Tkinter",
+      "module": 12,
+      "prompt": "¿Qué hace .pack(side=tk.LEFT)?",
+      "content": {
+        "options": [
+          "Acomoda los widgets uno al lado del otro, de izquierda a derecha",
+          "Alinea el texto a la izquierda",
+          "Mueve la ventana a la izquierda",
+          "Esconde el widget"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin side, pack los acomoda uno debajo del otro."
+    },
+    {
+      "slug": "py-desafio-messagebox",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Tkinter",
+      "module": 12,
+      "prompt": "¿Qué hace messagebox.showwarning(\"Alerta\", \"Por favor, ingresá una tarea\")?",
+      "content": {
+        "options": [
+          "Muestra una ventanita de alerta con ese título y mensaje",
+          "Imprime el mensaje en la consola",
+          "Cierra la aplicación",
+          "Agrega una tarea"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se importa con from tkinter import messagebox."
+    },
+    {
+      "slug": "py-desafio-eventos",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "Tkinter",
+      "module": 12,
+      "prompt": "¿Qué significa que las aplicaciones con interfaz funcionen con programación orientada a eventos?",
+      "content": {
+        "options": [
+          "Que esperan a que pase algo (un clic, una tecla) y reaccionan, en vez de seguir un camino de arriba hacia abajo",
+          "Que solo funcionan en días de evento",
+          "Que se ejecutan una sola vez",
+          "Que no usan funciones"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Eso es lo que hace mainloop(): queda atento a lo que hace el usuario."
+    },
+    {
+      "slug": "py-desafio-pady",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "Tkinter",
+      "module": 12,
+      "prompt": "¿Qué agrega pady=20 en .pack(pady=20)?",
+      "content": {
+        "options": [
+          "Espacio arriba y abajo del widget",
+          "Espacio a los costados",
+          "Un borde de 20 píxeles",
+          "20 widgets iguales"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La y es el eje vertical: pady separa arriba y abajo."
+    },
+    {
+      "slug": "py-desafio-curselection",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Tkinter",
+      "module": 12,
+      "prompt": "En la lista de tareas, ¿qué devuelve lista_tareas.curselection()?",
+      "content": {
+        "options": [
+          "Qué tarea está seleccionada",
+          "Cuántas tareas hay",
+          "El texto del Entry",
+          "La última tarea agregada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con eso, lista_tareas.delete(seleccion) elimina la tarea elegida."
+    },
+    {
+      "slug": "py-desafio-adivinar-bajo",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "proyecto",
+      "module": 12,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "secreto = 30\nfor suposicion in [10, 40, 30]:\n    if suposicion == secreto:\n        print(\"Adivinaste\")\n    elif suposicion < secreto:\n        print(\"Más alto\")\n    else:\n        print(\"Más bajo\")",
+        "options": [
+          "Más alto\nMás bajo\nAdivinaste",
+          "Más bajo\nMás alto\nAdivinaste",
+          "Adivinaste",
+          "Más alto\nMás alto\nAdivinaste"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "10 es menor que el secreto (hay que subir), 40 es mayor (hay que bajar) y 30 es igual."
+    },
+    {
+      "slug": "py-desafio-fill-tk",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Tkinter",
+      "module": 12,
+      "prompt": "Completá el import más usado de Tkinter: que imprima tk.",
+      "content": {
+        "code": "import tkinter ___ tk\nprint(tk.__name__.replace(\"tkinter\", \"tk\"))",
+        "blanks": [
+          [
+            "as",
+            "from",
+            "in"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "tk"
+      },
+      "explanation": "import tkinter as tk le da el alias tk. Las otras dos opciones dan error de sintaxis."
+    },
+    {
+      "slug": "py-desafio-secrets-choice",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "ASCII",
+      "module": 13,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "import secrets\ncaracteres = \"abc123\"\npassword = \"\".join(secrets.choice(caracteres) for _ in range(10))\nprint(len(password), all(c in caracteres for c in password))",
+        "options": [
+          "10 True",
+          "6 True",
+          "10 False",
+          "Cambia en cada ejecución"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es el desafío de mejorar el generador con secrets: los caracteres son impredecibles, pero siempre son 10 y salen del texto dado."
+    },
+    {
+      "slug": "py-desafio-caminos",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "modularización",
+      "module": 13,
+      "prompt": "¿Qué biblioteca de Python se recomienda para desarrollar videojuegos?",
+      "content": {
+        "options": [
+          "Pygame",
+          "Django",
+          "Flask",
+          "requests"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Django y Flask son para desarrollo web; requests, para hacer peticiones."
+    },
+    {
+      "slug": "py-desafio-ord-letra",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "ASCII",
+      "module": 13,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(ord(\"A\"))",
+        "options": [
+          "65",
+          "1",
+          "A",
+          "97"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En ASCII, la A mayúscula es el 65. La a minúscula es el 97."
+    },
+    {
+      "slug": "py-desafio-cesar",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "ASCII",
+      "module": 13,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "palabra = \"hola\"\ncifrada = \"\"\nfor letra in palabra:\n    cifrada += chr(ord(letra) + 1)\nprint(cifrada)",
+        "options": [
+          "ipmb",
+          "hola",
+          "gnkz",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada letra se pasa a número, se le suma 1 y se vuelve a letra: h → i, o → p, l → m, a → b. Es un cifrado César."
+    },
+    {
+      "slug": "py-desafio-web",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "modularización",
+      "module": 13,
+      "prompt": "¿Cuáles de estos son frameworks para desarrollo web con Python?",
+      "content": {
+        "options": [
+          "Django y Flask",
+          "Pygame y Tkinter",
+          "random y math",
+          "pip y requests"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Pygame es para videojuegos y Tkinter para interfaces de escritorio."
+    },
+    {
+      "slug": "py-desafio-fill-defecto",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "funciones",
+      "module": 13,
+      "prompt": "Completá para que imprima ******** (8 asteriscos).",
+      "content": {
+        "code": "def linea(largo___8):\n    return \"*\" * largo\n\nprint(linea())",
+        "blanks": [
+          [
+            "=",
+            ":",
+            "=="
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "********"
+      },
+      "explanation": "Con largo=8, si llamás a la función sin argumentos usa 8. Con : sería una anotación de tipo, y con == un error."
+    },
+    {
+      "slug": "py-desafio-una-responsabilidad",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "modularización",
+      "module": 13,
+      "prompt": "En un juego de sudoku modularizado, ¿cómo conviene repartir los archivos?",
+      "content": {
+        "options": [
+          "Uno para la lógica, otro para dibujar en pantalla y otro para la música",
+          "Todo en main.py, que es más fácil",
+          "Un archivo por cada número del 1 al 9",
+          "Uno para las variables y otro para los if"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada archivo con una responsabilidad: así es más fácil de leer y de mantener."
+    },
+    {
+      "slug": "py-desafio-random-vs-secrets",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "ASCII",
+      "module": 13,
+      "prompt": "¿Por qué para contraseñas reales se usa secrets en lugar de random?",
+      "content": {
+        "options": [
+          "Porque genera valores mucho más difíciles de predecir",
+          "Porque es más rápido",
+          "Porque random no tiene randint",
+          "Porque secrets hace contraseñas más cortas"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "random es pseudoaleatorio: perfecto para juegos, no para seguridad."
+    },
+    {
+      "slug": "py-desafio-zero-division",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "errores",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "try:\n    print(10 / 0)\nexcept ZeroDivisionError:\n    print(\"No se puede\")",
+        "options": [
+          "No se puede",
+          "inf",
+          "0",
+          "Error sin atrapar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "A diferencia de JavaScript (que da Infinity), Python lanza ZeroDivisionError al dividir por cero."
+    },
+    {
+      "slug": "py-desafio-ultima-linea",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "errores",
+      "module": 10,
+      "prompt": "Cuando aparece un error, ¿dónde está el tipo de error y su descripción?",
+      "content": {
+        "options": [
+          "En la última línea del mensaje",
+          "En la primera línea",
+          "En el nombre del archivo",
+          "No se muestra"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las líneas de arriba te dicen en qué archivo y en qué línea ocurrió."
+    },
+    {
+      "slug": "py-desafio-eafp",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "try/except",
+      "module": 10,
+      "prompt": "¿Qué dice el lema de Python \"es más fácil pedir perdón que pedir permiso\"?",
+      "content": {
+        "options": [
+          "Que en vez de chequear todo con if, se intenta la operación y se atrapa el error con try",
+          "Que hay que pedir permiso al usuario antes de cada operación",
+          "Que los errores se ignoran",
+          "Que conviene usar muchos if"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se lo conoce como EAFP, por sus siglas en inglés."
+    },
+    {
+      "slug": "py-desafio-modo-a",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "archivos",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "for _ in range(3):\n    with open(\"log.txt\", \"a\") as f:\n        f.write(\"x\")\nwith open(\"log.txt\") as f:\n    print(f.read())",
+        "options": [
+          "xxx",
+          "x",
+          "xx",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "\"a\" agrega al final sin borrar: cada vuelta suma una x. Con \"w\" quedaría una sola."
+    },
+    {
+      "slug": "py-desafio-type-error",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "errores",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "try:\n    print(10 + \"5\")\nexcept TypeError:\n    print(\"tipos distintos\")",
+        "options": [
+          "tipos distintos",
+          "105",
+          "15",
+          "Error sin atrapar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "TypeError: Python no suma un número con un texto."
+    },
+    {
+      "slug": "py-desafio-encoding",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "archivos",
+      "module": 10,
+      "prompt": "Leés un archivo y las tildes y eñes se ven como caracteres raros. ¿Qué le agregás a open()?",
+      "content": {
+        "options": [
+          "encoding=\"utf-8\"",
+          "mode=\"utf\"",
+          "end=\"\"",
+          "\"a\""
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "open(\"archivo.txt\", \"r\", encoding=\"utf-8\") le dice cómo interpretar los caracteres."
+    },
+    {
+      "slug": "py-desafio-fill-modo",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "archivos",
+      "module": 10,
+      "prompt": "Completá para que imprima hola chau (sin perder lo que ya estaba).",
+      "content": {
+        "code": "with open(\"t.txt\", \"w\") as f:\n    f.write(\"hola\")\nwith open(\"t.txt\", ___) as f:\n    f.write(\" chau\")\nwith open(\"t.txt\") as f:\n    print(f.read())",
+        "blanks": [
+          [
+            "\"a\"",
+            "\"w\"",
+            "\"r\""
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "hola chau"
+      },
+      "explanation": "\"a\" agrega al final. \"w\" borraría el hola, y \"r\" no deja escribir."
+    },
+    {
+      "slug": "py-desafio-barra-windows",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "archivos",
+      "module": 10,
+      "prompt": "En Windows, ¿por qué conviene escribir las rutas con / en vez de \\ dentro de un string?",
+      "content": {
+        "options": [
+          "Porque \\ tiene un significado especial en un string: \\n, por ejemplo, es un salto de línea",
+          "Porque Windows no acepta la barra invertida",
+          "Porque / hace que el archivo se abra más rápido",
+          "Porque \\ solo funciona en Mac"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "\"C:\\nuevo\" tendría un salto de línea en el medio. Con / no hay problema."
     }
   ]
 }
