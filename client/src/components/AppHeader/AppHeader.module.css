@@ -176,28 +176,113 @@
   color: var(--text);
 }
 
-@media (max-width: 900px) {
+/* Nada del encabezado se parte en dos renglones: si no entra, se esconde (abajo, según el ancho) */
+.brand,
+.navLink,
+.level,
+.streak,
+.alias,
+.logout {
+  white-space: nowrap;
+}
+
+.brand,
+.nav,
+.user > * {
+  flex-shrink: 0;
+}
+
+@media (max-width: 1100px) {
   .alias {
     display: none;
   }
 }
 
-/* En el celular: el menú solo con íconos, y sin el nombre de la marca */
-@media (max-width: 600px) {
+/* Tablet: el menú solo con íconos y el nivel en el medidor y los XP (el "Nivel 2" se lee al pasar el mouse) */
+@media (max-width: 1080px) {
   .inner {
-    padding: 0 16px;
-    gap: 12px;
+    gap: 20px;
   }
-  .brandName,
-  .navLink span {
+  .navLink span,
+  .levelNumber {
     display: none;
   }
   .navLink {
     padding: 9px;
   }
-  /* El nivel queda en el medidor y los XP; el "Nivel 2" se lee al tocarlo */
-  .levelNumber,
+}
+
+@media (max-width: 720px) {
+  .brandName {
+    display: none;
+  }
+}
+
+/* En el celular: sin la palabra "días" */
+@media (max-width: 600px) {
+  .inner {
+    padding: 0 16px;
+    gap: 12px;
+  }
   .streakDays {
     display: none;
+  }
+}
+
+/* Celular angosto: sin el avatar ni el medidor del nivel (son adorno: los XP siguen) y todo más junto */
+@media (max-width: 540px) {
+  .gauge {
+    display: none;
+  }
+  .inner {
+    gap: 8px;
+  }
+  .nav {
+    gap: 0;
+  }
+  .navLink {
+    padding: 8px;
+  }
+  .user {
+    gap: 8px;
+  }
+  .avatar {
+    display: none;
+  }
+  .level {
+    padding: 5px 12px;
+  }
+  .logout {
+    margin-left: 0;
+  }
+}
+
+/* El ícono de "Salir" (una puerta con una flecha): solo en los celulares más angostos, en lugar de la palabra */
+.logout svg {
+  display: none;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Los más angostos: sin el logo (el ícono de Inicio ya lleva al inicio) y "Salir" con el ícono */
+@media (max-width: 440px) {
+  .brand {
+    display: none;
+  }
+  .logout span {
+    display: none;
+  }
+  .logout svg {
+    display: block;
+  }
+}
+@media (max-width: 380px) {
+  .navLink {
+    padding: 6px;
   }
 }

@@ -67,8 +67,11 @@ export function AppHeader() {
             {user.alias.slice(0, 2).toUpperCase()}
           </span>
           <span className={styles.alias}>{user.alias}</span>
-          <button type="button" className={styles.logout} onClick={() => setConfirming(true)}>
-            Salir
+          <button type="button" className={styles.logout} onClick={() => setConfirming(true)} aria-label="Salir">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 4H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h8M10 12h10M17 9l3 3-3 3" />
+            </svg>
+            <span>Salir</span>
           </button>
         </div>
       </div>
