@@ -2886,6 +2886,661 @@
       ]
     },
     {
+      "slug": "js-regex",
+      "module": 11,
+      "title": "Patrones",
+      "description": "Escribir una regex entre barras, probarla con test() y los símbolos más usados.",
+      "questions": [
+        {
+          "slug": "js-reg-test",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "regex",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const patron = /abc/;\nconsole.log(patron.test(\"xxabcxx\"), patron.test(\"acb\"));",
+            "options": [
+              "true false",
+              "false false",
+              "true true",
+              "false true"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "/abc/ busca esos tres caracteres seguidos, en cualquier parte del texto. \"xxabcxx\" los tiene; \"acb\" no, porque están en otro orden."
+        },
+        {
+          "slug": "js-reg-que-es",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "regex",
+          "prompt": "¿Qué es una expresión regular?",
+          "content": {
+            "options": [
+              "Un patrón para verificar si un texto cumple ciertas reglas o para buscar partes en él",
+              "Una función que ordena textos alfabéticamente",
+              "Un tipo de variable que solo guarda números",
+              "Una forma de repetir código, como un bucle"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Sirve para preguntas como \"¿son solo números?\" o \"¿esto es un email válido?\"."
+        },
+        {
+          "slug": "js-reg-mas-asterisco",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "regex",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(/ab*c/.test(\"ac\"), /ab+c/.test(\"ac\"));",
+            "options": [
+              "true false",
+              "false true",
+              "true true",
+              "false false"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "* es \"el anterior, 0 o más veces\": acepta \"ac\" sin ninguna b. + es \"1 o más veces\": necesita al menos una b."
+        },
+        {
+          "slug": "js-reg-fill-digitos",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "regex",
+          "prompt": "Completá para que el patrón acepte solo textos de puros números (imprime true false).",
+          "content": {
+            "code": "const soloNumeros = /___[0-9]+___/;\nconsole.log(soloNumeros.test(\"123\"), soloNumeros.test(\"123a\"));",
+            "blanks": [
+              [
+                "^",
+                "$",
+                "+"
+              ],
+              [
+                "$",
+                "^",
+                "*"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "true false"
+          },
+          "explanation": "^ ancla el patrón al inicio y $ al final: todo el texto tiene que ser dígitos. Sin ellos, \"123a\" también daría true, porque contiene números."
+        },
+        {
+          "slug": "js-reg-opcional",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "regex",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const patron = /colou?r/;\nconsole.log(patron.test(\"color\"), patron.test(\"colour\"), patron.test(\"colouur\"));",
+            "options": [
+              "true true false",
+              "true true true",
+              "false true false",
+              "true false false"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "? hace opcional al carácter anterior: la u puede estar una vez o ninguna, pero no dos."
+        },
+        {
+          "slug": "js-reg-punto",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "regex",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(/a.b/.test(\"axb\"), /a\\.b/.test(\"axb\"));",
+            "options": [
+              "true false",
+              "true true",
+              "false false",
+              "false true"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El punto solo significa \"cualquier carácter\", así que /a.b/ acepta \"axb\". Escapado (\\.) es un punto literal, y la x no lo es."
+        }
+      ]
+    },
+    {
+      "slug": "js-promesas",
+      "module": 12,
+      "title": "Promesas y then",
+      "description": "Lo asincrónico: los tres estados de una promesa, resolve, reject, then y catch.",
+      "questions": [
+        {
+          "slug": "js-pro-estados",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "promesas",
+          "prompt": "¿Cuáles son los tres estados de una promesa?",
+          "content": {
+            "options": [
+              "pending, fulfilled y rejected",
+              "start, running y end",
+              "true, false y undefined",
+              "waiting, done y error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "pending: todavía no terminó. fulfilled: terminó bien (resolve). rejected: falló (reject)."
+        },
+        {
+          "slug": "js-pro-hola-primero",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "promesas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "function esperar() {\n  return new Promise((resolve) => {\n    setTimeout(() => resolve(\"Listo\"), 100);\n  });\n}\nesperar().then((resultado) => console.log(resultado));\nconsole.log(\"Hola\");",
+            "options": [
+              "Hola\nListo",
+              "Listo\nHola",
+              "Listo",
+              "Hola"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La promesa queda esperando en segundo plano y el programa sigue: primero aparece \"Hola\" y después, cuando se resuelve, \"Listo\"."
+        },
+        {
+          "slug": "js-pro-pending",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "promesas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const p = new Promise((resolve) => {\n  setTimeout(() => resolve(5), 100);\n});\nconsole.log(p);",
+            "options": [
+              "Promise { <pending> }",
+              "5",
+              "undefined",
+              "Promise { 5 }"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La promesa todavía no se resolvió. Para obtener su valor hay que usar .then() o await."
+        },
+        {
+          "slug": "js-pro-catch",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "promesas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "function esperar(ms) {\n  return new Promise((resolve, reject) => {\n    if (ms < 0) return reject(new Error(\"El tiempo no puede ser negativo\"));\n    setTimeout(() => resolve(\"Terminado\"), ms);\n  });\n}\nesperar(-5)\n  .then((r) => console.log(r))\n  .catch((error) => console.log(error.message));",
+            "options": [
+              "El tiempo no puede ser negativo",
+              "Terminado",
+              "undefined",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con un tiempo negativo la promesa se rechaza con reject. El then se saltea y el catch atrapa el error."
+        },
+        {
+          "slug": "js-pro-fill",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "promesas",
+          "prompt": "Completá para que imprima ok.",
+          "content": {
+            "code": "const p = new Promise((resolve, reject) => {\n  ___(\"ok\");\n});\np.___((valor) => console.log(valor));",
+            "blanks": [
+              [
+                "resolve",
+                "return",
+                "Promise"
+              ],
+              [
+                "then",
+                "catch",
+                "finally"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "ok"
+          },
+          "explanation": "resolve cumple la promesa con un valor, y .then() recibe ese valor cuando está lista. Con return, la promesa nunca se resuelve y el then no corre."
+        },
+        {
+          "slug": "js-pro-orden-timeout",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "promesas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "setTimeout(() => console.log(\"A\"), 200);\nsetTimeout(() => console.log(\"B\"), 50);\nconsole.log(\"C\");",
+            "options": [
+              "C\nB\nA",
+              "A\nB\nC",
+              "C\nA\nB",
+              "B\nA\nC"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "setTimeout no frena el programa: C sale enseguida. Después, cada función corre cuando se cumple su tiempo: B a los 50 ms y A a los 200."
+        }
+      ]
+    },
+    {
+      "slug": "js-async",
+      "module": 12,
+      "title": "async, await y Promise.all",
+      "description": "Esperar una promesa como si fuera código normal, con try/catch, y varias a la vez.",
+      "questions": [
+        {
+          "slug": "js-asy-await",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "async/await",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const esperar = () => new Promise((resolve) => setTimeout(() => resolve(\"listo\"), 50));\nasync function ejecutar() {\n  const resultado = await esperar();\n  console.log(resultado);\n}\nejecutar();",
+            "options": [
+              "listo",
+              "Promise { <pending> }",
+              "undefined",
+              "Promise { 'listo' }"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "await espera a que la promesa termine y te da directamente su resultado."
+        },
+        {
+          "slug": "js-asy-donde",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "async/await",
+          "prompt": "¿Dónde se puede usar await?",
+          "content": {
+            "options": [
+              "Dentro de una función async",
+              "En cualquier función",
+              "Solo dentro de un then",
+              "Solo dentro de un try"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "await solo se puede usar dentro de una función marcada con async. En una flecha va antes de los paréntesis: async () => { ... }."
+        },
+        {
+          "slug": "js-asy-try-catch",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "async/await",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "function esperar(ms) {\n  return new Promise((resolve, reject) => {\n    if (ms < 0) return reject(new Error(\"negativo\"));\n    setTimeout(() => resolve(\"bien\"), ms);\n  });\n}\nasync function ejecutar() {\n  try {\n    console.log(await esperar(10));\n    console.log(await esperar(-1));\n    console.log(\"fin\");\n  } catch (error) {\n    console.log(error.message);\n  }\n}\nejecutar();",
+            "options": [
+              "bien\nnegativo",
+              "bien\nnegativo\nfin",
+              "negativo",
+              "bien\nfin"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La primera promesa se resuelve. La segunda se rechaza: salta al catch y \"fin\" no llega a imprimirse."
+        },
+        {
+          "slug": "js-asy-all",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "Promise.all",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const cargar = (texto, ms) => new Promise((res) => setTimeout(() => res(texto), ms));\nasync function cargarTodo() {\n  const resultados = await Promise.all([cargar(\"usuarios\", 150), cargar(\"pedidos\", 50)]);\n  console.log(resultados);\n}\ncargarTodo();",
+            "options": [
+              "[ 'usuarios', 'pedidos' ]",
+              "[ 'pedidos', 'usuarios' ]",
+              "usuarios",
+              "pedidos"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Promise.all devuelve los resultados en el mismo orden en que pasaste las promesas, no en el orden en que terminan."
+        },
+        {
+          "slug": "js-asy-fill",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "async/await",
+          "prompt": "Completá para que imprima 42.",
+          "content": {
+            "code": "const dato = () => Promise.resolve(42);\nconst ejecutar = ___ () => {\n  const valor = ___ dato();\n  console.log(valor);\n};\nejecutar();",
+            "blanks": [
+              [
+                "async",
+                "await",
+                "function"
+              ],
+              [
+                "await",
+                "async",
+                "return"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "42"
+          },
+          "explanation": "async va antes de los paréntesis de la flecha, y await adentro espera la promesa. Sin await, valor sería la promesa."
+        },
+        {
+          "slug": "js-asy-all-falla",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "Promise.all",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const bien = Promise.resolve(\"ok\");\nconst mal = Promise.reject(new Error(\"falló uno\"));\nPromise.all([bien, mal])\n  .then((r) => console.log(r))\n  .catch((e) => console.log(e.message));",
+            "options": [
+              "falló uno",
+              "[ 'ok' ]",
+              "[ 'ok', undefined ]",
+              "ok"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con Promise.all, si una sola promesa falla, falla todo. Para quedarte con las que sí funcionaron existe Promise.allSettled()."
+        }
+      ]
+    },
+    {
+      "slug": "js-npm",
+      "module": 13,
+      "title": "npm y el package.json",
+      "description": "Instalar librerías, los scripts del proyecto y cómo elegir una librería confiable.",
+      "questions": [
+        {
+          "slug": "js-npm-que-es",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "npm",
+          "prompt": "¿Qué es npm?",
+          "content": {
+            "options": [
+              "El gestor de paquetes de Node: sirve para instalar librerías",
+              "Un editor de código",
+              "Una librería para hacer bots",
+              "El archivo donde se guardan los tests"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "npm (Node Package Manager) instala librerías: código escrito por otras personas para resolver problemas comunes."
+        },
+        {
+          "slug": "js-npm-init",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "npm",
+          "prompt": "¿Qué comando crea un package.json con la configuración mínima?",
+          "content": {
+            "options": [
+              "npm init -y",
+              "npm install",
+              "npm start",
+              "npm create package"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "npm init -y crea el package.json sin hacer preguntas. npm install instala dependencias y npm start ejecuta el script start."
+        },
+        {
+          "slug": "js-npm-start",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "npm",
+          "prompt": "¿Qué ponés en el package.json para que npm start ejecute index.js?",
+          "content": {
+            "options": [
+              "\"scripts\": { \"start\": \"node index.js\" }",
+              "\"start\": true",
+              "\"main\": \"npm start\"",
+              "\"dependencies\": { \"start\": \"index.js\" }"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En la sección scripts creás tus comandos. start se corre con npm start; cualquier otro, con npm run nombre."
+        },
+        {
+          "slug": "js-npm-install-solo",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "npm",
+          "prompt": "Clonaste un proyecto que no trae la carpeta node_modules. ¿Qué comando instala todo lo que necesita?",
+          "content": {
+            "options": [
+              "npm install",
+              "npm init -y",
+              "npm start",
+              "npm run node_modules"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "npm install, sin nombre, instala todas las dependencias que figuran en el package.json."
+        },
+        {
+          "slug": "js-npm-confiable",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "npm",
+          "prompt": "Antes de instalar una librería, ¿qué conviene mirar en su página de npmjs.com?",
+          "content": {
+            "options": [
+              "Cuántas descargas semanales tiene y cuándo se actualizó por última vez",
+              "De qué color es su logo",
+              "Cuántas líneas de código tiene",
+              "En qué país se escribió"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Una librería sin actualizaciones hace años puede tener errores o fallas de seguridad. Mientras más usada y mantenida, más confiable."
+        },
+        {
+          "slug": "js-npm-node-modules",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "npm",
+          "prompt": "¿Por qué la carpeta node_modules nunca se sube a GitHub?",
+          "content": {
+            "options": [
+              "Porque suele ser enorme, y con el package.json alcanza para reinstalar todo con npm install",
+              "Porque tiene las contraseñas del proyecto",
+              "Porque GitHub no acepta carpetas",
+              "Porque se borra sola al apagar la computadora"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El package.json anota las dependencias. Con eso, cualquiera las reinstala con npm install."
+        }
+      ]
+    },
+    {
+      "slug": "js-bots-tests",
+      "module": 13,
+      "title": "Bots y tests",
+      "description": "Los flujos de un bot, el cuidado con las API Keys y las pruebas automáticas con Jest.",
+      "questions": [
+        {
+          "slug": "js-bot-que-es",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "bots",
+          "prompt": "¿Qué es un bot?",
+          "content": {
+            "options": [
+              "Un programa que automatiza tareas repetitivas, como responder mensajes",
+              "Un error que aparece al instalar librerías",
+              "Una persona que prueba programas",
+              "Un tipo de variable de JavaScript"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Un bot puede responder mensajes de WhatsApp, avisarte la cotización del dólar u operar en un mercado."
+        },
+        {
+          "slug": "js-bot-flujo",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "bots",
+          "prompt": "En el bot de WhatsApp, ¿qué hace addKeyword([\"hola\", \"ole\", \"alo\"])?",
+          "content": {
+            "options": [
+              "Define las palabras que activan el flujo",
+              "Manda esas tres palabras como respuesta",
+              "Bloquea a quien escriba esas palabras",
+              "Guarda esas palabras en el package.json"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Cada flujo se activa con ciertas palabras clave. Las respuestas se agregan con addAnswer()."
+        },
+        {
+          "slug": "js-bot-api-keys",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "bots",
+          "prompt": "¿Dónde conviene guardar las API Keys de un bot de trading?",
+          "content": {
+            "options": [
+              "En variables de entorno, en un archivo .env que no se sube",
+              "Escritas directamente en el código",
+              "En el README del proyecto en GitHub",
+              "En el package.json"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Las API Keys son como la contraseña de tu cuenta: nunca en el código, nunca en GitHub, nunca compartidas."
+        },
+        {
+          "slug": "js-test-tobe",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "testing",
+          "prompt": "¿Qué hace expect(suma(2, 2)).toBe(4)?",
+          "content": {
+            "options": [
+              "Comprueba que suma(2, 2) dé 4; si no, el test falla",
+              "Hace que suma devuelva siempre 4",
+              "Muestra 4 en la terminal",
+              "Suma 2 + 2 + 4"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "expect(valor).toBe(esperado) compara el valor con lo esperado. Si no coinciden, Jest marca el test como fallido."
+        },
+        {
+          "slug": "js-test-archivos",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "testing",
+          "prompt": "¿Qué archivos busca Jest para ejecutar los tests?",
+          "content": {
+            "options": [
+              "Los que tienen .test.js en el nombre",
+              "Solo index.js",
+              "Los que están en node_modules",
+              "Los que empiezan con test_"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Jest busca solo todos los archivos con .test.js en el nombre, como index.test.js."
+        },
+        {
+          "slug": "js-test-tdd",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "testing",
+          "prompt": "En TDD (Test Driven Development), ¿qué se escribe primero?",
+          "content": {
+            "options": [
+              "El test, y después el código que lo hace pasar",
+              "El código, y después el test",
+              "La documentación",
+              "El package.json"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Parece al revés, pero obliga a pensar bien qué tiene que hacer cada función antes de programarla."
+        }
+      ]
+    },
+    {
       "slug": "js-examen",
       "module": null,
       "title": "Examen",
@@ -4121,6 +4776,209 @@
         "correct": 0
       },
       "explanation": "La primera división deja r en 5. La segunda lanza el error antes de asignar, así que r sigue en 5, y el catch le suma 1."
+    },
+    {
+      "slug": "js-banco-regex-anclas",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(/^[0-9]+$/.test(\"123a\"));",
+        "options": [
+          "false",
+          "true",
+          "123",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "^ y $ obligan a que todo el texto, de principio a fin, sean dígitos. La a del final lo hace fallar."
+    },
+    {
+      "slug": "js-banco-email",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;\nconsole.log(emailPattern.test(\"usuario@dominio.c\"));",
+        "options": [
+          "false",
+          "true",
+          "usuario@dominio.c",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La extensión es [a-zA-Z]{2,}: dos letras o más. \".c\" tiene una sola, así que no es válido."
+    },
+    {
+      "slug": "js-banco-escapar-punto",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "En el patrón del email, ¿por qué el punto antes de la extensión se escribe \\.?",
+      "content": {
+        "options": [
+          "Porque el punto solo significa \"cualquier carácter\"; escapado es un punto de verdad",
+          "Porque así el punto se vuelve opcional",
+          "Porque JavaScript no permite puntos en una regex",
+          "Para que acepte varios puntos seguidos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin la barra invertida, \"usuario@dominioXcom\" pasaría, porque el punto aceptaría la X."
+    },
+    {
+      "slug": "js-banco-asincronica",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "promesas",
+      "module": 12,
+      "prompt": "¿Qué es una tarea asincrónica?",
+      "content": {
+        "options": [
+          "Una operación que tarda (como pedir datos a una API) y que no frena el resto del programa mientras se espera",
+          "Una tarea que se ejecuta dos veces",
+          "Una función que no devuelve nada",
+          "Un error que aparece de vez en cuando"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Pedir datos a una API, leer un archivo o consultar una base de datos tardan. Con promesas, el programa sigue mientras tanto."
+    },
+    {
+      "slug": "js-banco-await-sin-try",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "async/await",
+      "module": 12,
+      "prompt": "¿Con qué se manejan los errores de una promesa al usar .then()? ¿Y al usar await?",
+      "content": {
+        "options": [
+          "Con .catch() al final de la cadena; con await, con try/catch",
+          "Con if y else en los dos casos",
+          "Con .finally() en los dos casos",
+          "No hace falta manejarlos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si una promesa se rechaza y no lo atrapás, el error puede romper el programa."
+    },
+    {
+      "slug": "js-banco-all-tiempo",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "Promise.all",
+      "module": 12,
+      "prompt": "Con Promise.all, tres promesas que tardan 1 s, 1,5 s y 0,5 s. ¿Cuánto tarda en total, aproximadamente?",
+      "content": {
+        "options": [
+          "1,5 segundos",
+          "3 segundos",
+          "0,5 segundos",
+          "1 segundo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Corren en paralelo, así que el total es lo que tarda la más lenta, no la suma de las tres."
+    },
+    {
+      "slug": "js-banco-then-y-sincronico",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "promesas",
+      "module": 12,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(\"1\");\nPromise.resolve().then(() => console.log(\"2\"));\nconsole.log(\"3\");",
+        "options": [
+          "1\n3\n2",
+          "1\n2\n3",
+          "3\n2\n1",
+          "2\n1\n3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Aunque la promesa ya esté resuelta, el then se ejecuta después de que termina el código que está corriendo. Por eso el 3 sale antes que el 2."
+    },
+    {
+      "slug": "js-banco-save-dev",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "testing",
+      "module": 13,
+      "prompt": "¿Cómo se instala Jest y cómo se corren los tests?",
+      "content": {
+        "options": [
+          "npm install --save-dev jest, \"test\": \"jest\" en los scripts y npm test",
+          "npm init jest y npm start",
+          "npm install jest -y y node jest",
+          "Viene con Node: alcanza con node test"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "--save-dev la anota como dependencia de desarrollo. Con el script test, se corre con npm test."
+    },
+    {
+      "slug": "js-banco-testnet",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "bots",
+      "module": 13,
+      "prompt": "Antes de que un bot de trading opere con dinero real, ¿qué conviene hacer?",
+      "content": {
+        "options": [
+          "Probarlo todo en el modo de prueba (testnet)",
+          "Dejarlo corriendo una noche para ver qué pasa",
+          "Subir las API Keys a GitHub para no perderlas",
+          "Nada: si compila, funciona"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un bot con un error puede perder plata muy rápido. La testnet permite probar sin riesgo."
+    },
+    {
+      "slug": "js-banco-npm-run",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "npm",
+      "module": 13,
+      "prompt": "Si en los scripts del package.json tenés \"saludar\": \"node saludo.js\", ¿cómo lo ejecutás?",
+      "content": {
+        "options": [
+          "npm run saludar",
+          "npm saludar",
+          "npm start saludar",
+          "node saludar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "start y test se corren directo (npm start, npm test). Cualquier otro script, con npm run nombre."
     }
   ],
   "challenges": [
@@ -6640,6 +7498,504 @@
         "correct": 0
       },
       "explanation": "Al lanzar el error, lo que queda del try se saltea: \"2\" nunca se agrega. Después corre el catch."
+    },
+    {
+      "slug": "js-desafio-regex-vocal",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(/[aeiou]/.test(\"rmx\"));",
+        "options": [
+          "false",
+          "true",
+          "rmx",
+          "0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "[aeiou] es \"uno de esos caracteres\": cualquier vocal. \"rmx\" no tiene ninguna."
+    },
+    {
+      "slug": "js-desafio-regex-barras",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "¿Cómo se escribe una expresión regular en JavaScript?",
+      "content": {
+        "options": [
+          "Entre barras: /abc/",
+          "Entre comillas: \"abc\"",
+          "Entre llaves: {abc}",
+          "Entre numerales: #abc#"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La regex va entre barras, y se prueba con el método test()."
+    },
+    {
+      "slug": "js-desafio-regex-exacto",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const patron = /^hola$/;\nconsole.log(patron.test(\"hola\"), patron.test(\"hola mundo\"));",
+        "options": [
+          "true false",
+          "true true",
+          "false false",
+          "false true"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con ^ al principio y $ al final, el texto tiene que ser exactamente \"hola\"."
+    },
+    {
+      "slug": "js-desafio-regex-llaves",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const patron = /^[a-z]{2,}$/;\nconsole.log(patron.test(\"a\"), patron.test(\"abc\"));",
+        "options": [
+          "false true",
+          "true true",
+          "true false",
+          "false false"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "{2,} es \"el anterior, 2 o más veces\": una sola letra no alcanza."
+    },
+    {
+      "slug": "js-desafio-regex-filter",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const codigos = [\"A12\", \"B7\", \"C\", \"99\"];\nconst conNumero = codigos.filter((c) => /[0-9]/.test(c));\nconsole.log(conNumero.length);",
+        "options": [
+          "3",
+          "2",
+          "4",
+          "1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "[0-9] es cualquier dígito. Tienen al menos uno \"A12\", \"B7\" y \"99\"; \"C\" no."
+    },
+    {
+      "slug": "js-desafio-regex-mayusculas",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(/^[a-z]+$/.test(\"Hola\"));",
+        "options": [
+          "false",
+          "true",
+          "Hola",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "[a-z] son solo minúsculas: la H mayúscula no entra. Por eso el patrón del email usa [a-zA-Z]."
+    },
+    {
+      "slug": "js-desafio-fill-regex-uno-o-mas",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "Completá para que imprima false true.",
+      "content": {
+        "code": "const patron = /^ja___$/;\nconsole.log(patron.test(\"j\"), patron.test(\"jaaa\"));",
+        "blanks": [
+          [
+            "+",
+            "*",
+            "?"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "false true"
+      },
+      "explanation": "/^ja+$/ pide una j y una o más a. Con *, \"j\" sola daría true (cero a); con ?, \"jaaa\" daría false (como mucho una a)."
+    },
+    {
+      "slug": "js-desafio-kleene",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "¿Cómo se llama el asterisco * de las expresiones regulares, en honor a quien las inventó?",
+      "content": {
+        "options": [
+          "Estrella de Kleene",
+          "Estrella de Turing",
+          "Asterisco de Hopper",
+          "Comodín de Lovelace"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las inventó el matemático Stephen Kleene en los años 50, para describir lenguajes formales."
+    },
+    {
+      "slug": "js-desafio-settimeout-ms",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "promesas",
+      "module": 12,
+      "prompt": "En setTimeout(funcion, 2000), ¿cuánto espera antes de ejecutar la función?",
+      "content": {
+        "options": [
+          "2 segundos",
+          "2000 segundos",
+          "2 minutos",
+          "0,2 segundos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El tiempo va en milisegundos: 2000 ms son 2 segundos."
+    },
+    {
+      "slug": "js-desafio-resolve-reject",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "promesas",
+      "module": 12,
+      "prompt": "¿Para qué sirven resolve y reject?",
+      "content": {
+        "options": [
+          "resolve cumple la promesa con un resultado; reject la rechaza con un error",
+          "resolve la rechaza y reject la cumple",
+          "Los dos cumplen la promesa",
+          "Sirven para crear variables"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "resolve lleva la promesa a fulfilled y reject a rejected."
+    },
+    {
+      "slug": "js-desafio-then-cadena",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "promesas",
+      "module": 12,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Promise.resolve(2)\n  .then((n) => n * 10)\n  .then((n) => n + 1)\n  .then((n) => console.log(n));",
+        "options": [
+          "21",
+          "2",
+          "20",
+          "30"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada then recibe lo que devolvió el anterior: 2 pasa a 20 y después a 21."
+    },
+    {
+      "slug": "js-desafio-async-devuelve",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "async/await",
+      "module": 12,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "async function numero() {\n  return 7;\n}\nconsole.log(numero());",
+        "options": [
+          "Promise { 7 }",
+          "7",
+          "undefined",
+          "Promise { <pending> }"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una función async siempre devuelve una promesa, aunque adentro hagas return de un número. Para el 7 hay que usar await o then."
+    },
+    {
+      "slug": "js-desafio-await-orden",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "async/await",
+      "module": 12,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const pausa = (ms) => new Promise((r) => setTimeout(r, ms));\nasync function tarea() {\n  console.log(\"A\");\n  await pausa(50);\n  console.log(\"B\");\n}\ntarea();\nconsole.log(\"C\");",
+        "options": [
+          "A\nC\nB",
+          "A\nB\nC",
+          "C\nA\nB",
+          "A\nC"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La función arranca y muestra A. En el await se pausa, el programa sigue y muestra C. Cuando termina la pausa, aparece B."
+    },
+    {
+      "slug": "js-desafio-event-loop",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "promesas",
+      "module": 12,
+      "prompt": "JavaScript ejecuta una sola cosa a la vez. ¿Qué le permite esperar una tarea lenta sin trabarse?",
+      "content": {
+        "options": [
+          "El event loop (bucle de eventos)",
+          "Los bucles while",
+          "El try/catch",
+          "El package.json"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las tareas lentas se delegan a Node o al navegador; cuando terminan, su resultado vuelve a la fila y JavaScript lo procesa."
+    },
+    {
+      "slug": "js-desafio-fill-all",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Promise.all",
+      "module": 12,
+      "prompt": "Completá para que imprima [ 1, 2 ].",
+      "content": {
+        "code": "const a = Promise.resolve(1);\nconst b = Promise.resolve(2);\nPromise.___([a, b]).then((r) => console.log(r));",
+        "blanks": [
+          [
+            "all",
+            "resolve",
+            "reject"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "[ 1, 2 ]"
+      },
+      "explanation": "Promise.all recibe un array de promesas y devuelve un array con todos los resultados, en el mismo orden."
+    },
+    {
+      "slug": "js-desafio-allsettled",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Promise.all",
+      "module": 12,
+      "prompt": "Si necesitás los resultados de las promesas que sí funcionaron aunque alguna falle, ¿qué usás?",
+      "content": {
+        "options": [
+          "Promise.allSettled()",
+          "Promise.all()",
+          "Promise.resolve()",
+          "Un setTimeout"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Promise.allSettled espera a todas y te dice cuáles se resolvieron y cuáles no. Promise.all falla entero si falla una."
+    },
+    {
+      "slug": "js-desafio-addanswer-array",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "bots",
+      "module": 13,
+      "prompt": "En un bot de WhatsApp, ¿qué pasa si addAnswer() recibe un array?",
+      "content": {
+        "options": [
+          "Cada elemento sale en un renglón distinto",
+          "Manda solo el primer elemento",
+          "Da un error",
+          "Manda el array como texto con corchetes"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es útil para listar opciones: cada elemento del array es un renglón de la respuesta."
+    },
+    {
+      "slug": "js-desafio-npm-tamano",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "npm",
+      "module": 13,
+      "prompt": "¿Cuántas librerías publicadas tiene npm, aproximadamente?",
+      "content": {
+        "options": [
+          "Más de dos millones",
+          "Unas mil",
+          "Unas diez mil",
+          "Cien"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "npm es el registro de paquetes de software más grande del mundo."
+    },
+    {
+      "slug": "js-desafio-ctx",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "bots",
+      "module": 13,
+      "prompt": "En un flujo del bot de WhatsApp, ¿qué trae el objeto ctx?",
+      "content": {
+        "options": [
+          "Los datos del mensaje recibido, como el número de quien escribió",
+          "Las respuestas del bot",
+          "La API Key de WhatsApp",
+          "La lista de librerías instaladas"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "ctx viene de contexto: trae la información del mensaje que llegó."
+    },
+    {
+      "slug": "js-desafio-numero-prueba",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "bots",
+      "module": 13,
+      "prompt": "¿Por qué conviene probar el bot de WhatsApp con un número de prueba y no con el personal?",
+      "content": {
+        "options": [
+          "Porque el uso automatizado de cuentas personales puede violar los términos de WhatsApp",
+          "Porque con el número personal el bot es más lento",
+          "Porque WhatsApp no deja escanear el QR con un número personal",
+          "Porque el número personal no tiene internet"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Además, las librerías no oficiales pueden dejar de funcionar si WhatsApp cambia algo."
+    },
+    {
+      "slug": "js-desafio-documentacion",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "bots",
+      "module": 13,
+      "prompt": "La sintaxis de una librería de bots cambió desde el video. ¿Qué conviene hacer?",
+      "content": {
+        "options": [
+          "Seguir la documentación oficial de la versión que instalaste",
+          "Instalar la versión más vieja que exista",
+          "Copiar el código del video igual",
+          "Dejar de usar librerías"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Aprender a leer documentación es una de las habilidades más importantes de un programador."
+    },
+    {
+      "slug": "js-desafio-ia",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "bots",
+      "module": 13,
+      "prompt": "Si usás un asistente de IA para generar código, ¿qué es lo más importante?",
+      "content": {
+        "options": [
+          "Leer y entender cada línea antes de ejecutarla",
+          "Ejecutarlo enseguida para ganar tiempo",
+          "Pedirle siempre el código más largo",
+          "Pegarlo sin cambios en producción"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sobre todo si maneja dinero o datos personales: el código es tuyo, aunque lo haya escrito una IA."
+    },
+    {
+      "slug": "js-desafio-test-falla",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "testing",
+      "module": 13,
+      "prompt": "La función suma tiene un error y devuelve a - b. ¿Qué pasa con test(\"suma 5 + 5\", () => expect(suma(5, 5)).toBe(10))?",
+      "content": {
+        "options": [
+          "El test falla: esperaba 10 y recibió 0",
+          "El test pasa",
+          "Jest arregla la función",
+          "Da 10 igual, porque 5 + 5 es 10"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Para eso están los tests: detectan automáticamente que el código no hace lo que tiene que hacer."
+    },
+    {
+      "slug": "js-desafio-exports-test",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "testing",
+      "module": 13,
+      "prompt": "Para que index.test.js pueda probar la función suma de index.js, ¿qué tiene que tener index.js?",
+      "content": {
+        "options": [
+          "module.exports = suma;",
+          "test(suma);",
+          "expect(suma);",
+          "Nada: Jest la encuentra sola"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El test la trae con require(\"./index\"), así que index.js la tiene que exportar."
     }
   ]
 }
