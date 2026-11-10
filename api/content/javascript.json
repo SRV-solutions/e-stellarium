@@ -84,6 +84,263 @@
   ],
   "stars": [
     {
+      "slug": "js-herramientas",
+      "module": 1,
+      "title": "Herramientas y terminal",
+      "description": "VS Code, Git Bash y Node.js, y los primeros comandos de la terminal.",
+      "questions": [
+        {
+          "slug": "js-herr-node",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "herramientas",
+          "prompt": "¿Para qué sirve Node.js?",
+          "content": {
+            "options": [
+              "Para ejecutar JavaScript fuera del navegador",
+              "Para escribir el código: es el editor",
+              "Para usar comandos de Linux en Windows",
+              "Para diseñar páginas web"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Node.js es el entorno que ejecuta JavaScript en tu computadora o en un servidor. Es lo que permite usar JavaScript para el backend."
+        },
+        {
+          "slug": "js-herr-vscode",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "herramientas",
+          "prompt": "¿Qué es Visual Studio Code?",
+          "content": {
+            "options": [
+              "El editor donde escribís tus programas",
+              "El programa que ejecuta JavaScript",
+              "Una terminal con comandos de Linux",
+              "Un lenguaje de programación"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "VS Code es el editor de código (también se le dice IDE). Ahí escribís; quien ejecuta es Node.js."
+        },
+        {
+          "slug": "js-herr-mkdir",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "terminal",
+          "prompt": "¿Qué hace el comando mkdir fundamentos?",
+          "content": {
+            "options": [
+              "Crea una carpeta llamada fundamentos",
+              "Entra a la carpeta fundamentos",
+              "Lista lo que hay en fundamentos",
+              "Borra la carpeta fundamentos"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "mkdir viene de make directory: crea una carpeta. Para entrar se usa cd y para ver qué hay, ls."
+        },
+        {
+          "slug": "js-herr-orden-carpeta",
+          "type": "order_lines",
+          "difficulty": "easy",
+          "topic": "terminal",
+          "prompt": "Ordená los comandos para crear la carpeta, entrar, crear index.js adentro y ver qué hay.",
+          "content": {
+            "lines": [
+              "mkdir fundamentos",
+              "cd fundamentos",
+              "touch index.js",
+              "ls"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "index.js"
+          },
+          "explanation": "Primero se crea la carpeta, después se entra. Si creás el archivo antes de entrar, queda afuera, y ls (adentro) no muestra nada."
+        },
+        {
+          "slug": "js-herr-code-punto",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "terminal",
+          "prompt": "Estás en la terminal y escribís code . ¿Qué pasa?",
+          "content": {
+            "options": [
+              "Se abre VS Code en la carpeta donde estás",
+              "Se ejecuta el archivo code.js",
+              "Se crea un archivo llamado code",
+              "Se cierra la terminal"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "code abre VS Code, y el punto significa \"este lugar\": la carpeta donde estás parado en la terminal."
+        },
+        {
+          "slug": "js-herr-lts",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "herramientas",
+          "prompt": "¿Qué significa que una versión de Node.js sea LTS?",
+          "content": {
+            "options": [
+              "Que tiene soporte a largo plazo: es la estable y la recomendada",
+              "Que es la más nueva, con lo último en prueba",
+              "Que es una versión de prueba",
+              "Que solo funciona en Linux"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "LTS es Long Term Support (soporte a largo plazo). Es la versión estable, la recomendada para trabajar."
+        }
+      ]
+    },
+    {
+      "slug": "js-primer-programa",
+      "module": 1,
+      "title": "Tu primer programa",
+      "description": "Qué es programar, los niveles de los lenguajes y tu primer console.log.",
+      "questions": [
+        {
+          "slug": "js-prog-que-es",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "programación",
+          "prompt": "¿Qué es programar?",
+          "content": {
+            "options": [
+              "Darle a la computadora instrucciones para que resuelva un problema",
+              "Usar programas que ya están instalados",
+              "Arreglar computadoras",
+              "Diseñar cómo se ve una página"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Programar es escribir instrucciones, en un lenguaje de programación, para que la computadora resuelva un problema."
+        },
+        {
+          "slug": "js-prog-hola-mundo",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "console.log",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(\"Hola mundo\");",
+            "options": [
+              "Hola mundo",
+              "\"Hola mundo\"",
+              "console.log(\"Hola mundo\")",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "console.log muestra en la consola lo que le pasás. Las comillas marcan dónde empieza y termina el texto, pero no se imprimen."
+        },
+        {
+          "slug": "js-prog-fill-log",
+          "type": "fill_blank",
+          "difficulty": "easy",
+          "topic": "console.log",
+          "prompt": "Completá para que imprima Hola mundo.",
+          "content": {
+            "code": "console.___(\"Hola mundo\");",
+            "blanks": [
+              [
+                "log",
+                "print",
+                "write"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "Hola mundo"
+          },
+          "explanation": "Para mostrar algo en la consola se usa console.log. print es de Python; en JavaScript, console.print no existe y da error."
+        },
+        {
+          "slug": "js-prog-ejecutar",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "terminal",
+          "prompt": "¿Con qué comando ejecutás un archivo llamado app.js?",
+          "content": {
+            "options": [
+              "node app.js",
+              "run app.js",
+              "app.js",
+              "console.log app.js"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "node seguido del nombre del archivo lo ejecuta con Node.js."
+        },
+        {
+          "slug": "js-prog-bajo-nivel",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "programación",
+          "prompt": "¿Cuál de estos es un lenguaje de bajo nivel?",
+          "content": {
+            "options": [
+              "Assembly (ensamblador)",
+              "JavaScript",
+              "Python",
+              "Ninguno: todos son de alto nivel"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los de bajo nivel están cerca de los recursos de la computadora, como el lenguaje máquina o el ensamblador. JavaScript y Python son de alto nivel: se leen casi como inglés."
+        },
+        {
+          "slug": "js-prog-dos-logs",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "console.log",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(\"Hola\", \"mundo\");\nconsole.log(\"Chau\");",
+            "options": [
+              "Hola mundo\nChau",
+              "Hola, mundo\nChau",
+              "Holamundo\nChau",
+              "Hola mundo Chau"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si le pasás varios valores separados por coma, console.log los muestra con un espacio en el medio. Cada console.log escribe en una línea nueva."
+        }
+      ]
+    },
+    {
       "slug": "js-variables",
       "module": 2,
       "title": "Variables",
@@ -1247,6 +1504,87 @@
         "correct": 0
       },
       "explanation": "i vale 0, 1 y 2. Cuando llega a 3, i < 3 es falso y el for termina. Son 3 vueltas."
+    },
+    {
+      "slug": "js-banco-git-bash",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "herramientas",
+      "module": 1,
+      "prompt": "¿Qué herramienta del curso permite usar comandos de Linux en Windows?",
+      "content": {
+        "options": [
+          "Git Bash",
+          "Node.js",
+          "Visual Studio Code",
+          "El navegador"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Git Bash es una terminal que trae los comandos de Linux a Windows. En Mac y Linux no hace falta: ya traen su terminal."
+    },
+    {
+      "slug": "js-banco-cannot-find",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "Ejecutás node index.js y aparece Cannot find module. ¿Qué es lo más probable?",
+      "content": {
+        "options": [
+          "Que no hay un archivo con ese nombre en la carpeta donde estás",
+          "Que el código tiene un error de sintaxis",
+          "Que falta instalar VS Code",
+          "Que la computadora no tiene internet"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cannot find module aparece cuando el archivo que escribiste no existe ahí: un error de tipeo o estar en otra carpeta. Con Tab la terminal completa el nombre sola."
+    },
+    {
+      "slug": "js-banco-dos-lineas",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "console.log",
+      "module": 1,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(\"Primera\");\nconsole.log(\"Segunda\");",
+        "options": [
+          "Primera\nSegunda",
+          "Segunda\nPrimera",
+          "Primera Segunda",
+          "PrimeraSegunda"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las instrucciones se ejecutan en orden, de arriba hacia abajo, y cada console.log escribe en una línea nueva."
+    },
+    {
+      "slug": "js-banco-ls",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "¿Qué hace el comando ls?",
+      "content": {
+        "options": [
+          "Lista los archivos y carpetas del lugar donde estás",
+          "Limpia la terminal",
+          "Crea un archivo",
+          "Entra a una carpeta"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "ls muestra lo que hay en la carpeta donde estás parado. Para limpiar la terminal se usa clear."
     }
   ],
   "challenges": [
@@ -1925,6 +2263,214 @@
         "correct": 0
       },
       "explanation": "a == b es true porque == convierte el texto \"10\" en número. a !== b también es true porque uno es texto y el otro número. Las dos se cumplen."
+    },
+    {
+      "slug": "js-desafio-clear",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "¿Qué hace el comando clear en la terminal?",
+      "content": {
+        "options": [
+          "Limpia la terminal",
+          "Borra los archivos de la carpeta",
+          "Cierra VS Code",
+          "Desinstala Node.js"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "clear solo limpia lo que se ve en la terminal. No borra ningún archivo."
+    },
+    {
+      "slug": "js-desafio-cd",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "¿Qué hace el comando cd fundamentos?",
+      "content": {
+        "options": [
+          "Entra a la carpeta fundamentos",
+          "Crea la carpeta fundamentos",
+          "Borra la carpeta fundamentos",
+          "Copia la carpeta fundamentos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "cd viene de change directory: te mueve a esa carpeta. Para crearla se usa mkdir."
+    },
+    {
+      "slug": "js-desafio-ctrl-j",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "herramientas",
+      "module": 1,
+      "prompt": "En VS Code, ¿qué atajo abre y cierra la terminal?",
+      "content": {
+        "options": [
+          "Ctrl + J",
+          "Ctrl + F",
+          "F2",
+          "Ctrl + S"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Ctrl + J muestra u oculta la terminal. Ctrl + F busca en el archivo, F2 cambia el nombre y Ctrl + S guarda."
+    },
+    {
+      "slug": "js-desafio-texto-literal",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "console.log",
+      "module": 1,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(\"3 + 4\");",
+        "options": [
+          "3 + 4",
+          "7",
+          "34",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Está entre comillas, así que es un texto: se muestra tal cual. Para que haga la cuenta tendría que ir sin comillas."
+    },
+    {
+      "slug": "js-desafio-puntito",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "herramientas",
+      "module": 1,
+      "prompt": "En la pestaña de un archivo de VS Code aparece un puntito. ¿Qué significa?",
+      "content": {
+        "options": [
+          "Que hay cambios sin guardar",
+          "Que el archivo tiene errores",
+          "Que el archivo se está ejecutando",
+          "Que el archivo es nuevo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El puntito avisa que hay cambios sin guardar. Si ejecutás sin guardar (Ctrl + S), Node.js corre la versión vieja. Con Auto Save no pasa."
+    },
+    {
+      "slug": "js-desafio-alto-nivel",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "programación",
+      "module": 1,
+      "prompt": "¿Cuál de estos es un lenguaje de alto nivel?",
+      "content": {
+        "options": [
+          "JavaScript",
+          "Assembly (ensamblador)",
+          "Lenguaje máquina (binario)",
+          "Ninguno: todos son de bajo nivel"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los de alto nivel se leen casi como inglés y son más fáciles para las personas, como JavaScript o Python. El ensamblador y el binario son de bajo nivel."
+    },
+    {
+      "slug": "js-desafio-node-no-anda",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "herramientas",
+      "module": 1,
+      "prompt": "Instalaste Node.js con VS Code abierto y la terminal no reconoce el comando node. ¿Qué conviene hacer primero?",
+      "content": {
+        "options": [
+          "Cerrar VS Code y volver a abrirlo",
+          "Desinstalar VS Code",
+          "Escribir el comando en mayúsculas",
+          "Instalar Python"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La terminal que ya estaba abierta no se entera de lo que instalaste después. Cerrando y abriendo VS Code se arregla; si no, reiniciá la computadora."
+    },
+    {
+      "slug": "js-desafio-punto-code",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "En el comando code . ¿qué significa el punto?",
+      "content": {
+        "options": [
+          "La carpeta donde estás parado",
+          "La última carpeta que abriste",
+          "La carpeta de tu usuario",
+          "Todos los archivos .js"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En la terminal, el punto es \"este lugar\": la carpeta actual. Por eso code . abre VS Code justo ahí."
+    },
+    {
+      "slug": "js-desafio-orden-proyecto",
+      "type": "order_lines",
+      "difficulty": "medium",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "Ordená los comandos para que el último muestre app.js.",
+      "content": {
+        "lines": [
+          "mkdir proyecto",
+          "touch proyecto/app.js",
+          "cd proyecto",
+          "ls"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "app.js"
+      },
+      "explanation": "La carpeta tiene que existir antes de crear algo adentro (proyecto/app.js) o de entrar. Recién adentro, ls muestra app.js."
+    },
+    {
+      "slug": "js-desafio-comentario-medio",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "console.log",
+      "module": 1,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(\"Uno\");\n// console.log(\"Dos\");\nconsole.log(\"Tres\");",
+        "options": [
+          "Uno\nTres",
+          "Uno\nDos\nTres",
+          "Uno",
+          "Tres"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La línea del medio empieza con //: es un comentario, y JavaScript la ignora. En VS Code se comenta una línea con Ctrl + K y después Ctrl + C."
     }
   ]
 }
