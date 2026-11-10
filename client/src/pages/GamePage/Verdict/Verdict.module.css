@@ -97,6 +97,12 @@
   font-size: 15.5px;
 }
 
+/* La línea extra: dónde se aprende lo que preguntó */
+.text p.hint {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
 .next {
   flex-shrink: 0;
   padding: 16px 28px;

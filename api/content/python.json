@@ -5,8 +5,77 @@
     "description": "El recorrido del Master en Python, estrella por estrella.",
     "published": true
   },
+  "modules": [
+    {
+      "number": 1,
+      "title": "Primeros pasos",
+      "classes": "1–7"
+    },
+    {
+      "number": 2,
+      "title": "Variables y tipos de datos",
+      "classes": "8–18"
+    },
+    {
+      "number": 3,
+      "title": "Controladores de flujo",
+      "classes": "19–29"
+    },
+    {
+      "number": 4,
+      "title": "Estructuras de datos",
+      "classes": "30–37"
+    },
+    {
+      "number": 5,
+      "title": "Módulos de Python",
+      "classes": "38–43"
+    },
+    {
+      "number": 6,
+      "title": "Estructuras repetitivas",
+      "classes": "44–51"
+    },
+    {
+      "number": 7,
+      "title": "Funciones",
+      "classes": "52–60"
+    },
+    {
+      "number": 8,
+      "title": "Algoritmos de ordenamiento",
+      "classes": "61–67"
+    },
+    {
+      "number": 9,
+      "title": "Programación orientada a objetos",
+      "classes": "68–74"
+    },
+    {
+      "number": 10,
+      "title": "Errores y archivos",
+      "classes": "75–82"
+    },
+    {
+      "number": 11,
+      "title": "Peticiones HTTP y APIs",
+      "classes": "83–89"
+    },
+    {
+      "number": 12,
+      "title": "Aplicaciones con interfaz gráfica",
+      "classes": "90–94"
+    },
+    {
+      "number": 13,
+      "title": "Módulo bonus",
+      "classes": "95–98"
+    }
+  ],
   "stars": [
     {
+      "slug": "py-variables-print",
+      "module": 2,
       "title": "Variables y print",
       "description": "Guardar datos y mostrarlos en pantalla",
       "questions": [
@@ -125,6 +194,8 @@
       ]
     },
     {
+      "slug": "py-tipos",
+      "module": 2,
       "title": "Tipos de datos",
       "description": "Números, textos y verdadero o falso",
       "questions": [
@@ -254,6 +325,8 @@
       ]
     },
     {
+      "slug": "py-condicionales",
+      "module": 3,
       "title": "Condicionales",
       "description": "Tomar decisiones con if, elif y else",
       "questions": [
@@ -390,9 +463,11 @@
       ]
     },
     {
+      "slug": "py-examen",
+      "module": null,
       "title": "Examen",
-      "kind": "exam",
       "description": "Diez preguntas nuevas de toda la constelación, con tiempo. Aprobalo y ganás un descuento para tu próximo curso.",
+      "kind": "exam",
       "questions": []
     }
   ],
@@ -402,6 +477,7 @@
       "type": "output",
       "difficulty": "easy",
       "topic": "texto",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(\"a\", \"b\", sep=\"-\")",
@@ -422,6 +498,7 @@
       "type": "output",
       "difficulty": "easy",
       "topic": "texto",
+      "module": 4,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(len(\"hola\"))",
@@ -442,6 +519,7 @@
       "type": "output",
       "difficulty": "medium",
       "topic": "operadores",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(7 // 2)",
@@ -462,6 +540,7 @@
       "type": "output",
       "difficulty": "medium",
       "topic": "operadores",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(10 % 3)",
@@ -482,6 +561,7 @@
       "type": "output",
       "difficulty": "hard",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(bool(\"\"))",
@@ -502,6 +582,7 @@
       "type": "multiple_choice",
       "difficulty": "medium",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿De qué tipo es lo que devuelve input()?",
       "content": {
         "options": [
@@ -521,6 +602,7 @@
       "type": "output",
       "difficulty": "easy",
       "topic": "variables",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "x = 5\nx = x + 3\nprint(x)",
@@ -541,6 +623,7 @@
       "type": "output",
       "difficulty": "easy",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(\"3\" + \"4\")",
@@ -561,6 +644,7 @@
       "type": "output",
       "difficulty": "easy",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(7 / 2)",
@@ -581,6 +665,7 @@
       "type": "output",
       "difficulty": "medium",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "t = 30\nif t > 20:\n    print(\"calor\")\nelif t > 25:\n    print(\"mucho calor\")\nelse:\n    print(\"frío\")",
@@ -601,6 +686,7 @@
       "type": "output",
       "difficulty": "medium",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "edad = 15\ntiene_permiso = True\nprint(edad >= 18 and tiene_permiso)",
@@ -621,6 +707,7 @@
       "type": "output",
       "difficulty": "medium",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(2 + 3.0)",
@@ -641,6 +728,7 @@
       "type": "output",
       "difficulty": "medium",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(not 5 > 3)",
@@ -661,6 +749,7 @@
       "type": "fill_blank",
       "difficulty": "easy",
       "topic": "tipos",
+      "module": 2,
       "prompt": "Completá para que imprima \"Tengo 30 años\".",
       "content": {
         "code": "edad = 30\nprint(\"Tengo \" + ___(edad) + \" años\")",
@@ -685,6 +774,7 @@
       "type": "fill_blank",
       "difficulty": "easy",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "Completá para que imprima \"mayor\".",
       "content": {
         "code": "edad = 18\nif edad ___ 18:\n    print(\"mayor\")",
@@ -709,6 +799,7 @@
       "type": "fill_blank",
       "difficulty": "easy",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "Completá para que imprima \"chico\".",
       "content": {
         "code": "n = 3\nif n > 5:\n    print(\"grande\")\n___:\n    print(\"chico\")",
@@ -733,6 +824,7 @@
       "type": "fill_blank",
       "difficulty": "medium",
       "topic": "tipos",
+      "module": 2,
       "prompt": "Completá para que imprima 1.",
       "content": {
         "code": "print(7 ___ 3)",
@@ -757,6 +849,7 @@
       "type": "fill_blank",
       "difficulty": "medium",
       "topic": "texto",
+      "module": 2,
       "prompt": "Completá para que imprima 6.",
       "content": {
         "code": "print(___(\"hola\") ___ 2)",
@@ -787,6 +880,7 @@
       "type": "order_lines",
       "difficulty": "easy",
       "topic": "variables",
+      "module": 2,
       "prompt": "Ordená las líneas para que imprima el precio con descuento.",
       "content": {
         "lines": [
@@ -810,6 +904,7 @@
       "type": "order_lines",
       "difficulty": "easy",
       "topic": "tipos",
+      "module": 2,
       "prompt": "Ordená las líneas para que imprima 14.",
       "content": {
         "lines": [
@@ -833,6 +928,7 @@
       "type": "order_lines",
       "difficulty": "easy",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "Ordená las líneas para que imprima \"grande\".",
       "content": {
         "lines": [
@@ -856,6 +952,7 @@
       "type": "order_lines",
       "difficulty": "medium",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "Ordená las líneas para que imprima \"Llevá campera\".",
       "content": {
         "lines": [
@@ -885,6 +982,7 @@
       "type": "multiple_choice",
       "difficulty": "easy",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿De qué tipo es el valor True?",
       "content": {
         "options": [
@@ -904,6 +1002,7 @@
       "type": "multiple_choice",
       "difficulty": "easy",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "¿Qué hace == en Python?",
       "content": {
         "options": [
@@ -923,6 +1022,7 @@
       "type": "multiple_choice",
       "difficulty": "medium",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿Qué pasa al ejecutar print(\"5\" + 5)?",
       "content": {
         "options": [
@@ -942,6 +1042,7 @@
       "type": "multiple_choice",
       "difficulty": "medium",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "¿Cuándo se ejecuta el bloque de un else?",
       "content": {
         "options": [
@@ -961,6 +1062,7 @@
       "type": "multiple_choice",
       "difficulty": "hard",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿Qué pasa al ejecutar int(\"3.5\")?",
       "content": {
         "options": [
@@ -982,6 +1084,7 @@
       "type": "output",
       "difficulty": "easy",
       "topic": "texto",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "ciudad = \"Rosario\"\nprint(\"Vivo en\", ciudad)",
@@ -1002,6 +1105,7 @@
       "type": "output",
       "difficulty": "easy",
       "topic": "texto",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(\"ab\" + \"cd\" * 2)",
@@ -1022,6 +1126,7 @@
       "type": "output",
       "difficulty": "easy",
       "topic": "operadores",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(7 - 2 * 3)",
@@ -1042,6 +1147,7 @@
       "type": "output",
       "difficulty": "easy",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(type(\"5\"))",
@@ -1062,6 +1168,7 @@
       "type": "multiple_choice",
       "difficulty": "easy",
       "topic": "sintaxis",
+      "module": 1,
       "prompt": "¿Qué hace el símbolo # en Python?",
       "content": {
         "options": [
@@ -1081,6 +1188,7 @@
       "type": "output",
       "difficulty": "easy",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "edad = 18\nif edad >= 18:\n    print(\"Puede votar\")\nelse:\n    print(\"Todavía no\")",
@@ -1101,6 +1209,7 @@
       "type": "fill_blank",
       "difficulty": "easy",
       "topic": "operadores",
+      "module": 2,
       "prompt": "Completá para que imprima True.",
       "content": {
         "code": "print(5 ___ 3)",
@@ -1125,6 +1234,7 @@
       "type": "order_lines",
       "difficulty": "easy",
       "topic": "variables",
+      "module": 2,
       "prompt": "Ordená las líneas para que imprima 10.",
       "content": {
         "lines": [
@@ -1148,6 +1258,7 @@
       "type": "output",
       "difficulty": "easy",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(int(3.9))",
@@ -1168,6 +1279,7 @@
       "type": "multiple_choice",
       "difficulty": "easy",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿De qué tipo es el valor True?",
       "content": {
         "options": [
@@ -1187,6 +1299,7 @@
       "type": "output",
       "difficulty": "easy",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "x = 4\nprint(x > 2 and x < 10)",
@@ -1207,6 +1320,7 @@
       "type": "fill_blank",
       "difficulty": "easy",
       "topic": "texto",
+      "module": 2,
       "prompt": "Completá para que imprima \"Hola, Ana\".",
       "content": {
         "code": "nombre = \"Ana\"\nprint(\"Hola, \" ___ nombre)",
@@ -1231,6 +1345,7 @@
       "type": "output",
       "difficulty": "medium",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "temp = 30\nif temp > 25:\n    print(\"calor\")\nif temp > 15:\n    print(\"templado\")",
@@ -1251,6 +1366,7 @@
       "type": "output",
       "difficulty": "medium",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(int(\"8\") + 2)",
@@ -1271,6 +1387,7 @@
       "type": "output",
       "difficulty": "medium",
       "topic": "texto",
+      "module": 4,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "texto = \"Python\"\nprint(texto[0] + texto[-1])",
@@ -1291,6 +1408,7 @@
       "type": "output",
       "difficulty": "medium",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "nota = 6\nif nota >= 7:\n    print(\"Promociona\")\nelif nota >= 4:\n    print(\"Aprueba\")\nelse:\n    print(\"Desaprueba\")",
@@ -1311,6 +1429,7 @@
       "type": "fill_blank",
       "difficulty": "medium",
       "topic": "operadores",
+      "module": 2,
       "prompt": "Completá para que imprima 2.5.",
       "content": {
         "code": "print(5 ___ 2)",
@@ -1335,6 +1454,7 @@
       "type": "order_lines",
       "difficulty": "medium",
       "topic": "variables",
+      "module": 2,
       "prompt": "Ordená las líneas para que imprima 15.",
       "content": {
         "lines": [
@@ -1360,6 +1480,7 @@
       "type": "multiple_choice",
       "difficulty": "medium",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "¿Cuál de estos valores cuenta como falso en un if?",
       "content": {
         "options": [
@@ -1379,6 +1500,7 @@
       "type": "output",
       "difficulty": "medium",
       "topic": "variables",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "a = 3\nb = a\na = 10\nprint(b)",
@@ -1399,6 +1521,7 @@
       "type": "output",
       "difficulty": "medium",
       "topic": "operadores",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(2 ** 3)",
@@ -1419,6 +1542,7 @@
       "type": "fill_blank",
       "difficulty": "medium",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "Completá para que imprima \"mayor\".",
       "content": {
         "code": "edad = 20\nif edad ___ 18:\n    print(\"mayor\")\nelse:\n    print(\"menor\")",
@@ -1443,6 +1567,7 @@
       "type": "output",
       "difficulty": "hard",
       "topic": "operadores",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "x = 5\nx += 2\nx *= 3\nprint(x)",
@@ -1463,6 +1588,7 @@
       "type": "output",
       "difficulty": "hard",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(round(2.5))",
@@ -1483,6 +1609,7 @@
       "type": "output",
       "difficulty": "hard",
       "topic": "texto",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(\"5\" * 3 + \"1\")",
@@ -1503,6 +1630,7 @@
       "type": "output",
       "difficulty": "hard",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "x = 0\nif x:\n    print(\"sí\")\nelse:\n    print(\"no\")",
@@ -1523,6 +1651,7 @@
       "type": "order_lines",
       "difficulty": "hard",
       "topic": "texto",
+      "module": 2,
       "prompt": "Ordená las líneas para que imprima hola!hola!",
       "content": {
         "lines": [
@@ -1548,6 +1677,7 @@
       "type": "fill_blank",
       "difficulty": "hard",
       "topic": "condicionales",
+      "module": 3,
       "prompt": "Para aprobar hace falta un 7 o más y además haber entregado el TP. Completá para que, con nota 5, imprima \"no\".",
       "content": {
         "code": "nota = 5\nentrego = True\nif nota >= 7 ___ entrego:\n    print(\"aprobado\")\nelse:\n    print(\"no\")",
@@ -1572,6 +1702,7 @@
       "type": "output",
       "difficulty": "hard",
       "topic": "tipos",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "print(3 * \"2\" == \"222\")",
@@ -1592,6 +1723,7 @@
       "type": "output",
       "difficulty": "hard",
       "topic": "operadores",
+      "module": 2,
       "prompt": "¿Qué imprime este código?",
       "content": {
         "code": "a = 10\nb = 3\nprint(a // b, a % b)",

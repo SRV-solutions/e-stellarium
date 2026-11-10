@@ -3,6 +3,7 @@ import { sequelize } from "../db.js";
 import { HttpError } from "../lib/errors.js";
 import {
   Answer,
+  Constellation,
   Challenge,
   ChallengeAttempt,
   ChallengeAttemptQuestion,
@@ -266,12 +267,38 @@ export async function startChallenge(userId: string, challengeId: string, now = 
   });
 }
 
+// Dónde se aprende lo que preguntó: el curso, el módulo y si el curso ya es suyo
+export type LearnAt = { course: Course; owned: boolean; module: number; title: string; classes: string };
+
+async function learnAt(userId: string, question: Question, t: Transaction): Promise<LearnAt | null> {
+  if (question.module === null) return null;
+  const constellation = await Constellation.findOne({
+    where: { productId: question.productId },
+    include: [Product],
+    transaction: t,
+  });
+  const module = constellation?.modules.find((m) => m.number === question.module);
+  if (!constellation || !module) return null;
+  const owned = await Enrollment.count({
+    where: { userId, productId: question.productId, status: "active" },
+    transaction: t,
+  });
+  return {
+    course: { key: constellation.Product!.key, name: constellation.Product!.name },
+    owned: owned > 0,
+    module: module.number,
+    title: module.title,
+    classes: module.classes,
+  };
+}
+
 export type ChallengeVerdict = {
   correct: boolean;
   timedOut: boolean; // se le terminó el tiempo antes de que llegara la respuesta
   solution: object | null;
   output: string | null;
   explanation: string;
+  learnAt: LearnAt | null; // para mostrar dónde se aprende, sobre todo si no la supo
   xpGained: number; // por esta respuesta y, si era la última, por terminar el desafío
   finished: boolean;
   result: ChallengeResult | null;
@@ -300,7 +327,7 @@ export async function answerChallenge(
     const current = await advanceClock(rows, now, t);
     await recordActivity(user, now, t);
 
-    let verdict: Omit<ChallengeVerdict, "xpGained" | "finished" | "result">;
+    let verdict: Omit<ChallengeVerdict, "xpGained" | "finished" | "result" | "learnAt">;
     let xpGained = 0;
 
     if (current?.position === position) {
@@ -341,6 +368,7 @@ export async function answerChallenge(
 
     return {
       ...verdict,
+      learnAt: await learnAt(userId, row.Question, t),
       xpGained,
       finished,
       result: finished ? result(attempt, rows, await courseOf(rows, "explore", t)) : null,

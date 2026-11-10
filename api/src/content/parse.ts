@@ -1,6 +1,7 @@
 import { validateQuestion } from "../games/validate.js";
 import type { Difficulty, QuestionAnswer, QuestionContent, QuestionType } from "../models/Question.js";
 import type { StarKind } from "../models/Star.js";
+import type { CourseModule } from "../models/Constellation.js";
 
 export type ContentQuestion = {
   slug: string;
@@ -11,9 +12,12 @@ export type ContentQuestion = {
   content: QuestionContent;
   answer: QuestionAnswer;
   explanation: string;
+  module?: number; // el módulo del curso donde se aprende
 };
 
 export type ContentStar = {
+  slug: string;
+  module: number | null;
   title: string;
   description: string | null;
   kind: StarKind;
@@ -23,6 +27,7 @@ export type ContentStar = {
 export type ContentFile = {
   course: string;
   constellation: { name: string; description: string | null; published: boolean };
+  modules: CourseModule[];
   stars: ContentStar[];
   bank: ContentQuestion[];
   challenges: ContentQuestion[];
@@ -40,8 +45,13 @@ function isText(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
 
+// Un módulo, si viene, tiene que estar en la lista de módulos del archivo
+function badModule(value: unknown, modules: Set<number>) {
+  return value !== undefined && value !== null && !(Number.isInteger(value) && modules.has(value as number));
+}
+
 // Revisa una pregunta. Anota los errores en `errors` y devuelve la pregunta si está bien
-function checkQuestion(raw: unknown, where: string, seen: Set<string>, errors: string[]) {
+function checkQuestion(raw: unknown, where: string, seen: Set<string>, errors: string[], modules: Set<number>) {
   if (!isObject(raw)) {
     errors.push(`${where}: tiene que ser un objeto.`);
     return null;
@@ -64,6 +74,7 @@ function checkQuestion(raw: unknown, where: string, seen: Set<string>, errors: s
   if (!isText(topic) || topic.length > 60) problems.push("Falta el tema (topic), o tiene más de 60 caracteres.");
   if (!isText(prompt)) problems.push("Falta el enunciado (prompt).");
   if (!isText(explanation)) problems.push("Falta la explicación.");
+  if (badModule(raw.module, modules)) problems.push(`El módulo ${String(raw.module)} no está en la lista de módulos.`);
   if (typeof type === "string" && TYPES.includes(type)) {
     problems.push(...validateQuestion(type, content, answer));
   }
@@ -76,7 +87,7 @@ type ParseResult = { ok: true; file: ContentFile } | { ok: false; errors: string
 
 export function parseContentFile(data: unknown): ParseResult {
   if (!isObject(data)) return { ok: false, errors: ["El archivo tiene que ser un objeto JSON."] };
-  const { course, constellation, stars, bank = [], challenges = [] } = data;
+  const { course, constellation, stars, bank = [], challenges = [], modules = [] } = data;
   const errors: string[] = [];
 
   // Primero, la estructura general
@@ -84,6 +95,7 @@ export function parseContentFile(data: unknown): ParseResult {
   if (!isObject(constellation) || !isText(constellation.name)) errors.push("Falta el nombre de la constelación.");
   if (!Array.isArray(stars) || stars.length === 0) errors.push("Tiene que haber al menos una estrella.");
   if (!Array.isArray(bank)) errors.push("El banco (bank) tiene que ser una lista.");
+  if (!Array.isArray(modules)) errors.push("Los módulos (modules) tienen que ser una lista.");
   if (!Array.isArray(challenges)) errors.push("Las preguntas de desafíos (challenges) tienen que ser una lista.");
   if (
     errors.length > 0 ||
@@ -91,10 +103,25 @@ export function parseContentFile(data: unknown): ParseResult {
     !isObject(constellation) ||
     !Array.isArray(stars) ||
     !Array.isArray(bank) ||
-    !Array.isArray(challenges)
+    !Array.isArray(challenges) ||
+    !Array.isArray(modules)
   ) {
     return { ok: false, errors };
   }
+
+  // Los módulos del curso: número, título y clases, sin números repetidos
+  const parsedModules: CourseModule[] = [];
+  modules.forEach((m, i) => {
+    if (!isObject(m) || !Number.isInteger(m.number) || !isText(m.title) || !isText(m.classes)) {
+      errors.push(`Módulo ${i + 1}: tiene que tener number (entero), title y classes.`);
+    } else if (parsedModules.some((p) => p.number === m.number)) {
+      errors.push(`Módulo ${i + 1}: el número ${m.number} está repetido.`);
+    } else {
+      parsedModules.push({ number: m.number as number, title: m.title, classes: m.classes });
+    }
+  });
+  const moduleNumbers = new Set(parsedModules.map((m) => m.number));
+  const starSlugs = new Set<string>();
 
   // Después, cada estrella y cada pregunta
   const seen = new Set<string>();
@@ -105,6 +132,17 @@ export function parseContentFile(data: unknown): ParseResult {
       errors.push(`${where}: falta el título.`);
       return;
     }
+    const slug = rawStar.slug;
+    if (typeof slug !== "string" || !SLUG.test(slug) || slug.length > 80) {
+      errors.push(`${where}: falta el slug, o no es en minúsculas, con números y guiones.`);
+    } else if (starSlugs.has(slug)) {
+      errors.push(`${where}: el slug ${slug} está repetido.`);
+    } else {
+      starSlugs.add(slug);
+    }
+    if (badModule(rawStar.module, moduleNumbers)) {
+      errors.push(`${where}: el módulo ${String(rawStar.module)} no está en la lista de módulos.`);
+    }
     const kind = rawStar.kind ?? "lesson";
     if (kind !== "lesson" && kind !== "exam") errors.push(`${where}: kind tiene que ser lesson o exam.`);
     if (!Array.isArray(rawStar.questions)) {
@@ -112,9 +150,11 @@ export function parseContentFile(data: unknown): ParseResult {
       return;
     }
     const questions = rawStar.questions.map((q, j) =>
-      checkQuestion(q, `${where}, pregunta ${j + 1}`, seen, errors)
+      checkQuestion(q, `${where}, pregunta ${j + 1}`, seen, errors, moduleNumbers)
     );
     parsedStars.push({
+      slug: slug as string,
+      module: (rawStar.module as number | undefined) ?? null,
       title: rawStar.title,
       description: isText(rawStar.description) ? rawStar.description : null,
       kind: kind as StarKind,
@@ -124,9 +164,9 @@ export function parseContentFile(data: unknown): ParseResult {
   if (parsedStars.filter((s) => s.kind === "exam").length > 1) {
     errors.push("Solo puede haber un examen por constelación.");
   }
-  const parsedBank = bank.map((q, j) => checkQuestion(q, `Banco, pregunta ${j + 1}`, seen, errors));
+  const parsedBank = bank.map((q, j) => checkQuestion(q, `Banco, pregunta ${j + 1}`, seen, errors, moduleNumbers));
   const parsedChallenges = challenges.map((q, j) =>
-    checkQuestion(q, `Desafíos, pregunta ${j + 1}`, seen, errors)
+    checkQuestion(q, `Desafíos, pregunta ${j + 1}`, seen, errors, moduleNumbers)
   );
 
   if (errors.length > 0) return { ok: false, errors };
@@ -139,6 +179,7 @@ export function parseContentFile(data: unknown): ParseResult {
         description: isText(constellation.description) ? constellation.description : null,
         published: constellation.published === true,
       },
+      modules: parsedModules,
       stars: parsedStars,
       bank: parsedBank.filter((q) => q !== null),
       challenges: parsedChallenges.filter((q) => q !== null),

@@ -39,6 +39,7 @@ export class Question extends Model<InferAttributes<Question>, InferCreationAttr
   declare starId: CreationOptional<string | null>;
   declare position: CreationOptional<number | null>;
   declare pool: CreationOptional<QuestionPool | null>;
+  declare module: CreationOptional<number | null>; // el módulo del curso donde se aprende
   declare type: QuestionType;
   declare difficulty: Difficulty;
   declare topic: string;
@@ -63,6 +64,7 @@ Question.init(
     starId: { type: DataTypes.UUID, allowNull: true },
     position: { type: DataTypes.INTEGER, allowNull: true },
     pool: { type: DataTypes.ENUM("exam", "challenge"), allowNull: true },
+    module: { type: DataTypes.INTEGER, allowNull: true },
     type: {
       type: DataTypes.ENUM("output", "fill_blank", "order_lines", "multiple_choice"),
       allowNull: false,

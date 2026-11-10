@@ -17,9 +17,15 @@ const question = (slug: string) => ({
 const validFile = {
   course: "python",
   constellation: { name: "Constelación Python", published: true },
-  stars: [{ title: "Variables", questions: [question("py-uno"), question("py-dos")] }],
-  bank: [question("py-banco")],
+  modules: [
+    { number: 1, title: "Primeros pasos", classes: "1-7" },
+    { number: 2, title: "Variables y tipos de datos", classes: "8-18" },
+  ],
+  stars: [{ slug: "py-variables", module: 2, title: "Variables", questions: [question("py-uno"), question("py-dos")] }],
+  bank: [{ ...question("py-banco"), module: 1 }],
 };
+
+const exam = { slug: "py-examen", title: "Examen", kind: "exam", questions: [] };
 
 describe("revisión del archivo de contenido", () => {
   it("acepta un archivo bien armado", () => {
@@ -36,9 +42,11 @@ describe("revisión del archivo de contenido", () => {
     const result = parseContentFile({
       ...validFile,
       stars: [
-        { title: "Variables", questions: [question("py-uno"), { ...question("py-uno"), difficulty: "facil" }] },
+        { slug: "py-variables", title: "Variables", questions: [question("py-uno"), { ...question("py-uno"), difficulty: "facil" }] },
+        { slug: "py-variables", module: 9, title: "Otra", questions: [] },
         { questions: [] },
       ],
+      bank: [{ ...question("py-banco"), module: 7 }],
     });
 
     expect(result.ok).toBe(false);
@@ -46,7 +54,10 @@ describe("revisión del archivo de contenido", () => {
     expect(result.errors).toEqual([
       "Estrella 1, pregunta 2 (py-uno): El slug está repetido en el archivo.",
       "Estrella 1, pregunta 2 (py-uno): La dificultad tiene que ser easy, medium o hard.",
-      "Estrella 2: falta el título.",
+      "Estrella 2: el slug py-variables está repetido.",
+      "Estrella 2: el módulo 9 no está en la lista de módulos.",
+      "Estrella 3: falta el título.",
+      "Banco, pregunta 1 (py-banco): El módulo 7 no está en la lista de módulos.",
     ]);
   });
 
@@ -98,7 +109,9 @@ describe("carga de contenido", () => {
     await loadContent(fileOf(validFile));
     const withNew = {
       ...validFile,
-      stars: [{ title: "Variables", questions: [question("py-uno"), question("py-nueva"), question("py-dos")] }],
+      stars: [
+        { slug: "py-variables", module: 2, title: "Variables", questions: [question("py-uno"), question("py-nueva"), question("py-dos")] },
+      ],
     };
 
     const summary = await loadContent(fileOf(withNew));
@@ -127,6 +140,51 @@ describe("carga de contenido", () => {
     expect(bank!.pool).toBe("exam");
     expect(challenge).toMatchObject({ pool: "challenge", starId: null });
     expect(lesson!.pool).toBeNull();
+  });
+
+  it("guarda los módulos del curso y el de cada pregunta (las de lección, el de su estrella)", async () => {
+    await loadContent(fileOf(validFile));
+
+    expect((await Constellation.findOne())!.modules).toEqual(validFile.modules);
+    expect((await Star.findOne())!.module).toBe(2);
+    expect((await Question.findOne({ where: { slug: "py-uno" } }))!.module).toBe(2);
+    expect((await Question.findOne({ where: { slug: "py-banco" } }))!.module).toBe(1);
+  });
+
+  it("inserta lecciones antes del examen sin que el examen se convierta en lección", async () => {
+    await loadContent(fileOf({ ...validFile, stars: [...validFile.stars, exam] }));
+    const examBefore = (await Star.findOne({ where: { kind: "exam" } }))!;
+
+    const lesson = { slug: "py-tipos", module: 2, title: "Tipos", questions: [question("py-tres")] };
+    const summary = await loadContent(fileOf({ ...validFile, stars: [...validFile.stars, lesson, exam] }));
+
+    expect(summary.stars).toEqual({ created: 1, updated: 1, unchanged: 1 });
+    const examAfter = (await Star.findOne({ where: { kind: "exam" } }))!;
+    expect(examAfter.id).toBe(examBefore.id);
+    expect(examAfter.position).toBe(3);
+    expect((await Star.findOne({ where: { slug: "py-tipos" } }))!.position).toBe(2);
+  });
+
+  it("la primera carga con slugs adopta las estrellas que ya existían en el mismo lugar", async () => {
+    await loadContent(fileOf(validFile));
+    const old = (await Star.findOne())!;
+    await old.update({ slug: null }); // como estaban antes de esta versión
+
+    await loadContent(fileOf(validFile));
+
+    expect(await Star.count()).toBe(1);
+    expect((await Star.findByPk(old.id))!.slug).toBe("py-variables");
+  });
+
+  it("si una estrella de la base falta en el archivo, o cambia de tipo, no carga nada", async () => {
+    await loadContent(fileOf({ ...validFile, stars: [...validFile.stars, exam] }));
+
+    await expect(loadContent(fileOf(validFile))).rejects.toThrow("Examen (py-examen)");
+    const asLesson = { ...exam, kind: "lesson" };
+    await expect(loadContent(fileOf({ ...validFile, stars: [...validFile.stars, asLesson] }))).rejects.toThrow(
+      /no puede cambiar de exam a lesson/
+    );
+    expect(await Star.count()).toBe(2);
   });
 
   it("si el curso no existe, no carga nada", async () => {

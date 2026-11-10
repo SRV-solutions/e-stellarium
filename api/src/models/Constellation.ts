@@ -10,6 +10,9 @@ import { sequelize } from "../db.js";
 import type { Product } from "./Product.js";
 import type { Star } from "./Star.js";
 
+// Un módulo del curso, como en la guía de estudio
+export type CourseModule = { number: number; title: string; classes: string };
+
 export class Constellation extends Model<
   InferAttributes<Constellation>,
   InferCreationAttributes<Constellation>
@@ -19,6 +22,7 @@ export class Constellation extends Model<
   declare name: string;
   declare description: CreationOptional<string | null>;
   declare published: CreationOptional<boolean>;
+  declare modules: CreationOptional<CourseModule[]>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
   declare Product?: NonAttribute<Product>;
@@ -32,6 +36,7 @@ Constellation.init(
     name: { type: DataTypes.STRING(120), allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: true },
     published: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
+    modules: { type: DataTypes.JSONB, allowNull: false, defaultValue: [] },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },

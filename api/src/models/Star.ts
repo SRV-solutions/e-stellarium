@@ -18,6 +18,8 @@ export class Star extends Model<InferAttributes<Star>, InferCreationAttributes<S
   declare title: string;
   declare description: CreationOptional<string | null>;
   declare kind: CreationOptional<StarKind>;
+  declare slug: CreationOptional<string | null>;
+  declare module: CreationOptional<number | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
   declare Constellation?: NonAttribute<Constellation>;
@@ -31,6 +33,8 @@ Star.init(
     title: { type: DataTypes.STRING(120), allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: true },
     kind: { type: DataTypes.ENUM("lesson", "exam"), allowNull: false, defaultValue: "lesson" },
+    slug: { type: DataTypes.STRING(80), allowNull: true, unique: true },
+    module: { type: DataTypes.INTEGER, allowNull: true },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },

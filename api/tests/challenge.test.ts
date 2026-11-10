@@ -4,6 +4,7 @@ import {
   Answer,
   Challenge,
   ChallengeAttempt,
+  Constellation,
   ChallengeAttemptQuestion,
   DailyActivity,
   Product,
@@ -232,6 +233,8 @@ describe("jugar un desafío", () => {
     const res = await agent.post(`/challenges/${id}/answer`).send({ position: 1, response: right(body.current) });
     expect(res.status).toBe(200);
     expect(res.body).toMatchObject({ correct: true, timedOut: false, xpGained: 5, finished: false, explanation: "2 + 2 es 4." });
+    // Las preguntas de prueba no tienen módulo: no hay dónde aprenderlo
+    expect(res.body.learnAt).toBeNull();
 
     expect(await Answer.count({ where: { userId: user.id, context: "challenge" } })).toBe(1);
     expect(await DailyActivity.count({ where: { userId: user.id } })).toBe(1);
@@ -251,6 +254,27 @@ describe("jugar un desafío", () => {
       { part: "own", correct: true },
       { part: "own", correct: null },
     ]);
+  });
+
+  it("dice en qué curso y módulo se aprende lo que preguntó", async () => {
+    const { agent, id, body } = await started();
+    const row = (await ChallengeAttemptQuestion.findOne({ where: { position: 1 } }))!;
+    const question = (await Question.findByPk(row.questionId))!;
+    await question.update({ module: 3 });
+    await Constellation.create({
+      productId: question.productId,
+      name: "Constelación",
+      modules: [{ number: 3, title: "Controladores de flujo", classes: "19-29" }],
+    });
+
+    const res = await agent.post(`/challenges/${id}/answer`).send({ position: 1, response: wrong(body.current) });
+    expect(res.body.learnAt).toEqual({
+      course: { key: "python", name: "Master en Python" },
+      owned: true,
+      module: 3,
+      title: "Controladores de flujo",
+      classes: "19-29",
+    });
   });
 
   it("si se le venció el tiempo, cuenta como mal", async () => {

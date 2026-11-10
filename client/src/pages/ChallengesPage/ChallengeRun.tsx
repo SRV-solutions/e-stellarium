@@ -82,6 +82,15 @@ export function ChallengeRun({ view, title, onFinished, onLeave }: Props) {
   // Si se le venció, no hay solución para marcar en el juego
   const gameResult = verdict?.solution ? result : null;
 
+  // Si no la supo, dónde se aprende: el desafío es para animarse a lo que todavía no vio
+  const learn = verdict?.learnAt;
+  const hint =
+    verdict && !verdict.correct && learn
+      ? learn.owned
+        ? `No pasa nada: esto lo ves en el módulo ${learn.module} de ${learn.course.name}, ${learn.title} (clases ${learn.classes}).`
+        : `Esto se ve en ${learn.course.name}, módulo ${learn.module}: ${learn.title}. Es un curso que todavía no tenés.`
+      : undefined;
+
   function mark(index: number, correct: boolean) {
     setResults((previous) => {
       const next = [...previous];
@@ -199,6 +208,7 @@ export function ChallengeRun({ view, title, onFinished, onLeave }: Props) {
           result={result}
           onNext={next}
           missTitle={verdict!.timedOut ? "Se terminó el tiempo" : "Casi. Puede volver en otro desafío"}
+          hint={hint}
         />
       ) : timeUp ? (
         // Se acabó el tiempo antes de responder: cuenta como mal

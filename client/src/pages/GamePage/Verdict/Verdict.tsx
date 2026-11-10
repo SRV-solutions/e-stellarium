@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import type { AnswerResult } from "../../../types";
 import styles from "./Verdict.module.css";
 
@@ -6,9 +6,10 @@ type Props = {
   result: AnswerResult;
   onNext: () => void;
   missTitle?: string; // el título si no acertó
+  hint?: ReactNode; // una línea más debajo de la explicación (en los desafíos: dónde se aprende)
 };
 
-export function Verdict({ result, onNext, missTitle = "Casi. Esta va a tu repaso" }: Props) {
+export function Verdict({ result, onNext, missTitle = "Casi. Esta va a tu repaso", hint }: Props) {
   const button = useRef<HTMLButtonElement>(null);
 
   // Al aparecer, el foco va a "Continuar": con Enter se sigue, sin buscar el botón
@@ -38,6 +39,7 @@ export function Verdict({ result, onNext, missTitle = "Casi. Esta va a tu repaso
         <div className={styles.text}>
           <strong>{title}</strong>
           <p>{result.explanation}</p>
+          {hint && <p className={styles.hint}>{hint}</p>}
         </div>
         <button ref={button} type="button" className={styles.next} onClick={onNext}>
           Continuar

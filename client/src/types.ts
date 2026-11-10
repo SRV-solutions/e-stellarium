@@ -225,6 +225,14 @@ export type ChallengeVerdict = {
   solution: AnswerResponse | null;
   output: string | null;
   explanation: string;
+  // Dónde se aprende lo que preguntó: el curso (y si ya es suyo), el módulo y sus clases
+  learnAt: {
+    course: { key: string; name: string };
+    owned: boolean;
+    module: number;
+    title: string;
+    classes: string;
+  } | null;
   xpGained: number;
   finished: boolean;
   result: ChallengeResult | null;
