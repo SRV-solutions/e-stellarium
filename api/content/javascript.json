@@ -68,9 +68,1071 @@
             "correct": 0
           },
           "explanation": "const crea una variable que, una vez asignada, no se puede volver a asignar. let y var sí se pueden reasignar."
+        },
+        {
+          "slug": "js-var-template",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const nombre = \"Ana\";\nconsole.log(`Hola, ${nombre}`);",
+            "options": [
+              "Hola, Ana",
+              "Hola, ${nombre}",
+              "Hola, nombre",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Entre comillas invertidas (`) se puede meter una variable con ${...}: JavaScript la reemplaza por su valor."
+        },
+        {
+          "slug": "js-var-fill-const",
+          "type": "fill_blank",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "Completá para guardar el valor y mostrarlo.",
+          "content": {
+            "code": "___ PI = 3.14;\nconsole.log(PI);",
+            "blanks": [
+              [
+                "const",
+                "print",
+                "function"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "3.14"
+          },
+          "explanation": "Las variables se declaran con const (o let). print no existe en JavaScript y function sirve para otra cosa."
+        },
+        {
+          "slug": "js-var-orden-suma",
+          "type": "order_lines",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "Ordená las líneas para que imprima 15.",
+          "content": {
+            "lines": [
+              "let total = 10;",
+              "total = total + 5;",
+              "console.log(total);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2
+            ],
+            "output": "15"
+          },
+          "explanation": "Primero se declara total, después se le suma 5, y recién al final se muestra."
         }
       ]
+    },
+    {
+      "title": "Tipos de datos",
+      "description": "Números, textos y cómo se convierten",
+      "questions": [
+        {
+          "slug": "js-tipos-typeof",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "tipos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(typeof 42);",
+            "options": [
+              "number",
+              "string",
+              "42",
+              "integer"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "typeof dice el tipo de un valor. En JavaScript todos los números, con o sin decimales, son number."
+        },
+        {
+          "slug": "js-tipos-resta-texto",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "tipos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(\"10\" - 4);",
+            "options": [
+              "6",
+              "104",
+              "NaN",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El - solo sirve para números, así que JavaScript convierte \"10\" en 10 y resta: 6. Con + hubiera pegado los textos: \"104\"."
+        },
+        {
+          "slug": "js-tipos-number",
+          "type": "fill_blank",
+          "difficulty": "easy",
+          "topic": "tipos",
+          "prompt": "Completá para que imprima 8.",
+          "content": {
+            "code": "const texto = \"5\";\nconsole.log(___(texto) + 3);",
+            "blanks": [
+              [
+                "Number",
+                "String",
+                "typeof"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "8"
+          },
+          "explanation": "Number convierte el texto \"5\" en el número 5, y 5 + 3 es 8. Con String seguiría siendo texto y daría \"53\"."
+        },
+        {
+          "slug": "js-tipos-undefined",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "tipos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "let x;\nconsole.log(x);",
+            "options": [
+              "undefined",
+              "null",
+              "0",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Una variable declarada sin valor vale undefined: existe, pero todavía no tiene nada adentro."
+        },
+        {
+          "slug": "js-tipos-orden-edad",
+          "type": "order_lines",
+          "difficulty": "easy",
+          "topic": "tipos",
+          "prompt": "Ordená las líneas para que imprima 21.",
+          "content": {
+            "lines": [
+              "const edadTexto = \"20\";",
+              "const edad = Number(edadTexto);",
+              "console.log(edad + 1);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2
+            ],
+            "output": "21"
+          },
+          "explanation": "Primero el texto, después se convierte en número con Number, y recién ahí se le puede sumar 1."
+        },
+        {
+          "slug": "js-tipos-mc-typeof-texto",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "tipos",
+          "prompt": "¿Qué devuelve typeof \"hola\"?",
+          "content": {
+            "options": [
+              "\"string\"",
+              "\"text\"",
+              "\"char\"",
+              "\"undefined\""
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los textos en JavaScript son del tipo string, y typeof lo devuelve como texto: \"string\"."
+        }
+      ]
+    },
+    {
+      "title": "Condicionales",
+      "description": "Tomar decisiones con if, else y comparaciones",
+      "questions": [
+        {
+          "slug": "js-cond-if-else",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "condicionales",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const edad = 16;\nif (edad >= 18) {\n  console.log(\"mayor\");\n} else {\n  console.log(\"menor\");\n}",
+            "options": [
+              "menor",
+              "mayor",
+              "16",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "16 >= 18 es falso, así que se saltea el bloque del if y se ejecuta el del else."
+        },
+        {
+          "slug": "js-cond-triple-igual",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "condicionales",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(5 === \"5\");",
+            "options": [
+              "false",
+              "true",
+              "5",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "=== compara el valor y también el tipo. 5 es number y \"5\" es string, así que no son iguales."
+        },
+        {
+          "slug": "js-cond-fill-par",
+          "type": "fill_blank",
+          "difficulty": "easy",
+          "topic": "condicionales",
+          "prompt": "Completá para que imprima \"par\".",
+          "content": {
+            "code": "const n = 6;\nif (n % 2 ___ 0) {\n  console.log(\"par\");\n} else {\n  console.log(\"impar\");\n}",
+            "blanks": [
+              [
+                "===",
+                "!==",
+                ">"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "par"
+          },
+          "explanation": "% da el resto de la división. Un número es par si el resto de dividirlo por 2 es igual (===) a 0."
+        },
+        {
+          "slug": "js-cond-orden-nota",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "condicionales",
+          "prompt": "Ordená las líneas para que imprima \"recupera\".",
+          "content": {
+            "lines": [
+              "const nota = 5;",
+              "if (nota >= 6) console.log(\"aprobado\");",
+              "else if (nota >= 4) console.log(\"recupera\");",
+              "else console.log(\"desaprobado\");"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "recupera"
+          },
+          "explanation": "Va la constante, después el if, el else if y al final el else. Con nota 5 no se cumple nota >= 6, pero sí nota >= 4."
+        },
+        {
+          "slug": "js-cond-ternario",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "condicionales",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const n = 3;\nconsole.log(n > 5 ? \"grande\" : \"chico\");",
+            "options": [
+              "chico",
+              "grande",
+              "true",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "condición ? a : b es un if en una línea: si la condición es verdadera da a, si no, b. 3 > 5 es falso, así que da \"chico\"."
+        },
+        {
+          "slug": "js-cond-mc-igualdades",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "condicionales",
+          "prompt": "¿Cuál es la diferencia entre == y ===?",
+          "content": {
+            "options": [
+              "=== compara también el tipo; == convierte los tipos antes de comparar",
+              "Ninguna, son iguales",
+              "== compara también el tipo; === no",
+              "=== sirve solo para números"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "5 == \"5\" da true porque == convierte el texto en número antes de comparar. 5 === \"5\" da false porque los tipos son distintos. Por eso se usa ===."
+        }
+      ]
+    },
+    {
+      "title": "Bucles",
+      "description": "Repetir con for y while",
+      "questions": [
+        {
+          "slug": "js-bucle-for-suma",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "bucles",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "let suma = 0;\nfor (let i = 1; i <= 3; i++) {\n  suma = suma + i;\n}\nconsole.log(suma);",
+            "options": [
+              "6",
+              "3",
+              "123",
+              "0"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El for da tres vueltas, con i valiendo 1, 2 y 3. suma va acumulando: 1, después 3, después 6."
+        },
+        {
+          "slug": "js-bucle-cuantas-vueltas",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "bucles",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "let veces = 0;\nfor (let i = 0; i < 5; i++) {\n  veces++;\n}\nconsole.log(veces);",
+            "options": [
+              "5",
+              "4",
+              "6",
+              "0"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "i arranca en 0 y el bucle sigue mientras i < 5: vale 0, 1, 2, 3 y 4. Son 5 vueltas."
+        },
+        {
+          "slug": "js-bucle-fill-while",
+          "type": "fill_blank",
+          "difficulty": "easy",
+          "topic": "bucles",
+          "prompt": "Completá para que imprima 3.",
+          "content": {
+            "code": "let i = 0;\n___ (i < 3) {\n  i++;\n}\nconsole.log(i);",
+            "blanks": [
+              [
+                "while",
+                "if",
+                "for"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "3"
+          },
+          "explanation": "while repite el bloque mientras la condición sea verdadera: suma 1 hasta que i llega a 3. Un if lo haría una sola vez y daría 1."
+        },
+        {
+          "slug": "js-bucle-orden-acumular",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "bucles",
+          "prompt": "Ordená las líneas para que imprima 8.",
+          "content": {
+            "lines": [
+              "let total = 0;",
+              "for (let i = 0; i < 4; i++) {",
+              "  total = total + 2;",
+              "}",
+              "console.log(total);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "output": "8"
+          },
+          "explanation": "total se declara antes del for. Adentro se le suma 2 en cada una de las 4 vueltas, y el console.log va después de la llave que cierra, para mostrar el total una sola vez."
+        },
+        {
+          "slug": "js-bucle-break",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "bucles",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "let ultimo = 0;\nfor (let i = 1; i <= 5; i++) {\n  if (i === 3) break;\n  ultimo = i;\n}\nconsole.log(ultimo);",
+            "options": [
+              "2",
+              "3",
+              "5",
+              "1"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "break corta el bucle en el momento. Cuando i llega a 3 se sale antes de guardarlo, así que el último valor guardado es 2."
+        },
+        {
+          "slug": "js-bucle-mc-while",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "bucles",
+          "prompt": "¿Cuándo se detiene un while?",
+          "content": {
+            "options": [
+              "Cuando su condición deja de ser verdadera",
+              "Después de 10 vueltas",
+              "Nunca, hay que cerrar el programa",
+              "Cuando su condición es verdadera"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "while revisa la condición antes de cada vuelta y sigue mientras sea verdadera. Si nunca deja de serlo, el bucle no termina."
+        }
+      ]
+    },
+    {
+      "title": "Examen",
+      "kind": "exam",
+      "description": "Diez preguntas nuevas de toda la constelación, con tiempo. Aprobalo y ganás un descuento para tu próximo curso.",
+      "questions": []
     }
   ],
-  "bank": []
+  "bank": [
+    {
+      "slug": "js-banco-reasignar",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "variables",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "let a = 4;\na = a - 1;\na = a * 2;\nconsole.log(a);",
+        "options": [
+          "6",
+          "7",
+          "4",
+          "8"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "a vale 4, después 4 - 1 = 3, y después 3 * 2 = 6."
+    },
+    {
+      "slug": "js-banco-suma-y-texto",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(1 + 2 + \"3\");",
+        "options": [
+          "33",
+          "123",
+          "6",
+          "15"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se calcula de izquierda a derecha: 1 + 2 es 3 (números). Después 3 + \"3\" pega un número con un texto: \"33\"."
+    },
+    {
+      "slug": "js-banco-typeof-bool",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(typeof true);",
+        "options": [
+          "boolean",
+          "string",
+          "true",
+          "bool"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "true y false son del tipo boolean."
+    },
+    {
+      "slug": "js-banco-division",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(7 / 2);",
+        "options": [
+          "3.5",
+          "3",
+          "4",
+          "3,5"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En JavaScript la división da con decimales, y el decimal se escribe con punto: 3.5."
+    },
+    {
+      "slug": "js-banco-resto",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(10 % 3);",
+        "options": [
+          "1",
+          "3",
+          "0",
+          "3.33"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "% da el resto de la división: 10 dividido 3 da 3 y sobra 1."
+    },
+    {
+      "slug": "js-banco-doble-igual",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(5 == \"5\");",
+        "options": [
+          "true",
+          "false",
+          "5",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "== convierte los tipos antes de comparar: \"5\" pasa a ser 5, y 5 es igual a 5. Con === daría false."
+    },
+    {
+      "slug": "js-banco-or",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "condicionales",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const llueve = false;\nconst frio = true;\nconsole.log(llueve || frio);",
+        "options": [
+          "true",
+          "false",
+          "llueve",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "|| (o) es verdadero si al menos una de las dos partes lo es. frio es true, así que da true."
+    },
+    {
+      "slug": "js-banco-not",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(!(3 > 2));",
+        "options": [
+          "false",
+          "true",
+          "3",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "3 > 2 es true, y ! lo invierte: false."
+    },
+    {
+      "slug": "js-banco-length",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(\"hola\".length);",
+        "options": [
+          "4",
+          "5",
+          "hola",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": ".length es la cantidad de caracteres de un texto. \"hola\" tiene 4."
+    },
+    {
+      "slug": "js-banco-for-restar",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "bucles",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "let x = 10;\nfor (let i = 0; i < 3; i++) {\n  x = x - 2;\n}\nconsole.log(x);",
+        "options": [
+          "4",
+          "6",
+          "8",
+          "10"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El for da 3 vueltas y en cada una le resta 2: 10, 8, 6, 4."
+    },
+    {
+      "slug": "js-banco-elseif-primero",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const t = 30;\nif (t > 20) {\n  console.log(\"calor\");\n} else if (t > 25) {\n  console.log(\"mucho calor\");\n} else {\n  console.log(\"frío\");\n}",
+        "options": [
+          "calor",
+          "mucho calor",
+          "frío",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se revisan las condiciones en orden y se ejecuta solo la primera que se cumple. 30 > 20 ya es verdadero, así que no se mira el else if, aunque también se cumpla."
+    },
+    {
+      "slug": "js-banco-undefined-mas-uno",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "let x;\nconsole.log(x + 1);",
+        "options": [
+          "NaN",
+          "1",
+          "undefined1",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "x vale undefined, y undefined + 1 no es un número válido: da NaN (\"no es un número\")."
+    },
+    {
+      "slug": "js-banco-fill-template",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "variables",
+      "prompt": "Completá para que imprima \"Tengo 30 años\".",
+      "content": {
+        "code": "const edad = 30;\nconsole.log(___Tengo ${edad} años___);",
+        "blanks": [
+          [
+            "`",
+            "\"",
+            "'"
+          ],
+          [
+            "`",
+            "\"",
+            "'"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0,
+          0
+        ],
+        "output": "Tengo 30 años"
+      },
+      "explanation": "${edad} solo se reemplaza por el valor dentro de comillas invertidas (`). Con comillas comunes se imprime ${edad} tal cual."
+    },
+    {
+      "slug": "js-banco-fill-mas-igual",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "variables",
+      "prompt": "Completá para que imprima 15.",
+      "content": {
+        "code": "let total = 10;\ntotal ___ 5;\nconsole.log(total);",
+        "blanks": [
+          [
+            "+=",
+            "=",
+            "-="
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "15"
+      },
+      "explanation": "total += 5 es lo mismo que total = total + 5. Con = quedaría en 5, y con -= también."
+    },
+    {
+      "slug": "js-banco-fill-triple-igual",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "Completá para que imprima \"distintos\".",
+      "content": {
+        "code": "const a = 1;\nconst b = \"1\";\nif (a ___ b) {\n  console.log(\"iguales\");\n} else {\n  console.log(\"distintos\");\n}",
+        "blanks": [
+          [
+            "===",
+            "==",
+            "="
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "distintos"
+      },
+      "explanation": "=== compara también el tipo: 1 es number y \"1\" es string, así que da false y se ejecuta el else. == los convertiría y diría \"iguales\"; un solo = intenta cambiar una constante y da error."
+    },
+    {
+      "slug": "js-banco-fill-menor-igual",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "bucles",
+      "prompt": "Completá para que imprima 10.",
+      "content": {
+        "code": "let suma = 0;\nfor (let i = 1; i ___ 4; i++) {\n  suma += i;\n}\nconsole.log(suma);",
+        "blanks": [
+          [
+            "<=",
+            "<",
+            ">"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "10"
+      },
+      "explanation": "Con <= el 4 también entra: 1 + 2 + 3 + 4 = 10. Con < se corta antes del 4 y da 6."
+    },
+    {
+      "slug": "js-banco-fill-length",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "prompt": "Completá para que imprima true.",
+      "content": {
+        "code": "const nombre = \"Ana\";\nconsole.log(nombre.length ___ 3);",
+        "blanks": [
+          [
+            "===",
+            ">",
+            "<"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "true"
+      },
+      "explanation": "\"Ana\" tiene 3 caracteres, así que nombre.length === 3 es verdadero."
+    },
+    {
+      "slug": "js-banco-orden-precio",
+      "type": "order_lines",
+      "difficulty": "easy",
+      "topic": "variables",
+      "prompt": "Ordená las líneas para que imprima el precio con descuento.",
+      "content": {
+        "lines": [
+          "const precio = 100;",
+          "const final = precio * 0.8;",
+          "console.log(final);"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2
+        ],
+        "output": "80"
+      },
+      "explanation": "Cada constante tiene que existir antes de usarla: primero precio, después final, y al final el console.log."
+    },
+    {
+      "slug": "js-banco-orden-saludo",
+      "type": "order_lines",
+      "difficulty": "easy",
+      "topic": "variables",
+      "prompt": "Ordená las líneas para que imprima \"Hola, Ana\".",
+      "content": {
+        "lines": [
+          "const nombre = \"Ana\";",
+          "const saludo = `Hola, ${nombre}`;",
+          "console.log(saludo);"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2
+        ],
+        "output": "Hola, Ana"
+      },
+      "explanation": "nombre tiene que existir antes de armar saludo con él, y saludo antes de mostrarlo."
+    },
+    {
+      "slug": "js-banco-orden-cuentas",
+      "type": "order_lines",
+      "difficulty": "easy",
+      "topic": "variables",
+      "prompt": "Ordená las líneas para que imprima 7.",
+      "content": {
+        "lines": [
+          "let n = 3;",
+          "n = n * 2;",
+          "n = n + 1;",
+          "console.log(n);"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "7"
+      },
+      "explanation": "3 * 2 es 6, y 6 + 1 es 7. Si se suma primero, da (3 + 1) * 2 = 8: el orden de las cuentas importa."
+    },
+    {
+      "slug": "js-banco-orden-while",
+      "type": "order_lines",
+      "difficulty": "medium",
+      "topic": "bucles",
+      "prompt": "Ordená las líneas para que imprima 81.",
+      "content": {
+        "lines": [
+          "let n = 1;",
+          "while (n < 50) {",
+          "  n = n * 3;",
+          "}",
+          "console.log(n);"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "output": "81"
+      },
+      "explanation": "n se multiplica por 3 mientras sea menor que 50: 1, 3, 9, 27, 81. El console.log va afuera del while, para mostrar solo el final."
+    },
+    {
+      "slug": "js-banco-orden-pares",
+      "type": "order_lines",
+      "difficulty": "hard",
+      "topic": "bucles",
+      "prompt": "Ordená las líneas para que cuente los pares del 1 al 6.",
+      "content": {
+        "lines": [
+          "let pares = 0;",
+          "for (let i = 1; i <= 6; i++) {",
+          "  if (i % 2 === 0) pares++;",
+          "}",
+          "console.log(pares);"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "output": "3"
+      },
+      "explanation": "El contador va antes del for. Adentro, el if suma 1 cuando i es par. El resultado se muestra después de la llave que cierra: 2, 4 y 6 son 3 pares."
+    },
+    {
+      "slug": "js-banco-mc-reasignar-const",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "variables",
+      "prompt": "¿Qué pasa si hacés const x = 1; y después x = 2;?",
+      "content": {
+        "options": [
+          "Da un error, porque una constante no se puede reasignar",
+          "x pasa a valer 2",
+          "x sigue valiendo 1 sin avisar",
+          "Se crea otra variable x"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "const no deja cambiar el valor: da un TypeError. Para una variable que va a cambiar se usa let."
+    },
+    {
+      "slug": "js-banco-mc-texto-numero",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "prompt": "¿De qué tipo es \"42\", con comillas?",
+      "content": {
+        "options": [
+          "string",
+          "number",
+          "boolean",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las comillas lo hacen texto, aunque adentro haya un número. Sin comillas, 42 sería number."
+    },
+    {
+      "slug": "js-banco-mc-mas-mas",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "bucles",
+      "prompt": "¿Qué hace i++?",
+      "content": {
+        "options": [
+          "Le suma 1 a i",
+          "Le resta 1 a i",
+          "Duplica el valor de i",
+          "Compara i con 1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "i++ es lo mismo que i = i + 1. Es lo que se usa en el for para avanzar de a uno."
+    },
+    {
+      "slug": "js-banco-mc-let-vacio",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "prompt": "¿Qué valor tiene una variable declarada con let, pero sin asignarle nada?",
+      "content": {
+        "options": [
+          "undefined",
+          "null",
+          "0",
+          "\"\" (un texto vacío)"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "let x; crea la variable sin valor, y JavaScript le pone undefined."
+    },
+    {
+      "slug": "js-banco-mc-cuantas-vueltas",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "bucles",
+      "prompt": "¿Cuántas veces se ejecuta el bloque de for (let i = 0; i < 3; i++)?",
+      "content": {
+        "options": [
+          "3",
+          "2",
+          "4",
+          "Infinitas"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "i vale 0, 1 y 2. Cuando llega a 3, i < 3 es falso y el for termina. Son 3 vueltas."
+    }
+  ]
 }
