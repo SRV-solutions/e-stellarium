@@ -2088,6 +2088,804 @@
       ]
     },
     {
+      "slug": "js-algoritmos",
+      "module": 8,
+      "title": "Burbuja, inserción y selección",
+      "description": "Tres formas de ordenar a mano: el swap, la bandera y los dos bucles anidados.",
+      "questions": [
+        {
+          "slug": "js-alg-para-que",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "ordenamiento",
+          "prompt": "¿Para qué sirve tener los datos ordenados?",
+          "content": {
+            "options": [
+              "Para que buscar información sea mucho más rápido",
+              "Para que ocupen menos memoria",
+              "Para que no se puedan modificar",
+              "Para poder recorrerlos con un for"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con los datos ordenados, buscar algo (por ejemplo, en una base de datos enorme) es mucho más rápido."
+        },
+        {
+          "slug": "js-alg-swap",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "ordenamiento",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const array = [5, 1];\nconst auxiliar = array[0];\narray[0] = array[1];\narray[1] = auxiliar;\nconsole.log(array);",
+            "options": [
+              "[ 1, 5 ]",
+              "[ 5, 1 ]",
+              "[ 1, 1 ]",
+              "[ 5, 5 ]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es el intercambio (swap) del bubble sort. La variable auxiliar guarda el 5 antes de pisarlo, así no se pierde ningún valor."
+        },
+        {
+          "slug": "js-alg-swap-sin-auxiliar",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "ordenamiento",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const array = [5, 1];\narray[0] = array[1];\narray[1] = array[0];\nconsole.log(array);",
+            "options": [
+              "[ 1, 1 ]",
+              "[ 1, 5 ]",
+              "[ 5, 1 ]",
+              "[ 5, 5 ]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Sin variable auxiliar, la primera línea pisa el 5 con el 1, y el 5 se pierde. Por eso el swap necesita guardar uno de los valores antes."
+        },
+        {
+          "slug": "js-alg-burbuja-pasada",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "ordenamiento",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const array = [4, 3, 9, 1];\nfor (let i = 0; i < array.length - 1; i++) {\n  if (array[i] > array[i + 1]) {\n    const auxiliar = array[i];\n    array[i] = array[i + 1];\n    array[i + 1] = auxiliar;\n  }\n}\nconsole.log(array);",
+            "options": [
+              "[ 3, 4, 1, 9 ]",
+              "[ 1, 3, 4, 9 ]",
+              "[ 3, 4, 9, 1 ]",
+              "[ 4, 3, 9, 1 ]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es una sola pasada del bubble sort: compara cada par vecino y los da vuelta si están mal. El más grande (9) sube hasta el final, pero el resto todavía no quedó ordenado."
+        },
+        {
+          "slug": "js-alg-bandera",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "ordenamiento",
+          "prompt": "En el bubble sort, ¿para qué sirve la variable intercambiado?",
+          "content": {
+            "options": [
+              "Si en una pasada completa no hubo intercambios, la lista ya está ordenada y el bucle termina",
+              "Guarda el valor que se está moviendo para no perderlo",
+              "Cuenta cuántos elementos tiene la lista",
+              "Marca la posición del número más chico"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es una bandera (flag): arranca cada pasada en false y se pone en true al hacer un intercambio. Si termina la pasada en false, no queda nada por ordenar."
+        },
+        {
+          "slug": "js-alg-seleccion",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "ordenamiento",
+          "prompt": "¿Qué hace el selection sort en cada vuelta del bucle de afuera?",
+          "content": {
+            "options": [
+              "Busca el más chico de la parte desordenada y lo intercambia con el primero de esa parte",
+              "Compara cada elemento con su vecino y los da vuelta si están mal",
+              "Toma un elemento y lo inserta en su lugar entre los ya ordenados, corriendo los mayores",
+              "Divide la lista en dos mitades y ordena cada una"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Primero busca el mínimo y recién después mueve: hace como mucho un intercambio por vuelta. Comparar vecinos es el bubble sort, e insertar corriendo los mayores, el insertion sort."
+        }
+      ]
+    },
+    {
+      "slug": "js-sort",
+      "module": 8,
+      "title": "El método sort()",
+      "description": "Ordenar con lo que ya trae el array, y la función de comparación para los números.",
+      "questions": [
+        {
+          "slug": "js-sort-textos",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "sort",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const frutas = [\"pera\", \"banana\", \"manzana\"];\nfrutas.sort();\nconsole.log(frutas);",
+            "options": [
+              "[ 'banana', 'manzana', 'pera' ]",
+              "[ 'pera', 'manzana', 'banana' ]",
+              "[ 'pera', 'banana', 'manzana' ]",
+              "[ 'manzana', 'banana', 'pera' ]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Sin función de comparación, sort ordena como texto, alfabéticamente. Con palabras es justo lo que querés."
+        },
+        {
+          "slug": "js-sort-numeros-texto",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "sort",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log([10, 1, 5, 100].sort());",
+            "options": [
+              "[ 1, 10, 100, 5 ]",
+              "[ 1, 5, 10, 100 ]",
+              "[ 100, 10, 5, 1 ]",
+              "[ 10, 1, 5, 100 ]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Sin función de comparación, sort compara como texto, letra por letra: \"10\" y \"100\" empiezan con \"1\", que va antes que \"5\"."
+        },
+        {
+          "slug": "js-sort-fill-ascendente",
+          "type": "fill_blank",
+          "difficulty": "easy",
+          "topic": "sort",
+          "prompt": "Completá para que ordene de menor a mayor.",
+          "content": {
+            "code": "const numeros = [10, 1, 5, 100];\nnumeros.sort((a, b) => ___);\nconsole.log(numeros);",
+            "blanks": [
+              [
+                "a - b",
+                "b - a",
+                "a + b"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "[ 1, 5, 10, 100 ]"
+          },
+          "explanation": "a - b ordena de menor a mayor: si da negativo, a va antes que b. b - a ordenaría de mayor a menor."
+        },
+        {
+          "slug": "js-sort-descendente",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "sort",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const numeros = [3, 20, 100, 7];\nnumeros.sort((a, b) => b - a);\nconsole.log(numeros[0]);",
+            "options": [
+              "100",
+              "3",
+              "7",
+              "20"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "b - a ordena de mayor a menor, así que en el índice 0 queda el más grande."
+        },
+        {
+          "slug": "js-sort-comparacion",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "sort",
+          "prompt": "En la función de comparación de sort, ¿qué pasa si devuelve un número negativo?",
+          "content": {
+            "options": [
+              "a va antes que b",
+              "b va antes que a",
+              "Se borra a",
+              "sort se detiene"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Negativo: a va antes. Positivo: b va antes. Por eso a - b ordena de menor a mayor."
+        },
+        {
+          "slug": "js-sort-orden-ultimo",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "sort",
+          "prompt": "Ordená las líneas para que imprima 3, el más chico.",
+          "content": {
+            "lines": [
+              "const notas = [8, 3, 10, 5];",
+              "notas.sort((a, b) => b - a);",
+              "const minima = notas[notas.length - 1];",
+              "console.log(minima);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "3"
+          },
+          "explanation": "Ordenado de mayor a menor, el más chico queda último: en notas.length - 1. Si leyeras el último antes de ordenar, darías con el 5."
+        }
+      ]
+    },
+    {
+      "slug": "js-clases",
+      "module": 9,
+      "title": "Clases y objetos",
+      "description": "El molde y lo que sale de él: constructor, this, métodos y new.",
+      "questions": [
+        {
+          "slug": "js-cla-clase-objeto",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "POO",
+          "prompt": "¿Cuál es la diferencia entre una clase y un objeto?",
+          "content": {
+            "options": [
+              "La clase es el molde; el objeto es lo que se crea con ese molde",
+              "La clase es lo que se crea; el objeto es el molde",
+              "Son lo mismo con dos nombres",
+              "La clase guarda datos y el objeto solo funciones"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con una misma clase (el molde) podés crear todos los objetos que quieras, cada uno con sus propios datos."
+        },
+        {
+          "slug": "js-cla-constructor",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "POO",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Persona {\n  constructor(nombre, edad) {\n    this.nombre = nombre;\n    this.edad = edad;\n  }\n}\nconst ana = new Persona(\"Ana\", 30);\nconsole.log(ana.edad);",
+            "options": [
+              "30",
+              "Ana",
+              "edad",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "new crea el objeto y ejecuta el constructor, que le asigna las propiedades: this.edad pasa a valer 30."
+        },
+        {
+          "slug": "js-cla-metodo",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "POO",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Persona {\n  constructor(nombre) {\n    this.nombre = nombre;\n  }\n  saludar() {\n    return `Hola, soy ${this.nombre}`;\n  }\n}\nconst luis = new Persona(\"Luis\");\nconsole.log(luis.saludar());",
+            "options": [
+              "Hola, soy Luis",
+              "Hola, soy ${this.nombre}",
+              "Hola, soy undefined",
+              "Hola, soy nombre"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Dentro del método, this es el objeto que lo llamó (luis), así que this.nombre es \"Luis\"."
+        },
+        {
+          "slug": "js-cla-dos-objetos",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "POO",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Contador {\n  constructor() {\n    this.valor = 0;\n  }\n  sumar() {\n    this.valor++;\n  }\n}\nconst a = new Contador();\nconst b = new Contador();\na.sumar();\na.sumar();\nb.sumar();\nconsole.log(a.valor, b.valor);",
+            "options": [
+              "2 1",
+              "3 3",
+              "1 1",
+              "2 2"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Cada objeto tiene sus propios datos: sumar en a no cambia b. a sumó dos veces y b una."
+        },
+        {
+          "slug": "js-cla-fill-new",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "POO",
+          "prompt": "Completá para que imprima Fiat.",
+          "content": {
+            "code": "class Auto {\n  constructor(marca) {\n    ___.marca = marca;\n  }\n}\nconst miAuto = ___ Auto(\"Fiat\");\nconsole.log(miAuto.marca);",
+            "blanks": [
+              [
+                "this",
+                "Auto",
+                "marca"
+              ],
+              [
+                "new",
+                "class",
+                "return"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "Fiat"
+          },
+          "explanation": "this.marca guarda la propiedad en el objeto que se está creando, y new crea (instancia) el objeto a partir de la clase."
+        },
+        {
+          "slug": "js-cla-orden",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "POO",
+          "prompt": "Ordená las líneas para que imprima 15.",
+          "content": {
+            "lines": [
+              "class Caja { constructor(n) { this.n = n; } }",
+              "const caja = new Caja(5);",
+              "caja.n = caja.n * 3;",
+              "console.log(caja.n);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "15"
+          },
+          "explanation": "La clase se define antes de usarla, después se crea el objeto con n = 5, se multiplica por 3 y se imprime."
+        }
+      ]
+    },
+    {
+      "slug": "js-herencia",
+      "module": 9,
+      "title": "Herencia y encapsulamiento",
+      "description": "extends y super para heredar, # para lo privado y static para lo que es de la clase.",
+      "questions": [
+        {
+          "slug": "js-her-hereda-metodo",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "herencia",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Animal {\n  comer() {\n    return \"ñam\";\n  }\n}\nclass Perro extends Animal {}\nconst toby = new Perro();\nconsole.log(toby.comer());",
+            "options": [
+              "ñam",
+              "undefined",
+              "Error",
+              "Perro"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Perro extiende a Animal, así que hereda todos sus métodos, aunque no tenga ninguno propio."
+        },
+        {
+          "slug": "js-her-super",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "herencia",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Persona {\n  constructor(nombre) {\n    this.nombre = nombre;\n  }\n}\nclass Estudiante extends Persona {\n  constructor(nombre, grado) {\n    super(nombre);\n    this.grado = grado;\n  }\n}\nconst e = new Estudiante(\"Ana\", \"máster\");\nconsole.log(e.nombre, e.grado);",
+            "options": [
+              "Ana máster",
+              "undefined máster",
+              "Ana undefined",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "super(nombre) llama al constructor de Persona, que asigna el nombre. Después, Estudiante agrega su propiedad propia, grado."
+        },
+        {
+          "slug": "js-her-polimorfismo",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "herencia",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Animal {\n  hablar() {\n    return \"...\";\n  }\n}\nclass Gato extends Animal {\n  hablar() {\n    return \"miau\";\n  }\n}\nconsole.log(new Animal().hablar(), new Gato().hablar());",
+            "options": [
+              "... miau",
+              "miau miau",
+              "... ...",
+              "miau ..."
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es polimorfismo: el mismo método hablar() se comporta distinto según el objeto. Gato tiene el suyo, que reemplaza al de Animal."
+        },
+        {
+          "slug": "js-her-privado",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "encapsulamiento",
+          "prompt": "En una clase con #saldo = 0, ¿qué pasa si desde afuera escribís miCuenta.#saldo?",
+          "content": {
+            "options": [
+              "Da un SyntaxError: las propiedades con # son privadas",
+              "Devuelve 0",
+              "Devuelve undefined",
+              "Cambia el saldo a 0"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Lo que empieza con # solo se puede usar dentro de la clase. Desde afuera se toca a través de métodos, como depositar o verSaldo."
+        },
+        {
+          "slug": "js-her-cuenta",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "encapsulamiento",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class CuentaBancaria {\n  #saldo = 0;\n  depositar(cantidad) {\n    if (cantidad > 0) this.#saldo += cantidad;\n  }\n  retirar(cantidad) {\n    if (cantidad > 0 && cantidad <= this.#saldo) this.#saldo -= cantidad;\n  }\n  verSaldo() {\n    return this.#saldo;\n  }\n}\nconst cuenta = new CuentaBancaria();\ncuenta.depositar(100);\ncuenta.retirar(500);\ncuenta.retirar(30);\nconsole.log(cuenta.verSaldo());",
+            "options": [
+              "70",
+              "-430",
+              "100",
+              "-400"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los métodos controlan que las operaciones sean válidas: el retiro de 500 no se hace porque supera el saldo. Queda 100 - 30 = 70."
+        },
+        {
+          "slug": "js-her-static",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "POO",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Coche {\n  static marca = \"Fiat\";\n  constructor(modelo) {\n    this.modelo = modelo;\n  }\n}\nconst c = new Coche(\"Uno\");\nconsole.log(Coche.marca, c.marca);",
+            "options": [
+              "Fiat undefined",
+              "Fiat Fiat",
+              "undefined Fiat",
+              "Uno Fiat"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Lo static pertenece a la clase, no a cada objeto: se usa con Coche.marca. El objeto c no tiene esa propiedad."
+        }
+      ]
+    },
+    {
+      "slug": "js-errores",
+      "module": 10,
+      "title": "Tipos de errores",
+      "description": "Reconocer un error por su nombre: SyntaxError, ReferenceError, TypeError y RangeError.",
+      "questions": [
+        {
+          "slug": "js-err-reference",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "errores",
+          "prompt": "¿Qué error aparece si usás una variable que nunca declaraste, como console.log(x)?",
+          "content": {
+            "options": [
+              "ReferenceError",
+              "SyntaxError",
+              "TypeError",
+              "RangeError"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "ReferenceError: la variable no existe o no está definida en ese lugar del código."
+        },
+        {
+          "slug": "js-err-syntax",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "errores",
+          "prompt": "Si te olvidás de cerrar un paréntesis, como en console.log(\"Hola\", ¿qué error aparece?",
+          "content": {
+            "options": [
+              "SyntaxError",
+              "ReferenceError",
+              "TypeError",
+              "RangeError"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "SyntaxError: el código está mal escrito. Suelen ser los más fáciles, porque VS Code los subraya en rojo antes de ejecutar."
+        },
+        {
+          "slug": "js-err-type",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "errores",
+          "prompt": "¿Qué error da (10).toUpperCase()?",
+          "content": {
+            "options": [
+              "TypeError",
+              "SyntaxError",
+              "ReferenceError",
+              "RangeError"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "TypeError: usás un valor de una forma que su tipo no permite. Los números no tienen toUpperCase, que es de los strings."
+        },
+        {
+          "slug": "js-err-dividir-cero",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "errores",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(4 / 0, 0 / 0);",
+            "options": [
+              "Infinity NaN",
+              "Error",
+              "0 0",
+              "NaN Infinity"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Dividir por cero no da error en JavaScript: 4 / 0 es Infinity y 0 / 0 es NaN. El programa sigue con resultados inesperados."
+        },
+        {
+          "slug": "js-err-range",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "errores",
+          "prompt": "¿Qué error da new Array(-1)?",
+          "content": {
+            "options": [
+              "RangeError",
+              "TypeError",
+              "SyntaxError",
+              "No da error: crea un array vacío"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "RangeError: el valor está fuera del rango permitido. Un array no puede tener un largo negativo."
+        },
+        {
+          "slug": "js-err-mensaje",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "errores",
+          "prompt": "Cuando aparece un error en la terminal, ¿qué información trae el mensaje?",
+          "content": {
+            "options": [
+              "El tipo de error, una descripción y el archivo y la línea donde ocurrió",
+              "Solo el número de línea",
+              "La solución al problema",
+              "Solo el tipo de error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Leelo con calma: el tipo y la descripción te dicen qué pasó, y el archivo y la línea, dónde mirar."
+        }
+      ]
+    },
+    {
+      "slug": "js-try-catch",
+      "module": 10,
+      "title": "try, catch y throw",
+      "description": "Atrapar un error sin que el programa se rompa, finally, y lanzar errores propios.",
+      "questions": [
+        {
+          "slug": "js-try-basico",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "try/catch",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "try {\n  const numero = 10;\n  numero.toUpperCase();\n  console.log(\"sigue\");\n} catch (error) {\n  console.log(\"Hubo un error\");\n}",
+            "options": [
+              "Hubo un error",
+              "sigue",
+              "sigue\nHubo un error",
+              "10"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La segunda línea del try falla, así que salta directo al catch. El console.log(\"sigue\") no llega a ejecutarse."
+        },
+        {
+          "slug": "js-try-finally",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "try/catch",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "try {\n  console.log(\"A\");\n} catch (error) {\n  console.log(\"B\");\n} finally {\n  console.log(\"C\");\n}",
+            "options": [
+              "A\nC",
+              "A\nB\nC",
+              "A",
+              "C"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "No hubo error, así que el catch no corre. finally se ejecuta siempre, haya error o no."
+        },
+        {
+          "slug": "js-try-throw",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "try/catch",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "function verificarEdad(edad) {\n  if (edad < 0) {\n    throw new Error(\"La edad no puede ser negativa\");\n  }\n  return edad;\n}\ntry {\n  verificarEdad(-5);\n} catch (error) {\n  console.log(error.message);\n}",
+            "options": [
+              "La edad no puede ser negativa",
+              "-5",
+              "Error",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "throw lanza un error propio. El catch lo atrapa, y error.message tiene el texto que le pasaste."
+        },
+        {
+          "slug": "js-try-fill",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "try/catch",
+          "prompt": "Completá para que imprima Atrapado: precio inválido.",
+          "content": {
+            "code": "try {\n  ___ new Error(\"precio inválido\");\n} ___ (error) {\n  console.log(\"Atrapado:\", error.message);\n}",
+            "blanks": [
+              [
+                "throw",
+                "return",
+                "console.log"
+              ],
+              [
+                "catch",
+                "finally",
+                "else"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "Atrapado: precio inválido"
+          },
+          "explanation": "throw lanza el error y catch (error) lo recibe como parámetro. finally no recibe el error."
+        },
+        {
+          "slug": "js-try-personalizado",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "try/catch",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class MiErrorPersonalizado extends Error {\n  constructor(mensaje) {\n    super(mensaje);\n    this.name = \"MiErrorPersonalizado\";\n  }\n}\ntry {\n  throw new MiErrorPersonalizado(\"Algo salió mal\");\n} catch (error) {\n  console.log(error.name);\n}",
+            "options": [
+              "MiErrorPersonalizado",
+              "Error",
+              "Algo salió mal",
+              "TypeError"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Al extender Error, super(mensaje) guarda el mensaje y this.name le pone nombre propio al error."
+        },
+        {
+          "slug": "js-try-orden",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "try/catch",
+          "prompt": "Ordená las líneas para que imprima abc.",
+          "content": {
+            "lines": [
+              "let pasos = \"a\";",
+              "try { pasos += noExiste; }",
+              "catch (error) { pasos += \"b\"; }",
+              "finally { pasos += \"c\"; }",
+              "console.log(pasos);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "output": "abc"
+          },
+          "explanation": "La variable va primero. noExiste no está declarada: el try falla sin sumar nada, el catch agrega \"b\" y finally, que corre siempre, agrega \"c\"."
+        }
+      ]
+    },
+    {
       "slug": "js-examen",
       "module": null,
       "title": "Examen",
@@ -3139,6 +3937,190 @@
         "correct": 0
       },
       "explanation": "Con llaves hace falta return, y esta función lo tiene. 100 * 1.21 da 121 y Math.floor lo deja como entero."
+    },
+    {
+      "slug": "js-banco-sort-sin-comparar",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "sort",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log([3, 20, 100].sort());",
+        "options": [
+          "[ 100, 20, 3 ]",
+          "[ 3, 20, 100 ]",
+          "[ 20, 3, 100 ]",
+          "[ 100, 3, 20 ]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin función de comparación, sort compara como texto: \"100\" empieza con \"1\", \"20\" con \"2\" y \"3\" con \"3\". Para números, siempre (a, b) => a - b."
+    },
+    {
+      "slug": "js-banco-burbuja-nombre",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "ordenamiento",
+      "module": 8,
+      "prompt": "¿Por qué el bubble sort se llama \"burbuja\"?",
+      "content": {
+        "options": [
+          "Porque en cada pasada el número más grande sube hasta el final, como una burbuja en el agua",
+          "Porque separa la lista en burbujas de dos elementos",
+          "Porque es el más rápido de todos",
+          "Porque guarda los valores en una variable auxiliar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Compara cada elemento con el de al lado y los intercambia si están mal. Así, en cada pasada, el mayor va subiendo hasta el final."
+    },
+    {
+      "slug": "js-banco-insercion",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "ordenamiento",
+      "module": 8,
+      "prompt": "¿Cuál es la idea del insertion sort?",
+      "content": {
+        "options": [
+          "Tomar cada elemento e insertarlo en su lugar entre los ya ordenados de su izquierda, como las cartas en la mano",
+          "Buscar el mínimo y ponerlo primero en cada vuelta",
+          "Comparar cada par de vecinos hasta que no haya intercambios",
+          "Usar el método sort() del array"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es como ordenar las cartas que tenés en la mano: cada una nueva se mete en su lugar, corriendo las mayores a la derecha."
+    },
+    {
+      "slug": "js-banco-super-antes-this",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "herencia",
+      "module": 9,
+      "prompt": "En el constructor de una clase hija, ¿qué pasa si usás this antes de llamar a super()?",
+      "content": {
+        "options": [
+          "JavaScript da un error",
+          "this vale undefined, pero no da error",
+          "Se llama a super() solo",
+          "Funciona igual"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En una clase hija, super() tiene que llamarse antes de usar this dentro del constructor."
+    },
+    {
+      "slug": "js-banco-metodo-sin-parentesis",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "objetos",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const auto = {\n  marca: \"Fiat\",\n  arrancar() {\n    return \"Brrrum\";\n  }\n};\nconsole.log(auto.arrancar);",
+        "options": [
+          "[Function: arrancar]",
+          "Brrrum",
+          "undefined",
+          "arrancar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin paréntesis no ejecutás el método: JavaScript te muestra que es una función. Para ejecutarlo, auto.arrancar()."
+    },
+    {
+      "slug": "js-banco-pilares",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "¿Qué pilar de la POO consiste en proteger los datos internos de un objeto para que no se toquen desde afuera?",
+      "content": {
+        "options": [
+          "Encapsulamiento",
+          "Herencia",
+          "Polimorfismo",
+          "Abstracción"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Encapsulamiento: los datos se protegen (en JavaScript, con #) y se tocan solo a través de métodos."
+    },
+    {
+      "slug": "js-banco-finally-con-error",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "try/catch",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "try {\n  console.log(noExiste);\n} catch (error) {\n  console.log(error.name);\n} finally {\n  console.log(\"fin\");\n}",
+        "options": [
+          "ReferenceError\nfin",
+          "fin",
+          "ReferenceError",
+          "undefined\nfin"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "noExiste no está declarada: da un ReferenceError, el catch muestra su nombre y después finally corre igual."
+    },
+    {
+      "slug": "js-banco-throw-mc",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "try/catch",
+      "module": 10,
+      "prompt": "¿Qué hace la palabra throw?",
+      "content": {
+        "options": [
+          "Lanza un error propio",
+          "Atrapa un error",
+          "Ignora los errores del bloque",
+          "Muestra el error en rojo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "throw lanza un error. Quien lo atrapa es el catch."
+    },
+    {
+      "slug": "js-banco-sin-catch-sigue",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "try/catch",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "function dividir(a, b) {\n  if (b === 0) throw new Error(\"No se puede dividir por cero\");\n  return a / b;\n}\nlet r;\ntry {\n  r = dividir(10, 2);\n  r = dividir(10, 0);\n} catch (e) {\n  r = r + 1;\n}\nconsole.log(r);",
+        "options": [
+          "6",
+          "5",
+          "NaN",
+          "Infinity"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La primera división deja r en 5. La segunda lanza el error antes de asignar, así que r sigue en 5, y el catch le suma 1."
     }
   ],
   "challenges": [
@@ -5103,6 +6085,561 @@
         "correct": 0
       },
       "explanation": "return devuelve el valor para que lo guardes o lo uses en otra operación. console.log lo muestra, pero no lo devuelve."
+    },
+    {
+      "slug": "js-desafio-sort-localecompare",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "sort",
+      "module": 8,
+      "prompt": "Para ordenar textos con tildes o eñes, ¿qué función de comparación conviene pasarle a sort?",
+      "content": {
+        "options": [
+          "(a, b) => a.localeCompare(b)",
+          "(a, b) => a - b",
+          "(a, b) => b - a",
+          "(a, b) => a.length - b.length"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "localeCompare compara como en el diccionario, respetando tildes y eñes. a - b solo sirve para números."
+    },
+    {
+      "slug": "js-desafio-sort-modifica",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "sort",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const original = [3, 1, 2];\nconst ordenado = original.sort((a, b) => a - b);\nconsole.log(original);",
+        "options": [
+          "[ 1, 2, 3 ]",
+          "[ 3, 1, 2 ]",
+          "undefined",
+          "[ 3, 2, 1 ]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "A diferencia de map o filter, sort modifica el array original (y además lo devuelve). original y ordenado son el mismo array."
+    },
+    {
+      "slug": "js-desafio-sort-largo",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "sort",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const palabras = [\"sol\", \"luna\", \"a\"];\npalabras.sort((a, b) => a.length - b.length);\nconsole.log(palabras);",
+        "options": [
+          "[ 'a', 'sol', 'luna' ]",
+          "[ 'a', 'luna', 'sol' ]",
+          "[ 'luna', 'sol', 'a' ]",
+          "[ 'sol', 'luna', 'a' ]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La función de comparación puede comparar lo que quieras: acá, el largo. a.length - b.length deja primero las palabras más cortas."
+    },
+    {
+      "slug": "js-desafio-swap-desestructurar",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "ordenamiento",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const a = [7, 2];\n[a[0], a[1]] = [a[1], a[0]];\nconsole.log(a);",
+        "options": [
+          "[ 2, 7 ]",
+          "[ 7, 2 ]",
+          "[ 2, 2 ]",
+          "[ 7, 7 ]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con desestructuración, el swap se hace en una sola línea y sin variable auxiliar: se arma [2, 7] y se reparte en a[0] y a[1]."
+    },
+    {
+      "slug": "js-desafio-sort-mayor",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "sort",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const edades = [30, 18, 45];\nedades.sort((a, b) => a - b);\nconsole.log(edades[edades.length - 1]);",
+        "options": [
+          "45",
+          "18",
+          "30",
+          "3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Ordenado de menor a mayor, el más grande queda en el último lugar."
+    },
+    {
+      "slug": "js-desafio-mc-bucles-anidados",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "ordenamiento",
+      "module": 8,
+      "prompt": "¿Por qué casi todos los algoritmos de ordenamiento usan dos bucles, uno dentro del otro?",
+      "content": {
+        "options": [
+          "Porque necesitan comparar cada elemento con otros",
+          "Porque un solo bucle no puede recorrer un array",
+          "Porque JavaScript lo exige para usar sort()",
+          "Para ordenar de mayor a menor"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El bucle de afuera recorre los elementos y el de adentro los compara con los demás."
+    },
+    {
+      "slug": "js-desafio-fill-sort-desc",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "sort",
+      "module": 8,
+      "prompt": "Completá para que imprima [ 9, 4, 1 ].",
+      "content": {
+        "code": "const n = [4, 9, 1];\nn.sort((a, b) => ___);\nconsole.log(n);",
+        "blanks": [
+          [
+            "b - a",
+            "a - b",
+            "a"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "[ 9, 4, 1 ]"
+      },
+      "explanation": "b - a ordena de mayor a menor. a - b haría lo contrario."
+    },
+    {
+      "slug": "js-desafio-mc-complejidad",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "ordenamiento",
+      "module": 8,
+      "prompt": "Burbuja, inserción y selección son O(n²). Si la lista tiene el doble de elementos, ¿cuánto más tardan, aproximadamente?",
+      "content": {
+        "options": [
+          "Unas cuatro veces más",
+          "El doble",
+          "Lo mismo",
+          "Diez veces más"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "n² con el doble de elementos da (2n)² = 4n²: unas cuatro veces más. El sort() de JavaScript usa algoritmos más rápidos, como Timsort."
+    },
+    {
+      "slug": "js-desafio-objeto-literal",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "objetos",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const auto = {\n  anio: 2025,\n  arrancar() {\n    return \"Brrrum\";\n  }\n};\nconsole.log(auto.anio, auto.arrancar());",
+        "options": [
+          "2025 Brrrum",
+          "2025 undefined",
+          "anio arrancar",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En JavaScript no hace falta una clase para crear un objeto: se puede escribir directamente, con métodos incluidos."
+    },
+    {
+      "slug": "js-desafio-mc-pascal",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "¿Cómo se escribe el nombre de una clase, por convención?",
+      "content": {
+        "options": [
+          "En PascalCase: CuentaBancaria",
+          "En camelCase: cuentaBancaria",
+          "En mayúsculas: CUENTA_BANCARIA",
+          "Con guiones: cuenta-bancaria"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las clases van en PascalCase (primera letra en mayúscula). Las variables y funciones, en camelCase."
+    },
+    {
+      "slug": "js-desafio-console-objeto",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "En console.log(\"Hola\"), ¿qué son console y log?",
+      "content": {
+        "options": [
+          "console es un objeto y log es uno de sus métodos",
+          "console es una clase y log una propiedad",
+          "Los dos son funciones",
+          "console es un módulo que hay que importar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Siempre estuviste usando objetos: console es un objeto, y log, uno de sus métodos."
+    },
+    {
+      "slug": "js-desafio-hija-propia",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "herencia",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class Persona {\n  saludar() {\n    return \"hola\";\n  }\n}\nclass Estudiante extends Persona {\n  estudiar() {\n    return \"estudio\";\n  }\n}\nconst p = new Persona();\nconsole.log(typeof p.estudiar);",
+        "options": [
+          "undefined",
+          "function",
+          "estudio",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La herencia va de padre a hija, no al revés: Estudiante tiene saludar y estudiar, pero Persona no tiene estudiar."
+    },
+    {
+      "slug": "js-desafio-fill-extends",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "herencia",
+      "module": 9,
+      "prompt": "Completá para que Moto herede de Vehiculo e imprima 2 ruedas.",
+      "content": {
+        "code": "class Vehiculo {\n  constructor(ruedas) {\n    this.ruedas = ruedas;\n  }\n}\nclass Moto ___ Vehiculo {\n  constructor() {\n    ___(2);\n  }\n}\nconsole.log(new Moto().ruedas, \"ruedas\");",
+        "blanks": [
+          [
+            "extends",
+            "implements",
+            "from"
+          ],
+          [
+            "super",
+            "this",
+            "Vehiculo"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0,
+          0
+        ],
+        "output": "2 ruedas"
+      },
+      "explanation": "extends indica de qué clase hereda, y super(2) llama al constructor de Vehiculo para que asigne las ruedas."
+    },
+    {
+      "slug": "js-desafio-static-metodo",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class Calculadora {\n  static sumar(a, b) {\n    return a + b;\n  }\n}\nconsole.log(Calculadora.sumar(3, 4));",
+        "options": [
+          "7",
+          "34",
+          "undefined",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un método static se usa con el nombre de la clase, sin crear ningún objeto."
+    },
+    {
+      "slug": "js-desafio-getter",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "encapsulamiento",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class Cuenta {\n  #saldo = 50;\n  get saldo() {\n    return this.#saldo;\n  }\n}\nconst c = new Cuenta();\nconsole.log(c.saldo);",
+        "options": [
+          "50",
+          "[Function: saldo]",
+          "undefined",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "get crea un getter: se usa como si fuera una propiedad, sin paréntesis, y devuelve el saldo privado."
+    },
+    {
+      "slug": "js-desafio-this-modifica",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class Luz {\n  constructor() {\n    this.encendida = false;\n  }\n  alternar() {\n    this.encendida = !this.encendida;\n  }\n}\nconst luz = new Luz();\nluz.alternar();\nluz.alternar();\nluz.alternar();\nconsole.log(luz.encendida);",
+        "options": [
+          "true",
+          "false",
+          "undefined",
+          "3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada llamada a alternar da vuelta el valor: false → true → false → true."
+    },
+    {
+      "slug": "js-desafio-mc-literal-clase",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "objetos",
+      "module": 9,
+      "prompt": "Verdadero o falso: en JavaScript siempre hace falta una clase para crear un objeto.",
+      "content": {
+        "options": [
+          "Falso: se puede escribir el objeto directamente, con llaves",
+          "Verdadero: siempre con new",
+          "Verdadero, salvo para los arrays",
+          "Falso, pero solo en archivos .mjs"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un objeto literal ({ ... }) se escribe directamente, incluso con métodos adentro."
+    },
+    {
+      "slug": "js-desafio-catch-solo-si",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "try/catch",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "try {\n  console.log(\"todo bien\");\n} catch (error) {\n  console.log(\"error\");\n}",
+        "options": [
+          "todo bien",
+          "todo bien\nerror",
+          "error",
+          "No imprime nada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El catch se ejecuta solo si hubo un error. Acá no hubo ninguno."
+    },
+    {
+      "slug": "js-desafio-console-error",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "errores",
+      "module": 10,
+      "prompt": "¿Por qué conviene mostrar los errores con console.error() en lugar de console.log()?",
+      "content": {
+        "options": [
+          "Porque en muchas terminales se ve en otro color y queda separado de los mensajes normales",
+          "Porque corta el programa",
+          "Porque arregla el error",
+          "Porque guarda el error en un archivo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "console.error muestra el mensaje en la salida de errores: queda separado de lo normal y muchas terminales lo pintan distinto."
+    },
+    {
+      "slug": "js-desafio-bug",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "errores",
+      "module": 10,
+      "prompt": "¿De dónde viene la palabra \"bug\" para referirse a un error?",
+      "content": {
+        "options": [
+          "En 1947 encontraron una polilla atrapada en la computadora Mark II que causaba una falla",
+          "Es la sigla de Bad Unexpected Glitch",
+          "Del nombre del primer programa que tuvo un error",
+          "De un virus informático de los años 90"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Grace Hopper y su equipo pegaron la polilla en el cuaderno con la nota: \"primer caso real de un bug encontrado\"."
+    },
+    {
+      "slug": "js-desafio-error-name",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "try/catch",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "try {\n  const a = null;\n  a.length;\n} catch (e) {\n  console.log(e.name);\n}",
+        "options": [
+          "TypeError",
+          "ReferenceError",
+          "RangeError",
+          "SyntaxError"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "a sí existe (no es ReferenceError), pero vale null, y null no tiene propiedades. Es usar un valor de una forma que su tipo no permite: TypeError."
+    },
+    {
+      "slug": "js-desafio-const-reasignar",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "try/catch",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "try {\n  const x = 1;\n  x = 2;\n} catch (e) {\n  console.log(e.name);\n}",
+        "options": [
+          "TypeError",
+          "SyntaxError",
+          "ReferenceError",
+          "No imprime nada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Reasignar una const da un TypeError (\"Assignment to constant variable\")."
+    },
+    {
+      "slug": "js-desafio-finally-return",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "try/catch",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "function probar() {\n  try {\n    return \"try\";\n  } finally {\n    console.log(\"finally\");\n  }\n}\nconsole.log(probar());",
+        "options": [
+          "finally\ntry",
+          "try\nfinally",
+          "try",
+          "finally"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "finally se ejecuta siempre, incluso cuando el try hace return: primero corre el finally y recién después la función devuelve \"try\"."
+    },
+    {
+      "slug": "js-desafio-fill-finally",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "try/catch",
+      "module": 10,
+      "prompt": "Completá para que imprima error y después cerrado.",
+      "content": {
+        "code": "try {\n  noExiste();\n} catch (e) {\n  console.log(\"error\");\n} ___ {\n  console.log(\"cerrado\");\n}",
+        "blanks": [
+          [
+            "finally",
+            "catch",
+            "else"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "error\ncerrado"
+      },
+      "explanation": "finally se ejecuta siempre al final, haya error o no. Se usa para tareas de cierre."
+    },
+    {
+      "slug": "js-desafio-codigos-estado",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "errores",
+      "module": 10,
+      "prompt": "En una API, ¿qué código de estado corresponde a un dato inválido que mandó el usuario?",
+      "content": {
+        "options": [
+          "400",
+          "403",
+          "500",
+          "200"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "400 es dato inválido, 403 es que no tiene permiso y 500 es que falló el servidor. Los errores personalizados ayudan a responder con el código correcto."
+    },
+    {
+      "slug": "js-desafio-throw-corta",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "try/catch",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "let pasos = \"\";\ntry {\n  pasos += \"1\";\n  throw new Error(\"x\");\n  pasos += \"2\";\n} catch (e) {\n  pasos += \"3\";\n}\nconsole.log(pasos);",
+        "options": [
+          "13",
+          "123",
+          "1",
+          "3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Al lanzar el error, lo que queda del try se saltea: \"2\" nunca se agrega. Después corre el catch."
     }
   ]
 }
