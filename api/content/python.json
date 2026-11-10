@@ -975,5 +975,637 @@
       },
       "explanation": "int puede convertir el texto \"3\", pero no \"3.5\": da un ValueError. Con int(3.5), sin comillas, sí devuelve 3, porque ahí es un número."
     }
+  ],
+  "challenges": [
+    {
+      "slug": "py-desafio-print-coma",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "texto",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "ciudad = \"Rosario\"\nprint(\"Vivo en\", ciudad)",
+        "options": [
+          "Vivo en Rosario",
+          "Vivo enRosario",
+          "Vivo en ciudad",
+          "Vivo en, Rosario"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cuando print recibe varios valores separados por coma, los imprime con un espacio en el medio. ciudad se reemplaza por su valor."
+    },
+    {
+      "slug": "py-desafio-texto-por-dos",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "texto",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(\"ab\" + \"cd\" * 2)",
+        "options": [
+          "abcdcd",
+          "abcdabcd",
+          "abcd2",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Primero se hace la multiplicación: \"cd\" * 2 es \"cdcd\". Después se pega \"ab\" adelante."
+    },
+    {
+      "slug": "py-desafio-orden-operaciones",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "operadores",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(7 - 2 * 3)",
+        "options": [
+          "1",
+          "15",
+          "-1",
+          "9"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La multiplicación va antes que la resta: 2 * 3 es 6, y 7 - 6 es 1."
+    },
+    {
+      "slug": "py-desafio-type-str",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(type(\"5\"))",
+        "options": [
+          "<class 'str'>",
+          "<class 'int'>",
+          "str",
+          "5"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Entre comillas es un texto, aunque adentro haya un número. type lo muestra como <class 'str'>."
+    },
+    {
+      "slug": "py-desafio-mc-comentario",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "sintaxis",
+      "prompt": "¿Qué hace el símbolo # en Python?",
+      "content": {
+        "options": [
+          "Empieza un comentario: Python ignora el resto de la línea",
+          "Divide dos números",
+          "Imprime en pantalla",
+          "Declara una variable"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Todo lo que va después de # en una línea es un comentario: sirve para dejar notas y Python no lo ejecuta."
+    },
+    {
+      "slug": "py-desafio-if-votar",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "condicionales",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "edad = 18\nif edad >= 18:\n    print(\"Puede votar\")\nelse:\n    print(\"Todavía no\")",
+        "options": [
+          "Puede votar",
+          "Todavía no",
+          "Puede votar\nTodavía no",
+          "No imprime nada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "18 >= 18 es verdadero (mayor o igual), así que entra en el if y no en el else."
+    },
+    {
+      "slug": "py-desafio-fill-mayor",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "operadores",
+      "prompt": "Completá para que imprima True.",
+      "content": {
+        "code": "print(5 ___ 3)",
+        "blanks": [
+          [
+            ">",
+            "<",
+            "=="
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "True"
+      },
+      "explanation": "5 > 3 es verdadero, así que imprime True. 5 < 3 y 5 == 3 son falsos."
+    },
+    {
+      "slug": "py-desafio-orden-doble",
+      "type": "order_lines",
+      "difficulty": "easy",
+      "topic": "variables",
+      "prompt": "Ordená las líneas para que imprima 10.",
+      "content": {
+        "lines": [
+          "a = 2",
+          "b = a * 5",
+          "print(b)"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2
+        ],
+        "output": "10"
+      },
+      "explanation": "Primero se crea a, después b (que usa a) y al final se imprime b. Usar una variable antes de crearla da error."
+    },
+    {
+      "slug": "py-desafio-int-trunca",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(int(3.9))",
+        "options": [
+          "3",
+          "4",
+          "3.9",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "int corta la parte decimal, no redondea: int(3.9) es 3."
+    },
+    {
+      "slug": "py-desafio-mc-tipo-true",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "prompt": "¿De qué tipo es el valor True?",
+      "content": {
+        "options": [
+          "bool",
+          "str",
+          "int",
+          "float"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "True y False son los dos valores del tipo bool (booleano). Van sin comillas: \"True\" con comillas sería un texto."
+    },
+    {
+      "slug": "py-desafio-and-rango",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "condicionales",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "x = 4\nprint(x > 2 and x < 10)",
+        "options": [
+          "True",
+          "False",
+          "4",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "4 > 2 es verdadero y 4 < 10 también. Con and, el resultado es True solo si las dos partes son verdaderas."
+    },
+    {
+      "slug": "py-desafio-fill-concatenar",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "texto",
+      "prompt": "Completá para que imprima \"Hola, Ana\".",
+      "content": {
+        "code": "nombre = \"Ana\"\nprint(\"Hola, \" ___ nombre)",
+        "blanks": [
+          [
+            "+",
+            "-",
+            "*"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "Hola, Ana"
+      },
+      "explanation": "Con + se pegan dos textos. Restar o multiplicar dos textos da error."
+    },
+    {
+      "slug": "py-desafio-dos-if",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "temp = 30\nif temp > 25:\n    print(\"calor\")\nif temp > 15:\n    print(\"templado\")",
+        "options": [
+          "calor\ntemplado",
+          "calor",
+          "templado",
+          "No imprime nada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Son dos if separados, no un if con elif: se revisan los dos. 30 es mayor que 25 y también que 15, así que imprime las dos líneas."
+    },
+    {
+      "slug": "py-desafio-int-texto-suma",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(int(\"8\") + 2)",
+        "options": [
+          "10",
+          "82",
+          "8 + 2",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "int(\"8\") convierte el texto en el número 8, y 8 + 2 es 10."
+    },
+    {
+      "slug": "py-desafio-primera-ultima",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "texto",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "texto = \"Python\"\nprint(texto[0] + texto[-1])",
+        "options": [
+          "Pn",
+          "Py",
+          "on",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "texto[0] es la primera letra (P) y texto[-1], la última (n). Los índices negativos cuentan desde el final."
+    },
+    {
+      "slug": "py-desafio-elif-nota",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "nota = 6\nif nota >= 7:\n    print(\"Promociona\")\nelif nota >= 4:\n    print(\"Aprueba\")\nelse:\n    print(\"Desaprueba\")",
+        "options": [
+          "Aprueba",
+          "Promociona",
+          "Desaprueba",
+          "Aprueba\nDesaprueba"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "6 no llega a 7, así que pasa al elif: 6 >= 4 es verdadero e imprime Aprueba. Con eso termina: no revisa el else."
+    },
+    {
+      "slug": "py-desafio-fill-division",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "operadores",
+      "prompt": "Completá para que imprima 2.5.",
+      "content": {
+        "code": "print(5 ___ 2)",
+        "blanks": [
+          [
+            "/",
+            "//",
+            "%"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "2.5"
+      },
+      "explanation": "/ es la división común y da 2.5. // es la división entera (da 2) y % es el resto (da 1)."
+    },
+    {
+      "slug": "py-desafio-orden-cadena",
+      "type": "order_lines",
+      "difficulty": "medium",
+      "topic": "variables",
+      "prompt": "Ordená las líneas para que imprima 15.",
+      "content": {
+        "lines": [
+          "base = 5",
+          "doble = base * 2",
+          "total = doble + base",
+          "print(total)"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "15"
+      },
+      "explanation": "Cada línea usa la variable de la anterior: base, después doble (usa base), después total (usa las dos) y al final el print."
+    },
+    {
+      "slug": "py-desafio-mc-falsos",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "¿Cuál de estos valores cuenta como falso en un if?",
+      "content": {
+        "options": [
+          "\"\" (un texto vacío)",
+          "\"0\" (un texto con un cero)",
+          "\" \" (un texto con un espacio)",
+          "\"False\" (un texto)"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un texto cuenta como falso solo si está vacío. \"0\", \" \" y \"False\" tienen algo adentro, así que cuentan como verdaderos."
+    },
+    {
+      "slug": "py-desafio-copia-valor",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "variables",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "a = 3\nb = a\na = 10\nprint(b)",
+        "options": [
+          "3",
+          "10",
+          "a",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "b = a guarda en b el valor que tenía a en ese momento (3). Cambiar a después no cambia b."
+    },
+    {
+      "slug": "py-desafio-potencia",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "operadores",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(2 ** 3)",
+        "options": [
+          "8",
+          "6",
+          "9",
+          "23"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "** es la potencia: 2 ** 3 es 2 × 2 × 2, o sea 8."
+    },
+    {
+      "slug": "py-desafio-fill-mayor-edad",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "Completá para que imprima \"mayor\".",
+      "content": {
+        "code": "edad = 20\nif edad ___ 18:\n    print(\"mayor\")\nelse:\n    print(\"menor\")",
+        "blanks": [
+          [
+            ">=",
+            "<",
+            "=="
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "mayor"
+      },
+      "explanation": "20 >= 18 es verdadero y entra en el if. Con < o con ==, la condición es falsa y va al else."
+    },
+    {
+      "slug": "py-desafio-asignacion-compuesta",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "operadores",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "x = 5\nx += 2\nx *= 3\nprint(x)",
+        "options": [
+          "21",
+          "17",
+          "15",
+          "10"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "x += 2 deja x en 7, y x *= 3 lo multiplica por 3: 21. Se aplican en orden, una después de la otra."
+    },
+    {
+      "slug": "py-desafio-round-par",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(round(2.5))",
+        "options": [
+          "2",
+          "3",
+          "2.5",
+          "3.0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cuando un número está justo en la mitad, round redondea al par más cercano: 2.5 va a 2 (y 3.5 iría a 4)."
+    },
+    {
+      "slug": "py-desafio-texto-numero-mezcla",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "texto",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(\"5\" * 3 + \"1\")",
+        "options": [
+          "5551",
+          "16",
+          "151",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "\"5\" es texto: \"5\" * 3 lo repite (\"555\") y + \"1\" lo pega al final. Nunca se hace una cuenta."
+    },
+    {
+      "slug": "py-desafio-if-cero",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "condicionales",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "x = 0\nif x:\n    print(\"sí\")\nelse:\n    print(\"no\")",
+        "options": [
+          "no",
+          "sí",
+          "0",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En un if, el número 0 cuenta como falso (cualquier otro número, como verdadero). Por eso va al else."
+    },
+    {
+      "slug": "py-desafio-orden-texto",
+      "type": "order_lines",
+      "difficulty": "hard",
+      "topic": "texto",
+      "prompt": "Ordená las líneas para que imprima hola!hola!",
+      "content": {
+        "lines": [
+          "texto = \"hola\"",
+          "texto = texto + \"!\"",
+          "texto = texto * 2",
+          "print(texto)"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "hola!hola!"
+      },
+      "explanation": "Primero hay que agregar el ! y después repetir: si se repite antes, queda holahola!, con un solo signo."
+    },
+    {
+      "slug": "py-desafio-fill-and",
+      "type": "fill_blank",
+      "difficulty": "hard",
+      "topic": "condicionales",
+      "prompt": "Para aprobar hace falta un 7 o más y además haber entregado el TP. Completá para que, con nota 5, imprima \"no\".",
+      "content": {
+        "code": "nota = 5\nentrego = True\nif nota >= 7 ___ entrego:\n    print(\"aprobado\")\nelse:\n    print(\"no\")",
+        "blanks": [
+          [
+            "and",
+            "or",
+            "not"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "no"
+      },
+      "explanation": "Las dos cosas tienen que cumplirse, así que va and: nota >= 7 es falso y alcanza para ir al else. Con or aprobaría solo por haber entregado."
+    },
+    {
+      "slug": "py-desafio-texto-repetido-igual",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(3 * \"2\" == \"222\")",
+        "options": [
+          "True",
+          "False",
+          "6",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "3 * \"2\" repite el texto \"2\" tres veces: queda \"222\". Comparado con \"222\" da True."
+    },
+    {
+      "slug": "py-desafio-cociente-resto",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "operadores",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "a = 10\nb = 3\nprint(a // b, a % b)",
+        "options": [
+          "3 1",
+          "3.3333333333333335 1",
+          "3 3",
+          "1 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "10 // 3 es la división entera (3) y 10 % 3 es lo que sobra (1). print los separa con un espacio."
+    }
   ]
 }
