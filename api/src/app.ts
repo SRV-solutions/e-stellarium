@@ -10,6 +10,8 @@ import { questionsRouter } from "./routes/questions.js";
 import { constellationsRouter } from "./routes/constellations.js";
 import { examsRouter } from "./routes/exams.js";
 import { couponsRouter } from "./routes/coupons.js";
+import { reviewRouter } from "./routes/review.js";
+import { meRouter } from "./routes/me.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
 export const app = express();
@@ -27,6 +29,8 @@ app.use(questionsRouter);
 app.use(constellationsRouter);
 app.use(examsRouter);
 app.use(couponsRouter);
+app.use(reviewRouter);
+app.use(meRouter);
 
 app.get("/health", async (_req, res) => {
   try {

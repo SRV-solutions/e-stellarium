@@ -30,6 +30,7 @@ import { getExamState } from "./examState.js";
 import { grade, InvalidResponseError } from "./grade.js";
 import { present, type StudentQuestion } from "./present.js";
 import { awardXp, XP } from "./progress.js";
+import { recordActivity } from "./activity.js";
 
 export type ExamCoupon = { code: string; percent: number; expiresAt: Date };
 
@@ -127,6 +128,7 @@ export async function answerQuestion(
 
     const rows = await loadRows(attempt.id, t);
     let current = await advance(rows, now, t);
+    await recordActivity(user, now, t);
 
     if (current && current.position === position) {
       const question = await Question.scope("withAnswer").findByPk(current.questionId, { transaction: t });

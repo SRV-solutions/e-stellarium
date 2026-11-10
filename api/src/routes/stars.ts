@@ -51,16 +51,16 @@ starsRouter.get("/stars/:id", requireAuth, async (req, res) => {
     order: [["position", "ASC"]],
   });
 
-  // Cuántas veces respondió el alumno cada pregunta: ese es el intento que va a jugar ahora
+  // Cuántas veces respondió el alumno cada pregunta en la estrella (el repaso no cuenta): ese es el intento que va a jugar ahora
   const counts = (await Answer.count({
-    where: { userId: req.user!.id, questionId: questions.map((q) => q.id) },
+    where: { userId: req.user!.id, questionId: questions.map((q) => q.id), context: "star" },
     group: ["questionId"],
   })) as unknown as { questionId: string; count: number }[];
   const attemptOf = new Map(counts.map((c) => [c.questionId, Number(c.count)]));
 
   // Las que ya acertó alguna vez: para la estrella ya cuentan, así que el cliente juega solo las otras
   const rights = (await Answer.count({
-    where: { userId: req.user!.id, questionId: questions.map((q) => q.id), correct: true },
+    where: { userId: req.user!.id, questionId: questions.map((q) => q.id), correct: true, context: "star" },
     group: ["questionId"],
   })) as unknown as { questionId: string; count: number }[];
   const solved = new Set(rights.map((r) => r.questionId));

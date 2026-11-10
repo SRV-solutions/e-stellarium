@@ -12,6 +12,9 @@ import { XpEvent } from "./XpEvent.js";
 import { ExamAttempt } from "./ExamAttempt.js";
 import { ExamAttemptQuestion } from "./ExamAttemptQuestion.js";
 import { Coupon } from "./Coupon.js";
+import { DailyActivity } from "./DailyActivity.js";
+import { DailyReview } from "./DailyReview.js";
+import { DailyReviewQuestion } from "./DailyReviewQuestion.js";
 
 User.hasMany(PasswordToken, { foreignKey: "userId" });
 PasswordToken.belongsTo(User, { foreignKey: "userId" });
@@ -70,4 +73,16 @@ Coupon.belongsTo(Constellation, { foreignKey: "constellationId" });
 ExamAttempt.hasOne(Coupon, { foreignKey: "examAttemptId" });
 Coupon.belongsTo(ExamAttempt, { foreignKey: "examAttemptId" });
 
-export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon };
+User.hasMany(DailyActivity, { foreignKey: "userId" });
+DailyActivity.belongsTo(User, { foreignKey: "userId" });
+
+User.hasMany(DailyReview, { foreignKey: "userId" });
+DailyReview.belongsTo(User, { foreignKey: "userId" });
+
+DailyReview.hasMany(DailyReviewQuestion, { foreignKey: "reviewId" });
+DailyReviewQuestion.belongsTo(DailyReview, { foreignKey: "reviewId" });
+
+Question.hasMany(DailyReviewQuestion, { foreignKey: "questionId" });
+DailyReviewQuestion.belongsTo(Question, { foreignKey: "questionId" });
+
+export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, DailyActivity, DailyReview, DailyReviewQuestion };

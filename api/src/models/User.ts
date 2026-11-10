@@ -17,6 +17,9 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare passwordHash: CreationOptional<string | null>;
   declare role: CreationOptional<UserRole>;
   declare totalXp: CreationOptional<number>;
+  declare streak: CreationOptional<number>;
+  declare lastActiveOn: CreationOptional<string | null>; // "2026-11-10", en hora de Argentina
+  declare streakFreezes: CreationOptional<number>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -58,6 +61,20 @@ User.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
+    },
+    streak: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    lastActiveOn: {
+      type: DataTypes.DATEONLY,
+      allowNull: true,
+    },
+    streakFreezes: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 2,
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,

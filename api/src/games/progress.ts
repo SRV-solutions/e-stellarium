@@ -2,11 +2,14 @@ import type { Transaction } from "sequelize";
 import { sequelize } from "../db.js";
 import { Answer, Question, StarCompletion, User, XpEvent } from "../models/index.js";
 import type { XpReason } from "../models/XpEvent.js";
+import { recordActivity } from "./activity.js";
 
 export const XP = {
   questionCorrect: 10,
   starCompleted: 50,
   examPassed: 100,
+  reviewCorrect: 2,
+  reviewCompleted: 10,
 };
 
 // Da experiencia solo si nunca la dio por este mismo motivo. Devuelve cuánta dio
@@ -26,7 +29,8 @@ export async function awardXp(user: User, reason: XpReason, referenceId: string,
 async function isStarComplete(userId: string, starId: string, t: Transaction) {
   const total = await Question.count({ where: { starId, status: "published" }, transaction: t });
   const answeredRight = await Answer.count({
-    where: { userId, correct: true },
+    // Solo cuentan los aciertos en la estrella: los del repaso son práctica
+    where: { userId, correct: true, context: "star" },
     include: [{ model: Question, where: { starId, status: "published" }, attributes: [] }],
     distinct: true,
     col: "question_id",
@@ -49,6 +53,7 @@ export async function recordStarAnswer({ userId, questionId, starId, correct, re
     if (!user) throw new Error("El usuario no existe");
 
     await Answer.create({ userId, questionId, context: "star", correct, response }, { transaction: t });
+    await recordActivity(user, new Date(), t);
 
     // xpGained es el total; starXp, la parte de ese total que se dio por encender la estrella
     let xpGained = 0;
