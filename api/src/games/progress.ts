@@ -10,6 +10,8 @@ export const XP = {
   examPassed: 100,
   reviewCorrect: 2,
   reviewCompleted: 10,
+  challengeCorrect: 5,
+  challengeCompleted: 20,
 };
 
 // Da experiencia solo si nunca la dio por este mismo motivo. Devuelve cuánta dio

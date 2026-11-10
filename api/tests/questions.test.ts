@@ -15,8 +15,9 @@ async function createPythonStar() {
   return Star.create({ constellationId: constellation.id, position: 1, title: "Variables" });
 }
 
-function outputQuestion(fields: { productId: string; starId?: string; position?: number }) {
+function outputQuestion(fields: { productId: string; starId?: string; position?: number; pool?: "exam" | "challenge" }) {
   return Question.create({
+    pool: fields.starId ? null : "exam",
     ...fields,
     type: "output",
     difficulty: "easy",
@@ -60,7 +61,7 @@ describe("preguntas", () => {
     ).rejects.toThrow(/questions_star_product_match/);
   });
 
-  it("al borrar la estrella, la pregunta queda en el banco", async () => {
+  it("al borrar la estrella, la pregunta queda suelta, fuera del examen y de los desafíos", async () => {
     const star = await createPythonStar();
     const { id } = await outputQuestion({
       productId: await productId("python"),
@@ -73,6 +74,14 @@ describe("preguntas", () => {
     const question = await Question.findByPk(id);
     expect(question).not.toBeNull();
     expect(question!.starId).toBeNull();
+    expect(question!.pool).toBeNull();
+  });
+
+  it("no permite que una pregunta esté en una estrella y en un grupo a la vez", async () => {
+    const star = await createPythonStar();
+    await expect(
+      outputQuestion({ productId: await productId("python"), starId: star.id, position: 1, pool: "challenge" })
+    ).rejects.toThrow(/questions_star_or_pool/);
   });
 
     it("no permite borrar una pregunta que ya tiene respuestas", async () => {

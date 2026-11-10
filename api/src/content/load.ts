@@ -2,6 +2,7 @@ import { isDeepStrictEqual } from "node:util";
 import { Op, type Transaction } from "sequelize";
 import { sequelize } from "../db.js";
 import { Constellation, Product, Question, Star } from "../models/index.js";
+import type { QuestionPool } from "../models/Question.js";
 import type { ContentFile, ContentQuestion } from "./parse.js";
 
 export type LoadSummary = {
@@ -21,6 +22,7 @@ async function upsertQuestion(
   productId: string,
   starId: string | null,
   position: number | null,
+  pool: QuestionPool | null,
   t: Transaction,
   summary: LoadSummary
 ) {
@@ -28,6 +30,7 @@ async function upsertQuestion(
     productId,
     starId,
     position,
+    pool,
     type: q.type,
     difficulty: q.difficulty,
     topic: q.topic,
@@ -90,17 +93,20 @@ export async function loadContent(file: ContentFile): Promise<LoadSummary> {
       }
 
       for (const [j, q] of starFile.questions.entries()) {
-        await upsertQuestion(q, product.id, star.id, j + 1, t, summary);
+        await upsertQuestion(q, product.id, star.id, j + 1, null, t, summary);
       }
     }
 
-    // Las preguntas del banco, sin estrella
+    // Las preguntas sin estrella: el banco del examen y las de los desafíos
     for (const q of file.bank) {
-      await upsertQuestion(q, product.id, null, null, t, summary);
+      await upsertQuestion(q, product.id, null, null, "exam", t, summary);
+    }
+    for (const q of file.challenges) {
+      await upsertQuestion(q, product.id, null, null, "challenge", t, summary);
     }
 
     // Las que están en la base pero ya no en el archivo
-    const fileSlugs = [...file.stars.flatMap((s) => s.questions), ...file.bank].map((q) => q.slug);
+    const fileSlugs = [...file.stars.flatMap((s) => s.questions), ...file.bank, ...file.challenges].map((q) => q.slug);
     const missing = await Question.findAll({
       where: { productId: product.id, slug: { [Op.notIn]: fileSlugs } },
       transaction: t,

@@ -25,6 +25,7 @@ export type ContentFile = {
   constellation: { name: string; description: string | null; published: boolean };
   stars: ContentStar[];
   bank: ContentQuestion[];
+  challenges: ContentQuestion[];
 };
 
 const TYPES = ["output", "fill_blank", "order_lines", "multiple_choice"];
@@ -75,7 +76,7 @@ type ParseResult = { ok: true; file: ContentFile } | { ok: false; errors: string
 
 export function parseContentFile(data: unknown): ParseResult {
   if (!isObject(data)) return { ok: false, errors: ["El archivo tiene que ser un objeto JSON."] };
-  const { course, constellation, stars, bank = [] } = data;
+  const { course, constellation, stars, bank = [], challenges = [] } = data;
   const errors: string[] = [];
 
   // Primero, la estructura general
@@ -83,12 +84,14 @@ export function parseContentFile(data: unknown): ParseResult {
   if (!isObject(constellation) || !isText(constellation.name)) errors.push("Falta el nombre de la constelación.");
   if (!Array.isArray(stars) || stars.length === 0) errors.push("Tiene que haber al menos una estrella.");
   if (!Array.isArray(bank)) errors.push("El banco (bank) tiene que ser una lista.");
+  if (!Array.isArray(challenges)) errors.push("Las preguntas de desafíos (challenges) tienen que ser una lista.");
   if (
     errors.length > 0 ||
     !isText(course) ||
     !isObject(constellation) ||
     !Array.isArray(stars) ||
-    !Array.isArray(bank)
+    !Array.isArray(bank) ||
+    !Array.isArray(challenges)
   ) {
     return { ok: false, errors };
   }
@@ -122,6 +125,9 @@ export function parseContentFile(data: unknown): ParseResult {
     errors.push("Solo puede haber un examen por constelación.");
   }
   const parsedBank = bank.map((q, j) => checkQuestion(q, `Banco, pregunta ${j + 1}`, seen, errors));
+  const parsedChallenges = challenges.map((q, j) =>
+    checkQuestion(q, `Desafíos, pregunta ${j + 1}`, seen, errors)
+  );
 
   if (errors.length > 0) return { ok: false, errors };
   return {
@@ -135,6 +141,7 @@ export function parseContentFile(data: unknown): ParseResult {
       },
       stars: parsedStars,
       bank: parsedBank.filter((q) => q !== null),
+      challenges: parsedChallenges.filter((q) => q !== null),
     },
   };
 }

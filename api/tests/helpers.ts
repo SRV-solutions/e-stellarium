@@ -7,7 +7,7 @@ import { sendMail } from "../src/lib/mailer.js";
 import { Constellation, ExamAttemptQuestion, Product, Question, Star, StarCompletion } from "../src/models/index.js";
 import { examSeed } from "../src/games/exam.js";
 import { grade } from "../src/games/grade.js";
-import type { QuestionStatus } from "../src/models/Question.js";
+import type { QuestionPool, QuestionStatus } from "../src/models/Question.js";
 
 export const PASSWORD = "Prueba1234";
 
@@ -65,8 +65,10 @@ export function createQuestion(fields: {
   starId?: string;
   position?: number;
   status?: QuestionStatus;
+  pool?: QuestionPool;
 }) {
   return Question.create({
+    pool: fields.starId ? null : "exam",
     type: "output",
     difficulty: "easy",
     topic: "variables",
@@ -87,7 +89,7 @@ export async function enrolledStudent(courses = ["python"], email = "alumno@test
 }
 // El banco del examen de un curso: 10 preguntas sin estrella, al menos una de cada juego
 export async function createExamBank(productId: string) {
-  const common = { productId, difficulty: "easy" as const, topic: "examen", explanation: "Así.", status: "published" as const };
+  const common = { productId, pool: "exam" as const, difficulty: "easy" as const, topic: "examen", explanation: "Así.", status: "published" as const };
   for (let i = 0; i < 7; i++) {
     await createQuestion({ productId, status: "published" });
   }

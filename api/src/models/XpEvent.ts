@@ -12,7 +12,9 @@ export type XpReason =
   | "star_completed"
   | "exam_passed"
   | "review_correct"
-  | "review_completed";
+  | "review_completed"
+  | "challenge_correct"
+  | "challenge_completed";
 
 export class XpEvent extends Model<InferAttributes<XpEvent>, InferCreationAttributes<XpEvent>> {
   declare id: CreationOptional<string>;

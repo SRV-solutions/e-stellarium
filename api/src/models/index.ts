@@ -15,6 +15,9 @@ import { Coupon } from "./Coupon.js";
 import { DailyActivity } from "./DailyActivity.js";
 import { DailyReview } from "./DailyReview.js";
 import { DailyReviewQuestion } from "./DailyReviewQuestion.js";
+import { Challenge } from "./Challenge.js";
+import { ChallengeAttempt } from "./ChallengeAttempt.js";
+import { ChallengeAttemptQuestion } from "./ChallengeAttemptQuestion.js";
 
 User.hasMany(PasswordToken, { foreignKey: "userId" });
 PasswordToken.belongsTo(User, { foreignKey: "userId" });
@@ -85,4 +88,16 @@ DailyReviewQuestion.belongsTo(DailyReview, { foreignKey: "reviewId" });
 Question.hasMany(DailyReviewQuestion, { foreignKey: "questionId" });
 DailyReviewQuestion.belongsTo(Question, { foreignKey: "questionId" });
 
-export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, DailyActivity, DailyReview, DailyReviewQuestion };
+Challenge.hasMany(ChallengeAttempt, { foreignKey: "challengeId" });
+ChallengeAttempt.belongsTo(Challenge, { foreignKey: "challengeId" });
+
+User.hasMany(ChallengeAttempt, { foreignKey: "userId" });
+ChallengeAttempt.belongsTo(User, { foreignKey: "userId" });
+
+ChallengeAttempt.hasMany(ChallengeAttemptQuestion, { foreignKey: "attemptId" });
+ChallengeAttemptQuestion.belongsTo(ChallengeAttempt, { foreignKey: "attemptId" });
+
+Question.hasMany(ChallengeAttemptQuestion, { foreignKey: "questionId" });
+ChallengeAttemptQuestion.belongsTo(Question, { foreignKey: "questionId" });
+
+export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, DailyActivity, DailyReview, DailyReviewQuestion, Challenge, ChallengeAttempt, ChallengeAttemptQuestion };

@@ -13,6 +13,8 @@ import type { Star } from "./Star.js";
 export type QuestionType = "output" | "fill_blank" | "order_lines" | "multiple_choice";
 export type Difficulty = "easy" | "medium" | "hard";
 export type QuestionStatus = "draft" | "in_review" | "published" | "rejected";
+// Las preguntas sin estrella van en un grupo: el banco del examen o el de los desafíos
+export type QuestionPool = "exam" | "challenge";
 
 // Lo que ve el alumno, según el tipo de juego
 export type OutputContent = { code: string; options: string[] };
@@ -36,6 +38,7 @@ export class Question extends Model<InferAttributes<Question>, InferCreationAttr
   declare productId: string;
   declare starId: CreationOptional<string | null>;
   declare position: CreationOptional<number | null>;
+  declare pool: CreationOptional<QuestionPool | null>;
   declare type: QuestionType;
   declare difficulty: Difficulty;
   declare topic: string;
@@ -59,6 +62,7 @@ Question.init(
     productId: { type: DataTypes.UUID, allowNull: false },
     starId: { type: DataTypes.UUID, allowNull: true },
     position: { type: DataTypes.INTEGER, allowNull: true },
+    pool: { type: DataTypes.ENUM("exam", "challenge"), allowNull: true },
     type: {
       type: DataTypes.ENUM("output", "fill_blank", "order_lines", "multiple_choice"),
       allowNull: false,

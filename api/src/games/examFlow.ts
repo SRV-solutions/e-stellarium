@@ -17,12 +17,10 @@ import {
 import {
   couponExpiresAt,
   couponPercent,
-  deadlineFor,
   drawExamQuestions,
   examSeed,
   generateCouponCode,
   hasPassed,
-  isLate,
   retryOpensAt,
   SECONDS_PER_TYPE,
 } from "./exam.js";
@@ -31,6 +29,7 @@ import { grade, InvalidResponseError } from "./grade.js";
 import { present, type StudentQuestion } from "./present.js";
 import { awardXp, XP } from "./progress.js";
 import { recordActivity } from "./activity.js";
+import { advanceClock as advance } from "./clock.js";
 
 export type ExamCoupon = { code: string; percent: number; expiresAt: Date };
 
@@ -75,7 +74,7 @@ export async function startAttempt(userId: string, exam: Star): Promise<ExamAtte
     const constellation = await Constellation.findByPk(exam.constellationId, { transaction: t });
     const bank = await Question.findAll({
       attributes: ["id", "type"],
-      where: { productId: constellation!.productId, starId: null, status: "published" },
+      where: { productId: constellation!.productId, pool: "exam", status: "published" },
       transaction: t,
     });
 
@@ -169,32 +168,6 @@ async function loadRows(attemptId: string, t: Transaction) {
     order: [["position", "ASC"]],
     transaction: t,
   })) as Row[];
-}
-
-// Avanza el reloj hasta `now` y devuelve la pregunta que toca, o null si ya no queda ninguna.
-// El reloj sigue aunque el alumno se vaya: si se le venció una pregunta, cuenta como mal y la
-// siguiente se considera mostrada en el momento en que venció la anterior.
-async function advance(rows: Row[], now: Date, t: Transaction): Promise<Row | null> {
-  let carry: Date | null = null; // cuándo venció la anterior, si se venció sin respuesta
-
-  for (const row of rows) {
-    if (row.correct !== null) continue; // ya respondida o vencida
-
-    if (!row.shownAt) {
-      const shownAt: Date = carry ?? now;
-      await row.update(
-        { shownAt, deadlineAt: deadlineFor(row.Question.type, shownAt) },
-        { transaction: t }
-      );
-    }
-
-    if (!isLate(row.deadlineAt!, now)) return row;
-
-    await row.update({ correct: false }, { transaction: t });
-    carry = row.deadlineAt!;
-  }
-
-  return null;
 }
 
 function buildQuestion(attempt: ExamAttempt, total: number, row: Row, now: Date): ExamProgress {

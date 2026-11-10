@@ -118,6 +118,17 @@ describe("carga de contenido", () => {
     expect(await Question.count()).toBe(3);
   });
 
+  it("carga las preguntas de desafíos aparte del banco del examen", async () => {
+    await loadContent(fileOf({ ...validFile, challenges: [question("py-desafio")] }));
+
+    const bank = await Question.findOne({ where: { slug: "py-banco" } });
+    const challenge = await Question.findOne({ where: { slug: "py-desafio" } });
+    const lesson = await Question.findOne({ where: { slug: "py-uno" } });
+    expect(bank!.pool).toBe("exam");
+    expect(challenge).toMatchObject({ pool: "challenge", starId: null });
+    expect(lesson!.pool).toBeNull();
+  });
+
   it("si el curso no existe, no carga nada", async () => {
     await expect(loadContent(fileOf({ ...validFile, course: "cocina" }))).rejects.toThrow(
       "Curso desconocido: cocina"

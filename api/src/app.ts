@@ -12,6 +12,7 @@ import { examsRouter } from "./routes/exams.js";
 import { couponsRouter } from "./routes/coupons.js";
 import { reviewRouter } from "./routes/review.js";
 import { meRouter } from "./routes/me.js";
+import { challengesRouter } from "./routes/challenges.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
 export const app = express();
@@ -31,6 +32,7 @@ app.use(examsRouter);
 app.use(couponsRouter);
 app.use(reviewRouter);
 app.use(meRouter);
+app.use(challengesRouter);
 
 app.get("/health", async (_req, res) => {
   try {
