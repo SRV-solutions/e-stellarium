@@ -27,7 +27,7 @@
   }
 }
 
-/* La silueta de la serpiente */
+/* La silueta de la figura */
 .ghost {
   fill: none;
   stroke: rgba(140, 165, 235, 0.08);
@@ -191,6 +191,21 @@
   stroke: rgba(255, 153, 0, 0.8);
 }
 
+/* El salto entre los dos trazos de una figura (de una llave a la otra): siempre de puntos */
+.jump {
+  fill: none;
+  pointer-events: none;
+  stroke: rgba(154, 170, 208, 0.3);
+  stroke-width: 1.4;
+  stroke-dasharray: 1 9;
+  stroke-linecap: round;
+}
+
+.jumpLit {
+  stroke: rgba(170, 205, 255, 0.85);
+  stroke-width: 2;
+}
+
 .toExamLit {
   stroke: rgba(255, 214, 150, 0.85);
   stroke-dasharray: none;
@@ -304,6 +319,30 @@
   transform-box: fill-box;
   transform-origin: center;
   animation: pulse 2.6s ease-out infinite;
+}
+
+/* La letra de cada estrella, al costado */
+.letter {
+  pointer-events: none;
+  fill: var(--orange);
+  font-family: var(--greek);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.locked .letter {
+  opacity: 0.55;
+}
+
+/* La plaquita con el título de la estrella apuntada o bajo el mouse */
+.tag {
+  pointer-events: none;
+}
+
+.plate {
+  fill: rgba(8, 18, 46, 0.92);
+  stroke: rgba(255, 153, 0, 0.45);
+  stroke-width: 1;
 }
 
 /* Los nombres */

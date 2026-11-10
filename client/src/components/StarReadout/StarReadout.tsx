@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { greekLetter, ordinal } from "../../lib/sky";
+import { ordinal } from "../../lib/sky";
 import { xpToGain } from "../../lib/xp";
 import type { StarSummary } from "../../types";
 import { ExamReadout } from "./ExamReadout";
@@ -56,7 +56,7 @@ function LessonReadout({ star, index, previous }: Props) {
       <p className={styles.lock}>
         Encendé{" "}
         <b>
-          {greekLetter(index - 1)} {previous?.title}
+          {previous?.letter} {previous?.title}
         </b>{" "}
         para abrir esta estrella.
       </p>
@@ -67,7 +67,7 @@ function LessonReadout({ star, index, previous }: Props) {
     <section className={styles.readout} aria-live="polite">
       <div className={styles.inner}>
         <div className={styles.letter} aria-hidden="true">
-          {greekLetter(index)}
+          {star.letter}
         </div>
 
         <div>

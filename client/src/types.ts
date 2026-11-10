@@ -23,6 +23,8 @@ export type StarSummary = {
   title: string;
   description: string | null;
   position: number;
+  letter: string; // su nombre en la constelación: una letra por módulo (β¹, β²) y Ω el examen
+  module: number | null; // el módulo de la guía
   kind: StarKind;
   questionCount: number;
   completed: boolean;
@@ -47,6 +49,7 @@ export type Constellation = {
   name: string;
   description: string | null;
   course: { key: string; name: string };
+  modules: { number: number; title: string }[]; // los módulos de la guía
   completedStars: number;
   totalStars: number;
   stars: StarSummary[];

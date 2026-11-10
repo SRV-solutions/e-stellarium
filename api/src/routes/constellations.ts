@@ -5,6 +5,7 @@ import { examOpensAt, unlockedStarIds } from "../games/unlock.js";
 import { computeExamState } from "../games/examState.js";
 import { couponPercent } from "../games/exam.js";
 import { sequelize } from "../db.js";
+import { starLetters } from "../games/starLetter.js";
 
 export const constellationsRouter = Router();
 
@@ -58,11 +59,14 @@ constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
       const stars = constellation.Stars ?? [];
       const unlocked = unlockedStarIds(stars, completedAt);
       const opensAt = examOpensAt(stars, completedAt);
+      const letters = starLetters(stars);
 
       return {
         id: constellation.id,
         name: constellation.name,
         description: constellation.description,
+        // Los módulos de la guía (número y título), para decir de qué módulo es cada estrella
+        modules: constellation.modules.map((m) => ({ number: m.number, title: m.title })),
         course: { key: constellation.Product!.key, name: constellation.Product!.name },
         completedStars: stars.filter((s) => completedAt.has(s.id)).length,
         totalStars: stars.length,
@@ -71,6 +75,8 @@ constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
           title: star.title,
           description: star.description,
           position: star.position,
+          letter: letters.get(star.id)!,
+          module: star.module,
           kind: star.kind,
           questionCount: questionCount.get(star.id) ?? 0,
           completed: completedAt.has(star.id),

@@ -83,6 +83,24 @@ describe("GET /constellations", () => {
     expect(second.id).toBe(python.stars[1].id);
   });
 
+  it("trae los módulos y la letra y el módulo de cada estrella", async () => {
+    const { constellation, star } = await createPythonStar();
+    await constellation.update({ modules: [{ number: 1, title: "Primeros pasos", classes: "1 y 2" }] });
+    await star.update({ module: 1 });
+    await Star.create({ constellationId: constellation.id, position: 2, title: "Condicionales", module: 1 });
+    await Star.create({ constellationId: constellation.id, position: 3, title: "Examen", kind: "exam" });
+    const agent = await enrolledStudent();
+
+    const [python] = (await agent.get("/constellations")).body.constellations;
+
+    expect(python.modules).toEqual([{ number: 1, title: "Primeros pasos" }]);
+    expect(python.stars.map((s: { letter: string; module: number | null }) => [s.letter, s.module])).toEqual([
+      ["α¹", 1],
+      ["α²", 1],
+      ["Ω", null],
+    ]);
+  });
+
   it("no muestra constelaciones sin publicar ni de cursos que el alumno no tiene", async () => {
     await createPythonStar({ published: false });
     const other = await Product.findOne({ where: { key: "fundamentos-backend" } });

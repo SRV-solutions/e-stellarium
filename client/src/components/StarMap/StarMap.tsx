@@ -1,7 +1,7 @@
-import { useMemo, type CSSProperties, type KeyboardEvent } from "react";
+import { useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { seededRandom } from "../../lib/random";
-import { SKY, greekLetter, segmentPath, serpentPoints, smoothPath, type Layout, type Point } from "../../lib/sky";
+import { figureFor, placeLetters, placeStars, type Box, type Layout, type LetterSpot, type Point } from "../../lib/figures";
 import { useCountdown } from "../../hooks/useCountdown";
 import { formatCountdown } from "../../lib/time";
 import type { StarSummary } from "../../types";
@@ -34,39 +34,78 @@ function makeDust(width: number, height: number) {
   });
 }
 
-function labelPosition(layout: Layout, point: Point, index: number, exam: boolean, width: number) {
-  if (exam) return { x: point.x, y: point.y - 44, anchor: "middle" as const };
-  if (layout === "wide") {
-    return { x: point.x, y: index % 2 ? point.y - 44 : point.y + 56, anchor: "middle" as const };
-  }
-  const left = point.x > width / 2;
-  return { x: point.x + (left ? -44 : 44), y: point.y + 6, anchor: left ? ("end" as const) : ("start" as const) };
-}
+// Una línea recta de estrella a estrella, como en una carta celeste
+const polyline = (points: Point[]) => points.map((p, i) => `${i ? "L" : "M"}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
+
+const RETICLE = 19; // el radio de la mira sobre una lección (sobre el examen es más grande)
 
 type Props = {
+  courseKey: string;
   stars: StarSummary[];
   selectedId: string | null;
   onSelect: (id: string) => void;
 };
 
-export function StarMap({ stars, selectedId, onSelect }: Props) {
+export function StarMap({ courseKey, stars, selectedId, onSelect }: Props) {
   const tall = useMediaQuery("(max-width: 700px)");
   const layout: Layout = tall ? "tall" : "wide";
-  const { width, height, fontSize } = SKY[layout];
+  const fontSize = tall ? 15 : 17;
+  const [hoverId, setHoverId] = useState<string | null>(null);
 
-  const points = useMemo(() => serpentPoints(stars.length, layout), [stars.length, layout]);
+  // Las lecciones van sobre la figura; el examen, en su centro
+  const lessons = useMemo(() => stars.filter((s) => s.kind === "lesson"), [stars]);
+  const figure = useMemo(() => figureFor(courseKey, layout), [courseKey, layout]);
+  const { width, height, center } = figure;
+  const { spots, cut } = useMemo(() => placeStars(lessons.map((s) => s.module), figure), [lessons, figure]);
   const dust = useMemo(() => makeDust(width, height), [width, height]);
+  const examStar = stars.find((s) => s.kind === "exam");
 
-  // El examen va al final; la línea encendida recorre solo las lecciones
-  const lessonCount = stars.filter((s) => s.kind === "lesson").length;
-  const exam = stars.find((s) => s.kind === "exam")?.exam;
-  const lastOpen = stars.reduce((last, star, i) => (star.kind === "lesson" && star.unlocked ? i : last), 0);
-  const aim = points[stars.findIndex((s) => s.id === selectedId)];
+  const selected = stars.find((s) => s.id === selectedId);
+  const aimIndex = selected ? lessons.indexOf(selected) : -1;
 
-  if (points.length === 0) return null;
+  // Las letras, sin pisarse entre ellas ni con la mira ni con el examen (su nombre y su cuenta van debajo).
+  // La estrella apuntada no lleva letra suelta: la muestra la plaquita con su título
+  const letterSpots = useMemo(() => {
+    const blocked: Box[] = [];
+    if (examStar) blocked.push({ x: center.x - 95, y: center.y - 45, w: 190, h: 160 });
+    const aim = spots[aimIndex];
+    if (aim) blocked.push({ x: aim.x - RETICLE - 7, y: aim.y - RETICLE - 7, w: 2 * (RETICLE + 7), h: 2 * (RETICLE + 7) });
+    const letters = lessons.map((s, i) => (i === aimIndex ? "" : s.letter));
+    return placeLetters(spots, letters, figure, fontSize, blocked);
+  }, [spots, lessons, aimIndex, figure, fontSize, examStar, center]);
+
+  // El área que responde al toque de cada estrella: la mitad de la distancia a la más cercana, así no se pisan
+  const hitRadius = useMemo(() => {
+    const gaps = spots.slice(1).map((p, i) => Math.hypot(p.x - spots[i]!.x, p.y - spots[i]!.y));
+    return Math.max(12, Math.min(30, Math.min(...gaps, 60) / 2));
+  }, [spots]);
+
+  if (spots.length === 0) return null;
+
+  const at = (star: StarSummary): Point => (star.kind === "exam" ? center : spots[lessons.indexOf(star)]!);
+  // La línea encendida llega hasta la última lección abierta; el resto, de puntos
+  const lastOpen = lessons.reduce((last, star, i) => (star.unlocked ? i : last), 0);
+  const exam = examStar?.exam;
+
+  // Un tramo de línea por trazo: entre los dos trazos de la figura no hay línea seguida, hay un salto de puntos
+  const pieces = (from: number, to: number) => {
+    if (to <= from) return [];
+    if (cut > from && cut <= to) return [spots.slice(from, cut), spots.slice(cut, to + 1)];
+    return [spots.slice(from, to + 1)];
+  };
+  const litPath = pieces(0, lastOpen).filter((p) => p.length > 1).map(polyline).join(" ");
+  const futurePath = pieces(lastOpen, spots.length - 1).filter((p) => p.length > 1).map(polyline).join(" ");
+  const tagStar = stars.find((s) => s.id === (hoverId ?? selectedId));
+  const aim = selected ? at(selected) : null;
+  const aimRadius = selected?.kind === "exam" ? 40 : RETICLE;
 
   return (
-    <svg className={styles.map} viewBox={`0 0 ${width} ${height}`} role="group" aria-label="Mapa de la constelación">
+    <svg
+      className={styles.map}
+      viewBox={`0 0 ${width} ${height}`}
+      role="group"
+      aria-label={`Mapa de la constelación: ${figure.name}`}
+    >
       <defs>
         <filter id="bloom" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="2.2" result="b" />
@@ -102,10 +141,10 @@ export function StarMap({ stars, selectedId, onSelect }: Props) {
         <linearGradient
           id="litGrad"
           gradientUnits="userSpaceOnUse"
-          x1={points[0]!.x}
-          y1={points[0]!.y}
-          x2={points[lastOpen]!.x}
-          y2={points[lastOpen]!.y}
+          x1={spots[0]!.x}
+          y1={spots[0]!.y}
+          x2={spots[lastOpen]!.x}
+          y2={spots[lastOpen]!.y}
         >
           <stop offset="0" stopColor="#ffffff" />
           <stop offset="1" stopColor="#5aa9ff" />
@@ -126,64 +165,114 @@ export function StarMap({ stars, selectedId, onSelect }: Props) {
         ))}
       </g>
 
-      <path className={styles.ghost} d={smoothPath(points)} strokeWidth={tall ? 38 : 46} />
-      <path className={styles.future} d={smoothPath(points.slice(lastOpen, lessonCount))} />
-      {exam && lessonCount > 0 && (
+      {/* La silueta de la figura, de fondo */}
+      {figure.strokes.map((line, i) => (
+        <path key={i} className={styles.ghost} d={polyline(line)} strokeWidth={tall ? 30 : 40} />
+      ))}
+
+      {futurePath && <path className={styles.future} d={futurePath} />}
+      {cut > 0 && (
+        <path
+          className={`${styles.jump} ${lastOpen >= cut ? styles.jumpLit : ""}`}
+          d={polyline([spots[cut - 1]!, spots[cut]!])}
+        />
+      )}
+      {exam && (
         <path
           className={`${styles.toExam} ${
             exam.status === "passed" ? styles.toExamLit : exam.status !== "locked" ? styles.toExamOn : ""
           }`}
-          d={segmentPath(points, lessonCount - 1)}
+          d={polyline([spots[spots.length - 1]!, center])}
         />
       )}
-      {lastOpen > 0 && (
-        <path key={layout} className={styles.lit} d={smoothPath(points.slice(0, lastOpen + 1))} pathLength={1} />
-      )}
+      {litPath && <path key={layout} className={styles.lit} d={litPath} pathLength={1} />}
 
-      {stars.map((star, i) => {
-        const Node = star.exam ? ExamNode : StarNode;
-        return (
-          <Node
-            key={star.id}
-            star={star}
-            index={i}
-            point={points[i]!}
-            label={labelPosition(layout, points[i]!, i, star.kind === "exam", width)}
-            fontSize={fontSize}
-            selected={star.id === selectedId}
-            onSelect={() => onSelect(star.id)}
-          />
-        );
-      })}
+      {lessons.map((star, i) => (
+        <StarNode
+          key={star.id}
+          star={star}
+          point={spots[i]!}
+          letterSpot={letterSpots[i] ?? null}
+          hitRadius={hitRadius}
+          fontSize={fontSize}
+          selected={star.id === selectedId}
+          onSelect={() => onSelect(star.id)}
+          onHover={(on) => setHoverId(on ? star.id : null)}
+        />
+      ))}
+      {examStar && (
+        <ExamNode
+          star={examStar}
+          point={center}
+          fontSize={fontSize}
+          selected={examStar.id === selectedId}
+          onSelect={() => onSelect(examStar.id)}
+        />
+      )}
 
       {aim && (
         <g className={styles.reticle} style={{ transform: `translate(${aim.x}px, ${aim.y}px)` }}>
-          <circle r={30} />
-          <line x1={0} y1={-40} x2={0} y2={-33} />
-          <line x1={0} y1={33} x2={0} y2={40} />
-          <line x1={-40} y1={0} x2={-33} y2={0} />
-          <line x1={33} y1={0} x2={40} y2={0} />
+          <circle r={aimRadius} />
+          <line x1={0} y1={-aimRadius - 7} x2={0} y2={-aimRadius - 2} />
+          <line x1={0} y1={aimRadius + 2} x2={0} y2={aimRadius + 7} />
+          <line x1={-aimRadius - 7} y1={0} x2={-aimRadius - 2} y2={0} />
+          <line x1={aimRadius + 2} y1={0} x2={aimRadius + 7} y2={0} />
         </g>
+      )}
+
+      {/* El título de la estrella apuntada (o de la que está bajo el mouse), encima de todo. El examen ya lo tiene debajo */}
+      {tagStar && tagStar.kind === "lesson" && (
+        <TitleTag key={tagStar.id} star={tagStar} point={at(tagStar)} fontSize={fontSize} width={width} />
       )}
     </svg>
   );
 }
 
+// Una plaquita arriba de la estrella (abajo si no entra), que no se sale del cielo
+function TitleTag({ star, point, fontSize, width }: { star: StarSummary; point: Point; fontSize: number; width: number }) {
+  const text = useRef<SVGTextElement>(null);
+  const [plate, setPlate] = useState<{ x: number; y: number; w: number; h: number; shift: number } | null>(null);
+  const y = point.y - 40 < 20 ? point.y + 40 : point.y - 40;
+
+  // Se mide el texto ya dibujado para saber de qué tamaño hacer la placa y cuánto correrla si se sale
+  useLayoutEffect(() => {
+    const b = text.current!.getBBox();
+    const pad = 12;
+    let shift = 0;
+    if (b.x - pad < 4) shift = 4 - (b.x - pad);
+    if (b.x + b.width + pad > width - 4) shift = width - 4 - (b.x + b.width + pad);
+    setPlate({ x: b.x - pad, y: b.y - 6, w: b.width + 2 * pad, h: b.height + 12, shift });
+  }, [point.x, point.y, width, fontSize]);
+
+  return (
+    <g
+      className={styles.tag}
+      style={{ opacity: plate ? 1 : 0 }}
+      transform={plate ? `translate(${plate.shift} 0)` : undefined}
+    >
+      {plate && <rect className={styles.plate} x={plate.x} y={plate.y} width={plate.w} height={plate.h} rx={8} />}
+      <text ref={text} x={point.x} y={y} textAnchor="middle" dominantBaseline="middle" fontSize={fontSize}>
+        <tspan className={styles.greek}>{star.letter} </tspan>
+        <tspan className={styles.name}>{star.title}</tspan>
+      </text>
+    </g>
+  );
+}
+
 type NodeProps = {
   star: StarSummary;
-  index: number;
   point: Point;
-  label: { x: number; y: number; anchor: "start" | "middle" | "end" };
+  letterSpot: LetterSpot | null;
+  hitRadius: number;
   fontSize: number;
   selected: boolean;
   onSelect: () => void;
+  onHover: (on: boolean) => void;
 };
 
-function StarNode({ star, index, point, label, fontSize, selected, onSelect }: NodeProps) {
+function StarNode({ star, point, letterSpot, hitRadius, fontSize, selected, onSelect, onHover }: NodeProps) {
   const status = statusOf(star);
-  const exam = star.kind === "exam";
   const { x, y } = point;
-  const letter = greekLetter(index);
 
   function onKeyDown(e: KeyboardEvent) {
     if (e.key === "Enter" || e.key === " ") {
@@ -194,56 +283,53 @@ function StarNode({ star, index, point, label, fontSize, selected, onSelect }: N
 
   return (
     <g
-      className={`${styles.node} ${styles[status]} ${exam ? styles.exam : ""}`}
+      className={`${styles.node} ${styles[status]}`}
       role="button"
       tabIndex={0}
       aria-pressed={selected}
-      aria-label={`${letter} ${star.title}, ${STATUS_TEXT[status]}`}
+      aria-label={`${star.letter} ${star.title}, ${STATUS_TEXT[status]}`}
       onClick={onSelect}
       onKeyDown={onKeyDown}
+      onMouseEnter={() => onHover(true)}
+      onMouseLeave={() => onHover(false)}
+      onFocus={() => onHover(true)}
+      onBlur={() => onHover(false)}
     >
-      <circle className={styles.hit} cx={x} cy={y} r={34} />
-      {(status !== "locked" || exam) && <circle className={styles.halo} cx={x} cy={y} r={exam ? 48 : 34} />}
+      <circle className={styles.hit} cx={x} cy={y} r={hitRadius} />
+      {status !== "locked" && <circle className={styles.halo} cx={x} cy={y} r={26} />}
 
       {status === "done" && (
         <>
-          <line className={styles.spike} x1={x - 22} y1={y} x2={x + 22} y2={y} />
-          <line className={styles.spike} x1={x} y1={y - 22} x2={x} y2={y + 22} />
+          <line className={styles.spike} x1={x - 16} y1={y} x2={x + 16} y2={y} />
+          <line className={styles.spike} x1={x} y1={y - 16} x2={x} y2={y + 16} />
         </>
       )}
 
       {status === "current" && (
         <>
-          <circle className={styles.pulse} cx={x} cy={y} r={11} />
-          <circle className={styles.orbit} cx={x} cy={y} r={22} />
+          <circle className={styles.pulse} cx={x} cy={y} r={9} />
+          <circle className={styles.orbit} cx={x} cy={y} r={18} />
         </>
       )}
 
-      {exam &&
-        Array.from({ length: 8 }, (_, k) => {
-          const angle = (k * Math.PI) / 4;
-          const outer = k % 2 ? 22 : 30;
-          return (
-            <line
-              key={k}
-              className={styles.ray}
-              x1={x + Math.cos(angle) * 15}
-              y1={y + Math.sin(angle) * 15}
-              x2={x + Math.cos(angle) * outer}
-              y2={y + Math.sin(angle) * outer}
-            />
-          );
-        })}
+      <circle className={styles.core} cx={x} cy={y} r={status === "locked" ? 4.5 : status === "current" ? 7.5 : 6} />
 
-      <circle className={styles.core} cx={x} cy={y} r={exam ? 10 : status === "locked" ? 5.5 : status === "current" ? 9 : 7} />
-
-      <text x={label.x} y={label.y} textAnchor={label.anchor} fontSize={fontSize}>
-        <tspan className={styles.greek}>{letter} </tspan>
-        <tspan className={styles.name}>{star.title}</tspan>
-      </text>
+      {letterSpot && (
+        <text
+          className={styles.letter}
+          x={letterSpot.x}
+          y={letterSpot.y}
+          textAnchor={letterSpot.anchor}
+          dominantBaseline="middle"
+          fontSize={fontSize}
+        >
+          {star.letter}
+        </text>
+      )}
     </g>
   );
 }
+
 // La estrella de examen: más grande, con ocho rayos y un anillo de cúpula que se cierra mientras espera
 type ExamView = "examLocked" | "examWaiting" | "examOpen" | "examRetry" | "examPassed";
 
@@ -266,11 +352,13 @@ const EXAM_STATUS_TEXT: Record<ExamView, string> = {
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-function ExamNode({ star, index, point, fontSize, selected, onSelect }: NodeProps) {
+type ExamProps = { star: StarSummary; point: Point; fontSize: number; selected: boolean; onSelect: () => void };
+
+function ExamNode({ star, point, fontSize, selected, onSelect }: ExamProps) {
   const exam = star.exam!;
   const view = EXAM_VIEW[exam.status];
   const { x, y } = point;
-  const letter = greekLetter(index);
+  const letter = star.letter;
 
   // La espera: 3 días antes del primer intento, 2 antes de cada reintento
   const opensAt = exam.status === "waiting" || exam.status === "retry_wait" ? exam.opensAt : null;

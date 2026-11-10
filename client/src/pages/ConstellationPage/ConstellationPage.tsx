@@ -139,7 +139,7 @@ function ConstellationView({
           </div>
 
           <div className={styles.mapArea}>
-            <StarMap stars={constellation.stars} selectedId={selectedId} onSelect={setSelectedId} />
+            <StarMap courseKey={constellation.course.key} stars={constellation.stars} selectedId={selectedId} onSelect={setSelectedId} />
           </div>
         </div>
       </section>

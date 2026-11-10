@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import { useCountdown } from "../../hooks/useCountdown";
-import { greekLetter, ordinal } from "../../lib/sky";
+import { ordinal } from "../../lib/sky";
 import { formatCountdown, formatMoment } from "../../lib/time";
 import type { ExamSummary, StarSummary } from "../../types";
 import styles from "./StarReadout.module.css";
@@ -48,7 +48,7 @@ export function ExamReadout({ star, index, previous, onOpen }: Props) {
           <>
             Encendé{" "}
             <b>
-              {greekLetter(index - 1)} {previous.title}
+              {previous.letter} {previous.title}
             </b>
             .
           </>
@@ -100,7 +100,7 @@ export function ExamReadout({ star, index, previous, onOpen }: Props) {
     <section className={styles.readout} aria-live="polite">
       <div className={`${styles.inner} ${styles.examInner}`}>
         <div className={styles.letter} aria-hidden="true">
-          {greekLetter(index)}
+          {star.letter}
         </div>
 
         <div>
