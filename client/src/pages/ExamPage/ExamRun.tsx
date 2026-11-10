@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../auth/useAuth";
 import { api, ApiError } from "../../lib/api";
@@ -9,6 +9,7 @@ import { ChoiceGame } from "../GamePage/games/ChoiceGame";
 import { FillBlankGame } from "../GamePage/games/FillBlankGame";
 import { OrderLinesGame } from "../GamePage/games/OrderLinesGame";
 import { KIND } from "../GamePage/kinds";
+import { ConfirmDialog } from "../../components/ConfirmDialog/ConfirmDialog";
 import styles from "./ExamRun.module.css";
 
 type Question = Extract<ExamProgress, { status: "question" }>;
@@ -33,7 +34,7 @@ export function ExamRun({ info, initial, onFinished }: Props) {
   const [response, setResponse] = useState<AnswerResponse | null>(null);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const leave = useRef<HTMLDialogElement>(null);
+  const [leaving, setLeaving] = useState(false);
   const { noteActivity } = useAuth();
 
   // El reloj de la pregunta: se actualiza 10 veces por segundo
@@ -106,7 +107,7 @@ export function ExamRun({ info, initial, onFinished }: Props) {
             type="button"
             className={game.close}
             aria-label="Salir del examen"
-            onClick={() => leave.current?.showModal()}
+            onClick={() => setLeaving(true)}
           >
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M6 6l12 12M18 6L6 18" />
@@ -199,24 +200,16 @@ export function ExamRun({ info, initial, onFinished }: Props) {
         </div>
       )}
 
-      <dialog ref={leave} className={styles.leave} aria-labelledby="leave-title">
-        <h2 id="leave-title">¿Salir del examen?</h2>
-        <p>
-          El reloj sigue corriendo aunque te vayas. Las preguntas que no respondas a tiempo cuentan como mal.
-        </p>
-        <div className={styles.leaveActions}>
-          <button type="button" className={styles.stay} onClick={() => leave.current?.close()}>
-            Seguir rindiendo
-          </button>
-          <button
-            type="button"
-            className={styles.exit}
-            onClick={() => navigate(`/constellations/${info.course.key}`)}
-          >
-            Salir igual
-          </button>
-        </div>
-      </dialog>
+      <ConfirmDialog
+        open={leaving}
+        title="¿Salir del examen?"
+        cancelLabel="Seguir rindiendo"
+        confirmLabel="Salir igual"
+        onCancel={() => setLeaving(false)}
+        onConfirm={() => navigate(`/constellations/${info.course.key}`)}
+      >
+        El reloj sigue corriendo aunque te vayas. Las preguntas que no respondas a tiempo cuentan como mal.
+      </ConfirmDialog>
     </div>
   );
 }

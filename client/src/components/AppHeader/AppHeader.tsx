@@ -1,15 +1,18 @@
+import { useState } from "react";
 import { Link, NavLink } from "react-router";
 import { useAuth } from "../../auth/useAuth";
 import logo from "../../assets/logo-srv.png";
 import { levelFor } from "../../lib/levels";
 import { BrandGauge } from "../BrandGauge/BrandGauge";
 import { Comet } from "../Comet/Comet";
+import { ConfirmDialog } from "../ConfirmDialog/ConfirmDialog";
 import styles from "./AppHeader.module.css";
 
 const navClass = ({ isActive }: { isActive: boolean }) => `${styles.navLink} ${isActive ? styles.active : ""}`;
 
 export function AppHeader() {
   const { user, logout, stats } = useAuth();
+  const [confirming, setConfirming] = useState(false);
   if (!user) return null;
   const level = levelFor(user.totalXp);
 
@@ -55,11 +58,25 @@ export function AppHeader() {
             {user.alias.slice(0, 2).toUpperCase()}
           </span>
           <span className={styles.alias}>{user.alias}</span>
-          <button type="button" className={styles.logout} onClick={logout}>
+          <button type="button" className={styles.logout} onClick={() => setConfirming(true)}>
             Salir
           </button>
         </div>
       </div>
+
+      <ConfirmDialog
+        open={confirming}
+        title="¿Cerrar sesión?"
+        cancelLabel="Quedarme"
+        confirmLabel="Cerrar sesión"
+        onCancel={() => setConfirming(false)}
+        onConfirm={() => {
+          setConfirming(false);
+          logout();
+        }}
+      >
+        Para volver a entrar vas a necesitar tu email y tu contraseña.
+      </ConfirmDialog>
     </header>
   );
 }

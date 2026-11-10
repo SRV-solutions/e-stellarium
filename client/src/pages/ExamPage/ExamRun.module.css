@@ -199,61 +199,6 @@
   cursor: wait;
 }
 
-/* El aviso para salir */
-.leave {
-  max-width: 420px;
-  padding: 26px 26px 22px;
-  color: var(--text);
-  background: var(--night-2);
-  border: 1px solid var(--line-hover);
-  border-radius: 18px;
-}
-
-.leave::backdrop {
-  background: rgba(3, 8, 23, 0.7);
-}
-
-.leave h2 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-.leave p {
-  margin: 8px 0 0;
-  color: var(--muted);
-}
-
-.leaveActions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 22px;
-}
-
-.stay,
-.exit {
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: 999px;
-  cursor: pointer;
-}
-
-.stay {
-  color: #fff;
-  background: var(--blue);
-  border: 0;
-}
-
-.exit {
-  color: var(--text);
-  background: none;
-  border: 1.5px solid var(--line);
-}
-
 @media (max-width: 600px) {
   .top {
     grid-template-columns: 40px 1fr 56px;
