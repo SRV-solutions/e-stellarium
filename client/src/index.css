@@ -13,8 +13,14 @@
   --text: #eef3ff;
   --muted: #9aaad0;
   --placeholder: #5f709c;
+  --deep: #050d24;
+  --code: #040b20;
+  --dim: #4c5f92;
+  --mint: #3fe0a2;
+  --coral: #ff7a6b;
   --font: "Bricolage Grotesque", system-ui, sans-serif;
   --greek: "Noto Serif Display", Georgia, serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 *,

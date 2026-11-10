@@ -121,6 +121,7 @@ describe("estado del examen", () => {
       status: "retry_wait",
       opensAt: at("14T10:00:00"),
       lastCorrect: 5,
+      attemptId: "a1",
     });
     expect(computeExamState(opensAt, [failed], at("14T10:00:00"))).toEqual({ status: "open", attempts: 1 });
   });
@@ -130,6 +131,7 @@ describe("estado del examen", () => {
     expect(computeExamState(opensAt, [failed, passed], at("20T10:00:00"))).toEqual({
       status: "passed",
       correctCount: 8,
+      attemptId: "a2",
     });
   });
 });

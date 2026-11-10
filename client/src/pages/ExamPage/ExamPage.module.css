@@ -1,0 +1,652 @@
+.message {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  color: var(--muted);
+}
+
+.message a {
+  color: var(--text);
+}
+
+/* Pantallas centradas: cerrada, abierta, aprobado y no aprobado */
+.end {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 40px 24px 60px;
+  text-align: center;
+}
+
+.end > div {
+  width: 100%;
+  max-width: 580px;
+}
+
+.kicker {
+  margin: 0;
+  font-size: 16px;
+  color: var(--muted);
+  animation: up 0.6s 0.3s both;
+}
+
+.kicker b {
+  font-family: var(--greek);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.end h1 {
+  margin: 4px 0 0;
+  font-size: 42px;
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  animation: up 0.6s 0.4s both;
+}
+
+.lead {
+  max-width: 46ch;
+  margin: 14px auto 0;
+  font-size: 18px;
+  color: var(--muted);
+  animation: up 0.6s 0.5s both;
+}
+
+.lead b {
+  color: var(--text);
+}
+
+@keyframes up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+/* La cúpula del observatorio */
+.dome {
+  width: 240px;
+  height: 210px;
+  margin: 0 auto 14px;
+}
+
+.dome svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.shell {
+  fill: var(--night-2);
+  stroke: var(--line-hover);
+  stroke-width: 1.5;
+}
+
+.rib {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.base {
+  fill: var(--night-3);
+  stroke: var(--line-hover);
+  stroke-width: 1.5;
+}
+
+.slitSky {
+  fill: var(--code);
+}
+
+.slitStar {
+  fill: #dce7ff;
+}
+
+.shutter {
+  fill: #1b3068;
+  stroke: var(--line-hover);
+  stroke-width: 1.2;
+  transition: transform 1.4s cubic-bezier(0.6, 0, 0.2, 1);
+}
+
+.domeOpen .shutterL {
+  transform: translateX(-15px);
+}
+
+.domeOpen .shutterR {
+  transform: translateX(15px);
+}
+
+/* El telescopio: gira desde su base y asoma por la ranura */
+.scope {
+  transform-origin: 120px 124px;
+  transform: rotate(6deg) translateY(46px);
+  opacity: 0;
+  transition: transform 1.3s 0.8s cubic-bezier(0.2, 0.8, 0.3, 1), opacity 0.3s 0.8s;
+}
+
+.domeOpen .scope {
+  transform: rotate(6deg);
+  opacity: 1;
+}
+
+.tube {
+  fill: #2a4486;
+  stroke: #5aa9ff;
+  stroke-width: 1.2;
+}
+
+.lens {
+  fill: #9fc9ff;
+  stroke: #dce8ff;
+  stroke-width: 1.2;
+}
+
+.target {
+  fill: #fff;
+  filter: url(#dome-bloom);
+  opacity: 0.3;
+  transition: opacity 0.6s 1.8s;
+}
+
+.domeOpen .target {
+  opacity: 1;
+  transform-origin: 133px -6px;
+  animation: twinkle 3s 2.4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  50% {
+    transform: scale(1.4);
+    opacity: 0.7;
+  }
+}
+
+/* La cuenta regresiva */
+.count {
+  display: inline-flex;
+  gap: 22px;
+  margin: 26px 0 0;
+  font-variant-numeric: tabular-nums;
+  animation: up 0.6s 0.6s both;
+}
+
+.count div {
+  display: grid;
+}
+
+.count b {
+  font-family: var(--mono);
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.count span {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.when {
+  margin: 14px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+  animation: up 0.6s 0.65s both;
+}
+
+.when b {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Las reglas */
+.rules {
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+  border-top: 1px solid var(--line);
+  animation: up 0.6s 0.75s both;
+}
+
+.rules li {
+  display: grid;
+  grid-template-columns: 74px 1fr;
+  gap: 16px;
+  align-items: baseline;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.fig {
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--orange);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.txt {
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.txt b {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Los botones */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+  animation: up 0.6s 0.9s both;
+}
+
+.go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 17px 30px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  background: var(--blue);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 0 0 6px rgba(0, 123, 255, 0.14), 0 10px 40px rgba(0, 123, 255, 0.4);
+  transition: background 0.15s, transform 0.15s;
+}
+
+.go:hover:not(:disabled) {
+  background: var(--blue-hover);
+  transform: translateY(-2px);
+}
+
+.go:disabled {
+  color: var(--dim);
+  background: var(--night-3);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.go svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  padding: 16px 26px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+  background: none;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.ghost:hover {
+  border-color: var(--muted);
+}
+
+.fine {
+  margin: 18px 0 0;
+  font-size: 14px;
+  color: var(--dim);
+  animation: up 0.6s 1s both;
+}
+
+.error {
+  margin: 20px 0 0;
+  color: var(--coral);
+}
+
+/* El resultado: un arco por pregunta y la marca de 7 */
+.result {
+  width: 210px;
+  height: 210px;
+  margin: 0 auto 10px;
+}
+
+.result svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.arc {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.arcOk {
+  stroke: #fff;
+  filter: url(#result-bloom);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 0.45s calc(0.3s + var(--k) * 110ms) ease-out forwards;
+}
+
+.arcBad {
+  stroke: var(--dim);
+  stroke-opacity: 0.7;
+  animation: fadeIn 0.5s 0.2s both;
+}
+
+.mark {
+  stroke: var(--orange);
+  stroke-width: 2;
+  stroke-linecap: round;
+  animation: fadeIn 0.5s 1.4s both;
+}
+
+.markTxt {
+  fill: var(--orange);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  animation: fadeIn 0.5s 1.4s both;
+}
+
+.glow {
+  fill: url(#result-halo);
+  transform-origin: 105px 105px;
+  animation: grow 1s 1.2s cubic-bezier(0.2, 1, 0.3, 1) both;
+}
+
+.core {
+  fill: var(--night-3);
+  stroke: var(--dim);
+  stroke-width: 1.4;
+}
+
+.coreLit {
+  fill: #fff;
+  stroke: #fff;
+  filter: url(#result-bloomBig);
+  transform-origin: 105px 105px;
+  animation: grow 0.8s 1.3s cubic-bezier(0.2, 1.6, 0.4, 1) both;
+}
+
+.ray {
+  stroke: var(--orange);
+  stroke-width: 3;
+  stroke-linecap: round;
+  opacity: 0.85;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 0.4s calc(1.5s + var(--k) * 50ms) ease-out forwards;
+}
+
+.score {
+  fill: var(--text);
+  font-family: var(--mono);
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.of {
+  fill: var(--muted);
+  font-size: 10px;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes grow {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.gain {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 18px 0 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--orange);
+  font-variant-numeric: tabular-nums;
+  animation: up 0.6s 0.7s both;
+}
+
+.gain svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* El cupón: una ficha de catálogo, con el talón separado */
+.coupon {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  margin: 30px 0 0;
+  text-align: left;
+  background: rgba(255, 153, 0, 0.05);
+  border: 1.5px solid rgba(255, 153, 0, 0.45);
+  border-radius: 18px;
+  animation: up 0.7s 1.6s both;
+}
+
+.pct {
+  position: relative;
+  display: grid;
+  place-content: center;
+  padding: 22px 10px;
+  text-align: center;
+  border-right: 1.5px dashed rgba(255, 153, 0, 0.45);
+}
+
+/* Las muescas del talón */
+.pct::before,
+.pct::after {
+  content: "";
+  position: absolute;
+  right: -10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--deep);
+  border: 1.5px solid rgba(255, 153, 0, 0.45);
+}
+
+.pct::before {
+  top: -10px;
+  clip-path: inset(50% 0 0 0);
+}
+
+.pct::after {
+  bottom: -10px;
+  clip-path: inset(0 0 50% 0);
+}
+
+.pct b {
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--orange);
+}
+
+.pct span {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.couponBody {
+  padding: 18px 22px;
+}
+
+.couponLabel {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.codeRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0 0;
+}
+
+.codeRow code {
+  font-family: var(--mono);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  background: none;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.copy:hover {
+  border-color: var(--muted);
+}
+
+.copy svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.copied {
+  color: var(--mint);
+  border-color: var(--green);
+}
+
+.meta {
+  margin: 12px 0 0;
+  font-size: 14.5px;
+  color: var(--muted);
+}
+
+.meta b {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.warn {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  padding: 14px 22px;
+  font-size: 14.5px;
+  color: var(--muted);
+  background: rgba(255, 122, 107, 0.08);
+  border-top: 1.5px solid rgba(255, 122, 107, 0.35);
+  border-radius: 0 0 16px 16px;
+}
+
+.warn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  fill: none;
+  stroke: var(--coral);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.warn b {
+  font-weight: 700;
+  color: var(--coral);
+}
+
+@media (max-width: 600px) {
+  .end {
+    padding: 32px 16px 48px;
+  }
+  .end h1 {
+    font-size: 32px;
+  }
+  .lead {
+    font-size: 16px;
+  }
+  .count b {
+    font-size: 32px;
+  }
+  .rules li {
+    grid-template-columns: 58px 1fr;
+    gap: 12px;
+  }
+  .actions {
+    flex-direction: column-reverse;
+  }
+  .go,
+  .ghost {
+    width: 100%;
+    justify-content: center;
+  }
+  .coupon {
+    grid-template-columns: 1fr;
+  }
+  .pct {
+    padding: 16px;
+    border-right: 0;
+    border-bottom: 1.5px dashed rgba(255, 153, 0, 0.45);
+  }
+  .pct::before,
+  .pct::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .end *,
+  .end *::before,
+  .end *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+}

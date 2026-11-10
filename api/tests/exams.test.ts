@@ -77,7 +77,7 @@ describe("rendir el examen por la API", () => {
     expect(mail.html).toContain(code);
 
     const after = await agent.get(`/exams/${exam.id}`);
-    expect(after.body.state).toEqual({ status: "passed", correctCount: 10 });
+    expect(after.body.state).toEqual({ status: "passed", correctCount: 10, attemptId });
     expect(after.body.coupon).toMatchObject({ code, percent: 60, usedAt: null });
 
     expect((await agent.get(`/exam-attempts/${attemptId}`)).body).toEqual(res.body);

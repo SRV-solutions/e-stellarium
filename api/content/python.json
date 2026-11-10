@@ -515,6 +515,465 @@
         "correct": 0
       },
       "explanation": "input siempre devuelve un texto (str), aunque el usuario escriba un número. Para usarlo como número hay que convertirlo con int o float."
+    },
+    {
+      "slug": "py-banco-reasignar-suma",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "variables",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "x = 5\nx = x + 3\nprint(x)",
+        "options": [
+          "8",
+          "5",
+          "53",
+          "x + 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La segunda línea toma el valor que tenía x (5), le suma 3 y lo vuelve a guardar en x. Por eso imprime 8."
+    },
+    {
+      "slug": "py-banco-concat-numeros-texto",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(\"3\" + \"4\")",
+        "options": [
+          "34",
+          "7",
+          "3 + 4",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con comillas, \"3\" y \"4\" son textos. Sumar textos los pega uno al lado del otro: \"34\"."
+    },
+    {
+      "slug": "py-banco-division",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(7 / 2)",
+        "options": [
+          "3.5",
+          "3",
+          "4",
+          "3.0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La barra / divide y siempre da un float, con decimales: 3.5. Para quedarse solo con la parte entera está //."
+    },
+    {
+      "slug": "py-banco-elif-primera",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "t = 30\nif t > 20:\n    print(\"calor\")\nelif t > 25:\n    print(\"mucho calor\")\nelse:\n    print(\"frío\")",
+        "options": [
+          "calor",
+          "mucho calor",
+          "frío",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Python revisa las condiciones en orden y ejecuta solo la primera que se cumple. 30 > 20 ya es verdadero, así que imprime \"calor\" y no mira el elif, aunque también se cumpla."
+    },
+    {
+      "slug": "py-banco-and",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "edad = 15\ntiene_permiso = True\nprint(edad >= 18 and tiene_permiso)",
+        "options": [
+          "False",
+          "True",
+          "15",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "and es verdadero solo si las dos partes lo son. edad >= 18 es False, así que todo da False, aunque tiene_permiso sea True."
+    },
+    {
+      "slug": "py-banco-int-mas-float",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(2 + 3.0)",
+        "options": [
+          "5.0",
+          "5",
+          "23.0",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si en una cuenta hay un float, el resultado es float. 2 + 3.0 da 5.0, con decimal."
+    },
+    {
+      "slug": "py-banco-not",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(not 5 > 3)",
+        "options": [
+          "False",
+          "True",
+          "5",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Primero se calcula 5 > 3, que es True. not lo invierte, así que imprime False."
+    },
+    {
+      "slug": "py-banco-fill-str-edad",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "prompt": "Completá para que imprima \"Tengo 30 años\".",
+      "content": {
+        "code": "edad = 30\nprint(\"Tengo \" + ___(edad) + \" años\")",
+        "blanks": [
+          [
+            "str",
+            "int",
+            "float"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "Tengo 30 años"
+      },
+      "explanation": "Para pegar un número a un texto con + hay que convertirlo en texto con str. Con int o float sigue siendo número, y sumar texto con número da error."
+    },
+    {
+      "slug": "py-banco-fill-mayor-igual",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "condicionales",
+      "prompt": "Completá para que imprima \"mayor\".",
+      "content": {
+        "code": "edad = 18\nif edad ___ 18:\n    print(\"mayor\")",
+        "blanks": [
+          [
+            ">=",
+            ">",
+            "<"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "mayor"
+      },
+      "explanation": "edad vale justo 18. 18 > 18 es falso, pero 18 >= 18 (mayor o igual) es verdadero."
+    },
+    {
+      "slug": "py-banco-fill-else",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "condicionales",
+      "prompt": "Completá para que imprima \"chico\".",
+      "content": {
+        "code": "n = 3\nif n > 5:\n    print(\"grande\")\n___:\n    print(\"chico\")",
+        "blanks": [
+          [
+            "else",
+            "elif",
+            "if"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "chico"
+      },
+      "explanation": "else no lleva condición: se ejecuta cuando la del if no se cumple. elif e if necesitan una condición, así que escritos solos dan error."
+    },
+    {
+      "slug": "py-banco-fill-resto",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "prompt": "Completá para que imprima 1.",
+      "content": {
+        "code": "print(7 ___ 3)",
+        "blanks": [
+          [
+            "%",
+            "//",
+            "/"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "1"
+      },
+      "explanation": "% da el resto de la división: 7 dividido 3 da 2 y sobra 1. // daría 2 y / daría 2.3333333333333335."
+    },
+    {
+      "slug": "py-banco-fill-len-mas",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "texto",
+      "prompt": "Completá para que imprima 6.",
+      "content": {
+        "code": "print(___(\"hola\") ___ 2)",
+        "blanks": [
+          [
+            "len",
+            "str",
+            "int"
+          ],
+          [
+            "+",
+            "*",
+            "-"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0,
+          0
+        ],
+        "output": "6"
+      },
+      "explanation": "len(\"hola\") es 4, y 4 + 2 es 6. Con * daría 8 y con - daría 2."
+    },
+    {
+      "slug": "py-banco-orden-precio",
+      "type": "order_lines",
+      "difficulty": "easy",
+      "topic": "variables",
+      "prompt": "Ordená las líneas para que imprima el precio con descuento.",
+      "content": {
+        "lines": [
+          "precio = 100",
+          "final = precio * 0.8",
+          "print(final)"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2
+        ],
+        "output": "80.0"
+      },
+      "explanation": "Cada variable tiene que existir antes de usarla: primero precio, después final (que usa precio), y al final el print."
+    },
+    {
+      "slug": "py-banco-orden-convertir",
+      "type": "order_lines",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "prompt": "Ordená las líneas para que imprima 14.",
+      "content": {
+        "lines": [
+          "texto = \"7\"",
+          "numero = int(texto)",
+          "print(numero * 2)"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2
+        ],
+        "output": "14"
+      },
+      "explanation": "Primero el texto, después se convierte en número con int, y recién ahí se puede multiplicar por 2."
+    },
+    {
+      "slug": "py-banco-orden-if",
+      "type": "order_lines",
+      "difficulty": "easy",
+      "topic": "condicionales",
+      "prompt": "Ordená las líneas para que imprima \"grande\".",
+      "content": {
+        "lines": [
+          "x = 10",
+          "if x > 5:",
+          "    print(\"grande\")"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2
+        ],
+        "output": "grande"
+      },
+      "explanation": "La variable va primero, después el if, y el print indentado adentro de su bloque."
+    },
+    {
+      "slug": "py-banco-orden-abrigo",
+      "type": "order_lines",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "Ordená las líneas para que imprima \"Llevá campera\".",
+      "content": {
+        "lines": [
+          "t = 12",
+          "if t < 15:",
+          "    abrigo = \"campera\"",
+          "else:",
+          "    abrigo = \"remera\"",
+          "print(\"Llevá\", abrigo)"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "output": "Llevá campera"
+      },
+      "explanation": "Primero t, después el if con su bloque y el else con el suyo. El print va al final, cuando abrigo ya tiene valor. Con 12 grados se cumple t < 15, así que abrigo es \"campera\"."
+    },
+    {
+      "slug": "py-banco-mc-bool",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "prompt": "¿De qué tipo es el valor True?",
+      "content": {
+        "options": [
+          "bool",
+          "str",
+          "int",
+          "float"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "True y False son los dos valores del tipo bool (booleano). Sin comillas: \"True\" con comillas sería un texto."
+    },
+    {
+      "slug": "py-banco-mc-doble-igual",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "condicionales",
+      "prompt": "¿Qué hace == en Python?",
+      "content": {
+        "options": [
+          "Compara si dos valores son iguales",
+          "Guarda un valor en una variable",
+          "Suma dos valores",
+          "Compara si un valor es mayor que otro"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "== pregunta si dos valores son iguales y da True o False. Un solo = guarda un valor en una variable."
+    },
+    {
+      "slug": "py-banco-mc-texto-mas-numero",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "prompt": "¿Qué pasa al ejecutar print(\"5\" + 5)?",
+      "content": {
+        "options": [
+          "Da un error, porque no se puede sumar un texto y un número",
+          "Imprime 10",
+          "Imprime 55",
+          "Imprime 5 + 5"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Python no adivina: \"5\" es texto y 5 es número, y + no sabe combinarlos. Da un TypeError. Hay que convertir uno de los dos con int o str."
+    },
+    {
+      "slug": "py-banco-mc-else",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "¿Cuándo se ejecuta el bloque de un else?",
+      "content": {
+        "options": [
+          "Cuando no se cumplió ninguna de las condiciones anteriores",
+          "Siempre, después del if",
+          "Cuando se cumplió la condición del if",
+          "Nunca, si hay un elif antes"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El else es el \"si no\": se ejecuta solo cuando el if y todos los elif de antes dieron falso."
+    },
+    {
+      "slug": "py-banco-mc-int-decimal",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "tipos",
+      "prompt": "¿Qué pasa al ejecutar int(\"3.5\")?",
+      "content": {
+        "options": [
+          "Da un error",
+          "Devuelve 3",
+          "Devuelve 4",
+          "Devuelve 3.5"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "int puede convertir el texto \"3\", pero no \"3.5\": da un ValueError. Con int(3.5), sin comillas, sí devuelve 3, porque ahí es un número."
     }
   ]
 }

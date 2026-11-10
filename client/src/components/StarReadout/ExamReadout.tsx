@@ -87,7 +87,7 @@ export function ExamReadout({ star, index, previous, onOpen }: Props) {
     action = (
       <>
         <button type="button" className={`${styles.cta} ${styles.ghost}`} onClick={go}>
-          Repasar
+          Ver el resultado
         </button>
         <p className={styles.toHome}>
           Tu cupón está en <Link to="/">el inicio</Link>.

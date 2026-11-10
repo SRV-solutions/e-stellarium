@@ -9,8 +9,8 @@ export type ExamState =
   | { status: "waiting"; opensAt: Date } // completó las lecciones, faltan los 3 días
   | { status: "open"; attempts: number } // puede empezar un intento
   | { status: "in_progress"; attemptId: string } // tiene un intento sin terminar
-  | { status: "retry_wait"; opensAt: Date; lastCorrect: number } // no aprobó, faltan los 2 días
-  | { status: "passed"; correctCount: number }; // aprobado: la estrella está encendida
+  | { status: "retry_wait"; opensAt: Date; lastCorrect: number; attemptId: string } // no aprobó, faltan los 2 días
+  | { status: "passed"; correctCount: number; attemptId: string }; // aprobado: la estrella está encendida
 
 type AttemptInfo = Pick<ExamAttempt, "id" | "finishedAt" | "correctCount" | "passed">;
 
@@ -21,7 +21,7 @@ export function computeExamState(
   now = new Date()
 ): ExamState {
   const passed = attempts.find((a) => a.passed);
-  if (passed) return { status: "passed", correctCount: passed.correctCount! };
+  if (passed) return { status: "passed", correctCount: passed.correctCount!, attemptId: passed.id };
 
   const last = attempts.at(-1);
   if (last && !last.finishedAt) return { status: "in_progress", attemptId: last.id };
@@ -31,7 +31,7 @@ export function computeExamState(
 
   if (last) {
     const retryAt = retryOpensAt(last.finishedAt!);
-    if (now < retryAt) return { status: "retry_wait", opensAt: retryAt, lastCorrect: last.correctCount! };
+    if (now < retryAt) return { status: "retry_wait", opensAt: retryAt, lastCorrect: last.correctCount!, attemptId: last.id };
   }
 
   return { status: "open", attempts: attempts.length };

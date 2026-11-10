@@ -36,8 +36,8 @@ export type ExamState =
   | { status: "waiting"; opensAt: string } // faltan los 3 días
   | { status: "open"; attempts: number }
   | { status: "in_progress"; attemptId: string }
-  | { status: "retry_wait"; opensAt: string; lastCorrect: number } // no aprobó, faltan los 2 días
-  | { status: "passed"; correctCount: number };
+  | { status: "retry_wait"; opensAt: string; lastCorrect: number; attemptId: string } // no aprobó, faltan los 2 días
+  | { status: "passed"; correctCount: number; attemptId: string };
 
 // couponPercent: el descuento que ganaría si aprueba ahora
 export type ExamSummary = ExamState & { couponPercent: number };
@@ -94,3 +94,50 @@ export type AnswerResult = {
   starCompleted: boolean;
 };
 
+
+// GET /exams/:starId
+export type ExamInfo = {
+  star: { id: string; title: string; position: number };
+  course: { key: string; name: string };
+  constellationId: string;
+  state: ExamState;
+  rules: {
+    questions: number;
+    passMark: number;
+    secondsPerType: Record<StudentQuestion["type"], number>;
+    couponPercent: number;
+  };
+  coupon: Coupon | null;
+};
+
+export type Coupon = { code: string; percent: number; expiresAt: string; usedAt?: string | null };
+
+// Las preguntas del examen no traen attempt ni solved
+export type ExamQuestion = StudentQuestion extends infer Q
+  ? Q extends StudentQuestion
+    ? Omit<Q, "attempt" | "solved">
+    : never
+  : never;
+
+// Lo que devuelven empezar, pedir y responder: la pregunta que toca, o el resultado
+export type ExamProgress =
+  | {
+      status: "question";
+      attemptId: string;
+      position: number;
+      total: number;
+      timeLimitSeconds: number;
+      remainingMs: number;
+      question: ExamQuestion;
+    }
+  | {
+      status: "finished";
+      attemptId: string;
+      total: number;
+      correctCount: number;
+      passed: boolean;
+      results: boolean[];
+      xpGained: number;
+      coupon: Coupon | null;
+      retryOpensAt: string | null;
+    };

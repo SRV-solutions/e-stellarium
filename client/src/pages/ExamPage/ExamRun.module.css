@@ -1,0 +1,283 @@
+/* Lo que el examen agrega a la pantalla de juego (GamePage.module.css) */
+
+.top {
+  grid-template-columns: 44px 1fr 64px;
+}
+
+/* Las 10 preguntas: un punto por cada una */
+.ticks {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  align-items: center;
+  height: 44px;
+}
+
+.ticks i {
+  justify-self: center;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--night-3);
+  border: 1.4px solid var(--dim);
+}
+
+.ticks i.done {
+  background: var(--muted);
+  border-color: var(--muted);
+}
+
+.ticks i.now {
+  width: 12px;
+  height: 12px;
+  background: var(--blue);
+  border-color: var(--blue-hover);
+  box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.18);
+}
+
+.keepsGoing {
+  font-style: normal;
+  color: var(--dim);
+}
+
+/* El reloj: el tiempo que le queda a esta pregunta */
+.clock {
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+.clock svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.track {
+  fill: none;
+  stroke: var(--night-3);
+  stroke-width: 3;
+}
+
+.left {
+  fill: none;
+  stroke: var(--blue-hover);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke 0.3s;
+}
+
+.clock b {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.low .left {
+  stroke: var(--orange);
+}
+
+.low b {
+  color: var(--orange);
+  animation: tick 1s steps(1) infinite;
+}
+
+@keyframes tick {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* Con el tiempo vencido, la pregunta queda a la vista pero no se puede tocar */
+.frozen {
+  pointer-events: none;
+  opacity: 0.45;
+  transition: opacity 0.3s;
+}
+
+.dockWrap {
+  justify-content: space-between !important;
+}
+
+.noBack {
+  font-size: 14px;
+  color: var(--dim);
+}
+
+/* Se acabó el tiempo: la misma hoja del veredicto, sin decir si estaba bien */
+.sheet {
+  position: fixed;
+  z-index: 6;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, #2a1e22, #1a1220);
+  animation: rise 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+}
+
+.sheet::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 2px;
+  background: var(--orange);
+  box-shadow: 0 0 30px 6px var(--orange);
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+.sheetWrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-top: 22px;
+  padding-bottom: 26px;
+}
+
+.badge {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 153, 0, 0.16);
+  color: var(--orange);
+}
+
+.badge svg {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.verdict {
+  flex: 1;
+}
+
+.verdict strong {
+  display: block;
+  font-size: 21px;
+  line-height: 1.2;
+  color: #ffc266;
+}
+
+.verdict p {
+  max-width: 54ch;
+  margin: 6px 0 0;
+  font-size: 15.5px;
+}
+
+.next {
+  flex-shrink: 0;
+  padding: 16px 28px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--deep);
+  background: var(--text);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.next:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* El aviso para salir */
+.leave {
+  max-width: 420px;
+  padding: 26px 26px 22px;
+  color: var(--text);
+  background: var(--night-2);
+  border: 1px solid var(--line-hover);
+  border-radius: 18px;
+}
+
+.leave::backdrop {
+  background: rgba(3, 8, 23, 0.7);
+}
+
+.leave h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.leave p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.leaveActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.stay,
+.exit {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.stay {
+  color: #fff;
+  background: var(--blue);
+  border: 0;
+}
+
+.exit {
+  color: var(--text);
+  background: none;
+  border: 1.5px solid var(--line);
+}
+
+@media (max-width: 600px) {
+  .top {
+    grid-template-columns: 40px 1fr 56px;
+    gap: 10px;
+  }
+  .clock {
+    width: 56px;
+    height: 56px;
+  }
+  .noBack {
+    display: none;
+  }
+  .sheetWrap {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .next {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .low b,
+  .sheet {
+    animation: none;
+  }
+}
