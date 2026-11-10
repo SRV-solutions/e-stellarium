@@ -609,6 +609,136 @@
       ]
     },
     {
+      "slug": "js-operadores",
+      "module": 2,
+      "title": "Operadores y nombres",
+      "description": "Cómo nombrar variables, los operadores aritméticos, ++ y --.",
+      "questions": [
+        {
+          "slug": "js-op-camelcase",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "¿Qué notación se usa normalmente para nombrar variables en JavaScript?",
+          "content": {
+            "options": [
+              "camelCase, como nombreCompleto",
+              "snake_case, como nombre_completo",
+              "kebab-case, como nombre-completo",
+              "UPPER_CASE, como NOMBRE_COMPLETO"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En JavaScript, las variables y funciones van en camelCase. UPPER_CASE se usa para constantes que no cambian, y snake_case es más de Python."
+        },
+        {
+          "slug": "js-op-incremento",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "operadores",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "let a = 10;\na++;\nconsole.log(a);",
+            "options": [
+              "11",
+              "10",
+              "12",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "a++ es la forma corta de a = a + 1: suma uno y lo guarda en a."
+        },
+        {
+          "slug": "js-op-potencia",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "operadores",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(2 ** 3);",
+            "options": [
+              "8",
+              "6",
+              "9",
+              "23"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "** es la potencia: 2 ** 3 es 2 × 2 × 2, o sea 8."
+        },
+        {
+          "slug": "js-op-fill-resto",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "operadores",
+          "prompt": "Completá para que imprima 1.",
+          "content": {
+            "code": "console.log(10 ___ 3);",
+            "blanks": [
+              [
+                "%",
+                "/",
+                "-"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "1"
+          },
+          "explanation": "% es el módulo: lo que sobra de dividir. 10 dividido 3 da 3 y sobra 1. Con / da 3.333... y con - da 7."
+        },
+        {
+          "slug": "js-op-guion",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "variables",
+          "prompt": "¿Por qué no se puede llamar nombre-completo a una variable?",
+          "content": {
+            "options": [
+              "Porque JavaScript lee el guion como una resta",
+              "Porque un nombre no puede tener dos palabras",
+              "Porque tiene que empezar con mayúscula",
+              "Sí se puede: es la forma recomendada"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "nombre-completo se lee como nombre menos completo. Para nombres de varias palabras se usa camelCase: nombreCompleto."
+        },
+        {
+          "slug": "js-op-post-incremento",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "operadores",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "let a = 10;\nconsole.log(a++);\nconsole.log(a);",
+            "options": [
+              "10\n11",
+              "11\n11",
+              "10\n10",
+              "11\n12"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "a++ devuelve el valor viejo y después suma: el primer console.log muestra 10, y recién después a vale 11. Con ++a pasaría al revés."
+        }
+      ]
+    },
+    {
       "slug": "js-condicionales",
       "module": 3,
       "title": "Condicionales",
@@ -741,6 +871,405 @@
             "correct": 0
           },
           "explanation": "5 == \"5\" da true porque == convierte el texto en número antes de comparar. 5 === \"5\" da false porque los tipos son distintos. Por eso se usa ===."
+        }
+      ]
+    },
+    {
+      "slug": "js-logica",
+      "module": 3,
+      "title": "Lógica y verdadero o falso",
+      "description": "Los operadores &&, || y !, y qué valores cuentan como falsos en un if.",
+      "questions": [
+        {
+          "slug": "js-log-or",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "condicionales",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(false || true);",
+            "options": [
+              "true",
+              "false",
+              "false || true",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con || (OR) alcanza con que una de las dos sea verdadera."
+        },
+        {
+          "slug": "js-log-and-cuando",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "condicionales",
+          "prompt": "¿Cuándo da verdadero el operador && (AND)?",
+          "content": {
+            "options": [
+              "Solo si las dos condiciones son verdaderas",
+              "Si al menos una es verdadera",
+              "Si las dos son falsas",
+              "Siempre"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "&& es el \"y\": hacen falta las dos. El || (\"o\") es el que se conforma con una."
+        },
+        {
+          "slug": "js-log-texto-vacio",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "condicionales",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const nombre = \"\";\nif (nombre) {\n  console.log(\"Hay un nombre\");\n} else {\n  console.log(\"Vacío\");\n}",
+            "options": [
+              "Vacío",
+              "Hay un nombre",
+              "\"\"",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Un texto vacío cuenta como falso en un if, así que va al else. También son falsos 0, null, undefined, NaN y false."
+        },
+        {
+          "slug": "js-log-fill-or",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "condicionales",
+          "prompt": "Pasa quien tiene entrada o es VIP. Completá para que imprima Puede pasar.",
+          "content": {
+            "code": "const tieneEntrada = true;\nconst esVip = false;\nif (tieneEntrada ___ esVip) {\n  console.log(\"Puede pasar\");\n} else {\n  console.log(\"No puede pasar\");\n}",
+            "blanks": [
+              [
+                "||",
+                "&&",
+                "==="
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "Puede pasar"
+          },
+          "explanation": "Alcanza con una de las dos, así que va || (OR). Con && haría falta tener entrada y además ser VIP."
+        },
+        {
+          "slug": "js-log-falsy",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "condicionales",
+          "prompt": "¿Cuál de estos valores cuenta como falso en un if?",
+          "content": {
+            "options": [
+              "0",
+              "\"0\" (un texto con un cero)",
+              "\"false\" (un texto)",
+              "[] (un arreglo vacío)"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El número 0 es falso. \"0\" y \"false\" son textos con algo adentro, y [] es un arreglo: los tres cuentan como verdaderos."
+        },
+        {
+          "slug": "js-log-orden-votar",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "condicionales",
+          "prompt": "Desde los 16 se puede votar y desde los 18 es obligatorio. Ordená para que, con 18 años, imprima debe votar.",
+          "content": {
+            "lines": [
+              "const edad = 18;",
+              "let mensaje = edad >= 16 ? \"puede votar\" : \"no vota\";",
+              "if (edad >= 18) mensaje = \"debe votar\";",
+              "console.log(mensaje);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "debe votar"
+          },
+          "explanation": "Primero edad, porque la línea siguiente la usa. El mensaje arranca en \"puede votar\" y el if de los 18 lo cambia. Si el console.log va antes de ese if, se imprime \"puede votar\"."
+        }
+      ]
+    },
+    {
+      "slug": "js-objetos-arrays",
+      "module": 4,
+      "title": "Objetos y arrays",
+      "description": "Guardar varios datos juntos: propiedades, índices y los métodos para agregar y sacar.",
+      "questions": [
+        {
+          "slug": "js-est-propiedad",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "objetos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const persona = { nombre: \"Ana\", edad: 30 };\nconsole.log(persona.nombre);",
+            "options": [
+              "Ana",
+              "nombre",
+              "persona.nombre",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con la notación de punto se lee una propiedad del objeto: persona.nombre es \"Ana\"."
+        },
+        {
+          "slug": "js-est-indice",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "arreglos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const frutas = [\"manzana\", \"banana\", \"pera\"];\nconsole.log(frutas[1]);",
+            "options": [
+              "banana",
+              "manzana",
+              "pera",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los índices empiezan en 0: manzana es el 0, banana el 1 y pera el 2."
+        },
+        {
+          "slug": "js-est-fuera-de-rango",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "arreglos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const frutas = [\"manzana\", \"banana\"];\nconsole.log(frutas[5]);",
+            "options": [
+              "undefined",
+              "Error",
+              "banana",
+              "null"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si el índice no existe, JavaScript no da error: devuelve undefined."
+        },
+        {
+          "slug": "js-est-unshift",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "arreglos",
+          "prompt": "¿Qué hace unshift(x) en un array?",
+          "content": {
+            "options": [
+              "Agrega x al principio",
+              "Agrega x al final",
+              "Saca el primer elemento",
+              "Saca el último elemento"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "push y pop trabajan al final; unshift y shift, al principio. El que tiene \"un\" (unshift) es el que agrega."
+        },
+        {
+          "slug": "js-est-fill-ultimo",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "arreglos",
+          "prompt": "Completá para que imprima cereza, el último elemento.",
+          "content": {
+            "code": "const frutas = [\"manzana\", \"banana\", \"cereza\"];\nconsole.log(frutas[frutas.length ___]);",
+            "blanks": [
+              [
+                "- 1",
+                "- 0",
+                "+ 1"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "cereza"
+          },
+          "explanation": "length es 3, pero los índices van de 0 a 2. Por eso el último está en length - 1. En frutas[3] no hay nada (undefined)."
+        },
+        {
+          "slug": "js-est-corchetes",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "objetos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const persona = { nombre: \"Ana\" };\nconst clave = \"nombre\";\npersona.edad = 31;\nconsole.log(persona[clave], persona.edad);",
+            "options": [
+              "Ana 31",
+              "undefined 31",
+              "nombre 31",
+              "Ana undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "persona[clave] usa el valor de clave (\"nombre\"), así que lee persona.nombre. Y persona.edad = 31 agrega una propiedad nueva."
+        }
+      ]
+    },
+    {
+      "slug": "js-metodos",
+      "module": 4,
+      "title": "Métodos de texto y arrays",
+      "description": "Lo que ya traen los strings y los arrays: mayúsculas, buscar, cortar, dividir y reemplazar.",
+      "questions": [
+        {
+          "slug": "js-met-minusculas",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "texto",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(\"HOLA\".toLowerCase());",
+            "options": [
+              "hola",
+              "HOLA",
+              "Hola",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "toLowerCase devuelve el texto en minúsculas. Su par es toUpperCase."
+        },
+        {
+          "slug": "js-met-includes",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "texto",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(\"Hola mundo\".includes(\"mundo\"));",
+            "options": [
+              "true",
+              "false",
+              "mundo",
+              "5"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "includes pregunta si el texto contiene otro, y devuelve true o false."
+        },
+        {
+          "slug": "js-met-substring",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "texto",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(\"JavaScript\".substring(0, 4));",
+            "options": [
+              "Java",
+              "JavaS",
+              "Jav",
+              "avaS"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "substring(0, 4) toma desde el índice 0 hasta el 4, sin incluirlo: los caracteres 0, 1, 2 y 3."
+        },
+        {
+          "slug": "js-met-pop",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "arreglos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const lista = [1, 2, 3];\nconst ultimo = lista.pop();\nconsole.log(ultimo, lista.length);",
+            "options": [
+              "3 2",
+              "3 3",
+              "1 2",
+              "2 2"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "pop saca el último elemento y lo devuelve: ultimo es 3 y la lista queda con 2 elementos."
+        },
+        {
+          "slug": "js-met-orden-split",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "texto",
+          "prompt": "Ordená las líneas para que imprima HOLA.",
+          "content": {
+            "lines": [
+              "const frase = \"hola mundo\";",
+              "const palabras = frase.split(\" \");",
+              "const primera = palabras[0].toUpperCase();",
+              "console.log(primera);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "HOLA"
+          },
+          "explanation": "Cada línea usa la anterior: split divide la frase en un array de palabras, la primera (índice 0) se pasa a mayúsculas y al final se imprime."
+        },
+        {
+          "slug": "js-met-replace-primera",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "texto",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const texto = \"a-b-a\";\nconsole.log(texto.replace(\"a\", \"x\"));",
+            "options": [
+              "x-b-a",
+              "x-b-x",
+              "a-b-x",
+              "a-b-a"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "replace cambia solo la primera aparición. Para reemplazar todas existe replaceAll."
         }
       ]
     },
@@ -1585,6 +2114,150 @@
         "correct": 0
       },
       "explanation": "ls muestra lo que hay en la carpeta donde estás parado. Para limpiar la terminal se usa clear."
+    },
+    {
+      "slug": "js-banco-var-bloque",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "variables",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "if (true) {\n  var x = 10;\n}\nconsole.log(x);",
+        "options": [
+          "10",
+          "undefined",
+          "Error",
+          "x"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "var ignora los bloques { }: la x \"se escapa\" del if y existe afuera. Con let daría un error, porque solo existiría dentro del bloque."
+    },
+    {
+      "slug": "js-banco-undefined-null",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "module": 2,
+      "prompt": "¿Cuál es la diferencia entre undefined y null?",
+      "content": {
+        "options": [
+          "undefined: todavía no tiene valor; null: se dejó vacía a propósito",
+          "Son exactamente lo mismo",
+          "null: todavía no tiene valor; undefined: se dejó vacía a propósito",
+          "undefined es un número y null un texto"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "undefined aparece solo, cuando una variable existe pero no le diste valor. null lo ponés vos, para decir \"vacío a propósito\"."
+    },
+    {
+      "slug": "js-banco-else-if-nota",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const nota = 85;\nif (nota >= 90) {\n  console.log(\"excelente\");\n} else if (nota >= 80) {\n  console.log(\"buena\");\n} else if (nota >= 70) {\n  console.log(\"aceptable\");\n}",
+        "options": [
+          "buena",
+          "excelente",
+          "buena\naceptable",
+          "aceptable"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "85 no llega a 90, pero sí a 80: imprime buena. Aunque 85 >= 70 también es verdadero, en una cadena de else if se ejecuta solo la primera que se cumple."
+    },
+    {
+      "slug": "js-banco-cuantos-bloques",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "module": 3,
+      "prompt": "En un if / else if / else, si dos condiciones son verdaderas, ¿cuántos bloques se ejecutan?",
+      "content": {
+        "options": [
+          "Uno solo: el de la primera condición verdadera",
+          "Los dos",
+          "Ninguno",
+          "Todos, también el else"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "JavaScript revisa de arriba hacia abajo y, cuando encuentra la primera verdadera, ejecuta ese bloque y saltea el resto."
+    },
+    {
+      "slug": "js-banco-punto-corchetes",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "objetos",
+      "module": 4,
+      "prompt": "¿Cuáles son las dos formas de leer una propiedad de un objeto?",
+      "content": {
+        "options": [
+          "Con punto (persona.nombre) y con corchetes (persona[\"nombre\"])",
+          "Con punto y con paréntesis",
+          "Con flechas y con corchetes",
+          "Solo con punto"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La de punto es la más cómoda. Los corchetes sirven cuando el nombre de la propiedad está en una variable o tiene caracteres raros, como un guion."
+    },
+    {
+      "slug": "js-banco-object-keys",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "objetos",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(Object.keys({ nombre: \"Ana\", edad: 30 }));",
+        "options": [
+          "[ 'nombre', 'edad' ]",
+          "[ 'Ana', 30 ]",
+          "nombre,edad",
+          "2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Object.keys devuelve un array con los nombres de las propiedades. Para los valores está Object.values."
+    },
+    {
+      "slug": "js-banco-trim",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "texto",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const texto = \"  hola  \";\nconsole.log(texto.trim().length);",
+        "options": [
+          "4",
+          "8",
+          "6",
+          "2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "trim quita los espacios del principio y del final: queda \"hola\", de 4 letras."
     }
   ],
   "challenges": [
@@ -2471,6 +3144,523 @@
         "correct": 0
       },
       "explanation": "La línea del medio empieza con //: es un comentario, y JavaScript la ignora. En VS Code se comenta una línea con Ctrl + K y después Ctrl + C."
+    },
+    {
+      "slug": "js-desafio-decremento",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "let vidas = 3;\nvidas--;\nconsole.log(vidas);",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "vidas-- resta uno y lo guarda: es lo mismo que vidas = vidas - 1."
+    },
+    {
+      "slug": "js-desafio-const-por-defecto",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "variables",
+      "module": 2,
+      "prompt": "¿Cuál es la regla práctica para declarar variables?",
+      "content": {
+        "options": [
+          "const por defecto, y let solo si el valor tiene que cambiar",
+          "var siempre, porque es la más compatible",
+          "let siempre, por las dudas",
+          "const solo para números"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "const evita que reasignes algo sin querer. let queda para lo que cambia, como un contador. var conviene evitarlo: se escapa de los bloques."
+    },
+    {
+      "slug": "js-desafio-precio-cantidad",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const precio = 50;\nconst cantidad = 3;\nconsole.log(precio * cantidad);",
+        "options": [
+          "150",
+          "53",
+          "503",
+          "50 * 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las dos variables guardan números, así que * los multiplica: 50 × 3 es 150."
+    },
+    {
+      "slug": "js-desafio-mas-igual",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "let puntos = 10;\npuntos += 5;\npuntos -= 3;\nconsole.log(puntos);",
+        "options": [
+          "12",
+          "18",
+          "8",
+          "15"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "puntos += 5 lo deja en 15, y puntos -= 3 le resta 3: 12. Son formas cortas de puntos = puntos + 5 y puntos = puntos - 3."
+    },
+    {
+      "slug": "js-desafio-bigint",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "module": 2,
+      "prompt": "¿Cómo se escribe un número entero enorme como bigint?",
+      "content": {
+        "options": [
+          "Con una n al final, como 9007199254740993n",
+          "Entre comillas, como \"9007199254740993\"",
+          "Con la palabra big adelante",
+          "No se puede: los números tienen un tope"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "bigint sirve para enteros más grandes de lo que number guarda con exactitud. Se escriben con una n al final. Entre comillas sería un texto."
+    },
+    {
+      "slug": "js-desafio-fill-template",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "texto",
+      "module": 2,
+      "prompt": "Completá para que imprima Tengo 25 años.",
+      "content": {
+        "code": "const edad = 25;\nconsole.log(`Tengo ___ años`);",
+        "blanks": [
+          [
+            "${edad}",
+            "edad",
+            "{edad}"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "Tengo 25 años"
+      },
+      "explanation": "En un template literal (comillas invertidas), las variables van dentro de ${ }. Sin el signo $, se imprime el texto tal cual."
+    },
+    {
+      "slug": "js-desafio-pre-post",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "let a = 5;\nconst b = ++a + a++;\nconsole.log(b, a);",
+        "options": [
+          "12 7",
+          "11 7",
+          "12 6",
+          "10 7"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "++a suma primero y devuelve 6. Después a++ devuelve ese 6 y recién ahí a pasa a 7. Entonces b es 6 + 6 = 12, y a termina en 7."
+    },
+    {
+      "slug": "js-desafio-notacion-cientifica",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "tipos",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(1.23e3);",
+        "options": [
+          "1230",
+          "1.23e3",
+          "123",
+          "12300"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "1.23e3 es notación científica: 1.23 × 10³, o sea 1230. Es un number como cualquier otro."
+    },
+    {
+      "slug": "js-desafio-mayor-igual",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "condicionales",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(10 >= 10);",
+        "options": [
+          "true",
+          "false",
+          "10",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": ">= es \"mayor o igual\": 10 no es mayor que 10, pero sí igual, así que da true."
+    },
+    {
+      "slug": "js-desafio-not",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "condicionales",
+      "module": 3,
+      "prompt": "¿Qué hace el operador ! (NOT)?",
+      "content": {
+        "options": [
+          "Invierte el valor: true pasa a false y al revés",
+          "Compara si dos valores son distintos",
+          "Junta dos condiciones",
+          "Termina el programa"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "! da vuelta un booleano: !true es false y !false es true. Para \"distinto\" se usa !==."
+    },
+    {
+      "slug": "js-desafio-distinto-estricto",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "condicionales",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(8 !== \"8\");",
+        "options": [
+          "true",
+          "false",
+          "8",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "!== compara valor y tipo. Uno es número y el otro texto, así que son distintos: true."
+    },
+    {
+      "slug": "js-desafio-borde",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const edad = 18;\nif (edad > 18) {\n  console.log(\"mayor\");\n} else {\n  console.log(\"menor\");\n}",
+        "options": [
+          "menor",
+          "mayor",
+          "mayor\nmenor",
+          "No imprime nada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Ojo con el borde: 18 > 18 es falso. Para incluir a los de 18 la condición tiene que ser edad >= 18."
+    },
+    {
+      "slug": "js-desafio-or-not",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const x = 7;\nconsole.log(x > 5 || x < 0, !(x > 5));",
+        "options": [
+          "true false",
+          "false false",
+          "true true",
+          "false true"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "x > 5 es verdadero, así que el || ya da true. En la segunda, x > 5 es true y el ! lo invierte: false."
+    },
+    {
+      "slug": "js-desafio-fill-ternario",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "module": 3,
+      "prompt": "Completá el ternario para que imprima Adulto.",
+      "content": {
+        "code": "const edad = 20;\nconsole.log(edad >= 18 ___ \"Adulto\" ___ \"Menor\");",
+        "blanks": [
+          [
+            "?",
+            ":",
+            "="
+          ],
+          [
+            ":",
+            "?",
+            "="
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0,
+          0
+        ],
+        "output": "Adulto"
+      },
+      "explanation": "El ternario es condición ? si es verdadera : si es falsa. Primero va el ? y después los dos puntos."
+    },
+    {
+      "slug": "js-desafio-nan-cero",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "condicionales",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const a = NaN;\nconst b = \"0\";\nif (!a && b) {\n  console.log(\"raro pero cierto\");\n} else {\n  console.log(\"no\");\n}",
+        "options": [
+          "raro pero cierto",
+          "no",
+          "Error",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "NaN cuenta como falso, así que !a es true. Y \"0\" es un texto con algo adentro: cuenta como verdadero. Se cumplen las dos."
+    },
+    {
+      "slug": "js-desafio-igual-simple",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "condicionales",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "let x = 5;\nif (x = 10) {\n  console.log(\"es\", x);\n}",
+        "options": [
+          "es 10",
+          "es 5",
+          "No imprime nada",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un solo = no compara: asigna. x pasa a valer 10, y como 10 cuenta como verdadero, entra al if. Para comparar se usa ===."
+    },
+    {
+      "slug": "js-desafio-push-indice",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "arreglos",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const colores = [\"rojo\", \"verde\"];\ncolores.push(\"azul\");\nconsole.log(colores[2]);",
+        "options": [
+          "azul",
+          "verde",
+          "undefined",
+          "rojo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "push agrega al final: azul queda en el índice 2 (rojo es el 0 y verde el 1)."
+    },
+    {
+      "slug": "js-desafio-indice-cero",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "arreglos",
+      "module": 4,
+      "prompt": "¿En qué índice empieza un array?",
+      "content": {
+        "options": [
+          "En 0",
+          "En 1",
+          "En -1",
+          "Depende del array"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El primer elemento siempre está en el índice 0. Por eso el último está en length - 1."
+    },
+    {
+      "slug": "js-desafio-split-largo",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "texto",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(\"a b c\".split(\" \").length);",
+        "options": [
+          "3",
+          "5",
+          "1",
+          "a b c"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "split(\" \") corta el texto en cada espacio y arma un array: [\"a\", \"b\", \"c\"], que tiene 3 elementos."
+    },
+    {
+      "slug": "js-desafio-shift",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "arreglos",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const nums = [10, 20, 30];\nnums.shift();\nconsole.log(nums);",
+        "options": [
+          "[ 20, 30 ]",
+          "[ 10, 20 ]",
+          "[ 10, 20, 30 ]",
+          "10"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "shift saca el primer elemento. El array queda con 20 y 30."
+    },
+    {
+      "slug": "js-desafio-object-values",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "objetos",
+      "module": 4,
+      "prompt": "¿Qué devuelve Object.values({ a: 1, b: 2 })?",
+      "content": {
+        "options": [
+          "[1, 2]",
+          "[\"a\", \"b\"]",
+          "[[\"a\", 1], [\"b\", 2]]",
+          "2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Object.values da los valores. Object.keys daría los nombres ([\"a\", \"b\"]) y Object.entries, los pares."
+    },
+    {
+      "slug": "js-desafio-fill-replace",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "texto",
+      "module": 4,
+      "prompt": "Completá para que imprima Hola JS.",
+      "content": {
+        "code": "console.log(\"Hola mundo\".___(\"mundo\", \"JS\"));",
+        "blanks": [
+          [
+            "replace",
+            "includes",
+            "split"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "Hola JS"
+      },
+      "explanation": "replace(a, b) cambia a por b. includes solo dice si está (true o false), y split divide el texto en un array."
+    },
+    {
+      "slug": "js-desafio-inmutable",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "texto",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const frase = \"hola\";\nfrase.toUpperCase();\nconsole.log(frase);",
+        "options": [
+          "hola",
+          "HOLA",
+          "Hola",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los strings no se modifican: toUpperCase devuelve un texto nuevo, pero acá no se guardó en ningún lado. frase sigue igual."
+    },
+    {
+      "slug": "js-desafio-misma-lista",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "arreglos",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const a = [1, 2];\nconst b = a;\nb.push(3);\nconsole.log(a.length);",
+        "options": [
+          "3",
+          "2",
+          "1",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "b = a no copia el array: las dos variables apuntan al mismo. Lo que se agrega por b también se ve por a."
     }
   ]
 }
