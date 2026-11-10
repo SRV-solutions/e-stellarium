@@ -3541,6 +3541,528 @@
       ]
     },
     {
+      "slug": "js-emular",
+      "module": 14,
+      "title": "Métodos por dentro",
+      "description": "Recrear push, pop, unshift y shift con índices y length, sin usar los métodos.",
+      "questions": [
+        {
+          "slug": "js-emu-proximo-lugar",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "lógica",
+          "prompt": "Si agregás un elemento al final de un array de 5 elementos, ¿en qué índice queda?",
+          "content": {
+            "options": [
+              "En el 5",
+              "En el 6",
+              "En el 4",
+              "En el 0"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El próximo lugar libre siempre es array.length: los índices de 5 elementos van del 0 al 4."
+        },
+        {
+          "slug": "js-emu-push",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "lógica",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const array = [10, 20];\narray[array.length] = 30;\nconsole.log(array, array.length);",
+            "options": [
+              "[ 10, 20, 30 ] 3",
+              "[ 10, 20, 30 ] 2",
+              "[ 30, 10, 20 ] 3",
+              "[ 10, 30 ] 2"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es push por dentro: se escribe en el índice length (el 2), y el array crece solo."
+        },
+        {
+          "slug": "js-emu-pop",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "lógica",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const array = [\"a\", \"b\", \"c\"];\nconst ultimo = array[array.length - 1];\narray.length = array.length - 1;\nconsole.log(ultimo, array);",
+            "options": [
+              "c [ 'a', 'b' ]",
+              "c [ 'a', 'b', 'c' ]",
+              "b [ 'a', 'b' ]",
+              "undefined [ 'a', 'b' ]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es pop por dentro: primero se guarda el último y después se achica length, que borra el elemento del final."
+        },
+        {
+          "slug": "js-emu-rest",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "lógica",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "function contar(...elementos) {\n  return elementos.length;\n}\nconsole.log(contar(4, 8, 15, 16));",
+            "options": [
+              "4",
+              "1",
+              "16",
+              "43"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "...elementos es un parámetro rest: junta en un array todos los argumentos que le pases, sean uno o muchos."
+        },
+        {
+          "slug": "js-emu-unshift-atras",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "lógica",
+          "prompt": "Para emular unshift hay que correr todos los elementos a la derecha. ¿Por qué se recorre el array de atrás hacia adelante?",
+          "content": {
+            "options": [
+              "Para no pisar ningún valor antes de copiarlo",
+              "Porque los arrays solo se pueden recorrer al revés",
+              "Para que el array quede ordenado",
+              "Porque es más rápido"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si empezás por adelante, copiás el primero sobre el segundo y el segundo se pierde, y así con todos. Desde el final, cada valor se copia antes de que lo pisen."
+        },
+        {
+          "slug": "js-emu-orden-shift",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "lógica",
+          "prompt": "Ordená las líneas para emular shift: que imprima 1 [ 2, 3 ].",
+          "content": {
+            "lines": [
+              "const array = [1, 2, 3];",
+              "const primero = array[0];",
+              "for (let i = 1; i < array.length; i++) array[i - 1] = array[i];",
+              "array.length = array.length - 1;",
+              "console.log(primero, array);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "output": "1 [ 2, 3 ]"
+          },
+          "explanation": "Se guarda el primero antes de pisarlo, se corre todo un lugar a la izquierda (queda [2, 3, 3]) y se achica length para sacar el repetido del final."
+        }
+      ]
+    },
+    {
+      "slug": "js-clasicos",
+      "module": 14,
+      "title": "Problemas clásicos",
+      "description": "Fibonacci, números primos, palíndromos y recorrer un texto letra por letra.",
+      "questions": [
+        {
+          "slug": "js-cla-fibonacci-lista",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "lógica",
+          "prompt": "¿Cuáles son los primeros ocho números de la sucesión de Fibonacci?",
+          "content": {
+            "options": [
+              "0, 1, 1, 2, 3, 5, 8, 13",
+              "1, 2, 3, 4, 5, 6, 7, 8",
+              "0, 1, 2, 4, 8, 16, 32, 64",
+              "1, 1, 2, 4, 7, 11, 16, 22"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Empieza con 0 y 1, y cada número es la suma de los dos anteriores."
+        },
+        {
+          "slug": "js-cla-fibonacci",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "lógica",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "function fibonacci(n) {\n  let anterior = 0;\n  let actual = 1;\n  if (n === 0) return 0;\n  for (let i = 2; i <= n; i++) {\n    const siguiente = anterior + actual;\n    anterior = actual;\n    actual = siguiente;\n  }\n  return actual;\n}\nconsole.log(fibonacci(10));",
+            "options": [
+              "55",
+              "34",
+              "89",
+              "10"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Las dos variables guardan los dos últimos números y avanzan en cada vuelta. La posición 10 de 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 es el 55."
+        },
+        {
+          "slug": "js-cla-primo",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "lógica",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "function esPrimo(numero) {\n  if (numero < 2) return false;\n  for (let i = 2; i * i <= numero; i++) {\n    if (numero % i === 0) return false;\n  }\n  return true;\n}\nconsole.log(esPrimo(1), esPrimo(2), esPrimo(9));",
+            "options": [
+              "false true false",
+              "true true false",
+              "false true true",
+              "true true true"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El 1 no es primo (la función lo descarta con numero < 2). El 2 sí. El 9 no, porque 9 % 3 da 0."
+        },
+        {
+          "slug": "js-cla-palindromo",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "lógica",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "function esPalindromo(texto) {\n  let inicio = 0;\n  let fin = texto.length - 1;\n  while (inicio < fin) {\n    if (texto[inicio] !== texto[fin]) return false;\n    inicio++;\n    fin--;\n  }\n  return true;\n}\nconsole.log(esPalindromo(\"neuquen\"), esPalindromo(\"neuquén\"));",
+            "options": [
+              "true false",
+              "true true",
+              "false false",
+              "false true"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Compara el primero con el último, el segundo con el anteúltimo, hasta el medio. En \"neuquén\" la é no es igual a la e del principio."
+        },
+        {
+          "slug": "js-cla-fill-invertir",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "lógica",
+          "prompt": "Completá para invertir el texto sin reverse: que imprima odnum.",
+          "content": {
+            "code": "const texto = \"mundo\";\nlet invertido = \"\";\nfor (let i = texto.length ___; i >= 0; i___) {\n  invertido += texto[i];\n}\nconsole.log(invertido);",
+            "blanks": [
+              [
+                "- 1",
+                "+ 1",
+                "- 0"
+              ],
+              [
+                "--",
+                "++",
+                "+= 2"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "odnum"
+          },
+          "explanation": "Se arranca en el último índice (length - 1) y se va hacia atrás con i--, sumando cada letra al resultado."
+        },
+        {
+          "slug": "js-cla-raiz",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "lógica",
+          "prompt": "En esPrimo, el bucle llega solo hasta i * i <= numero. Para el número 1.000.000, ¿cuántos divisores alcanza con probar, como mucho?",
+          "content": {
+            "options": [
+              "Unos 1.000",
+              "Un millón",
+              "Medio millón",
+              "Unos 100"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si un número tiene un divisor mayor que su raíz, también tiene uno menor, así que ya lo habríamos encontrado. La raíz de un millón es 1.000."
+        }
+      ]
+    },
+    {
+      "slug": "js-modularizar",
+      "module": 15,
+      "title": "Modularizar",
+      "description": "Separar el proyecto en archivos, clases de utilidades con static y los scripts del package.json.",
+      "questions": [
+        {
+          "slug": "js-modu-static",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "modularización",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Matematica {\n  static sumar(a, b) { return a + b; }\n  static multiplicar(a, b) { return a * b; }\n}\nconsole.log(`La suma es ${Matematica.sumar(10, 5)}`);",
+            "options": [
+              "La suma es 15",
+              "La suma es 105",
+              "La suma es ${Matematica.sumar(10, 5)}",
+              "La suma es 50"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los métodos static se usan con el nombre de la clase, sin crear objetos, igual que Math."
+        },
+        {
+          "slug": "js-modu-ventaja",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "modularización",
+          "prompt": "¿Qué ventaja tiene usar métodos static en una clase de utilidades?",
+          "content": {
+            "options": [
+              "Se usan directamente con el nombre de la clase, sin crear objetos",
+              "Son privados y nadie más los puede usar",
+              "Se ejecutan solos al importar el archivo",
+              "No hace falta exportarlos"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Agrupan funciones relacionadas (como sumar y restar) y se llaman como Matematica.sumar(), igual que Math.sqrt()."
+        },
+        {
+          "slug": "js-modu-dividir-cero",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "modularización",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "class Matematica {\n  static dividir(a, b) {\n    if (b === 0) throw new Error(\"No se puede dividir por cero\");\n    return a / b;\n  }\n}\ntry {\n  console.log(Matematica.dividir(10, 5));\n  console.log(Matematica.dividir(10, 0));\n} catch (error) {\n  console.log(error.message);\n}",
+            "options": [
+              "2\nNo se puede dividir por cero",
+              "2\nInfinity",
+              "No se puede dividir por cero",
+              "2"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La primera división da 2. En la segunda, el método lanza el error antes de dividir (si no, JavaScript devolvería Infinity) y el catch lo muestra."
+        },
+        {
+          "slug": "js-modu-exportar-clase",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "modularización",
+          "prompt": "matematica.js termina con module.exports = Matematica. ¿Cómo la usás en index.js?",
+          "content": {
+            "options": [
+              "const Matematica = require(\"./matematica\"); y después Matematica.sumar(10, 5)",
+              "const Matematica = require(\"./matematica\"); y después new Matematica().sumar(10, 5) obligatoriamente",
+              "import Matematica; y después Matematica.sumar(10, 5)",
+              "No hace falta traerla: las clases son globales"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "require devuelve la clase exportada y sus métodos static se usan directamente, sin new."
+        },
+        {
+          "slug": "js-modu-script",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "npm",
+          "prompt": "Con \"crear-carpeta\": \"mkdir hola-mundo\" en los scripts del package.json, ¿qué pasa al correr npm run crear-carpeta?",
+          "content": {
+            "options": [
+              "Se crea la carpeta hola-mundo: los scripts pueden ejecutar cualquier comando de la terminal",
+              "Da error: los scripts solo pueden ejecutar node",
+              "Se crea un archivo llamado crear-carpeta",
+              "No pasa nada hasta correr npm start"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los scripts pueden correr cualquier comando, no solo node. Sirven para automatizar tareas que hacés seguido."
+        },
+        {
+          "slug": "js-modu-orden",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "modularización",
+          "prompt": "Ordená las líneas para que imprima La resta es 7.",
+          "content": {
+            "lines": [
+              "class Matematica { static restar(a, b) { return a - b; } }",
+              "const resultado = Matematica.restar(10, 3);",
+              "const mensaje = `La resta es ${resultado}`;",
+              "console.log(mensaje);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "La resta es 7"
+          },
+          "explanation": "La clase se define antes de usarla; después se calcula, se arma el texto con el resultado y se muestra."
+        }
+      ]
+    },
+    {
+      "slug": "js-apis",
+      "module": 15,
+      "title": "Peticiones a APIs",
+      "description": "Métodos HTTP, códigos de estado, Axios y fetch, y dónde viajan los datos: params, query y body.",
+      "questions": [
+        {
+          "slug": "js-api-get-post",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "APIs",
+          "prompt": "¿Qué método HTTP usás para obtener datos? ¿Y para crear un registro nuevo?",
+          "content": {
+            "options": [
+              "GET para obtener; POST para crear",
+              "POST para obtener; GET para crear",
+              "GET para obtener; DELETE para crear",
+              "PUT para obtener; PATCH para crear"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "GET obtiene, POST crea, PUT y PATCH actualizan, DELETE elimina."
+        },
+        {
+          "slug": "js-api-404",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "APIs",
+          "prompt": "Una API te responde con el código 404. ¿Qué significa?",
+          "content": {
+            "options": [
+              "No se encontró lo que pediste",
+              "Todo salió bien",
+              "Falló el servidor",
+              "No tenés permiso"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "200 es éxito, 403 sin permiso, 404 no encontrado y 500 falló el servidor."
+        },
+        {
+          "slug": "js-api-familias",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "APIs",
+          "prompt": "¿Qué indican los códigos de estado 2xx, 4xx y 5xx?",
+          "content": {
+            "options": [
+              "2xx éxito, 4xx error del que pide (el cliente), 5xx error del que responde (el servidor)",
+              "2xx error del cliente, 4xx éxito, 5xx error del servidor",
+              "2xx éxito, 4xx error del servidor, 5xx error del cliente",
+              "Son la cantidad de datos que devolvió la API"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es el truco para recordarlos: 2 bien, 4 culpa del cliente, 5 culpa del servidor."
+        },
+        {
+          "slug": "js-api-data",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "APIs",
+          "prompt": "En una respuesta de Axios, ¿dónde están los datos que devolvió la API?",
+          "content": {
+            "options": [
+              "En respuesta.data",
+              "En respuesta.body",
+              "En respuesta.status",
+              "En respuesta.headers"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si mostrás la respuesta entera, ves toda la información técnica: encabezados, configuración, código de estado. Los datos están en data."
+        },
+        {
+          "slug": "js-api-json",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "APIs",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const texto = '{\"name\": \"Rick Sanchez\", \"species\": \"Human\"}';\nconst rick = JSON.parse(texto);\nconsole.log(rick.name, \"-\", rick.species);",
+            "options": [
+              "Rick Sanchez - Human",
+              "name - species",
+              "undefined - undefined",
+              "{\"name\": \"Rick Sanchez\"} - Human"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "JSON es el formato en que responden casi todas las APIs. JSON.parse convierte el texto en un objeto (es lo que hace respuesta.json() con fetch)."
+        },
+        {
+          "slug": "js-api-params",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "APIs",
+          "prompt": "En /api/character?page=2, ¿cómo se llama la parte page=2?",
+          "content": {
+            "options": [
+              "Query params",
+              "Params",
+              "Body",
+              "Headers"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los query params van en la URL después de un ?. Los params van en la ruta (/character/1) y el body, en el cuerpo, sin verse en la URL."
+        }
+      ]
+    },
+    {
       "slug": "js-examen",
       "module": null,
       "title": "Examen",
@@ -4979,6 +5501,137 @@
         "correct": 0
       },
       "explanation": "start y test se corren directo (npm start, npm test). Cualquier otro script, con npm run nombre."
+    },
+    {
+      "slug": "js-banco-contar-letra",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "lógica",
+      "module": 14,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const palabra = \"banana\";\nlet cuantas = 0;\nfor (let i = 0; i < palabra.length; i++) {\n  if (palabra[i] === \"a\") cuantas++;\n}\nconsole.log(cuantas);",
+        "options": [
+          "3",
+          "2",
+          "6",
+          "1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un contador recorre el texto carácter por carácter y suma 1 cada vez que encuentra una a."
+    },
+    {
+      "slug": "js-banco-mayor-sin-max",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "lógica",
+      "module": 14,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const numeros = [4, 17, 9, 12];\nlet mayor = numeros[0];\nfor (let i = 1; i < numeros.length; i++) {\n  if (numeros[i] > mayor) mayor = numeros[i];\n}\nconsole.log(mayor);",
+        "options": [
+          "17",
+          "12",
+          "4",
+          "42"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se arranca suponiendo que el mayor es el primero, y se reemplaza cada vez que aparece uno más grande."
+    },
+    {
+      "slug": "js-banco-orden-producto-impares",
+      "type": "order_lines",
+      "difficulty": "hard",
+      "topic": "lógica",
+      "module": 14,
+      "prompt": "Ordená las líneas para que imprima 15 (el producto de los impares del 1 al 5).",
+      "content": {
+        "lines": [
+          "let producto = 1;",
+          "for (let i = 1; i <= 5; i++) {",
+          "  if (i % 2 !== 0) producto *= i;",
+          "}",
+          "console.log(producto);"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "output": "15"
+      },
+      "explanation": "El acumulador va antes del bucle y arranca en 1 (con 0, todo daría 0). Adentro se multiplica por cada impar: 1 × 3 × 5. El console.log va afuera, para mostrar solo el final."
+    },
+    {
+      "slug": "js-banco-async-peticion",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "APIs",
+      "module": 15,
+      "prompt": "¿Por qué las peticiones con Axios se usan con async/await?",
+      "content": {
+        "options": [
+          "Porque son asincrónicas: la respuesta tarda en llegar por internet",
+          "Porque Axios no funciona sin un bucle",
+          "Porque así la respuesta llega más rápido",
+          "Porque sin await la petición se hace dos veces"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Igual que en el módulo de promesas: await espera la respuesta, y el try/catch atrapa si falla."
+    },
+    {
+      "slug": "js-banco-body",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "APIs",
+      "module": 15,
+      "prompt": "Para mandar los datos de un formulario con POST, ¿dónde viajan?",
+      "content": {
+        "options": [
+          "En el body: el cuerpo de la petición, que no se ve en la URL",
+          "En los query params, después del ?",
+          "En los params de la ruta",
+          "En el código de estado"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El body se usa con POST, PUT y PATCH. Los params y query params van a la vista, en la URL."
+    },
+    {
+      "slug": "js-banco-paginas",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "APIs",
+      "module": 15,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const paginas = [\n  { info: { next: \"pagina2\" }, results: [\"Rick\", \"Morty\"] },\n  { info: { next: null }, results: [\"Summer\"] },\n];\nlet i = 0;\nlet total = 0;\nlet next = \"inicio\";\nwhile (next !== null) {\n  total += paginas[i].results.length;\n  next = paginas[i].info.next;\n  i++;\n}\nconsole.log(total);",
+        "options": [
+          "3",
+          "2",
+          "1",
+          "Se queda trabado"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es el desafío de Rick and Morty con páginas inventadas: se siguen pidiendo páginas hasta que info.next es null. Se juntan 2 + 1 personajes."
     }
   ],
   "challenges": [
@@ -7996,6 +8649,362 @@
         "correct": 0
       },
       "explanation": "El test la trae con require(\"./index\"), así que index.js la tiene que exportar."
+    },
+    {
+      "slug": "js-desafio-encriptar",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "lógica",
+      "module": 14,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "function encriptarPalabra(frase, palabra) {\n  let resultado = \"\";\n  let i = 0;\n  while (i < frase.length) {\n    let coincide = true;\n    for (let j = 0; j < palabra.length; j++) {\n      if (frase[i + j] !== palabra[j]) {\n        coincide = false;\n        break;\n      }\n    }\n    if (coincide) {\n      for (let j = 0; j < palabra.length; j++) resultado += \"*\";\n      i += palabra.length;\n    } else {\n      resultado += frase[i];\n      i++;\n    }\n  }\n  return resultado;\n}\nconsole.log(encriptarPalabra(\"sol y sol\", \"sol\"));",
+        "options": [
+          "*** y ***",
+          "*** y sol",
+          "* y *",
+          "sol y sol"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En cada posición se fija si ahí empieza la palabra. Si coincide, pone un asterisco por letra y salta la palabra entera; si no, copia el carácter."
+    },
+    {
+      "slug": "js-desafio-uno-primo",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "lógica",
+      "module": 14,
+      "prompt": "¿El 1 es un número primo? ¿Y el 2?",
+      "content": {
+        "options": [
+          "El 1 no; el 2 sí",
+          "Los dos son primos",
+          "Ninguno de los dos",
+          "El 1 sí; el 2 no, porque es par"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un primo tiene exactamente dos divisores: 1 y él mismo. El 1 tiene uno solo. El 2 es el único primo par."
+    },
+    {
+      "slug": "js-desafio-fib-siguiente",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "lógica",
+      "module": 14,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "let anterior = 5;\nlet actual = 8;\nconst siguiente = anterior + actual;\nconsole.log(siguiente);",
+        "options": [
+          "13",
+          "40",
+          "3",
+          "58"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En Fibonacci, cada número es la suma de los dos anteriores: 5 + 8 = 13."
+    },
+    {
+      "slug": "js-desafio-contar-vocales",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "lógica",
+      "module": 14,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const texto = \"programar\";\nlet vocales = 0;\nfor (let i = 0; i < texto.length; i++) {\n  const c = texto[i];\n  if (c === \"a\" || c === \"e\" || c === \"i\" || c === \"o\" || c === \"u\") vocales++;\n}\nconsole.log(vocales);",
+        "options": [
+          "3",
+          "4",
+          "2",
+          "9"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En \"programar\" hay una o y dos a: 3 vocales."
+    },
+    {
+      "slug": "js-desafio-papel",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "lógica",
+      "module": 14,
+      "prompt": "Según el TIP del módulo, ¿qué conviene hacer antes de escribir el código de un problema?",
+      "content": {
+        "options": [
+          "Resolverlo en papel: un ejemplo, qué entra, qué sale y qué pasos harías a mano",
+          "Buscar directamente la solución en internet",
+          "Escribir todo el código de una y después probar",
+          "Usar los métodos que ya trae JavaScript"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Después traducís esos pasos a código. Y si te trabás, console.log() dentro de los bucles muestra qué está pasando."
+    },
+    {
+      "slug": "js-desafio-palindromo-limpio",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "lógica",
+      "module": 14,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const texto = \"Anita lava la tina\";\nlet limpio = \"\";\nfor (let i = 0; i < texto.length; i++) {\n  const c = texto[i].toLowerCase();\n  if (c >= \"a\" && c <= \"z\") limpio += c;\n}\nconsole.log(limpio.length);",
+        "options": [
+          "15",
+          "18",
+          "4",
+          "14"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Para frases se ignoran los espacios y las mayúsculas: quedan 15 letras (\"anitalavalatina\"), y ahí ya se puede comparar de punta a punta."
+    },
+    {
+      "slug": "js-desafio-fill-acumular-texto",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "lógica",
+      "module": 14,
+      "prompt": "Completá para unir el array sin join: que imprima a-b-c.",
+      "content": {
+        "code": "const letras = [\"a\", \"b\", \"c\"];\nlet texto = letras[0];\nfor (let i = ___; i < letras.length; i++) {\n  texto += \"-\" + letras[i];\n}\nconsole.log(texto);",
+        "blanks": [
+          [
+            "1",
+            "0",
+            "2"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "a-b-c"
+      },
+      "explanation": "La primera letra ya está en texto, así que el bucle arranca en 1. Con 0 quedaría a-a-b-c."
+    },
+    {
+      "slug": "js-desafio-divisores",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "lógica",
+      "module": 14,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "let divisores = 0;\nfor (let i = 1; i <= 12; i++) {\n  if (12 % i === 0) divisores++;\n}\nconsole.log(divisores);",
+        "options": [
+          "6",
+          "4",
+          "12",
+          "2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "12 se divide justo por 1, 2, 3, 4, 6 y 12: seis divisores. Un primo tendría solo dos."
+    },
+    {
+      "slug": "js-desafio-201",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "APIs",
+      "module": 15,
+      "prompt": "¿Qué código de estado indica que se creó algo nuevo?",
+      "content": {
+        "options": [
+          "201",
+          "200",
+          "400",
+          "500"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "200 es \"todo salió bien\" en general; 201, específicamente, que se creó algo."
+    },
+    {
+      "slug": "js-desafio-delete",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "APIs",
+      "module": 15,
+      "prompt": "¿Qué método HTTP se usa para eliminar datos?",
+      "content": {
+        "options": [
+          "DELETE",
+          "GET",
+          "POST",
+          "PATCH"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "GET obtiene, POST crea, PUT y PATCH actualizan, DELETE elimina."
+    },
+    {
+      "slug": "js-desafio-fetch",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "APIs",
+      "module": 15,
+      "prompt": "¿Qué diferencia hay entre Axios y fetch?",
+      "content": {
+        "options": [
+          "Axios es una librería que se instala con npm; fetch ya viene con Node",
+          "fetch se instala con npm; Axios viene con Node",
+          "fetch es sincrónico y Axios asincrónico",
+          "Axios solo hace GET y fetch solo POST"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los dos son asincrónicos. Con fetch, para convertir la respuesta en objeto se usa await respuesta.json()."
+    },
+    {
+      "slug": "js-desafio-json-nombre",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "APIs",
+      "module": 15,
+      "prompt": "¿Qué significa JSON?",
+      "content": {
+        "options": [
+          "JavaScript Object Notation",
+          "Java Standard Object Network",
+          "JavaScript Online Server",
+          "JSON no es una sigla"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Nació de la forma en que JavaScript escribe sus objetos: por eso leer JSON es casi como leer tu propio código."
+    },
+    {
+      "slug": "js-desafio-stringify",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "APIs",
+      "module": 15,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const personaje = { name: \"Morty\", age: 14 };\nconsole.log(JSON.stringify(personaje));",
+        "options": [
+          "{\"name\":\"Morty\",\"age\":14}",
+          "{ name: 'Morty', age: 14 }",
+          "[object Object]",
+          "Morty 14"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "JSON.stringify hace lo contrario de JSON.parse: convierte un objeto en texto JSON, con las claves entre comillas dobles."
+    },
+    {
+      "slug": "js-desafio-params-ruta",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "APIs",
+      "module": 15,
+      "prompt": "En https://api.github.com/users/octocat, ¿cómo viaja el nombre de usuario?",
+      "content": {
+        "options": [
+          "Como param, en la ruta de la URL",
+          "Como query param, después de un ?",
+          "En el body",
+          "En el código de estado"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Va en la ruta: /users/${usuario}. Un query param se vería así: /users?nombre=octocat."
+    },
+    {
+      "slug": "js-desafio-proximos",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "modularización",
+      "module": 15,
+      "prompt": "De los próximos pasos que recomienda el curso, ¿cuál es JavaScript con tipos de datos, que ayuda a detectar errores antes de ejecutar?",
+      "content": {
+        "options": [
+          "TypeScript",
+          "Docker",
+          "Git",
+          "AWS"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Git versiona el código, Docker empaqueta la aplicación y AWS es un servicio en la nube para desplegarla."
+    },
+    {
+      "slug": "js-desafio-fill-template-api",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "APIs",
+      "module": 15,
+      "prompt": "Completá para armar la URL del personaje 7: que imprima https://rickandmortyapi.com/api/character/7.",
+      "content": {
+        "code": "const BASE = \"https://rickandmortyapi.com/api\";\nconst id = 7;\nconsole.log(`${BASE}/character/___`);",
+        "blanks": [
+          [
+            "${id}",
+            "id",
+            "{id}"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "https://rickandmortyapi.com/api/character/7"
+      },
+      "explanation": "Dentro de las comillas invertidas, ${id} pone el valor de la variable. Sin el $, quedaría escrito tal cual."
+    },
+    {
+      "slug": "js-desafio-patrones",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "modularización",
+      "module": 15,
+      "prompt": "¿Qué son los patrones de diseño?",
+      "content": {
+        "options": [
+          "Soluciones probadas a problemas que se repiten en programación",
+          "Las expresiones regulares para validar textos",
+          "Los colores y tipografías de una página",
+          "Los scripts del package.json"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Son el siguiente paso natural después de la programación orientada a objetos."
     }
   ]
 }
