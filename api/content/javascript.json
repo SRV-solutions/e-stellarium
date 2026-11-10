@@ -1274,6 +1274,259 @@
       ]
     },
     {
+      "slug": "js-modulos",
+      "module": 5,
+      "title": "Importar y exportar",
+      "description": "Partir el programa en archivos: module.exports, require, desestructuración e import.",
+      "questions": [
+        {
+          "slug": "js-mod-que-es",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "módulos",
+          "prompt": "¿Qué es un módulo?",
+          "content": {
+            "options": [
+              "Un archivo que comparte parte de su código para que otros archivos lo usen",
+              "Una carpeta donde Node guarda los programas que ya ejecutó",
+              "Un programa que hay que instalar para poder usar Node",
+              "Una función que se ejecuta sola al abrir VS Code"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Un módulo comparte variables, funciones u objetos con otros archivos. Así un programa grande queda dividido en partes ordenadas."
+        },
+        {
+          "slug": "js-mod-require-propiedad",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "módulos",
+          "prompt": "modulos.js termina con module.exports = { miVariable, miMundo }, y miVariable vale \"Hola mundo\". ¿Qué imprime index.js?\n\nconst modulos = require(\"./modulos\");\nconsole.log(modulos.miVariable);",
+          "content": {
+            "options": [
+              "Hola mundo",
+              "miVariable",
+              "undefined",
+              "{ miVariable, miMundo }"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "require devuelve lo que el otro archivo puso en module.exports: un objeto. Con modulos.miVariable se lee una de sus propiedades."
+        },
+        {
+          "slug": "js-mod-punto-barra",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "módulos",
+          "prompt": "En require(\"./modulos\"), ¿qué significa ./?",
+          "content": {
+            "options": [
+              "En esta misma carpeta",
+              "En la carpeta de arriba",
+              "En la carpeta de instalación de Node",
+              "Que el archivo es un módulo nativo"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "./ es \"acá, en esta carpeta\". Tampoco hace falta escribir la extensión .js: Node la busca sola."
+        },
+        {
+          "slug": "js-mod-exports-require",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "módulos",
+          "prompt": "En el sistema clásico de Node, ¿con qué se exporta y con qué se importa?",
+          "content": {
+            "options": [
+              "Se exporta con module.exports y se importa con require",
+              "Se exporta con require y se importa con module.exports",
+              "Se exporta con export y se importa con import",
+              "Se exporta con import y se importa con export"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El sistema clásico (CommonJS) usa module.exports y require. export e import son del sistema moderno (ES Modules)."
+        },
+        {
+          "slug": "js-mod-desestructurar",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "módulos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const datos = { nombre: \"Ana\", edad: 30 };\nconst { edad } = datos;\nconsole.log(edad);",
+            "options": [
+              "30",
+              "{ edad: 30 }",
+              "Ana",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Las llaves a la izquierda son desestructuración: sacan la propiedad edad del objeto y la guardan en una variable con el mismo nombre. Es lo que hace const { miMundo } = require(...)."
+        },
+        {
+          "slug": "js-mod-mjs",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "módulos",
+          "prompt": "¿Qué hace falta para usar import y export en Node?",
+          "content": {
+            "options": [
+              "Que los archivos tengan extensión .mjs, o agregar \"type\": \"module\" en el package.json",
+              "Instalar el paquete import con npm",
+              "Nada: Node usa import por defecto",
+              "Escribir require antes de cada import"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si no le avisás, Node usa por defecto require (CommonJS). Con .mjs o con \"type\": \"module\" pasa a usar import y export (ES Modules)."
+        }
+      ]
+    },
+    {
+      "slug": "js-nativos",
+      "module": 5,
+      "title": "fs, path y Math",
+      "description": "Los módulos que Node ya trae: archivos, rutas seguras y las funciones matemáticas.",
+      "questions": [
+        {
+          "slug": "js-nat-floor",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "Math",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(Math.floor(7.8));",
+            "options": [
+              "7",
+              "8",
+              "7.8",
+              "0.8"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Math.floor redondea siempre hacia abajo: 7.8 queda en 7, aunque esté más cerca de 8."
+        },
+        {
+          "slug": "js-nat-min-max",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "Math",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(Math.max(3, 8), Math.min(3, 8));",
+            "options": [
+              "8 3",
+              "3 8",
+              "8 8",
+              "11"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Math.max devuelve el mayor y Math.min el menor de los números que le pasás."
+        },
+        {
+          "slug": "js-nat-fs-para",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "fs",
+          "prompt": "¿Para qué sirve el módulo fs?",
+          "content": {
+            "options": [
+              "Para crear, leer y gestionar archivos",
+              "Para armar rutas de carpetas",
+              "Para hacer cuentas matemáticas",
+              "Para instalar librerías"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "fs viene de file system (sistema de archivos). Las rutas se arman con path, y las cuentas, con Math."
+        },
+        {
+          "slug": "js-nat-orden-archivo",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "fs",
+          "prompt": "Ordená las líneas para crear el archivo y después mostrar lo que tiene.",
+          "content": {
+            "lines": [
+              "const fs = require(\"fs\");",
+              "fs.writeFileSync(\"nota.txt\", \"Hola desde Node\", \"utf8\");",
+              "const datos = fs.readFileSync(\"nota.txt\", \"utf8\");",
+              "console.log(datos);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "Hola desde Node"
+          },
+          "explanation": "Primero se trae fs, después se crea el archivo con writeFileSync, se lee con readFileSync y recién ahí se imprime lo leído."
+        },
+        {
+          "slug": "js-nat-path-join",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "path",
+          "prompt": "¿Por qué conviene armar las rutas con path.join() en vez de escribir las barras a mano?",
+          "content": {
+            "options": [
+              "Porque usa el separador correcto de cada sistema: \\ en Windows y / en Linux o Mac",
+              "Porque crea las carpetas que falten",
+              "Porque comprueba que el archivo exista",
+              "Porque es más rápido que escribir el texto"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Windows separa las carpetas con \\ y Linux o Mac con /. path.join elige el separador según el sistema, así el código funciona en cualquier computadora."
+        },
+        {
+          "slug": "js-nat-aleatorio",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "Math",
+          "prompt": "¿Entre qué valores queda Math.floor(Math.random() * 100) + 1?",
+          "content": {
+            "options": [
+              "Un entero entre 1 y 100",
+              "Un entero entre 0 y 99",
+              "Un decimal entre 0 y 1",
+              "Un entero entre 1 y 101"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Math.random() da un decimal entre 0 y 1 (sin llegar a 1). Por 100 queda entre 0 y 99,99; Math.floor lo deja entre 0 y 99, y el + 1 lo corre a 1 a 100."
+        }
+      ]
+    },
+    {
       "slug": "js-bucles",
       "module": 6,
       "title": "Bucles",
@@ -1408,6 +1661,429 @@
             "correct": 0
           },
           "explanation": "while revisa la condición antes de cada vuelta y sigue mientras sea verdadera. Si nunca deja de serlo, el bucle no termina."
+        }
+      ]
+    },
+    {
+      "slug": "js-recorrer",
+      "module": 6,
+      "title": "Recorrer arrays y objetos",
+      "description": "forEach, map, filter y reduce, for...in para los objetos y el do...while que corre al menos una vez.",
+      "questions": [
+        {
+          "slug": "js-rec-map",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "arreglos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const numeros = [1, 2, 3];\nconst dobles = numeros.map(function (n) {\n  return n * 2;\n});\nconsole.log(dobles);",
+            "options": [
+              "[ 2, 4, 6 ]",
+              "[ 1, 2, 3 ]",
+              "12",
+              "[ 1, 2, 3, 2, 4, 6 ]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "map devuelve un array nuevo del mismo tamaño, con cada elemento transformado: acá, multiplicado por 2."
+        },
+        {
+          "slug": "js-rec-filter",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "arreglos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const numeros = [1, 2, 3, 4, 5];\nconst pares = numeros.filter(function (n) {\n  return n % 2 === 0;\n});\nconsole.log(pares);",
+            "options": [
+              "[ 2, 4 ]",
+              "[ 1, 3, 5 ]",
+              "[ false, true, false, true, false ]",
+              "2"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "filter se queda solo con los elementos para los que la función devuelve true: los que tienen resto 0 al dividir por 2."
+        },
+        {
+          "slug": "js-rec-fill-reduce",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "arreglos",
+          "prompt": "Completá para que imprima 15, la suma de todos.",
+          "content": {
+            "code": "const numeros = [1, 2, 3, 4, 5];\nconst suma = numeros.reduce(function (acumulador, numero) {\n  return acumulador ___ numero;\n}, ___);\nconsole.log(suma);",
+            "blanks": [
+              [
+                "+",
+                "*",
+                "-"
+              ],
+              [
+                "0",
+                "1",
+                "10"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "15"
+          },
+          "explanation": "reduce junta todo en un solo valor. El 0 del final es el valor inicial del acumulador, y en cada vuelta se le suma el número."
+        },
+        {
+          "slug": "js-rec-for-in",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "objetos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const persona = { nombre: \"Ana\", edad: 30 };\nfor (const propiedad in persona) {\n  console.log(propiedad);\n}",
+            "options": [
+              "nombre\nedad",
+              "Ana\n30",
+              "nombre: Ana\nedad: 30",
+              "0\n1"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "for...in recorre las propiedades del objeto: en cada vuelta, propiedad tiene el nombre (\"nombre\", \"edad\"). Para el valor se usa persona[propiedad]."
+        },
+        {
+          "slug": "js-rec-do-while",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "bucles",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "let i = 10;\ndo {\n  console.log(\"vuelta\", i);\n  i++;\n} while (i < 3);",
+            "options": [
+              "vuelta 10",
+              "No imprime nada",
+              "vuelta 10\nvuelta 11",
+              "Se queda trabado"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "do...while primero ejecuta y después pregunta. Aunque 10 < 3 es falso desde el principio, el bloque corre una vez."
+        },
+        {
+          "slug": "js-rec-orden-cadena",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "arreglos",
+          "prompt": "Ordená las líneas para que imprima 60.",
+          "content": {
+            "lines": [
+              "const precios = [10, 25, 5, 30];",
+              "const caros = precios.filter(function (p) { return p > 8; });",
+              "const total = caros.reduce(function (acc, p) { return acc + p; }, 0);",
+              "console.log(total - 5);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "60"
+          },
+          "explanation": "Cada línea usa la anterior: filter deja 10, 25 y 30 (los mayores que 8), reduce los suma (65) y al imprimir se le resta 5."
+        }
+      ]
+    },
+    {
+      "slug": "js-funciones",
+      "module": 7,
+      "title": "Funciones",
+      "description": "Escribir una vez y reusar: parámetros, argumentos y lo que devuelve return.",
+      "questions": [
+        {
+          "slug": "js-fun-sumar",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "funciones",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "function sumar(n1, n2) {\n  return n1 + n2;\n}\nconst resultado = sumar(2, 5);\nconsole.log(resultado);",
+            "options": [
+              "7",
+              "25",
+              "n1 + n2",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "sumar recibe 2 y 5 en sus parámetros n1 y n2, y devuelve la suma. Ese 7 queda guardado en resultado."
+        },
+        {
+          "slug": "js-fun-parametro-argumento",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "funciones",
+          "prompt": "En function sumar(n1, n2) { ... } y la llamada sumar(2, 5), ¿qué son n1 y n2, y qué son 2 y 5?",
+          "content": {
+            "options": [
+              "n1 y n2 son parámetros; 2 y 5 son argumentos",
+              "n1 y n2 son argumentos; 2 y 5 son parámetros",
+              "Los cuatro son parámetros",
+              "Los cuatro son argumentos"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los parámetros son las variables que reciben los datos, en la definición. Los argumentos son los valores concretos que le pasás al llamarla."
+        },
+        {
+          "slug": "js-fun-despues-return",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "funciones",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "function probar() {\n  return \"listo\";\n  console.log(\"después\");\n}\nconsole.log(probar());",
+            "options": [
+              "listo",
+              "después\nlisto",
+              "listo\ndespués",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Cuando se ejecuta return, la función termina. El console.log que está después no llega a correr nunca."
+        },
+        {
+          "slug": "js-fun-falta-argumento",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "funciones",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "function saludar(nombre, saludo) {\n  return saludo + \" \" + nombre;\n}\nconsole.log(saludar(\"Ana\"));",
+            "options": [
+              "undefined Ana",
+              "Ana",
+              " Ana",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Se llamó con un solo argumento, así que saludo no recibió nada y vale undefined. Al unirlo con texto se ve la palabra undefined."
+        },
+        {
+          "slug": "js-fun-fill-return",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "funciones",
+          "prompt": "Completá para que imprima 16.",
+          "content": {
+            "code": "function cuadrado(x) {\n  ___ x * x;\n}\nconsole.log(cuadrado(___));",
+            "blanks": [
+              [
+                "return",
+                "console.log",
+                "const"
+              ],
+              [
+                "4",
+                "8",
+                "16"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "16"
+          },
+          "explanation": "return devuelve x * x para que el console.log de afuera lo muestre. Con console.log adentro se vería 16 y después undefined."
+        },
+        {
+          "slug": "js-fun-devuelve-objeto",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "funciones",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "function sumar(n1, n2) {\n  return { resultado: n1 + n2 };\n}\nconsole.log(sumar(2, 5).resultado * 2);",
+            "options": [
+              "14",
+              "7",
+              "{ resultado: 7 }",
+              "NaN"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La función devuelve un objeto. De ese objeto se lee la propiedad resultado (7) y se multiplica por 2."
+        }
+      ]
+    },
+    {
+      "slug": "js-flecha",
+      "module": 7,
+      "title": "Funciones flecha",
+      "description": "La forma corta con =>, el retorno implícito y la diferencia entre devolver y mostrar.",
+      "questions": [
+        {
+          "slug": "js-fle-implicito",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "funciones flecha",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const sumaCorta = (a, b) => a + b;\nconsole.log(sumaCorta(2, 4));",
+            "options": [
+              "6",
+              "24",
+              "undefined",
+              "a + b"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Sin llaves, la función flecha devuelve sola el resultado de su única expresión: es el retorno implícito."
+        },
+        {
+          "slug": "js-fle-un-parametro",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "funciones flecha",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const cuadrado = x => x * x;\nconsole.log(cuadrado(5));",
+            "options": [
+              "25",
+              "10",
+              "55",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con un solo parámetro los paréntesis son opcionales: x => x * x es lo mismo que (x) => x * x."
+        },
+        {
+          "slug": "js-fle-llaves-sin-return",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "funciones flecha",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const suma = (a, b) => {\n  a + b;\n};\nconsole.log(suma(2, 4));",
+            "options": [
+              "undefined",
+              "6",
+              "24",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con llaves, el retorno implícito ya no funciona. La cuenta se hace, pero sin return la función devuelve undefined."
+        },
+        {
+          "slug": "js-fle-mostrar-no-devuelve",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "funciones flecha",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const saludo = () => {\n  console.log(\"Hola\");\n};\nconsole.log(saludo());",
+            "options": [
+              "Hola\nundefined",
+              "Hola",
+              "undefined",
+              "Hola\nHola"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "saludo muestra \"Hola\" pero no devuelve nada. El console.log de afuera imprime lo que devolvió: undefined. Mostrar no es devolver."
+        },
+        {
+          "slug": "js-fle-fill-doble",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "funciones flecha",
+          "prompt": "Completá la función flecha doble para que imprima 14.",
+          "content": {
+            "code": "const doble = ___ => n ___ 2;\nconsole.log(doble(7));",
+            "blanks": [
+              [
+                "n",
+                "()",
+                "doble"
+              ],
+              [
+                "*",
+                "+",
+                "-"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0,
+              0
+            ],
+            "output": "14"
+          },
+          "explanation": "doble recibe un parámetro (n) y devuelve n * 2 con retorno implícito. Con () no recibiría nada y n no existiría."
+        },
+        {
+          "slug": "js-fle-orden",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "funciones flecha",
+          "prompt": "Ordená las líneas para que imprima 20.",
+          "content": {
+            "lines": [
+              "const sumarDiez = (n) => n + 10;",
+              "let valor = sumarDiez(0);",
+              "valor = sumarDiez(valor);",
+              "console.log(valor);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "20"
+          },
+          "explanation": "Una función flecha guardada en const se tiene que definir antes de usarla. Después, valor arranca en sumarDiez(0) = 10, y la segunda llamada le suma 10 más: 20."
         }
       ]
     },
@@ -2258,6 +2934,211 @@
         "correct": 0
       },
       "explanation": "trim quita los espacios del principio y del final: queda \"hola\", de 4 letras."
+    },
+    {
+      "slug": "js-banco-sync",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "fs",
+      "module": 5,
+      "prompt": "¿Qué diferencia hay entre readFileSync y readFile?",
+      "content": {
+        "options": [
+          "readFileSync frena el programa hasta terminar de leer; readFile trabaja en segundo plano",
+          "readFileSync lee archivos de texto y readFile, imágenes",
+          "readFileSync crea el archivo si no existe",
+          "No hay diferencia: son dos nombres para lo mismo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las funciones terminadas en Sync son sincrónicas: el programa espera a que terminen. Las versiones sin Sync son asincrónicas (se ven en el módulo de promesas)."
+    },
+    {
+      "slug": "js-banco-abs-sqrt",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "Math",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(Math.sqrt(16) + Math.abs(-7));",
+        "options": [
+          "11",
+          "-3",
+          "4-7",
+          "23"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Math.sqrt(16) es la raíz cuadrada, 4. Math.abs(-7) es el valor absoluto, 7. Sumados dan 11."
+    },
+    {
+      "slug": "js-banco-desestructurar-require",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "módulos",
+      "module": 5,
+      "prompt": "datos.js exporta module.exports = { nombre: \"Ana\", edad: 30 }. ¿Qué guarda const { nombre } = require(\"./datos\")?",
+      "content": {
+        "options": [
+          "El texto \"Ana\" en la variable nombre",
+          "Todo el objeto en la variable nombre",
+          "El texto \"nombre\"",
+          "undefined, porque falta la extensión .js"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La desestructuración saca la propiedad nombre del objeto exportado y la guarda en una variable con ese mismo nombre."
+    },
+    {
+      "slug": "js-banco-foreach-map",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "arreglos",
+      "module": 6,
+      "prompt": "¿Qué diferencia hay entre forEach y map?",
+      "content": {
+        "options": [
+          "forEach no devuelve nada; map devuelve un array nuevo con cada elemento transformado",
+          "forEach devuelve un array nuevo y map no devuelve nada",
+          "forEach recorre objetos y map recorre arrays",
+          "Ninguna: son dos nombres para lo mismo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "forEach sirve para hacer algo con cada elemento (como mostrarlo). map transforma y devuelve el resultado en un array nuevo."
+    },
+    {
+      "slug": "js-banco-map-no-modifica",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "arreglos",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const numeros = [1, 2, 3];\nnumeros.map(function (n) {\n  return n * 10;\n});\nconsole.log(numeros);",
+        "options": [
+          "[ 1, 2, 3 ]",
+          "[ 10, 20, 30 ]",
+          "undefined",
+          "[]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "map no modifica el array original: crea uno nuevo. Como el resultado no se guardó en ninguna variable, se perdió, y numeros sigue igual."
+    },
+    {
+      "slug": "js-banco-filter-mc",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "arreglos",
+      "module": 6,
+      "prompt": "¿Qué método usarías para quedarte solo con los productos que cuestan más de $1000?",
+      "content": {
+        "options": [
+          "filter",
+          "map",
+          "forEach",
+          "reduce"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "filter devuelve un array igual o más chico, solo con los elementos que cumplen la condición."
+    },
+    {
+      "slug": "js-banco-escribir-no-ejecuta",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "function avisar() {\n  console.log(\"aviso\");\n}\nconsole.log(\"fin\");",
+        "options": [
+          "fin",
+          "aviso\nfin",
+          "fin\naviso",
+          "aviso"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Escribir una función no la ejecuta. Como nunca se llamó a avisar(), solo se imprime fin."
+    },
+    {
+      "slug": "js-banco-argumentos-de-mas",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "function sumar(a, b) {\n  return a + b;\n}\nconsole.log(sumar(1, 2, 3));",
+        "options": [
+          "3",
+          "6",
+          "Error",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si llamás a una función con más argumentos que parámetros, los de más se ignoran. a es 1 y b es 2."
+    },
+    {
+      "slug": "js-banco-implicito-mc",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "funciones flecha",
+      "module": 7,
+      "prompt": "¿Cuándo funciona el retorno implícito de una función flecha?",
+      "content": {
+        "options": [
+          "Cuando tiene una sola expresión y no lleva llaves",
+          "Cuando lleva llaves y una sola línea adentro",
+          "Siempre, en cualquier función flecha",
+          "Solo cuando no tiene parámetros"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin llaves, la función devuelve sola el resultado de su expresión. Si ponés llaves, hay que escribir return."
+    },
+    {
+      "slug": "js-banco-flecha-objeto-con-return",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "funciones flecha",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const precioFinal = (precio) => {\n  const conIva = precio * 1.21;\n  return Math.floor(conIva);\n};\nconsole.log(precioFinal(100));",
+        "options": [
+          "121",
+          "121.00",
+          "100",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con llaves hace falta return, y esta función lo tiene. 100 * 1.21 da 121 y Math.floor lo deja como entero."
     }
   ],
   "challenges": [
@@ -3661,6 +4542,567 @@
         "correct": 0
       },
       "explanation": "b = a no copia el array: las dos variables apuntan al mismo. Lo que se agrega por b también se ve por a."
+    },
+    {
+      "slug": "js-desafio-floor-negativo",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "Math",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(Math.floor(-2.5));",
+        "options": [
+          "-3",
+          "-2",
+          "-2.5",
+          "2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Math.floor redondea hacia abajo, y por debajo de -2.5 el entero más cercano es -3 (no -2)."
+    },
+    {
+      "slug": "js-desafio-abs",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "Math",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(Math.abs(-12));",
+        "options": [
+          "12",
+          "-12",
+          "0",
+          "1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El valor absoluto es el número sin signo: -12 pasa a 12."
+    },
+    {
+      "slug": "js-desafio-max-varios",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "Math",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(Math.max(4, 19, 7, 2));",
+        "options": [
+          "19",
+          "2",
+          "4",
+          "32"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Math.max acepta todos los números que quieras y devuelve el mayor."
+    },
+    {
+      "slug": "js-desafio-mc-import",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "módulos",
+      "module": 5,
+      "prompt": "En el sistema moderno de módulos (ES Modules), ¿con qué se trae algo de otro archivo?",
+      "content": {
+        "options": [
+          "import",
+          "require",
+          "module.exports",
+          "include"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En ES Modules se exporta con export y se importa con import. require y module.exports son del sistema clásico (CommonJS)."
+    },
+    {
+      "slug": "js-desafio-mc-math-importar",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Math",
+      "module": 5,
+      "prompt": "¿Hace falta un require para usar Math?",
+      "content": {
+        "options": [
+          "No: Math ya está disponible en cualquier archivo",
+          "Sí: require(\"math\")",
+          "Sí: require(\"fs\")",
+          "Solo en archivos .mjs"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Math es un objeto global de JavaScript. fs y path, en cambio, se traen con require."
+    },
+    {
+      "slug": "js-desafio-existssync",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "fs",
+      "module": 5,
+      "prompt": "¿Qué función de fs te dice si un archivo o carpeta existe?",
+      "content": {
+        "options": [
+          "existsSync",
+          "readdirSync",
+          "mkdirSync",
+          "writeFileSync"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "existsSync(ruta) devuelve true o false. readdirSync lista lo que hay en una carpeta y mkdirSync crea una."
+    },
+    {
+      "slug": "js-desafio-utf8",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "fs",
+      "module": 5,
+      "prompt": "En fs.readFileSync(ruta, \"utf8\"), ¿para qué está el \"utf8\"?",
+      "content": {
+        "options": [
+          "Para decirle a Node cómo interpretar los caracteres, incluidas las tildes y la ñ",
+          "Para que el archivo se cree si no existe",
+          "Para leer solo las primeras 8 líneas",
+          "Para que la lectura sea asincrónica"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "\"utf8\" es la codificación del texto. Sin ella, readFileSync devuelve los bytes crudos en vez de un string."
+    },
+    {
+      "slug": "js-desafio-dirname",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "path",
+      "module": 5,
+      "prompt": "¿Qué es __dirname?",
+      "content": {
+        "options": [
+          "La carpeta donde está el archivo que se está ejecutando",
+          "El nombre del archivo que se está ejecutando",
+          "La carpeta donde se instaló Node",
+          "Un módulo que hay que instalar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "__dirname es la carpeta del archivo actual. Junto con path.join arma rutas que funcionan desde donde sea que ejecutes el programa."
+    },
+    {
+      "slug": "js-desafio-fill-floor",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "Math",
+      "module": 5,
+      "prompt": "Completá para que imprima 4.",
+      "content": {
+        "code": "console.log(Math.___(4.9));",
+        "blanks": [
+          [
+            "floor",
+            "max",
+            "random"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "4"
+      },
+      "explanation": "Math.floor redondea hacia abajo: 4.9 queda en 4. Math.max(4.9) devuelve 4.9, y Math.random da un número al azar."
+    },
+    {
+      "slug": "js-desafio-sqrt-floor",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "Math",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(Math.floor(Math.sqrt(20)));",
+        "options": [
+          "4",
+          "5",
+          "4.47",
+          "10"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La raíz de 20 es 4,47…, y Math.floor la redondea hacia abajo: 4."
+    },
+    {
+      "slug": "js-desafio-foreach-indice",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "arreglos",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const letras = [\"a\", \"b\"];\nletras.forEach(function (letra, i) {\n  console.log(i, letra);\n});",
+        "options": [
+          "0 a\n1 b",
+          "1 a\n2 b",
+          "a 0\nb 1",
+          "a\nb"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "forEach le pasa a la función cada elemento y, como segundo dato, su índice. Los índices empiezan en 0."
+    },
+    {
+      "slug": "js-desafio-for-of",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "bucles",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "let texto = \"\";\nfor (const letra of \"hola\") {\n  texto = letra + texto;\n}\nconsole.log(texto);",
+        "options": [
+          "aloh",
+          "hola",
+          "h",
+          "a"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "for...of recorre los caracteres del string. Cada letra se pega adelante de lo que ya había, así que el texto queda al revés."
+    },
+    {
+      "slug": "js-desafio-reduce-contar",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "arreglos",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const notas = [7, 4, 9, 6];\nconst aprobadas = notas.reduce(function (acc, nota) {\n  return nota >= 6 ? acc + 1 : acc;\n}, 0);\nconsole.log(aprobadas);",
+        "options": [
+          "3",
+          "4",
+          "26",
+          "2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "reduce también sirve para contar: el acumulador empieza en 0 y suma 1 por cada nota de 6 o más (7, 9 y 6)."
+    },
+    {
+      "slug": "js-desafio-map-filter-largo",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "arreglos",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const nombres = [\"Ana\", \"Bruno\", \"Eva\"];\nconst largos = nombres\n  .map(function (n) { return n.length; })\n  .filter(function (l) { return l > 3; });\nconsole.log(largos);",
+        "options": [
+          "[ 5 ]",
+          "[ 'Bruno' ]",
+          "[ 3, 5, 3 ]",
+          "[]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "map convierte cada nombre en su largo ([3, 5, 3]) y filter se queda con los mayores que 3: solo el 5."
+    },
+    {
+      "slug": "js-desafio-mc-infinito",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "bucles",
+      "module": 6,
+      "prompt": "Si un bucle infinito deja la terminal trabada, ¿cómo lo cortás?",
+      "content": {
+        "options": [
+          "Con Ctrl + C",
+          "Con Ctrl + Z",
+          "Con Ctrl + J",
+          "Escribiendo exit"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Ctrl + C corta el programa que se está ejecutando. Para que no pase, dentro del bucle algo tiene que volver falsa la condición."
+    },
+    {
+      "slug": "js-desafio-menor-igual-length",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "bucles",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const lista = [\"a\", \"b\"];\nfor (let i = 0; i <= lista.length; i++) {\n  console.log(lista[i]);\n}",
+        "options": [
+          "a\nb\nundefined",
+          "a\nb",
+          "a\nb\nb",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con <= el bucle llega a i = 2, un índice que no existe, y muestra undefined. Por eso se usa i < lista.length."
+    },
+    {
+      "slug": "js-desafio-fill-for-in",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "objetos",
+      "module": 6,
+      "prompt": "Completá para que imprima 7, la suma de los valores del objeto.",
+      "content": {
+        "code": "const puntos = { ana: 3, luis: 4 };\nlet total = 0;\nfor (const nombre ___ puntos) {\n  total += puntos___;\n}\nconsole.log(total);",
+        "blanks": [
+          [
+            "in",
+            "of",
+            "="
+          ],
+          [
+            "[nombre]",
+            ".nombre",
+            "(nombre)"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0,
+          0
+        ],
+        "output": "7"
+      },
+      "explanation": "for...in da el nombre de cada propiedad. Como está guardado en una variable, el valor se lee con corchetes: puntos[nombre]. puntos.nombre buscaría una propiedad que se llama \"nombre\"."
+    },
+    {
+      "slug": "js-desafio-fun-llamar-dos",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "function triple(n) {\n  return n * 3;\n}\nconsole.log(triple(2) + triple(1));",
+        "options": [
+          "9",
+          "6",
+          "3",
+          "21"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una función se puede llamar las veces que quieras: triple(2) es 6 y triple(1) es 3. Sumados, 9."
+    },
+    {
+      "slug": "js-desafio-fun-sin-parentesis",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "Para que una función llamada saludar se ejecute, ¿qué tenés que escribir?",
+      "content": {
+        "options": [
+          "saludar()",
+          "saludar",
+          "function saludar",
+          "return saludar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Para ejecutarla hay que llamarla con su nombre y paréntesis. Escribir la función no la ejecuta."
+    },
+    {
+      "slug": "js-desafio-flecha-sin-parametros",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "funciones flecha",
+      "module": 7,
+      "prompt": "¿Cuál de estas funciones flecha sin parámetros está bien escrita?",
+      "content": {
+        "options": [
+          "const hola = () => \"Hola\";",
+          "const hola = => \"Hola\";",
+          "const hola = _ => {\"Hola\"};",
+          "const hola() => \"Hola\";"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin parámetros, los paréntesis son obligatorios: () =>. Solo se pueden sacar cuando hay exactamente un parámetro."
+    },
+    {
+      "slug": "js-desafio-fun-return-temprano",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "function clasificar(n) {\n  if (n < 0) return \"negativo\";\n  return \"positivo\";\n}\nconsole.log(clasificar(-3), clasificar(0));",
+        "options": [
+          "negativo positivo",
+          "negativo negativo",
+          "positivo positivo",
+          "negativo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con -3 se cumple el if y la función termina en el primer return. Con 0 no se cumple, sigue y llega al segundo."
+    },
+    {
+      "slug": "js-desafio-flecha-encadenar",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "funciones flecha",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const sumarUno = (x) => x + 1;\nconsole.log(sumarUno(sumarUno(sumarUno(0))));",
+        "options": [
+          "3",
+          "1",
+          "0",
+          "111"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se resuelve de adentro hacia afuera: sumarUno(0) da 1, después 2 y al final 3."
+    },
+    {
+      "slug": "js-desafio-flecha-con-map",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "funciones flecha",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const precios = [100, 200];\nconsole.log(precios.map((p) => p / 2));",
+        "options": [
+          "[ 50, 100 ]",
+          "[ 100, 200 ]",
+          "150",
+          "[ 200, 400 ]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las funciones flecha son ideales para map, filter y compañía: (p) => p / 2 divide cada precio por 2."
+    },
+    {
+      "slug": "js-desafio-fun-variable-local",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "let total = 5;\nfunction cambiar(total) {\n  total = 100;\n  return total;\n}\ncambiar(total);\nconsole.log(total);",
+        "options": [
+          "5",
+          "100",
+          "undefined",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Dentro de la función, total es su parámetro, otra variable distinta de la de afuera. Cambiarla no toca la total de afuera, y el valor devuelto no se guardó."
+    },
+    {
+      "slug": "js-desafio-fill-flecha-llaves",
+      "type": "fill_blank",
+      "difficulty": "hard",
+      "topic": "funciones flecha",
+      "module": 7,
+      "prompt": "Completá para que imprima 10.",
+      "content": {
+        "code": "const mitad = (n) => {\n  ___ n / 2;\n};\nconsole.log(mitad(___));",
+        "blanks": [
+          [
+            "return",
+            "const r =",
+            "console.log"
+          ],
+          [
+            "20",
+            "10",
+            "5"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0,
+          0
+        ],
+        "output": "10"
+      },
+      "explanation": "Con llaves, la función flecha necesita return. Guardando la cuenta en una variable devolvería undefined, y con console.log adentro se vería 10 y después undefined."
+    },
+    {
+      "slug": "js-desafio-mc-procedimiento",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Qué diferencia hay entre return y console.log()?",
+      "content": {
+        "options": [
+          "return devuelve el valor para usarlo en el código; console.log solo lo muestra en la terminal",
+          "return muestra el valor en la terminal; console.log lo devuelve",
+          "Ninguna: los dos devuelven el valor",
+          "console.log termina la función, return no"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "return devuelve el valor para que lo guardes o lo uses en otra operación. console.log lo muestra, pero no lo devuelve."
     }
   ]
 }
