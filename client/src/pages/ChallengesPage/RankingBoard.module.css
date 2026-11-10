@@ -1,0 +1,157 @@
+.rank h2 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.sub {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 44ch;
+}
+
+/* El selector de período: dos botones en una cápsula */
+.seg {
+  display: inline-flex;
+  margin: 18px 0 8px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(5, 13, 36, 0.6);
+}
+
+.seg button {
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.seg button[aria-pressed="true"] {
+  background: var(--night-3);
+  color: var(--text);
+}
+
+.board {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.board li {
+  display: grid;
+  grid-template-columns: 28px 44px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.pos {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: right;
+}
+
+/* Los puestos del podio llevan el color de su estrella */
+.board li:nth-child(1) .pos {
+  color: #ffc94a;
+}
+
+.board li:nth-child(2) .pos {
+  color: #cfd9ea;
+}
+
+.board li:nth-child(3) .pos {
+  color: #d98b4f;
+}
+
+.mag {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 36px;
+}
+
+.mag svg {
+  overflow: visible;
+}
+
+.who {
+  font-size: 16px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.xp {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.xp small {
+  font-size: inherit;
+  font-weight: 500;
+}
+
+/* Tu fila: apuntada con la mira, como la estrella elegida en el cielo */
+.mine .who {
+  color: #fff;
+}
+
+.mine .xp {
+  color: var(--text);
+}
+
+.mine .mag::after {
+  content: "";
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border: 1.4px dashed var(--orange);
+  border-radius: 50%;
+  animation: spin 10s linear infinite;
+}
+
+.board li.gap {
+  display: block;
+  padding: 2px 0 2px 38px;
+  font-size: 15px;
+  letter-spacing: 0.3em;
+  color: var(--dim);
+}
+
+.chase,
+.empty {
+  margin: 16px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 40ch;
+}
+
+.chase b {
+  color: var(--text);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mine .mag::after {
+    animation: none;
+  }
+}

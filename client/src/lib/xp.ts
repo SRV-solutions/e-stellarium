@@ -10,3 +10,7 @@ export function xpToGain(questionCount: number) {
 // El repaso del día: poco, porque su valor es la constancia
 export const XP_PER_REVIEW_ANSWER = 2;
 export const XP_PER_REVIEW = 10;
+
+// Los desafíos periódicos
+export const XP_PER_CHALLENGE_ANSWER = 5;
+export const XP_PER_CHALLENGE = 20;

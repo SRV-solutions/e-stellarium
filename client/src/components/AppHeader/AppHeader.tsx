@@ -40,6 +40,15 @@ export function AppHeader() {
             </svg>
             <span>Constelaciones</span>
           </NavLink>
+          <NavLink to="/challenges" className={navClass}>
+            {/* Una mira de telescopio: los desafíos */}
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="8" />
+              <circle cx="12" cy="12" r="3" />
+              <path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" />
+            </svg>
+            <span>Desafíos</span>
+          </NavLink>
         </nav>
 
         <div className={styles.user}>

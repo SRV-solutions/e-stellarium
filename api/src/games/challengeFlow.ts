@@ -47,7 +47,10 @@ export type ChallengeView = {
   status: "unavailable" | "ready" | "in_progress" | "finished";
   total: number;
   parts: Record<ChallengePart, number>;
+  // Cada pregunta en orden: de qué parte es y si la acertó (null si todavía no la respondió)
+  questions: { part: ChallengePart; correct: boolean | null }[];
   explore: Course | null;
+  discover: Course | null; // puede ser el mismo de Explorá, si no hay otro curso con preguntas
   current: ChallengeStep | null; // la pregunta que toca, si está en curso
   result: ChallengeResult | null; // si ya terminó
 };
@@ -136,9 +139,9 @@ async function loadRows(attemptId: string, t: Transaction) {
   })) as Row[];
 }
 
-// El curso de las preguntas de "Explorá", para mostrarlo antes y recomendarlo al final
-async function exploreCourse(rows: Row[], t: Transaction): Promise<Course | null> {
-  const row = rows.find((r) => r.part === "explore");
+// El curso de las preguntas de una parte. El de "Explorá" se muestra antes y se recomienda al final
+async function courseOf(rows: Row[], part: ChallengePart, t: Transaction): Promise<Course | null> {
+  const row = rows.find((r) => r.part === part);
   if (!row) return null;
   const product = await Product.findByPk(row.Question.productId, { transaction: t });
   return product && { key: product.key, name: product.name };
@@ -197,23 +200,36 @@ async function view(
     result: null,
   };
   if (!attempt) {
-    return { ...base, status: "unavailable", total: 0, parts: { own: 0, explore: 0, discover: 0 }, explore: null };
+    return {
+      ...base,
+      status: "unavailable",
+      total: 0,
+      parts: { own: 0, explore: 0, discover: 0 },
+      questions: [],
+      explore: null,
+      discover: null,
+    };
   }
 
   const rows = await loadRows(attempt.id, t);
-  const explore = await exploreCourse(rows, t);
+  const explore = await courseOf(rows, "explore", t);
   const count = (part: ChallengePart) => rows.filter((r) => r.part === part).length;
   const summary = {
     ...base,
     total: rows.length,
     parts: { own: count("own"), explore: count("explore"), discover: count("discover") },
+    questions: rows.map((r) => ({ part: r.part, correct: r.correct })),
     explore,
+    discover: await courseOf(rows, "discover", t),
   };
 
   if (!attempt.finishedAt && attempt.startedAt) {
     const current = await advanceClock(rows, now, t);
-    if (current) return { ...summary, status: "in_progress", current: step(attempt, rows, current, now) };
+    // Se arma de nuevo: el reloj pudo haber dado por mal alguna vencida
+    const questions = rows.map((r) => ({ part: r.part, correct: r.correct }));
+    if (current) return { ...summary, questions, status: "in_progress", current: step(attempt, rows, current, now) };
     await finish(user, attempt, rows, now, t);
+    summary.questions = questions;
   }
   if (attempt.finishedAt) return { ...summary, status: "finished", result: result(attempt, rows, explore) };
   return { ...summary, status: "ready" };
@@ -327,7 +343,7 @@ export async function answerChallenge(
       ...verdict,
       xpGained,
       finished,
-      result: finished ? result(attempt, rows, await exploreCourse(rows, t)) : null,
+      result: finished ? result(attempt, rows, await courseOf(rows, "explore", t)) : null,
     };
   });
 }

@@ -182,3 +182,59 @@ export type ReviewAnswer = Omit<AnswerResult, "starXp" | "starCompleted"> & {
   total: number;
   streak: number;
 };
+
+// ---------- Desafíos y ranking ----------
+
+// own: de sus cursos; explore y discover: de cursos que no tiene
+export type ChallengePart = "own" | "explore" | "discover";
+
+export type ChallengeStep = {
+  position: number;
+  total: number;
+  part: ChallengePart;
+  timeLimitSeconds: number;
+  remainingMs: number;
+  question: ExamQuestion;
+};
+
+export type ChallengeResult = {
+  correctCount: number;
+  total: number;
+  xpGained: number;
+  results: { part: ChallengePart; correct: boolean }[];
+  recommendation: { key: string; name: string } | null;
+};
+
+// GET /challenges/current y POST /challenges/:id/start
+export type ChallengeView = {
+  challenge: { id: string; publishedAt: string; closesAt: string };
+  status: "unavailable" | "ready" | "in_progress" | "finished";
+  total: number;
+  parts: Record<ChallengePart, number>;
+  questions: { part: ChallengePart; correct: boolean | null }[];
+  explore: { key: string; name: string } | null;
+  discover: { key: string; name: string } | null; // puede ser el mismo de Explorá
+  current: ChallengeStep | null;
+  result: ChallengeResult | null;
+};
+
+// POST /challenges/:id/answer
+export type ChallengeVerdict = {
+  correct: boolean;
+  timedOut: boolean;
+  solution: AnswerResponse | null;
+  output: string | null;
+  explanation: string;
+  xpGained: number;
+  finished: boolean;
+  result: ChallengeResult | null;
+};
+
+// GET /ranking
+export type Ranking = {
+  period: "week" | "all";
+  startsAt: string | null;
+  endsAt: string | null;
+  top: { position: number; alias: string; xp: number; me: boolean }[];
+  me: { position: number | null; xp: number } | null;
+};

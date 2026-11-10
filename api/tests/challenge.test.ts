@@ -176,6 +176,7 @@ describe("GET /challenges/current", () => {
       total: 10,
       parts: { own: 6, explore: 3, discover: 1 },
       explore: { key: "fundamentos-backend", name: "Master en JavaScript" },
+      discover: { key: "fundamentos-backend", name: "Master en JavaScript" }, // no hay un tercer curso
       current: null,
       result: null,
     });
@@ -245,6 +246,11 @@ describe("jugar un desafío", () => {
     // La siguiente se muestra recién al pedirla
     const next = await current(agent);
     expect(next.current.position).toBe(2);
+    // Al retomar, sabe cuáles respondió, sin las respuestas
+    expect(next.questions.slice(0, 2)).toEqual([
+      { part: "own", correct: true },
+      { part: "own", correct: null },
+    ]);
   });
 
   it("si se le venció el tiempo, cuenta como mal", async () => {
