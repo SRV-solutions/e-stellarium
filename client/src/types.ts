@@ -141,3 +141,13 @@ export type ExamProgress =
       coupon: Coupon | null;
       retryOpensAt: string | null;
     };
+
+// GET /coupons: los cupones del alumno, del más nuevo al más viejo
+export type CouponSummary = {
+  code: string;
+  percent: number;
+  expiresAt: string;
+  usedAt: string | null;
+  createdAt: string;
+  course: { key: string; name: string };
+};

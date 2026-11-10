@@ -10,6 +10,7 @@ import { Cosmos } from "../../components/Cosmos/Cosmos";
 import { Eyepiece } from "../../components/Eyepiece/Eyepiece";
 import { NextStar, type Sighting } from "./NextStar/NextStar";
 import { CourseLine } from "./CourseLine/CourseLine";
+import { Coupons } from "./Coupons/Coupons";
 import type { Constellation } from "../../types";
 import styles from "./HomePage.module.css";
 
@@ -154,10 +155,7 @@ export function HomePage() {
         <section className={styles.block} aria-labelledby="coupons-title">
           <div className={styles.container}>
             <h2 id="coupons-title" className={styles.blockTitle}>Mis cupones</h2>
-            <div className={styles.emptyCoupon}>
-              <strong>Todavía no tenés cupones</strong>
-              Ganás tu primer cupón al aprobar el examen de una constelación.
-            </div>
+            <Coupons />
           </div>
         </section>
       </main>

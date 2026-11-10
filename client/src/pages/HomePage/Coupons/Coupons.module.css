@@ -1,0 +1,469 @@
+.muted {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.lead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.count {
+  font-weight: 700;
+  color: var(--orange);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Los cupones ---------- */
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+  gap: 22px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ticket {
+  --stub: 124px;
+  --edge: rgba(255, 153, 0, 0.5);
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--stub) 1fr;
+  min-height: 168px;
+  border-radius: 14px;
+  /* Un tono cálido del lado del talón: el papel del cupón no es igual al cielo */
+  background:
+    radial-gradient(70% 120% at 0% 50%, rgba(255, 153, 0, 0.13), transparent 70%),
+    #1a2240;
+  box-shadow: inset 0 0 0 1.5px var(--edge);
+  /* Las muescas de arriba y de abajo, a la altura del troquel: agujeros de verdad */
+  -webkit-mask:
+    radial-gradient(circle 10px at var(--stub) 0, transparent 9.5px, #000 10px),
+    radial-gradient(circle 10px at var(--stub) 100%, transparent 9.5px, #000 10px);
+  -webkit-mask-composite: source-in;
+  mask:
+    radial-gradient(circle 10px at var(--stub) 0, transparent 9.5px, #000 10px),
+    radial-gradient(circle 10px at var(--stub) 100%, transparent 9.5px, #000 10px);
+  mask-composite: intersect;
+  animation: slide 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+  animation-delay: calc(var(--i) * 80ms);
+}
+
+@keyframes slide {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* El troquel: una fila de agujeritos entre el talón y el cuerpo */
+.perf {
+  position: absolute;
+  left: var(--stub);
+  top: 14px;
+  bottom: 14px;
+  width: 4px;
+  margin-left: -2px;
+  background: radial-gradient(circle, rgba(5, 13, 36, 0.95) 1.6px, transparent 2px) center top / 4px 9px repeat-y;
+}
+
+/* El talón: la estrella de examen y el porcentaje */
+.stub {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 2px;
+  padding: 16px 8px;
+  text-align: center;
+}
+
+.stub svg {
+  width: 38px;
+  height: 38px;
+  margin-bottom: 4px;
+}
+
+.ray {
+  stroke: #ffd38a;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.core {
+  fill: #fff;
+}
+
+.halo {
+  fill: url(#coupon-gold);
+}
+
+.pct {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  color: var(--orange);
+  font-variant-numeric: tabular-nums;
+}
+
+.pct small {
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+.off {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffc266;
+}
+
+/* El cuerpo */
+.body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 16px 20px 16px 22px;
+}
+
+.from {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.from b {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* El código, con la raspadita encima */
+.code {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 8px 0 12px;
+  overflow: hidden;
+  border-radius: 9px;
+  background: var(--code);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.code code {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+}
+
+.copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  background: none;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.copy:hover {
+  border-color: var(--muted);
+}
+
+.copy svg,
+.use svg,
+.warn svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.copy svg {
+  width: 14px;
+  height: 14px;
+}
+
+.copied {
+  color: var(--mint);
+  border-color: var(--green);
+}
+
+/* La raspadita: un canvas encima del código, que se borra donde se raspa */
+.scratch {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: 0;
+  background: #ff9900;
+  cursor: grab;
+  touch-action: none;
+  transition: opacity 0.45s;
+}
+
+.scratch:active {
+  cursor: grabbing;
+}
+
+.scratch canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.gone {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Las virutas: se agregan al body, por eso van con position: fixed */
+.flake {
+  position: fixed;
+  z-index: 50;
+  width: 4px;
+  height: 3px;
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+/* El vencimiento: una barrita que se vacía a lo largo de los 60 días */
+.foot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: auto;
+}
+
+.life {
+  flex: 1;
+  min-width: 0;
+}
+
+.life p {
+  margin: 0 0 5px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.life p b {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.bar {
+  height: 4px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(36, 55, 107, 0.8);
+}
+
+.bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--orange);
+}
+
+.soon .life p,
+.soon .life p b {
+  color: var(--coral);
+}
+
+.soon .bar i {
+  background: var(--coral);
+}
+
+.use {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: #1a1205;
+  text-decoration: none;
+  background: var(--orange);
+  border-radius: 999px;
+  transition: background 0.15s;
+}
+
+.use:hover {
+  background: #ffad33;
+}
+
+.use svg {
+  width: 15px;
+  height: 15px;
+  stroke-width: 2.4;
+}
+
+/* Usado o vencido: el cupón se apaga y lleva un sello de goma encima */
+.spent {
+  --edge: var(--line);
+  background: #0f1a38;
+}
+
+.spent .pct,
+.spent .off {
+  color: var(--dim);
+}
+
+.spent .stub svg {
+  opacity: 0.35;
+  filter: grayscale(1);
+}
+
+.spent code {
+  color: var(--dim);
+}
+
+.stamp {
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  margin: 0;
+  padding: 4px 14px 5px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--muted);
+  border: 3px solid currentColor;
+  border-radius: 10px;
+  opacity: 0.8;
+  transform: translateY(-50%) rotate(-9deg);
+  /* La tinta del sello no carga pareja */
+  -webkit-mask: repeating-linear-gradient(80deg, #000 0 7px, rgba(0, 0, 0, 0.75) 7px 9px);
+  mask: repeating-linear-gradient(80deg, #000 0 7px, rgba(0, 0, 0, 0.75) 7px 9px);
+}
+
+.expired .stamp {
+  color: var(--coral);
+}
+
+.warn {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 70ch;
+  margin: 24px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.warn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  stroke: var(--coral);
+}
+
+.warn b {
+  font-weight: 700;
+  color: var(--coral);
+}
+
+/* ---------- Sin cupones: el contorno de un cupón por ganar ---------- */
+.empty {
+  display: grid;
+  grid-template-columns: 124px 1fr;
+  max-width: 520px;
+  min-height: 140px;
+  margin-top: 20px;
+  border: 1.5px dashed var(--line);
+  border-radius: 14px;
+}
+
+.empty .stub {
+  border-right: 1.5px dashed var(--line);
+}
+
+.empty .ray {
+  stroke: var(--orange);
+  opacity: 0.35;
+}
+
+.empty .core {
+  fill: #3a2c1a;
+  stroke: var(--orange);
+  stroke-width: 1.4;
+}
+
+.empty .pct {
+  color: transparent;
+  -webkit-text-stroke: 1.2px var(--dim);
+}
+
+.empty .off {
+  color: var(--dim);
+}
+
+.empty .body {
+  justify-content: center;
+}
+
+.empty strong {
+  font-size: 17px;
+}
+
+.empty p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+@media (max-width: 560px) {
+  .list {
+    grid-template-columns: 1fr;
+  }
+  .ticket {
+    --stub: 96px;
+  }
+  .empty {
+    grid-template-columns: 96px 1fr;
+  }
+  .pct {
+    font-size: 32px;
+  }
+  .body {
+    padding: 14px 14px 14px 18px;
+  }
+  .code code {
+    font-size: 15px;
+  }
+  .foot {
+    flex-wrap: wrap;
+  }
+  .use {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticket {
+    animation: none;
+  }
+  .scratch {
+    transition: none;
+  }
+}

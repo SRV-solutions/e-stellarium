@@ -149,23 +149,6 @@
 }
 
 /* Cupones */
-.emptyCoupon {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  max-width: 420px;
-  padding: 20px 22px;
-  border: 1.5px dashed var(--line);
-  border-radius: 14px;
-  font-size: 15px;
-  color: var(--muted);
-}
-
-.emptyCoupon strong {
-  font-size: 17px;
-  color: var(--text);
-}
-
 /* ---------- Pie ---------- */
 .footer {
   padding: 48px 0 40px;
