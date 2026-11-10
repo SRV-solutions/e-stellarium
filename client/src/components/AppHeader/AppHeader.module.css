@@ -112,6 +112,39 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* La racha: misma pieza que el nivel, con el cometa en lugar del medidor */
+.streak {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 13px 5px 8px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(5, 13, 36, 0.6);
+  transition: border-color 0.15s;
+}
+
+.streak:hover {
+  border-color: var(--muted);
+}
+
+.streakDays {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.streakRisk {
+  border-color: rgba(255, 153, 0, 0.55);
+}
+
+.streakOff {
+  color: var(--muted);
+}
+
 .avatar {
   width: 34px;
   height: 34px;
@@ -163,7 +196,8 @@
     padding: 9px;
   }
   /* El nivel queda en el medidor y los XP; el "Nivel 2" se lee al tocarlo */
-  .levelNumber {
+  .levelNumber,
+  .streakDays {
     display: none;
   }
 }

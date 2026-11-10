@@ -151,3 +151,34 @@ export type CouponSummary = {
   createdAt: string;
   course: { key: string; name: string };
 };
+
+// GET /me/stats: la racha, los protectores del mes y cómo va el repaso de hoy
+export type ReviewSummary =
+  | { status: "unavailable" } // todavía no jugó ninguna lección
+  | { status: "pending" | "in_progress" | "finished"; answered: number; total: number };
+
+export type Stats = {
+  streak: number;
+  streakFreezes: number;
+  activeToday: boolean;
+  review: ReviewSummary;
+};
+
+// GET /review/today
+export type Review = {
+  id: string;
+  day: string;
+  finished: boolean;
+  total: number;
+  correctCount: number;
+  questions: { position: number; answered: boolean; correct: boolean | null; question: ExamQuestion }[];
+};
+
+// POST /reviews/:id/answer
+export type ReviewAnswer = Omit<AnswerResult, "starXp" | "starCompleted"> & {
+  reviewXp: number; // la parte de xpGained que se dio por terminar el repaso
+  finished: boolean;
+  correctCount: number;
+  total: number;
+  streak: number;
+};

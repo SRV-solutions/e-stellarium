@@ -3,12 +3,13 @@ import { useAuth } from "../../auth/useAuth";
 import logo from "../../assets/logo-srv.png";
 import { levelFor } from "../../lib/levels";
 import { BrandGauge } from "../BrandGauge/BrandGauge";
+import { Comet } from "../Comet/Comet";
 import styles from "./AppHeader.module.css";
 
 const navClass = ({ isActive }: { isActive: boolean }) => `${styles.navLink} ${isActive ? styles.active : ""}`;
 
 export function AppHeader() {
-  const { user, logout } = useAuth();
+  const { user, logout, stats } = useAuth();
   if (!user) return null;
   const level = levelFor(user.totalXp);
 
@@ -39,6 +40,7 @@ export function AppHeader() {
         </nav>
 
         <div className={styles.user}>
+          {stats && <StreakChip streak={stats.streak} activeToday={stats.activeToday} />}
           <Link
             to="/"
             className={styles.level}
@@ -59,5 +61,21 @@ export function AppHeader() {
         </div>
       </div>
     </header>
+  );
+}
+// La racha al lado del nivel: el cometa chiquito y los días. Si todavía no jugó hoy, el borde se pone naranja
+function StreakChip({ streak, activeToday }: { streak: number; activeToday: boolean }) {
+  const days = streak === 1 ? "día" : "días";
+  let title;
+  if (streak === 0) title = "Sin racha. Jugá algo hoy para empezar una.";
+  else title = `Racha de ${streak} ${days}. ${activeToday ? "Hoy ya jugaste." : "Todavía no jugaste hoy."}`;
+  const state = streak === 0 ? styles.streakOff : activeToday ? "" : styles.streakRisk;
+
+  return (
+    <Link to="/" className={`${styles.streak} ${state}`} title={title} aria-label={title}>
+      <Comet streak={streak} activeToday={activeToday} size="small" />
+      {streak}
+      <small className={styles.streakDays}>{days}</small>
+    </Link>
   );
 }

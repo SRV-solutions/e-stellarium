@@ -6,3 +6,7 @@ export const XP_PER_STAR = 50;
 export function xpToGain(questionCount: number) {
   return questionCount * XP_PER_QUESTION + XP_PER_STAR;
 }
+
+// El repaso del día: poco, porque su valor es la constancia
+export const XP_PER_REVIEW_ANSWER = 2;
+export const XP_PER_REVIEW = 10;

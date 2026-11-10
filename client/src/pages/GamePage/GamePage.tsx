@@ -48,7 +48,7 @@ export function GamePage() {
 function Game({ play: initialPlay }: { play: StarPlay }) {
   // play se reemplaza al reintentar: trae los intentos nuevos y, con ellos, otra mezcla
   const [play, setPlay] = useState(initialPlay);
-  const { addXp } = useAuth();
+  const { addXp, noteActivity } = useAuth();
   const { star, questions, course, nextStar } = play;
   // Si la dejó a medias, sigue donde quedó: las que ya acertó cuentan y se juegan solo las otras.
   // Una estrella ya encendida se repasa entera
@@ -109,6 +109,7 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
         if (answer.starCompleted) setStarXp(answer.starXp);
       });
       if (answer.xpGained > 0) addXp(answer.xpGained);
+      noteActivity(); // si era lo primero del día, la racha cambió
       animateVerdict(answer.correct, index, answer.xpGained);
     } catch (err) {
       setError(

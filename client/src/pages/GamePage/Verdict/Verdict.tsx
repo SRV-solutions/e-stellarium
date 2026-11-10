@@ -5,9 +5,10 @@ import styles from "./Verdict.module.css";
 type Props = {
   result: AnswerResult;
   onNext: () => void;
+  missTitle?: string; // el título si no acertó
 };
 
-export function Verdict({ result, onNext }: Props) {
+export function Verdict({ result, onNext, missTitle = "Casi. Esta va a tu repaso" }: Props) {
   const button = useRef<HTMLButtonElement>(null);
 
   // Al aparecer, el foco va a "Continuar": con Enter se sigue, sin buscar el botón
@@ -16,7 +17,7 @@ export function Verdict({ result, onNext }: Props) {
   }, []);
 
   let title;
-  if (!result.correct) title = "Casi. Esta va a tu repaso";
+  if (!result.correct) title = missTitle;
   else if (result.xpGained > 0) title = `¡Correcto! +${result.xpGained} XP`;
   else title = "¡Correcto!";
 

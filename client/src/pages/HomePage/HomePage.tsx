@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../auth/useAuth";
 import { useCourses } from "../../hooks/useCourses";
 import { useConstellations } from "../../hooks/useConstellations";
@@ -11,6 +11,7 @@ import { Eyepiece } from "../../components/Eyepiece/Eyepiece";
 import { NextStar, type Sighting } from "./NextStar/NextStar";
 import { CourseLine } from "./CourseLine/CourseLine";
 import { Coupons } from "./Coupons/Coupons";
+import { Daily } from "./Daily/Daily";
 import type { Constellation } from "../../types";
 import styles from "./HomePage.module.css";
 
@@ -45,10 +46,15 @@ function aimTelescope(constellations: Constellation[]) {
 }
 
 export function HomePage() {
-  const { user } = useAuth();
+  const { user, stats, refreshStats } = useAuth();
   const { state, reload } = useCourses();
   const sky = useConstellations();
   const [settled, setSettled] = useState(false);
+
+  // Al volver al inicio (por ejemplo, después del repaso), la racha y el repaso se piden de nuevo
+  useEffect(() => {
+    refreshStats();
+  }, [refreshStats]);
 
   if (!user) return null;
   const level = levelFor(user.totalXp);
@@ -116,6 +122,14 @@ export function HomePage() {
             </div>
           </div>
         </section>
+
+        {stats && (
+          <section className={styles.block} aria-label="Racha y repaso del día">
+            <div className={styles.container}>
+              <Daily stats={stats} />
+            </div>
+          </section>
+        )}
 
         <section className={styles.block} aria-labelledby="courses-title">
           <div className={styles.container}>

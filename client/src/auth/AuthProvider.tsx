@@ -1,11 +1,24 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
 import { api } from "../lib/api";
-import type { User } from "../types";
+import type { Stats, User } from "../types";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<Stats | null>(null);
+
+  const refreshStats = useCallback(() => {
+    api<Stats>("/me/stats")
+      .then(setStats)
+      .catch(() => {}); // si falla, la racha simplemente no se muestra
+  }, []);
+
+  // Cada vez que cambia quién inició sesión, se piden sus estadísticas
+  const userId = user?.id;
+  useEffect(() => {
+    if (userId) refreshStats();
+  }, [userId, refreshStats]);
 
   // Al abrir la app, preguntamos si ya hay una sesión activa
   useEffect(() => {
@@ -26,6 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function logout() {
     await api("/auth/logout", { method: "POST" });
     setUser(null);
+    setStats(null);
   }
 
   async function setPassword(token: string, password: string) {
@@ -41,8 +55,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser((previous) => previous && { ...previous, totalXp: previous.totalXp + xp });
   }
 
+  function noteActivity() {
+    if (!stats?.activeToday) refreshStats();
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, setPassword, addXp }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, setPassword, addXp, stats, refreshStats, noteActivity }}>
       {children}
     </AuthContext.Provider>
   );

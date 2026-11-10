@@ -1,0 +1,221 @@
+/* La racha a la izquierda, el repaso a la derecha */
+.daily {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.2fr);
+  gap: 20px 64px;
+  align-items: start;
+}
+
+/* ---------- La racha ---------- */
+.streak {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.comet {
+  flex-shrink: 0;
+}
+
+.streakTitle {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.streakTitle small {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
+.say {
+  margin: 8px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.sayOk {
+  color: var(--mint);
+}
+
+.sayRisk {
+  color: var(--orange);
+}
+
+.sayOff {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.freezes {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.freezes svg {
+  width: 16px;
+  height: 16px;
+}
+
+.moon {
+  fill: #dbe8ff;
+}
+
+.moonUsed {
+  fill: none;
+  stroke: var(--dim);
+  stroke-width: 1.4;
+}
+
+/* ---------- El repaso ---------- */
+.title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.lead {
+  margin: 4px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 46ch;
+}
+
+.empty {
+  margin: 14px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 44ch;
+}
+
+/* Las preguntas de hoy como estrellas en fila: las respondidas, encendidas; la que sigue, con la mira */
+.five {
+  display: flex;
+  align-items: center;
+  margin: 18px 0 20px;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+}
+
+.q {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.q svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.core {
+  fill: var(--night-3);
+  stroke: var(--dim);
+  stroke-width: 1.6;
+}
+
+.flare {
+  fill: #fff;
+  opacity: 0;
+}
+
+.qDone .core {
+  fill: #fff;
+  stroke: #fff;
+}
+
+.qDone .flare {
+  opacity: 0.9;
+}
+
+.qNow .core {
+  fill: var(--blue);
+  stroke: #8cc4ff;
+}
+
+.qNow::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 1.4px dashed var(--orange);
+  border-radius: 50%;
+  animation: spin 10s linear infinite;
+}
+
+.link {
+  width: 34px;
+  border-top: 1.4px dashed rgba(154, 170, 208, 0.3);
+}
+
+.linkOn {
+  border-top: 1.6px solid rgba(220, 232, 255, 0.75);
+}
+
+.count {
+  margin-left: 16px;
+  font-size: 15px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.count b {
+  color: var(--text);
+}
+
+.go {
+  composes: go from "../../GamePage/GamePage.module.css";
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.go svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.done {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 800px) {
+  .daily {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .link {
+    width: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qNow::after {
+    animation: none;
+  }
+}

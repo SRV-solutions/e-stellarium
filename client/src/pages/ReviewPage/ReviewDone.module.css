@@ -1,0 +1,63 @@
+.page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 40px 24px;
+  background:
+    radial-gradient(60% 40% at 50% -5%, rgba(0, 123, 255, 0.22), transparent 70%),
+    radial-gradient(40% 30% at 100% 100%, rgba(118, 92, 240, 0.16), transparent 70%),
+    #050d24;
+}
+
+.inner {
+  max-width: 460px;
+  text-align: center;
+}
+
+.comet {
+  display: block;
+  margin: 0 auto 18px;
+}
+
+.kicker {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.title {
+  margin: 6px 0 0;
+  font-size: clamp(36px, 6vw, 52px);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.score {
+  margin: 16px 0 0;
+  font-size: 18px;
+  color: var(--muted);
+}
+
+.score b {
+  color: var(--text);
+}
+
+.score .xp {
+  color: var(--orange);
+}
+
+.streak {
+  margin: 8px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--mint);
+}
+
+.go {
+  composes: go from "../GamePage/GamePage.module.css";
+  display: inline-flex;
+  margin-top: 30px;
+  text-decoration: none;
+}

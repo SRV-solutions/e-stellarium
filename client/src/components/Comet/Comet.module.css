@@ -1,0 +1,73 @@
+.comet {
+  overflow: visible;
+}
+
+.tail {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.head {
+  fill: #fff;
+}
+
+.day {
+  fill: #dbe8ff;
+}
+
+/* La mira naranja: todavía no jugó hoy */
+.wait {
+  fill: none;
+  stroke: var(--orange);
+  stroke-dasharray: 3 3;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spin 9s linear infinite;
+}
+
+.risk .head {
+  fill: #9fc9ff;
+}
+
+.risk .day,
+.risk .tail {
+  opacity: 0.5;
+}
+
+.off .head {
+  fill: var(--night-3);
+  stroke: var(--dim);
+  stroke-width: 1.4;
+}
+
+.off .halo,
+.off .tail {
+  display: none;
+}
+
+/* Los días de la cola aparecen de a uno */
+.pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dayIn 0.35s cubic-bezier(0.2, 1.7, 0.4, 1) backwards;
+}
+
+@keyframes dayIn {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wait,
+  .pop {
+    animation: none;
+  }
+}

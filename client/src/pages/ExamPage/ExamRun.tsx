@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
+import { useAuth } from "../../auth/useAuth";
 import { api, ApiError } from "../../lib/api";
 import { greekLetter } from "../../lib/sky";
 import type { AnswerResponse, ExamInfo, ExamProgress, StudentQuestion } from "../../types";
@@ -33,6 +34,7 @@ export function ExamRun({ info, initial, onFinished }: Props) {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const leave = useRef<HTMLDialogElement>(null);
+  const { noteActivity } = useAuth();
 
   // El reloj de la pregunta: se actualiza 10 veces por segundo
   useEffect(() => {
@@ -72,12 +74,14 @@ export function ExamRun({ info, initial, onFinished }: Props) {
 
   function answer() {
     if (!response || sending) return;
-    run(() =>
-      api<ExamProgress>(`/exam-attempts/${progress.attemptId}/answer`, {
+    run(async () => {
+      const next = await api<ExamProgress>(`/exam-attempts/${progress.attemptId}/answer`, {
         method: "POST",
         body: JSON.stringify({ position, response }),
-      }),
-    );
+      });
+      noteActivity(); // si era lo primero del día, la racha cambió
+      return next;
+    });
   }
 
   // Después de que se acaba el tiempo, se le pide al servidor la que sigue. El servidor espera
