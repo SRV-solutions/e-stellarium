@@ -47,7 +47,7 @@ examsRouter.get("/exams/:starId", requireAuth, async (req, res) => {
 
   const state = await getExamState(userId, star);
   const coupon = await Coupon.findOne({ where: { userId, constellationId: constellation.id } });
-  const earned = await Coupon.count({ where: { userId } });
+  const earned = await Coupon.count({ where: { userId, source: "constellation" } });
 
   res.json({
     star: { id: star.id, title: star.title, position: star.position, letter: "Ω" },

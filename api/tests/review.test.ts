@@ -284,6 +284,7 @@ describe("GET /me/stats", () => {
     expect(res.body).toEqual({
       streak: 0,
       streakFreezes: 2,
+      boughtFreezes: 0,
       activeToday: false,
       review: { status: "unavailable" },
       glints: 0,

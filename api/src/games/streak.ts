@@ -23,15 +23,17 @@ export type StreakState = {
   streak: number;
   lastActiveOn: string | null;
   streakFreezes: number; // los protectores que le quedan en el mes de lastActiveOn
+  boughtFreezes: number; // los comprados en la tienda: no vencen
 };
 
 // Cubre con protectores los días que faltó entre lastActiveOn y `today` (sin contar `today`).
-// Cada mes trae 2 protectores nuevos. Si un día no alcanza, la racha se corta y vuelve a 0.
-// Devuelve la racha y los protectores que le quedan en el mes de `today`.
+// Cada mes trae 2 protectores nuevos; primero se usan esos y después los comprados.
+// Si un día no alcanza, la racha se corta y vuelve a 0, y los comprados no se gastan.
+// Devuelve la racha, los protectores que le quedan en el mes de `today` y los comprados.
 export function settle(state: StreakState, today: string) {
-  if (!state.lastActiveOn) return { streak: 0, freezes: FREEZES_PER_MONTH };
+  if (!state.lastActiveOn) return { streak: 0, freezes: FREEZES_PER_MONTH, bought: state.boughtFreezes };
 
-  let { streak, streakFreezes: freezes } = state;
+  let { streak, streakFreezes: freezes, boughtFreezes: bought } = state;
   let month = monthOf(state.lastActiveOn);
 
   for (let day = addDays(state.lastActiveOn, 1); day < today && streak > 0; day = addDays(day, 1)) {
@@ -40,22 +42,25 @@ export function settle(state: StreakState, today: string) {
       freezes = FREEZES_PER_MONTH;
     }
     if (freezes > 0) freezes--;
+    else if (bought > 0) bought--;
     else streak = 0;
   }
 
+  // Si igual se cortó, no tiene sentido cobrarle los comprados
+  if (streak === 0) bought = state.boughtFreezes;
   if (monthOf(today) !== month) freezes = FREEZES_PER_MONTH;
-  return { streak, freezes };
+  return { streak, freezes, bought };
 }
 
 // La primera actividad del día: la racha suma uno (o arranca en 1 si se había cortado)
 export function registerDay(state: StreakState, today: string): StreakState {
   if (state.lastActiveOn === today) return state;
-  const { streak, freezes } = settle(state, today);
-  return { streak: streak + 1, lastActiveOn: today, streakFreezes: freezes };
+  const { streak, freezes, bought } = settle(state, today);
+  return { streak: streak + 1, lastActiveOn: today, streakFreezes: freezes, boughtFreezes: bought };
 }
 
 // Lo que se muestra, sin escribir nada. Si todavía no jugó hoy, la racha sigue viva hasta las 00:00
 export function currentStreak(state: StreakState, today: string) {
-  const { streak, freezes } = settle(state, today);
-  return { streak, freezes, activeToday: state.lastActiveOn === today };
+  const { streak, freezes, bought } = settle(state, today);
+  return { streak, freezes, boughtFreezes: bought, activeToday: state.lastActiveOn === today };
 }

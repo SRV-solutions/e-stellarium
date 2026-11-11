@@ -197,12 +197,14 @@ async function finish(user: User, attempt: ExamAttempt, rows: Row[], now: Date, 
       transaction: t,
     });
     const constellation = star!.Constellation!;
-    const earned = await Coupon.count({ where: { userId: user.id }, transaction: t });
+    // El primero de constelación es del 60 %: los de la tienda no cuentan
+    const earned = await Coupon.count({ where: { userId: user.id, source: "constellation" }, transaction: t });
 
     const coupon = await Coupon.create(
       {
         code: await uniqueCouponCode(constellation.Product!.key, t),
         percent: couponPercent(earned),
+        source: "constellation",
         expiresAt: couponExpiresAt(now),
         userId: user.id,
         constellationId: constellation.id,
@@ -222,7 +224,7 @@ async function finish(user: User, attempt: ExamAttempt, rows: Row[], now: Date, 
 }
 
 // Un código que no exista todavía. Con 6 caracteres casi nunca hace falta un segundo intento.
-async function uniqueCouponCode(courseKey: string, t: Transaction) {
+export async function uniqueCouponCode(courseKey: string, t: Transaction) {
   for (let i = 0; i < 5; i++) {
     const code = generateCouponCode(courseKey);
     if (!(await Coupon.findOne({ where: { code }, transaction: t }))) return code;

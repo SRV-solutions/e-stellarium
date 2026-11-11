@@ -40,7 +40,7 @@ constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
 
   // Los intentos de examen, y el porcentaje del cupón que ganaría si aprueba uno ahora
   const attempts = await ExamAttempt.findAll({ where: { userId }, order: [["number", "ASC"]] });
-  const nextCouponPercent = couponPercent(await Coupon.count({ where: { userId } }));
+  const nextCouponPercent = couponPercent(await Coupon.count({ where: { userId, source: "constellation" } }));
 
     // Cuántas preguntas publicadas tiene cada estrella
   const starIds = constellations.flatMap((c) => (c.Stars ?? []).map((s) => s.id));

@@ -32,6 +32,13 @@ export async function awardGlints(user: User, reason: GlintReason, referenceId: 
   return amount;
 }
 
+// Gasta destellos: un movimiento negativo y el saldo baja. Quien llama ya verificó que le alcanzan
+// (y si no, la restricción de la base, que no deja el saldo en negativo, frena todo).
+export async function spendGlints(user: User, reason: GlintReason, referenceId: string, price: number, t: Transaction) {
+  await GlintEvent.create({ userId: user.id, reason, referenceId, amount: -price }, { transaction: t });
+  await user.decrement("glints", { by: price, transaction: t });
+}
+
 // Da las insignias que la racha ya alcanzó y todavía no tenía, con sus destellos.
 // Se llama dentro de una transacción que ya bloqueó al alumno. Devuelve las nuevas (casi siempre ninguna)
 export async function awardStreakBadges(user: User, streak: number, t: Transaction) {

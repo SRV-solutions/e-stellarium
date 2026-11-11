@@ -11,11 +11,12 @@ export const meRouter = Router();
 meRouter.get("/me/stats", requireAuth, async (req, res) => {
   const user = req.user!;
   const now = new Date();
-  const { streak, freezes, activeToday } = currentStreak(user, argentinaDay(now));
+  const { streak, freezes, boughtFreezes, activeToday } = currentStreak(user, argentinaDay(now));
 
   res.json({
     streak,
-    streakFreezes: freezes,
+    streakFreezes: freezes, // los gratis que le quedan este mes
+    boughtFreezes, // los comprados, que se usan después de los gratis
     activeToday,
     review: await todayReviewSummary(user.id, now),
     glints: user.glints,

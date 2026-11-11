@@ -21,7 +21,9 @@ couponsRouter.get("/coupons", requireAuth, async (req, res) => {
       expiresAt: c.expiresAt,
       usedAt: c.usedAt,
       createdAt: c.createdAt,
-      course: { key: c.Constellation!.Product!.key, name: c.Constellation!.Product!.name },
+      source: c.source,
+      // Solo los de constelación tienen curso; los de la tienda sirven para cualquiera
+      course: c.Constellation ? { key: c.Constellation.Product!.key, name: c.Constellation.Product!.name } : null,
     })),
   });
 });

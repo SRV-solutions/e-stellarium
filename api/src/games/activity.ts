@@ -13,7 +13,12 @@ export async function recordActivity(user: User, now: Date, t: Transaction) {
 
   const next = registerDay(user, day);
   await user.update(
-    { streak: next.streak, lastActiveOn: next.lastActiveOn, streakFreezes: next.streakFreezes },
+    {
+      streak: next.streak,
+      lastActiveOn: next.lastActiveOn,
+      streakFreezes: next.streakFreezes,
+      boughtFreezes: next.boughtFreezes,
+    },
     { transaction: t }
   );
   return { newBadges: await awardStreakBadges(user, next.streak, t) };

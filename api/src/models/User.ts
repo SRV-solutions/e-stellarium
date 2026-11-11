@@ -20,6 +20,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare streak: CreationOptional<number>;
   declare lastActiveOn: CreationOptional<string | null>; // "2026-11-10", en hora de Argentina
   declare streakFreezes: CreationOptional<number>;
+  declare boughtFreezes: CreationOptional<number>; // los protectores comprados en la tienda
   declare glints: CreationOptional<number>; // el saldo de destellos
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -76,6 +77,11 @@ User.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 2,
+    },
+    boughtFreezes: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
     },
     glints: {
       type: DataTypes.INTEGER,

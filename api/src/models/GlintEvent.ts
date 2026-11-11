@@ -7,7 +7,13 @@ import {
 } from "sequelize";
 import { sequelize } from "../db.js";
 
-export type GlintReason = "challenge_correct" | "challenge_completed" | "review_completed" | "streak_badge";
+export type GlintReason =
+  | "challenge_correct"
+  | "challenge_completed"
+  | "review_completed"
+  | "streak_badge"
+  | "coupon_purchase" // gastados en la tienda
+  | "freeze_purchase";
 
 // Un movimiento de destellos: positivo si los ganó, negativo si los gastó
 export class GlintEvent extends Model<InferAttributes<GlintEvent>, InferCreationAttributes<GlintEvent>> {
