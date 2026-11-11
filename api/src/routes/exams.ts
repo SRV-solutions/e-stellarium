@@ -142,10 +142,10 @@ examsRouter.post("/exams/:starId/practice/answer", requireAuth, async (req, res)
     throw err;
   }
 
-  const streak = await sequelize.transaction(async (t) => {
+  const { streak, newBadges } = await sequelize.transaction(async (t) => {
     const user = await User.findByPk(userId, { lock: t.LOCK.UPDATE, transaction: t });
-    await recordActivity(user!, new Date(), t);
-    return user!.streak;
+    const { newBadges } = await recordActivity(user!, new Date(), t);
+    return { streak: user!.streak, newBadges };
   });
 
   res.json({
@@ -154,5 +154,6 @@ examsRouter.post("/exams/:starId/practice/answer", requireAuth, async (req, res)
     output: result.output,
     explanation: question.explanation,
     streak,
+    newBadges,
   });
 });

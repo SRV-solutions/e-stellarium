@@ -125,7 +125,7 @@ describe("POST /reviews/:id/answer", () => {
     expect((await agent.post(`/reviews/${other.id}/answer`).send({ position: 1, response: { choice: 0 } })).status).toBe(404);
   });
 
-  it("corrige con su propia mezcla, da 2 XP por acierto y 10 por terminarlo", async () => {
+  it("corrige con su propia mezcla, da 2 XP por acierto, y 10 XP y 3 destellos por terminarlo", async () => {
     const { agent, user, review } = await readyReview(2);
     const [first, second] = review.questions as ReviewItem[];
     const xpBefore = user.totalXp;
@@ -139,6 +139,9 @@ describe("POST /reviews/:id/answer", () => {
       explanation: "2 + 2 es 4.",
       xpGained: 2,
       reviewXp: 0,
+      glintsGained: 0,
+      glints: 0,
+      newBadges: [],
       finished: false,
       correctCount: 1,
       total: 2,
@@ -146,10 +149,19 @@ describe("POST /reviews/:id/answer", () => {
 
     const wrongChoice = rightChoice(second!) === 0 ? 1 : 0;
     const wrong = await agent.post(`/reviews/${review.id}/answer`).send({ position: 2, response: { choice: wrongChoice } });
-    expect(wrong.body).toMatchObject({ correct: false, xpGained: 10, reviewXp: 10, finished: true, correctCount: 1 });
+    expect(wrong.body).toMatchObject({
+      correct: false,
+      xpGained: 10,
+      reviewXp: 10,
+      glintsGained: 3,
+      glints: 3,
+      finished: true,
+      correctCount: 1,
+    });
 
     await user.reload();
     expect(user.totalXp).toBe(xpBefore + 12);
+    expect(user.glints).toBe(3);
     expect(await XpEvent.count({ where: { userId: user.id, reason: "review_correct" } })).toBe(1);
     expect(await XpEvent.count({ where: { userId: user.id, reason: "review_completed" } })).toBe(1);
     expect(await Answer.count({ where: { userId: user.id, context: "review" } })).toBe(2);
@@ -269,7 +281,14 @@ describe("GET /me/stats", () => {
   it("sin actividad: racha 0, 2 protectores y sin repaso", async () => {
     const { agent } = await student();
     const res = await agent.get("/me/stats");
-    expect(res.body).toEqual({ streak: 0, streakFreezes: 2, activeToday: false, review: { status: "unavailable" } });
+    expect(res.body).toEqual({
+      streak: 0,
+      streakFreezes: 2,
+      activeToday: false,
+      review: { status: "unavailable" },
+      glints: 0,
+      badges: [],
+    });
   });
 
   it("muestra 0 si la racha se cortó, sin escribir nada", async () => {

@@ -32,6 +32,7 @@ describe("POST /questions/:id/answer", () => {
       xpGained: 60,
       starXp: 50,
       starCompleted: true,
+      newBadges: [],
     });
     const answers = await Answer.findAll();
     expect(answers).toHaveLength(1);

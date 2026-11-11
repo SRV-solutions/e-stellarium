@@ -227,18 +227,27 @@ describe("jugar un desafío", () => {
     expect(res.status).toBe(409);
   });
 
-  it("responder corrige, da XP, anota la respuesta y mantiene la racha", async () => {
+  it("responder corrige, da XP y destellos, anota la respuesta y mantiene la racha", async () => {
     const { agent, user, id, body } = await started();
 
     const res = await agent.post(`/challenges/${id}/answer`).send({ position: 1, response: right(body.current) });
     expect(res.status).toBe(200);
-    expect(res.body).toMatchObject({ correct: true, timedOut: false, xpGained: 5, finished: false, explanation: "2 + 2 es 4." });
+    expect(res.body).toMatchObject({
+      correct: true,
+      timedOut: false,
+      xpGained: 5,
+      glintsGained: 3,
+      glints: 3,
+      newBadges: [],
+      finished: false,
+      explanation: "2 + 2 es 4.",
+    });
     // Las preguntas de prueba no tienen módulo: no hay dónde aprenderlo
     expect(res.body.learnAt).toBeNull();
 
     expect(await Answer.count({ where: { userId: user.id, context: "challenge" } })).toBe(1);
     expect(await DailyActivity.count({ where: { userId: user.id } })).toBe(1);
-    expect((await User.findByPk(user.id))!.totalXp).toBe(5);
+    expect(await User.findByPk(user.id)).toMatchObject({ totalXp: 5, glints: 3 });
 
     // No se responde dos veces, ni una que todavía no le tocó
     const again = await agent.post(`/challenges/${id}/answer`).send({ position: 1, response: right(body.current) });
@@ -283,7 +292,7 @@ describe("jugar un desafío", () => {
     await row!.update({ deadlineAt: new Date(Date.now() - 10_000) });
 
     const res = await agent.post(`/challenges/${id}/answer`).send({ position: 1, response: { choice: 0 } });
-    expect(res.body).toMatchObject({ correct: false, timedOut: true, xpGained: 0 });
+    expect(res.body).toMatchObject({ correct: false, timedOut: true, xpGained: 0, glintsGained: 0 });
     expect(await Answer.count()).toBe(0);
   });
 
@@ -297,7 +306,9 @@ describe("jugar un desafío", () => {
       last = (await agent.post(`/challenges/${id}/answer`).send({ position: step.position, response })).body;
     }
 
-    expect(last).toMatchObject({ finished: true, xpGained: 20 });
+    expect(last).toMatchObject({ finished: true, xpGained: 20, glintsGained: 10, glints: 7 * 3 + 10 });
+    expect(last.result).toMatchObject({ glintsGained: 7 * 3 + 10 });
+    expect((await User.findByPk(user.id))!.glints).toBe(31);
     expect(last.result).toMatchObject({
       correctCount: 7,
       total: 10,

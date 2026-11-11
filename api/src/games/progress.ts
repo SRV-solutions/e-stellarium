@@ -55,13 +55,13 @@ export async function recordStarAnswer({ userId, questionId, starId, correct, re
     if (!user) throw new Error("El usuario no existe");
 
     await Answer.create({ userId, questionId, context: "star", correct, response }, { transaction: t });
-    await recordActivity(user, new Date(), t);
+    const { newBadges } = await recordActivity(user, new Date(), t);
 
     // xpGained es el total; starXp, la parte de ese total que se dio por encender la estrella
     let xpGained = 0;
     let starXp = 0;
     let starCompleted = false;
-    if (!correct) return { xpGained, starXp, starCompleted };
+    if (!correct) return { xpGained, starXp, starCompleted, newBadges };
 
     xpGained += await awardXp(user, "question_correct", questionId, XP.questionCorrect, t);
 
@@ -77,6 +77,6 @@ export async function recordStarAnswer({ userId, questionId, starId, correct, re
       }
     }
 
-    return { xpGained, starXp, starCompleted };
+    return { xpGained, starXp, starCompleted, newBadges };
   });
 }

@@ -20,6 +20,7 @@ import { advanceClock } from "./clock.js";
 import { SECONDS_PER_TYPE } from "./exam.js";
 import { grade, InvalidResponseError } from "./grade.js";
 import { present, type StudentQuestion } from "./present.js";
+import { awardGlints, GLINTS, type NewBadge } from "./glints.js";
 import { awardXp, XP } from "./progress.js";
 
 type Row = ChallengeAttemptQuestion & { Question: Question };
@@ -38,6 +39,7 @@ export type ChallengeResult = {
   correctCount: number;
   total: number;
   xpGained: number;
+  glintsGained: number; // los destellos del desafío (sin contar insignias)
   results: { part: ChallengePart; correct: boolean }[];
   recommendation: Course | null; // el curso de "Explorá", para recomendarlo al final
 };
@@ -165,16 +167,19 @@ function result(attempt: ChallengeAttempt, rows: Row[], explore: Course | null):
     correctCount,
     total: rows.length,
     xpGained: correctCount * XP.challengeCorrect + XP.challengeCompleted,
+    glintsGained: correctCount * GLINTS.challengeCorrect + GLINTS.challengeCompleted,
     results: rows.map((r) => ({ part: r.part, correct: r.correct === true })),
     recommendation: explore,
   };
 }
 
-// Cierra el intento y da la experiencia por terminarlo
+// Cierra el intento y da la experiencia y los destellos por terminarlo. Devuelve cuánto dio de cada uno
 async function finish(user: User, attempt: ChallengeAttempt, rows: Row[], now: Date, t: Transaction) {
   const correctCount = rows.filter((r) => r.correct).length;
   await attempt.update({ finishedAt: now, correctCount }, { transaction: t });
-  await awardXp(user, "challenge_completed", attempt.id, XP.challengeCompleted, t);
+  const xp = await awardXp(user, "challenge_completed", attempt.id, XP.challengeCompleted, t);
+  const glints = await awardGlints(user, "challenge_completed", attempt.id, GLINTS.challengeCompleted, t);
+  return { xp, glints };
 }
 
 async function lockUser(userId: string, t: Transaction) {
@@ -300,6 +305,9 @@ export type ChallengeVerdict = {
   explanation: string;
   learnAt: LearnAt | null; // para mostrar dónde se aprende, sobre todo si no la supo
   xpGained: number; // por esta respuesta y, si era la última, por terminar el desafío
+  glintsGained: number; // lo mismo, en destellos, más los de una insignia nueva
+  glints: number; // el saldo después de esta respuesta
+  newBadges: NewBadge[]; // las insignias de racha que ganó con esta respuesta
   finished: boolean;
   result: ChallengeResult | null;
 };
@@ -325,10 +333,11 @@ export async function answerChallenge(
     if (row.answeredAt) throw new HttpError(409, "Ya respondiste esta pregunta.");
 
     const current = await advanceClock(rows, now, t);
-    await recordActivity(user, now, t);
+    const { newBadges } = await recordActivity(user, now, t);
 
-    let verdict: Omit<ChallengeVerdict, "xpGained" | "finished" | "result" | "learnAt">;
+    let verdict: Pick<ChallengeVerdict, "correct" | "timedOut" | "solution" | "output" | "explanation">;
     let xpGained = 0;
+    let glintsGained = newBadges.reduce((sum, b) => sum + b.glints, 0);
 
     if (current?.position === position) {
       const question = (await Question.scope("withAnswer").findByPk(row.questionId, { transaction: t }))!;
@@ -344,7 +353,10 @@ export async function answerChallenge(
         { transaction: t }
       );
       await row.update({ correct: graded.correct, response: response as object, answeredAt: now }, { transaction: t });
-      if (graded.correct) xpGained += await awardXp(user, "challenge_correct", row.id, XP.challengeCorrect, t);
+      if (graded.correct) {
+        xpGained += await awardXp(user, "challenge_correct", row.id, XP.challengeCorrect, t);
+        glintsGained += await awardGlints(user, "challenge_correct", row.id, GLINTS.challengeCorrect, t);
+      }
       verdict = {
         correct: graded.correct,
         timedOut: false,
@@ -362,14 +374,18 @@ export async function answerChallenge(
 
     const finished = rows.every((r) => r.correct !== null);
     if (finished) {
-      await finish(user, attempt, rows, now, t);
-      xpGained += XP.challengeCompleted;
+      const gained = await finish(user, attempt, rows, now, t);
+      xpGained += gained.xp;
+      glintsGained += gained.glints;
     }
 
     return {
       ...verdict,
       learnAt: await learnAt(userId, row.Question, t),
       xpGained,
+      glintsGained,
+      glints: user.glints,
+      newBadges,
       finished,
       result: finished ? result(attempt, rows, await courseOf(rows, "explore", t)) : null,
     };

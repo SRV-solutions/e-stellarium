@@ -5,6 +5,7 @@ import { Answer, DailyReview, DailyReviewQuestion, Question, User } from "../mod
 import { recordActivity } from "./activity.js";
 import { grade, InvalidResponseError } from "./grade.js";
 import { present, type StudentQuestion } from "./present.js";
+import { awardGlints, GLINTS } from "./glints.js";
 import { awardXp, XP } from "./progress.js";
 import { argentinaDay } from "./streak.js";
 
@@ -139,11 +140,12 @@ export async function answerReview(
       { transaction: t }
     );
     await row.update({ correct: result.correct, answeredAt: now }, { transaction: t });
-    await recordActivity(user, now, t);
+    const { newBadges } = await recordActivity(user, now, t);
 
     // xpGained es el total; reviewXp, la parte que fue por terminar el repaso
     let xpGained = 0;
     let reviewXp = 0;
+    let glintsGained = newBadges.reduce((sum, b) => sum + b.glints, 0);
     if (result.correct) xpGained += await awardXp(user, "review_correct", row.id, XP.reviewCorrect, t);
 
     const finished = rows.every((r) => r.correct !== null);
@@ -151,6 +153,7 @@ export async function answerReview(
       await review.update({ finishedAt: now }, { transaction: t });
       reviewXp = await awardXp(user, "review_completed", review.id, XP.reviewCompleted, t);
       xpGained += reviewXp;
+      glintsGained += await awardGlints(user, "review_completed", review.id, GLINTS.reviewCompleted, t);
     }
 
     return {
@@ -160,6 +163,9 @@ export async function answerReview(
       explanation: question.explanation,
       xpGained,
       reviewXp,
+      glintsGained, // los del repaso y los de una insignia nueva
+      glints: user.glints, // el saldo después de esta respuesta
+      newBadges,
       finished,
       correctCount: rows.filter((r) => r.correct).length,
       total: rows.length,
