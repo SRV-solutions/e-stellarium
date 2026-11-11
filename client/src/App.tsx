@@ -10,6 +10,7 @@ import { ConstellationPage } from "./pages/ConstellationPage/ConstellationPage";
 import { GamePage } from "./pages/GamePage/GamePage";
 import { ExamPage } from "./pages/ExamPage/ExamPage";
 import { ReviewPage } from "./pages/ReviewPage/ReviewPage";
+import { PracticePage } from "./pages/PracticePage/PracticePage";
 import { ChallengesPage } from "./pages/ChallengesPage/ChallengesPage";
 
 export default function App() {
@@ -49,6 +50,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <ExamPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/exams/:starId/practice"
+            element={
+              <ProtectedRoute>
+                <PracticePage />
               </ProtectedRoute>
             }
           />

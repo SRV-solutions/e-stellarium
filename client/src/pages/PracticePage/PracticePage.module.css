@@ -1,0 +1,99 @@
+/* Donde en las estrellas va el XP: la práctica no da, y no tiene reloj */
+.free {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.kicker {
+  font-weight: 600;
+  color: #ffd38a;
+}
+
+/* El final */
+.done {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 40px 24px;
+  text-align: center;
+  background:
+    radial-gradient(60% 40% at 50% -5%, rgba(255, 153, 0, 0.14), transparent 70%),
+    #050d24;
+}
+
+.inner {
+  max-width: 480px;
+}
+
+.omega {
+  font-family: var(--greek);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 110px;
+  line-height: 0.9;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--orange);
+}
+
+.doneKicker {
+  margin: 10px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.title {
+  margin: 6px 0 0;
+  font-size: clamp(36px, 6vw, 52px);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.score {
+  margin: 16px 0 0;
+  font-size: 18px;
+  color: var(--muted);
+}
+
+.score b {
+  color: var(--text);
+}
+
+.hint {
+  margin: 8px auto 0;
+  max-width: 40ch;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.go {
+  composes: go from "../GamePage/GamePage.module.css";
+}
+
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  padding: 16px 26px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  transition: border-color 0.15s;
+}
+
+.ghost:hover {
+  border-color: var(--muted);
+}

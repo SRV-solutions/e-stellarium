@@ -41,8 +41,8 @@ export type ExamState =
   | { status: "retry_wait"; opensAt: string; lastCorrect: number; attemptId: string } // no aprobó, faltan los 2 días
   | { status: "passed"; correctCount: number; attemptId: string };
 
-// couponPercent: el descuento que ganaría si aprueba ahora
-export type ExamSummary = ExamState & { couponPercent: number };
+// couponPercent: el descuento que ganaría si aprueba ahora; practiceCount: cuántas preguntas hay para practicar
+export type ExamSummary = ExamState & { couponPercent: number; practiceCount: number };
 
 export type Constellation = {
   id: string;
@@ -177,6 +177,12 @@ export type Review = {
   correctCount: number;
   questions: { position: number; answered: boolean; correct: boolean | null; question: ExamQuestion }[];
 };
+
+// POST /exams/:starId/practice: la práctica del examen aprobado
+export type Practice = { practiceId: string; questions: ExamQuestion[] };
+
+// POST /exams/:starId/practice/answer: sin XP; la racha, por si era lo primero del día
+export type PracticeAnswer = Pick<AnswerResult, "correct" | "solution" | "output" | "explanation"> & { streak: number };
 
 // POST /reviews/:id/answer
 export type ReviewAnswer = Omit<AnswerResult, "starXp" | "starCompleted"> & {

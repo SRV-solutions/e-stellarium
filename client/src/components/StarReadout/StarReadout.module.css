@@ -169,6 +169,27 @@
   box-shadow: none;
 }
 
+/* Practicar, con el examen aprobado: sin relleno, con el borde naranja */
+.practice {
+  background: none;
+  box-shadow: inset 0 0 0 1.5px rgba(255, 153, 0, 0.6);
+}
+
+.practice:hover {
+  background: none;
+  box-shadow: inset 0 0 0 1.5px var(--orange);
+}
+
+.cta .practiceIcon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--orange);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .action {
   display: grid;
   gap: 8px;

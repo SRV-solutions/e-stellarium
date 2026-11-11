@@ -18,6 +18,18 @@ const STATUS_TEXT: Record<ExamSummary["status"], string> = {
   passed: "aprobado",
 };
 
+const PASSED_DESCRIPTION =
+  "Ya lo aprobaste. Podés practicar con preguntas de todo el curso, sin reloj: no da cupón ni XP, pero cuenta para tu racha.";
+
+// Dos flechas en círculo: practicar otra vez
+function PracticeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={styles.practiceIcon}>
+      <path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.7M20 4v4.7h-4.7M20 12a8 8 0 0 1-13.7 5.6L4 15.3M4 20v-4.7h4.7" />
+    </svg>
+  );
+}
+
 function StarIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -87,11 +99,16 @@ export function ExamReadout({ star, index, previous, onOpen }: Props) {
   } else {
     action = (
       <>
-        <button type="button" className={`${styles.cta} ${styles.ghost}`} onClick={go}>
-          Ver el resultado
+        <button
+          type="button"
+          className={`${styles.cta} ${styles.practice}`}
+          onClick={() => navigate(`/exams/${star.id}/practice`)}
+        >
+          <PracticeIcon />
+          Practicar
         </button>
         <p className={styles.toHome}>
-          Tu cupón está en <Link to="/">el inicio</Link>.
+          <Link to={`/exams/${star.id}`}>Ver tu resultado</Link> · Tu cupón está en <Link to="/">el inicio</Link>.
         </p>
       </>
     );
@@ -110,23 +127,38 @@ export function ExamReadout({ star, index, previous, onOpen }: Props) {
             </span>
           </p>
           <h2 className={styles.name}>{star.title}</h2>
-          <p className={styles.description}>{star.description ?? DEFAULT_DESCRIPTION}</p>
+          <p className={styles.description}>
+            {exam.status === "passed" ? PASSED_DESCRIPTION : (star.description ?? DEFAULT_DESCRIPTION)}
+          </p>
         </div>
 
-        <div className={styles.figures}>
-          <div>
-            <b>10</b>
-            preguntas
+        {exam.status === "passed" ? (
+          <div className={styles.figures}>
+            <div>
+              <b>{exam.correctCount} de 10</b>
+              tu examen
+            </div>
+            <div>
+              <b>{exam.practiceCount}</b>
+              preguntas para practicar
+            </div>
           </div>
-          <div>
-            <b>7</b>
-            para aprobar
+        ) : (
+          <div className={styles.figures}>
+            <div>
+              <b>10</b>
+              preguntas
+            </div>
+            <div>
+              <b>7</b>
+              para aprobar
+            </div>
+            <div className={styles.gain}>
+              <b>{exam.couponPercent} %</b>
+              de descuento
+            </div>
           </div>
-          <div className={styles.gain}>
-            <b>{exam.couponPercent} %</b>
-            de descuento
-          </div>
-        </div>
+        )}
 
         <div className={styles.action}>{action}</div>
       </div>
