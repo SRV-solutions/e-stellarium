@@ -30,7 +30,8 @@ export function SetPasswordPage() {
   const { setPassword } = useAuth();
   const navigate = useNavigate();
 
-  const [status, setStatus] = useState<Status>("checking");
+  // Sin token en el link, ni hace falta preguntarle a la API
+  const [status, setStatus] = useState<Status>(token ? "checking" : "invalid");
   const [type, setType] = useState<TokenType>("set_password");
   const [password, setPasswordValue] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -40,10 +41,7 @@ export function SetPasswordPage() {
 
   // Al cargar, verificamos el link antes de mostrar el formulario
   useEffect(() => {
-    if (!token) {
-      setStatus("invalid");
-      return;
-    }
+    if (!token) return;
     api<{ type: TokenType }>(`/auth/password/check?token=${encodeURIComponent(token)}`)
       .then((data) => {
         setType(data.type);

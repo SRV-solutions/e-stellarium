@@ -7,20 +7,22 @@ type State =
   | { status: "error"; message: string }
   | { status: "ready"; play: StarPlay };
 
+// Lo que respondió la API, anotado con la estrella que se pidió
+type Loaded = Exclude<State, { status: "loading" }> & { starId: string };
+
 export function useStar(starId: string | undefined) {
-  const [state, setState] = useState<State>({ status: "loading" });
+  const [loaded, setLoaded] = useState<Loaded | null>(null);
 
   useEffect(() => {
     if (!starId) return;
     let cancelled = false;
-    setState({ status: "loading" });
 
     api<StarPlay>(`/stars/${starId}`)
-      .then((play) => !cancelled && setState({ status: "ready", play }))
+      .then((play) => !cancelled && setLoaded({ starId, status: "ready", play }))
       .catch((err) => {
         if (cancelled) return;
         const message = err instanceof ApiError ? err.message : "No pudimos cargar la estrella.";
-        setState({ status: "error", message });
+        setLoaded({ starId, status: "error", message });
       });
 
     return () => {
@@ -28,5 +30,7 @@ export function useStar(starId: string | undefined) {
     };
   }, [starId]);
 
-  return state;
+  // Si lo guardado es de otra estrella (pasó a la siguiente), todavía está cargando la nueva
+  if (!loaded || loaded.starId !== starId) return { status: "loading" } as State;
+  return loaded as State;
 }
