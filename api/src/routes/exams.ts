@@ -1,11 +1,16 @@
 import { Router } from "express";
-import { Constellation, Coupon, Enrollment, Product, Star } from "../models/index.js";
+import { Constellation, Coupon, Enrollment, Product, Question, Star, User } from "../models/index.js";
+import { sequelize } from "../db.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
 import { HttpError } from "../lib/errors.js";
 import { isUuid } from "../lib/uuid.js";
 import { couponPercent, EXAM_SIZE, PASS_MARK, SECONDS_PER_TYPE } from "../games/exam.js";
 import { getExamState } from "../games/examState.js";
 import { answerQuestion, getProgress, startAttempt } from "../games/examFlow.js";
+import { drawPractice, isPracticeId, newPracticeId, practiceSeed, practiceWhere } from "../games/practice.js";
+import { present } from "../games/present.js";
+import { grade, InvalidResponseError } from "../games/grade.js";
+import { recordActivity } from "../games/activity.js";
 
 export const examsRouter = Router();
 
@@ -90,4 +95,64 @@ examsRouter.post("/exam-attempts/:id/answer", requireAuth, async (req, res) => {
   if (!Number.isInteger(position)) throw new HttpError(400, "Falta la posición de la pregunta.");
 
   res.json(await answerQuestion(req.user!.id, id, position, response));
+});
+
+// ---- La práctica, una vez aprobado ----
+
+// El examen, solo si ya lo aprobó
+async function findPassedExam(userId: string, id: string) {
+  const star = await findExam(userId, id);
+  const state = await getExamState(userId, star);
+  if (state.status !== "passed") throw new HttpError(403, "La práctica se abre cuando aprobás el examen.");
+  return star;
+}
+
+// Arma una práctica nueva: otras 10 preguntas del curso cada vez
+examsRouter.post("/exams/:starId/practice", requireAuth, async (req, res) => {
+  const userId = req.user!.id;
+  const star = await findPassedExam(userId, req.params.starId as string);
+
+  const practiceId = newPracticeId();
+  const questions = await drawPractice(star.Constellation!.productId, practiceId);
+  res.status(201).json({
+    practiceId,
+    questions: questions.map((q) => present(q, practiceSeed(userId, practiceId, q.id))),
+  });
+});
+
+// Corrige una pregunta de la práctica. No da XP ni guarda la respuesta: solo anota la actividad del día
+examsRouter.post("/exams/:starId/practice/answer", requireAuth, async (req, res) => {
+  const userId = req.user!.id;
+  const star = await findPassedExam(userId, req.params.starId as string);
+
+  const { practiceId, questionId, response } = req.body ?? {};
+  if (!isPracticeId(practiceId) || !isUuid(questionId)) throw new HttpError(400, "Faltan datos de la práctica.");
+
+  // Tiene que ser una pregunta de práctica de este curso: así no se puede pedir la respuesta de una del banco
+  const question = await Question.scope("withAnswer").findOne({
+    where: { id: questionId, ...practiceWhere(star.Constellation!.productId) },
+  });
+  if (!question) throw new HttpError(404, "No encontramos esa pregunta.");
+
+  let result;
+  try {
+    result = grade(question, practiceSeed(userId, practiceId, question.id), response);
+  } catch (err) {
+    if (err instanceof InvalidResponseError) throw new HttpError(400, "La respuesta no tiene un formato válido.");
+    throw err;
+  }
+
+  const streak = await sequelize.transaction(async (t) => {
+    const user = await User.findByPk(userId, { lock: t.LOCK.UPDATE, transaction: t });
+    await recordActivity(user!, new Date(), t);
+    return user!.streak;
+  });
+
+  res.json({
+    correct: result.correct,
+    solution: result.solution,
+    output: result.output,
+    explanation: question.explanation,
+    streak,
+  });
 });

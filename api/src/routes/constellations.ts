@@ -6,6 +6,7 @@ import { computeExamState } from "../games/examState.js";
 import { couponPercent } from "../games/exam.js";
 import { sequelize } from "../db.js";
 import { starLetters } from "../games/starLetter.js";
+import { practiceWhere } from "../games/practice.js";
 
 export const constellationsRouter = Router();
 
@@ -54,6 +55,15 @@ constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
         })) as unknown as { starId: string; count: string }[]);
   const questionCount = new Map(counts.map((c) => [c.starId, Number(c.count)]));
 
+  // Cuántas preguntas hay para practicar en cada curso, una vez aprobado el examen
+  const practiceCounts = (await Question.findAll({
+    attributes: ["productId", [sequelize.fn("COUNT", sequelize.col("id")), "count"]],
+    where: practiceWhere(productIds),
+    group: ["product_id"],
+    raw: true,
+  })) as unknown as { productId: string; count: string }[];
+  const practiceCount = new Map(practiceCounts.map((c) => [c.productId, Number(c.count)]));
+
   res.json({
     constellations: constellations.map((constellation) => {
       const stars = constellation.Stars ?? [];
@@ -89,6 +99,7 @@ constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
                 attempts.filter((a) => a.starId === star.id)
               ),
               couponPercent: nextCouponPercent,
+              practiceCount: practiceCount.get(constellation.productId) ?? 0,
             },
           }),
         })),
