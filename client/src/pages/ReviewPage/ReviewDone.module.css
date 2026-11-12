@@ -61,3 +61,18 @@
   margin-top: 30px;
   text-decoration: none;
 }
+
+.glints {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 6px 0 0;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.glints b {
+  font-weight: 800;
+  color: var(--glint);
+}

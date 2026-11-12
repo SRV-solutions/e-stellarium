@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from "react";
+import { Glint } from "../../../components/Glint/Glint";
 import type { AnswerResult } from "../../../types";
 import styles from "./Verdict.module.css";
 
@@ -7,9 +8,10 @@ type Props = {
   onNext: () => void;
   missTitle?: string; // el título si no acertó
   hint?: ReactNode; // una línea más debajo de la explicación (en los desafíos: dónde se aprende)
+  glints?: number; // los destellos que dio esta pregunta (en los desafíos)
 };
 
-export function Verdict({ result, onNext, missTitle = "Casi. Esta va a tu repaso", hint }: Props) {
+export function Verdict({ result, onNext, missTitle = "Casi. Esta va a tu repaso", hint, glints = 0 }: Props) {
   const button = useRef<HTMLButtonElement>(null);
 
   // Al aparecer, el foco va a "Continuar": con Enter se sigue, sin buscar el botón
@@ -37,7 +39,14 @@ export function Verdict({ result, onNext, missTitle = "Casi. Esta va a tu repaso
           )}
         </div>
         <div className={styles.text}>
-          <strong>{title}</strong>
+          <strong>
+            {title}
+            {result.correct && glints > 0 && (
+              <span className={styles.glints}>
+                <Glint />+{glints} destellos
+              </span>
+            )}
+          </strong>
           <p>{result.explanation}</p>
           {hint && <p className={styles.hint}>{hint}</p>}
         </div>

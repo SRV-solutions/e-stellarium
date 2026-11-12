@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../auth/useAuth";
 import { api, ApiError } from "../../lib/api";
 import { XP_PER_CHALLENGE } from "../../lib/xp";
+import { badgeGlints, GLINTS } from "../../lib/glints";
 import { MiniConstellation, type StepResult } from "../../components/MiniConstellation/MiniConstellation";
 import { ConfirmDialog } from "../../components/ConfirmDialog/ConfirmDialog";
 import { ChoiceGame } from "../GamePage/games/ChoiceGame";
@@ -212,6 +213,10 @@ export function ChallengeRun({ view, title, onFinished, onLeave }: Props) {
           onNext={next}
           missTitle={verdict!.timedOut ? "Se terminó el tiempo" : "Casi. Puede volver en otro desafío"}
           hint={hint}
+          // Solo los de esta pregunta: lo de terminarlo va en la pantalla final, y las insignias en su aviso
+          glints={
+            verdict!.glintsGained - (verdict!.finished ? GLINTS.challengeCompleted : 0) - badgeGlints(verdict!.newBadges)
+          }
         />
       ) : timeUp ? (
         // Se acabó el tiempo antes de responder: cuenta como mal

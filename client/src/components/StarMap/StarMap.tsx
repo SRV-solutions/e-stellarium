@@ -147,7 +147,8 @@ export function StarMap({ courseKey, stars, selectedId, onSelect }: Props) {
           y2={spots[lastOpen]!.y}
         >
           <stop offset="0" stopColor="#ffffff" />
-          <stop offset="1" stopColor="#5aa9ff" />
+          {/* El color del trazo que compró en la tienda (el azul, si no eligió otro) */}
+          <stop offset="1" style={{ stopColor: "var(--trail)" }} />
         </linearGradient>
       </defs>
 

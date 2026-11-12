@@ -38,6 +38,21 @@
   color: var(--orange);
 }
 
+.glintLine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 6px 0 0;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.glintLine b {
+  font-weight: 800;
+  color: var(--glint);
+}
+
 .route {
   display: flex;
   justify-content: center;

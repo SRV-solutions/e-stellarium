@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
 import { api } from "../lib/api";
+import { applyTrail } from "../lib/trail";
 import { BadgeEarned } from "../components/BadgeEarned/BadgeEarned";
 import type { NewBadge, Stats, User, Worn } from "../types";
 
@@ -25,6 +26,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (userId) refreshStats();
   }, [userId, refreshStats]);
+
+  // El color del trazo que lleva puesto se aplica a toda la página
+  const wornColor = user?.wornColor ?? null;
+  useEffect(() => {
+    applyTrail(wornColor);
+  }, [wornColor]);
 
   // Al abrir la app, preguntamos si ya hay una sesión activa
   useEffect(() => {

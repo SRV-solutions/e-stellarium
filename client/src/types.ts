@@ -227,6 +227,7 @@ export type ChallengeResult = {
   correctCount: number;
   total: number;
   xpGained: number;
+  glintsGained: number; // los destellos del desafío (sin las insignias)
   results: { part: ChallengePart; correct: boolean }[];
   recommendation: { key: string; name: string } | null;
 };
@@ -272,7 +273,8 @@ export type Ranking = {
   period: "week" | "all";
   startsAt: string | null;
   endsAt: string | null;
-  top: { position: number; alias: string; xp: number; me: boolean }[];
+  // frame: el marco que lleva puesto; title: su título, ya con la forma que eligió
+  top: { position: number; alias: string; xp: number; me: boolean; frame: string | null; title: string | null }[];
   me: { position: number | null; xp: number } | null;
 };
 

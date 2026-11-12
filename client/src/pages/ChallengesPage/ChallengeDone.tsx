@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { Glint } from "../../components/Glint/Glint";
 import { useAnimatedNumber } from "../../hooks/useAnimatedNumber";
 import { XP_PER_CHALLENGE, XP_PER_CHALLENGE_ANSWER } from "../../lib/xp";
 import type { ChallengeResult } from "../../types";
@@ -28,6 +29,12 @@ export function ChallengeDone({ result, title, discover, onRanking }: Props) {
         <b>+{result.xpGained} XP</b> · {result.correctCount * XP_PER_CHALLENGE_ANSWER} por aciertos y {XP_PER_CHALLENGE}{" "}
         por terminarlo
       </p>
+      {result.glintsGained > 0 && (
+        <p className={styles.glintLine}>
+          <Glint />
+          <b>+{result.glintsGained}</b> destellos para la tienda
+        </p>
+      )}
       <div className={styles.route}>
         <ChallengeRoute questions={result.results} explore={result.recommendation?.name ?? null} discover={discover} />
       </div>

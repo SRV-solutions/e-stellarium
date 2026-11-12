@@ -87,6 +87,20 @@
   color: #3fe0a2;
 }
 
+/* Los destellos, al lado del XP, en su celeste */
+.glints {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 12px;
+  color: var(--glint);
+}
+
+.glints svg {
+  width: 0.75em;
+  height: 0.75em;
+}
+
 .wrong strong {
   color: #ffc266;
 }

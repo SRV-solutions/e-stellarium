@@ -13,5 +13,10 @@ export const STREAK_BADGES = [
   { days: 100, name: "Gran cometa", glints: 200 },
 ];
 
+// Los destellos que dieron las insignias de una respuesta. Se restan de glintsGained al mostrar
+// lo de la pregunta, porque las insignias ya tienen su propio aviso
+export const badgeGlints = (badges: { glints: number }[] | undefined) =>
+  (badges ?? []).reduce((sum, b) => sum + b.glints, 0);
+
 // "1.180": los destellos con punto de miles, como se escriben en Argentina
 export const formatGlints = (n: number) => n.toLocaleString("es-AR");

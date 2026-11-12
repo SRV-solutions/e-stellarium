@@ -1,3 +1,5 @@
+import { useAuth } from "../../auth/useAuth";
+import { Avatar } from "../../components/Avatar/Avatar";
 import type { Ranking } from "../../types";
 import styles from "./RankingBoard.module.css";
 
@@ -51,6 +53,7 @@ const xp = (n: number) => n.toLocaleString("es-AR");
 
 // Las más brillantes: el ranking de la semana o de siempre, con tu fila apuntada con la mira
 export function RankingBoard({ ranking, period, onPeriod }: Props) {
+  const { user } = useAuth();
   const top = ranking?.top ?? [];
   const me = ranking?.me ?? null;
   const outside = me && me.position !== null && me.position > top.length;
@@ -109,7 +112,11 @@ export function RankingBoard({ ranking, period, onPeriod }: Props) {
               <span className={styles.mag}>
                 <Magnitude position={e.position} />
               </span>
-              <span className={styles.who}>{e.me ? `${e.alias} (vos)` : e.alias}</span>
+              <Avatar alias={e.alias} frame={e.frame} size={30} />
+              <span className={styles.who}>
+                <span className={styles.alias}>{e.me ? `${e.alias} (vos)` : e.alias}</span>
+                {e.title && <small className={styles.title}>{e.title}</small>}
+              </span>
               <span className={styles.xp}>
                 {xp(e.xp)} <small>XP</small>
               </span>
@@ -125,7 +132,10 @@ export function RankingBoard({ ranking, period, onPeriod }: Props) {
                 <span className={styles.mag}>
                   <Magnitude position={me.position!} />
                 </span>
-                <span className={styles.who}>Vos</span>
+                <Avatar alias={user?.alias ?? ""} frame={user?.wornFrame ?? null} size={30} />
+                <span className={styles.who}>
+                  <span className={styles.alias}>Vos</span>
+                </span>
                 <span className={styles.xp}>
                   {xp(me.xp)} <small>XP</small>
                 </span>

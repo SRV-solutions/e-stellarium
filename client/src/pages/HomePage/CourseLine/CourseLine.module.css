@@ -190,8 +190,9 @@ a.title:hover .hint,
   stroke-dasharray: 2 5;
 }
 
+/* El tramo encendido, en el color del trazo que compró (lib/trail.ts) */
 .segmentOn {
-  stroke: rgba(220, 232, 255, 0.8);
+  stroke: var(--trail-line, rgba(220, 232, 255, 0.8));
   stroke-width: 1.8;
 }
 

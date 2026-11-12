@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useAuth } from "../../auth/useAuth";
 import { Comet } from "../../components/Comet/Comet";
+import { Glint } from "../../components/Glint/Glint";
 import styles from "./ReviewDone.module.css";
 
 type Props = {
@@ -9,10 +10,11 @@ type Props = {
   total: number;
   xp: number; // lo que ganó en esta partida (0 si abrió un repaso que ya había terminado)
   streak: number | null; // la racha que devolvió la última respuesta; null si no respondió nada ahora
+  glints: number; // los destellos por terminarlo (0 si ya estaba terminado)
 };
 
 // El final del repaso: cuántas acertó, la experiencia y la racha, con el cometa
-export function ReviewDone({ correctCount, total, xp, streak }: Props) {
+export function ReviewDone({ correctCount, total, xp, streak, glints }: Props) {
   const { stats } = useAuth();
   const days = streak ?? stats?.streak ?? 0;
   const button = useRef<HTMLAnchorElement>(null);
@@ -38,6 +40,12 @@ export function ReviewDone({ correctCount, total, xp, streak }: Props) {
           )}
           .
         </p>
+        {glints > 0 && (
+          <p className={styles.glints}>
+            <Glint />
+            <b>+{glints}</b> destellos para la tienda
+          </p>
+        )}
         {days > 0 && (
           <p className={styles.streak}>
             {days === 1 ? "Empezaste una racha. Volvé mañana para que siga." : `Llevás ${days} días seguidos. Mañana tenés otro repaso.`}

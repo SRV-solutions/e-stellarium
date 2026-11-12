@@ -12,6 +12,7 @@ import { OrderLinesGame } from "../GamePage/games/OrderLinesGame";
 import { Verdict } from "../GamePage/Verdict/Verdict";
 import { KIND } from "../GamePage/kinds";
 import { ReviewDone } from "./ReviewDone";
+import { badgeGlints } from "../../lib/glints";
 import type { AnswerResponse, AnswerResult, Review, ReviewAnswer, StudentQuestion } from "../../types";
 import styles from "../GamePage/GamePage.module.css";
 
@@ -87,6 +88,8 @@ function ReviewGame({ review }: { review: Review }) {
         total={review.total}
         xp={xp}
         streak={last?.streak ?? null}
+        // Los de las insignias ya se mostraron en su aviso
+        glints={last ? last.glintsGained - badgeGlints(last.newBadges) : 0}
       />
     );
   }

@@ -47,7 +47,7 @@
 
 .board li {
   display: grid;
-  grid-template-columns: 28px 44px 1fr auto;
+  grid-template-columns: 28px 44px 30px 1fr auto;
   align-items: center;
   gap: 10px;
   padding: 7px 0;
@@ -87,11 +87,27 @@
 }
 
 .who {
+  min-width: 0;
   font-size: 16px;
   font-weight: 600;
+  line-height: 1.15;
+}
+
+.alias,
+.title {
+  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* El título que compró en la tienda, debajo del alias */
+.title {
+  font-family: var(--greek);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--muted);
 }
 
 .xp {
