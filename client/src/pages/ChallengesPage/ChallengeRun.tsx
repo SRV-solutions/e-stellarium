@@ -42,7 +42,7 @@ type Props = {
 };
 
 export function ChallengeRun({ view, title, onFinished, onLeave }: Props) {
-  const { addXp, noteActivity } = useAuth();
+  const { addXp, setGlints, noteActivity } = useAuth();
   const id = view.challenge.id;
   const [{ step, endAt }, setCurrent] = useState(() => withEnd(view.current));
   const [now, setNow] = useState(() => Date.now());
@@ -111,6 +111,7 @@ export function ChallengeRun({ view, title, onFinished, onLeave }: Props) {
       setVerdict(graded);
       mark(position - 1, graded.correct);
       if (graded.xpGained > 0) addXp(graded.xpGained);
+      setGlints(graded.glints);
       noteActivity(); // si era lo primero del día, la racha cambió
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "No pudimos comprobar tu respuesta. Probá de nuevo.");

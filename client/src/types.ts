@@ -5,6 +5,12 @@ export type User = {
   alias: string;
   role: "student" | "admin";
   totalXp: number;
+  glints: number; // el saldo de destellos, para la tienda
+  // Los cosméticos puestos (ids de la tienda). wornColor vacío = el azul de siempre
+  wornFrame: string | null;
+  wornColor: string | null;
+  wornTitle: string | null;
+  titleVariant: number; // 0 o 1: "Cazadora" o "Cazador"
   createdAt: string;
   updatedAt: string;
 };
@@ -163,10 +169,16 @@ export type ReviewSummary =
 
 export type Stats = {
   streak: number;
-  streakFreezes: number;
+  streakFreezes: number; // los gratis que le quedan este mes
+  boughtFreezes: number; // los comprados en la tienda, que se usan después de los gratis
   activeToday: boolean;
   review: ReviewSummary;
+  glints: number;
+  badges: { days: number; earnedAt: string }[]; // las insignias de racha que ya ganó
 };
+
+// Una insignia que se ganó con esta respuesta, con los destellos que dio
+export type NewBadge = { days: number; earnedAt: string; glints: number };
 
 // GET /review/today
 export type Review = {
@@ -191,6 +203,9 @@ export type ReviewAnswer = Omit<AnswerResult, "starXp" | "starCompleted"> & {
   correctCount: number;
   total: number;
   streak: number;
+  glintsGained: number;
+  glints: number; // el saldo después de responder
+  newBadges: NewBadge[];
 };
 
 // ---------- Desafíos y ranking ----------
@@ -244,6 +259,9 @@ export type ChallengeVerdict = {
     classes: string;
   } | null;
   xpGained: number;
+  glintsGained: number;
+  glints: number; // el saldo después de responder
+  newBadges: NewBadge[];
   finished: boolean;
   result: ChallengeResult | null;
 };

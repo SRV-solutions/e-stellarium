@@ -8,7 +8,7 @@
 }
 
 .inner {
-  max-width: 1180px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 0 24px;
   height: 68px;
@@ -145,19 +145,6 @@
   color: var(--muted);
 }
 
-.avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: var(--night-3);
-  border: 1.5px solid var(--line);
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--orange);
-}
-
 .alias {
   font-weight: 600;
 }
@@ -176,11 +163,37 @@
   color: var(--text);
 }
 
+/* Los destellos: la misma pieza que el nivel y la racha, en celeste. Lleva a la tienda */
+.glints {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--glint);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(5, 13, 36, 0.6);
+  transition: border-color 0.15s;
+}
+
+.glints:hover {
+  border-color: var(--muted);
+}
+
+.glints svg {
+  width: 14px;
+  height: 14px;
+}
+
 /* Nada del encabezado se parte en dos renglones: si no entra, se esconde (abajo, según el ancho) */
 .brand,
 .navLink,
 .level,
 .streak,
+.glints,
 .alias,
 .logout {
   white-space: nowrap;
@@ -192,16 +205,206 @@
   flex-shrink: 0;
 }
 
-@media (max-width: 1100px) {
+
+/* El botón hamburguesa (solo desde 760 px): tres líneas que se cruzan en una X al abrir */
+.burger {
+  display: none;
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(5, 13, 36, 0.6);
+  cursor: pointer;
+}
+
+.burger i {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  height: 1.8px;
+  border-radius: 2px;
+  background: var(--text);
+  transition: transform 0.32s cubic-bezier(0.6, 0.05, 0.3, 1.2), opacity 0.2s, top 0.32s;
+}
+
+.burger i:nth-child(1) { top: 14px; }
+.burger i:nth-child(2) { top: 20px; }
+.burger i:nth-child(3) { top: 26px; }
+
+.burger[aria-expanded="true"] {
+  border-color: var(--orange);
+}
+
+.burger[aria-expanded="true"] i:nth-child(1) {
+  top: 20px;
+  transform: rotate(45deg);
+}
+
+.burger[aria-expanded="true"] i:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0.2);
+}
+
+.burger[aria-expanded="true"] i:nth-child(3) {
+  top: 20px;
+  transform: rotate(-45deg);
+}
+
+/* El menú del celular. Cerrado es un círculo de radio 0 sobre el botón; al abrir, el círculo crece
+   (clip-path) hasta tapar la pantalla, como el diafragma de un telescopio */
+.drawer {
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 20px 28px;
+  overflow-y: auto;
+  background: radial-gradient(80% 50% at 100% 0%, rgba(0, 123, 255, 0.16), transparent 70%), var(--deep);
+  clip-path: circle(0 at calc(100% - 37px) -34px);
+  visibility: hidden;
+  transition: clip-path 0.5s cubic-bezier(0.7, 0, 0.2, 1), visibility 0s 0.5s;
+}
+
+.drawerOpen {
+  clip-path: circle(150% at calc(100% - 37px) -34px);
+  visibility: visible;
+  transition: clip-path 0.55s cubic-bezier(0.7, 0, 0.2, 1), visibility 0s;
+}
+
+/* Las opciones entran escalonadas: cada una espera --i veces 55 ms */
+.drawer > * {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.drawerOpen > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.4s calc(0.12s + var(--i) * 55ms), transform 0.4s calc(0.12s + var(--i) * 55ms) cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.who {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(36, 55, 107, 0.6);
+}
+
+.who strong {
+  display: block;
+  font-size: 19px;
+}
+
+.whoLevel {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.whoLevel b {
+  color: var(--orange);
+  white-space: nowrap;
+}
+
+.balance {
+  margin-left: auto;
+  text-align: right;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+.balance b {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  font-size: 22px;
+  color: var(--glint);
+}
+
+.balance b svg {
+  width: 15px;
+  height: 15px;
+}
+
+.drawerLink {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 15px 4px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  color: var(--muted);
+  border-bottom: 1px solid rgba(36, 55, 107, 0.35);
+}
+
+.drawerLink svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.drawerActive {
+  color: var(--text);
+}
+
+/* La sección actual, apuntada con la mira como la estrella elegida */
+.drawerActive::after {
+  content: "";
+  margin-left: auto;
+  width: 16px;
+  height: 16px;
+  border: 1.4px dashed var(--orange);
+  border-radius: 50%;
+  animation: spin 10s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.drawerOut {
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.drawerOut button {
+  padding: 12px 20px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+/* Los escalones: a medida que se angosta, se esconde lo que no entra */
+@media (max-width: 1300px) {
   .alias {
     display: none;
   }
 }
 
 /* Tablet: el menú solo con íconos y el nivel en el medidor y los XP (el "Nivel 2" se lee al pasar el mouse) */
-@media (max-width: 1080px) {
+@media (max-width: 1180px) {
   .inner {
-    gap: 20px;
+    gap: 16px;
   }
   .navLink span,
   .levelNumber {
@@ -212,77 +415,61 @@
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 860px) {
   .brandName {
     display: none;
   }
 }
 
-/* En el celular: sin la palabra "días" */
-@media (max-width: 600px) {
+/* Celular: el menú, "Salir" y el avatar pasan a la hamburguesa */
+@media (max-width: 760px) {
   .inner {
     padding: 0 16px;
-    gap: 12px;
+    gap: 10px;
+  }
+  .nav,
+  .logout,
+  .avatar {
+    display: none;
+  }
+  .user {
+    gap: 8px;
+  }
+  .burger {
+    display: block;
   }
   .streakDays {
     display: none;
   }
 }
 
-/* Celular angosto: sin el avatar ni el medidor del nivel (son adorno: los XP siguen) y todo más junto */
-@media (max-width: 540px) {
+/* Los más angostos: los destellos y el medidor quedan solo en el menú */
+@media (max-width: 400px) {
+  .glints,
   .gauge {
     display: none;
   }
-  .inner {
-    gap: 8px;
-  }
-  .nav {
-    gap: 0;
-  }
-  .navLink {
-    padding: 8px;
-  }
-  .user {
-    gap: 8px;
-  }
-  .avatar {
-    display: none;
-  }
+  .streak,
   .level {
-    padding: 5px 12px;
-  }
-  .logout {
-    margin-left: 0;
+    padding: 5px 10px;
   }
 }
 
-/* El ícono de "Salir" (una puerta con una flecha): solo en los celulares más angostos, en lugar de la palabra */
-.logout svg {
-  display: none;
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+@media (min-width: 761px) {
+  .drawer {
+    display: none;
+  }
 }
 
-/* Los más angostos: sin el logo (el ícono de Inicio ya lleva al inicio) y "Salir" con el ícono */
-@media (max-width: 440px) {
-  .brand {
-    display: none;
+@media (prefers-reduced-motion: reduce) {
+  .burger i,
+  .drawer,
+  .drawer > *,
+  .drawerOpen,
+  .drawerOpen > * {
+    transition: none;
   }
-  .logout span {
-    display: none;
-  }
-  .logout svg {
-    display: block;
-  }
-}
-@media (max-width: 380px) {
-  .navLink {
-    padding: 6px;
+  .drawerActive::after {
+    animation: none;
   }
 }

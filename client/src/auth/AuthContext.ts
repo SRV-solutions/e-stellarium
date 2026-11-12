@@ -8,6 +8,8 @@ export type AuthState = {
   logout: () => Promise<void>;
   setPassword: (token: string, password: string) => Promise<void>;
   addXp: (xp: number) => void;
+  // El saldo de destellos que acaba de devolver la API (repaso, desafío, tienda)
+  setGlints: (glints: number) => void;
   // La racha y el repaso de hoy (GET /me/stats). null mientras carga
   stats: Stats | null;
   refreshStats: () => void;

@@ -10,7 +10,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refreshStats = useCallback(() => {
     api<Stats>("/me/stats")
-      .then(setStats)
+      .then((data) => {
+        setStats(data);
+        // Trae también el saldo de destellos: una insignia nueva puede haberlo cambiado
+        setUser((previous) => previous && { ...previous, glints: data.glints });
+      })
       .catch(() => {}); // si falla, la racha simplemente no se muestra
   }, []);
 
@@ -55,12 +59,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser((previous) => previous && { ...previous, totalXp: previous.totalXp + xp });
   }
 
+  // Los destellos se reemplazan por el saldo que manda la API (no se suman: así nunca se desfasan)
+  function setGlints(glints: number) {
+    setUser((previous) => previous && { ...previous, glints });
+  }
+
   function noteActivity() {
     if (!stats?.activeToday) refreshStats();
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, setPassword, addXp, stats, refreshStats, noteActivity }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, setPassword, addXp, setGlints, stats, refreshStats, noteActivity }}>
       {children}
     </AuthContext.Provider>
   );

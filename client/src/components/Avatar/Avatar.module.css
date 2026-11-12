@@ -1,0 +1,39 @@
+.avatar {
+  position: relative;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--night-3);
+  border: 1.5px solid var(--line);
+  font-weight: 700;
+  color: var(--orange);
+}
+
+/* 7 px de 34 son el 20,6 %: el marco sobresale lo mismo en proporción, sea cual sea el tamaño */
+.frame {
+  position: absolute;
+  inset: -20.6%;
+  width: 141.2%;
+  height: 141.2%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* La luna de la órbita da una vuelta cada 12 segundos */
+.moon {
+  transform-origin: 24px 24px;
+  animation: orbit 12s linear infinite;
+}
+
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moon {
+    animation: none;
+  }
+}
