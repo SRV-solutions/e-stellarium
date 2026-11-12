@@ -103,10 +103,8 @@
 
 /* El título que compró en la tienda, debajo del alias */
 .title {
-  font-family: var(--greek);
-  font-style: italic;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--muted);
 }
 
