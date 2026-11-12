@@ -102,6 +102,7 @@ export type AnswerResult = {
   xpGained: number;
   starXp: number; // la parte de xpGained que se dio por encender la estrella
   starCompleted: boolean;
+  newBadges: NewBadge[]; // las insignias de racha que ganó con esta respuesta
 };
 
 
@@ -194,7 +195,7 @@ export type Review = {
 export type Practice = { practiceId: string; questions: ExamQuestion[] };
 
 // POST /exams/:starId/practice/answer: sin XP; la racha, por si era lo primero del día
-export type PracticeAnswer = Pick<AnswerResult, "correct" | "solution" | "output" | "explanation"> & { streak: number };
+export type PracticeAnswer = Pick<AnswerResult, "correct" | "solution" | "output" | "explanation"> & { streak: number; newBadges: NewBadge[] };
 
 // POST /reviews/:id/answer
 export type ReviewAnswer = Omit<AnswerResult, "starXp" | "starCompleted"> & {

@@ -1,0 +1,32 @@
+.badge {
+  overflow: visible;
+}
+
+.track {
+  fill: none;
+  stroke: var(--track);
+  stroke-width: 3;
+}
+
+.ring {
+  fill: none;
+  stroke: var(--glint);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+/* Las que faltan: el anillo en un celeste apagado */
+.off .ring {
+  stroke: #5d7fb0;
+}
+
+.days {
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: 10px;
+  fill: var(--text);
+}
+
+.off .days {
+  fill: var(--placeholder);
+}

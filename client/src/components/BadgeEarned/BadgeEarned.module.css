@@ -1,0 +1,91 @@
+.dialog {
+  width: min(400px, calc(100vw - 32px));
+  padding: 28px 28px 26px;
+  text-align: center;
+  color: var(--text);
+  background: var(--night);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+
+.dialog[open] {
+  animation: rise 0.3s ease-out;
+}
+
+.dialog::backdrop {
+  background: rgba(3, 8, 23, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--glint);
+}
+
+.icon {
+  display: block;
+  width: 140px;
+  height: 140px;
+  margin: 4px auto 0;
+}
+
+.dialog h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.dialog p:not(.eyebrow) {
+  margin: 10px 0 0;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.dialog b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.dialog .plus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--glint);
+}
+
+.go {
+  margin-top: 22px;
+  padding: 12px 26px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.go:hover {
+  background: var(--blue-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog[open] {
+    animation: none;
+  }
+}

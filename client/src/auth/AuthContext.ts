@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { Stats, User, Worn } from "../types";
+import type { NewBadge, Stats, User, Worn } from "../types";
 
 export type AuthState = {
   user: User | null;
@@ -12,6 +12,8 @@ export type AuthState = {
   setGlints: (glints: number) => void;
   // Lo que lleva puesto, después de cambiarlo en la tienda
   setWorn: (worn: Worn) => void;
+  // Las insignias que trajo una respuesta: se muestra el aviso después del veredicto
+  announceBadges: (badges: NewBadge[] | undefined) => void;
   // La racha y el repaso de hoy (GET /me/stats). null mientras carga
   stats: Stats | null;
   refreshStats: () => void;

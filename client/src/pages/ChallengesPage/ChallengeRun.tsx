@@ -42,7 +42,7 @@ type Props = {
 };
 
 export function ChallengeRun({ view, title, onFinished, onLeave }: Props) {
-  const { addXp, setGlints, noteActivity } = useAuth();
+  const { addXp, setGlints, noteActivity, announceBadges } = useAuth();
   const id = view.challenge.id;
   const [{ step, endAt }, setCurrent] = useState(() => withEnd(view.current));
   const [now, setNow] = useState(() => Date.now());
@@ -78,6 +78,7 @@ export function ChallengeRun({ view, title, onFinished, onLeave }: Props) {
     xpGained: verdict.xpGained - (verdict.finished ? XP_PER_CHALLENGE : 0),
     starXp: 0,
     starCompleted: false,
+    newBadges: verdict.newBadges,
   };
   // Si se le venció, no hay solución para marcar en el juego
   const gameResult = verdict?.solution ? result : null;
@@ -113,6 +114,7 @@ export function ChallengeRun({ view, title, onFinished, onLeave }: Props) {
       if (graded.xpGained > 0) addXp(graded.xpGained);
       setGlints(graded.glints);
       noteActivity(); // si era lo primero del día, la racha cambió
+      announceBadges(graded.newBadges);
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "No pudimos comprobar tu respuesta. Probá de nuevo.");
     } finally {

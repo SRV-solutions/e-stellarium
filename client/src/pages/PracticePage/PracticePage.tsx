@@ -74,7 +74,7 @@ export function PracticePage() {
 type GameProps = { info: ExamInfo; practice: Practice; onAgain: () => void };
 
 function PracticeGame({ info, practice, onAgain }: GameProps) {
-  const { noteActivity } = useAuth();
+  const { noteActivity, announceBadges } = useAuth();
   const { questions } = practice;
   const [results, setResults] = useState<(StepResult | undefined)[]>(() => questions.map(() => undefined));
   const [step, setStep] = useState(0);
@@ -122,6 +122,7 @@ function PracticeGame({ info, practice, onAgain }: GameProps) {
         setLanding(step);
       });
       noteActivity();
+      announceBadges(graded.newBadges);
       animateVerdict(graded.correct, step);
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "No pudimos comprobar tu respuesta. Probá de nuevo.");

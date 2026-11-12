@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
 import { api } from "../lib/api";
-import type { Stats, User, Worn } from "../types";
+import { BadgeEarned } from "../components/BadgeEarned/BadgeEarned";
+import type { NewBadge, Stats, User, Worn } from "../types";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<Stats | null>(null);
+  const [newBadges, setNewBadges] = useState<NewBadge[]>([]);
 
   const refreshStats = useCallback(() => {
     api<Stats>("/me/stats")
@@ -78,13 +80,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     );
   }
 
+  // El aviso vive acá (y no en cada pantalla) porque la respuesta que da la insignia puede ser la
+  // última: la pantalla pasa al resultado, y el aviso tiene que seguir ahí
+  function announceBadges(badges: NewBadge[] | undefined) {
+    if (badges && badges.length > 0) setNewBadges(badges);
+  }
+
   function noteActivity() {
     if (!stats?.activeToday) refreshStats();
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, setPassword, addXp, setGlints, setWorn, stats, refreshStats, noteActivity }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, setPassword, addXp, setGlints, setWorn, announceBadges, stats, refreshStats, noteActivity }}>
       {children}
+      <BadgeEarned badges={newBadges} onDone={() => setNewBadges([])} />
     </AuthContext.Provider>
   );
 }

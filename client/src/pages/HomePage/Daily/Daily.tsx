@@ -1,5 +1,7 @@
 import { Link } from "react-router";
 import { Comet } from "../../../components/Comet/Comet";
+import { StreakBadge } from "../../../components/StreakBadge/StreakBadge";
+import { STREAK_BADGES } from "../../../lib/glints";
 import { XP_PER_REVIEW, XP_PER_REVIEW_ANSWER } from "../../../lib/xp";
 import type { Stats } from "../../../types";
 import styles from "./Daily.module.css";
@@ -14,8 +16,18 @@ export function Daily({ stats }: { stats: Stats }) {
   );
 }
 
+// El cometa con los días y los protectores y, debajo, las insignias
 function Streak({ stats }: { stats: Stats }) {
-  const { streak, activeToday, streakFreezes } = stats;
+  return (
+    <div>
+      <StreakLine stats={stats} />
+      <Badges stats={stats} />
+    </div>
+  );
+}
+
+function StreakLine({ stats }: { stats: Stats }) {
+  const { streak, activeToday, streakFreezes, boughtFreezes } = stats;
   let say;
   if (streak === 0) say = <p className={`${styles.say} ${styles.sayOff}`}>Jugá algo hoy para empezar una racha nueva.</p>;
   else if (activeToday) say = <p className={`${styles.say} ${styles.sayOk}`}>Hoy ya jugaste. Volvé mañana para que siga.</p>;
@@ -43,9 +55,40 @@ function Streak({ stats }: { stats: Stats }) {
             </svg>
           ))}
           {streakFreezes} {streakFreezes === 1 ? "protector" : "protectores"} este mes
+          {boughtFreezes > 0 && ` y ${boughtFreezes} ${boughtFreezes === 1 ? "comprado" : "comprados"}`}
         </p>
       </div>
     </div>
+  );
+}
+
+const TIME_ZONE = "America/Argentina/Buenos_Aires";
+
+// Las insignias de racha, con un anillo que se llena con los días. Las ganadas quedan para siempre
+function Badges({ stats }: { stats: Stats }) {
+  return (
+    <ul className={styles.badges} aria-label="Insignias de racha">
+      {STREAK_BADGES.map((badge) => {
+        const earned = stats.badges.find((b) => b.days === badge.days);
+        const since =
+          earned &&
+          new Date(earned.earnedAt).toLocaleDateString("es-AR", { day: "numeric", month: "long", timeZone: TIME_ZONE });
+        const missing = badge.days - Math.min(stats.streak, badge.days);
+        return (
+          <li key={badge.days} className={`${styles.badge} ${earned ? "" : styles.badgeOff}`}>
+            <StreakBadge days={badge.days} earned={!!earned} streak={stats.streak} className={styles.badgeIcon} />
+            <span className={styles.badgeName}>
+              {badge.name}
+              <small>
+                {earned
+                  ? `Desde el ${since} · +${badge.glints}`
+                  : `${badge.days} días · faltan ${missing} · +${badge.glints}`}
+              </small>
+            </span>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 

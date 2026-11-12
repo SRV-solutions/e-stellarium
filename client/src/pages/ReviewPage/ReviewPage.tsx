@@ -60,7 +60,7 @@ export function ReviewPage() {
 }
 
 function ReviewGame({ review }: { review: Review }) {
-  const { addXp, setGlints, noteActivity } = useAuth();
+  const { addXp, setGlints, noteActivity, announceBadges } = useAuth();
   const { questions } = review;
   // Lo que ya respondió (si lo dejó a medias) queda marcado; se juegan solo las otras, en orden
   const [results, setResults] = useState<(StepResult | undefined)[]>(() =>
@@ -128,6 +128,7 @@ function ReviewGame({ review }: { review: Review }) {
       if (graded.xpGained > 0) addXp(graded.xpGained);
       setGlints(graded.glints);
       noteActivity();
+      announceBadges(graded.newBadges);
       // Arriba suma solo lo de la pregunta; lo de terminar el repaso se muestra en la pantalla final
       animateVerdict(graded.correct, index, graded.xpGained - graded.reviewXp);
     } catch (err) {
