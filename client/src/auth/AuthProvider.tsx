@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
 import { api } from "../lib/api";
-import type { Stats, User } from "../types";
+import type { Stats, User, Worn } from "../types";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -64,12 +64,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser((previous) => previous && { ...previous, glints });
   }
 
+  // El color "blue" es el de siempre: en el usuario se guarda vacío, como en la base
+  function setWorn(worn: Worn) {
+    setUser(
+      (previous) =>
+        previous && {
+          ...previous,
+          wornFrame: worn.frame,
+          wornColor: worn.color === "blue" ? null : worn.color,
+          wornTitle: worn.title,
+          titleVariant: worn.titleVariant,
+        }
+    );
+  }
+
   function noteActivity() {
     if (!stats?.activeToday) refreshStats();
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, setPassword, addXp, setGlints, stats, refreshStats, noteActivity }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, setPassword, addXp, setGlints, setWorn, stats, refreshStats, noteActivity }}>
       {children}
     </AuthContext.Provider>
   );

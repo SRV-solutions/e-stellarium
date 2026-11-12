@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { Stats, User } from "../types";
+import type { Stats, User, Worn } from "../types";
 
 export type AuthState = {
   user: User | null;
@@ -10,6 +10,8 @@ export type AuthState = {
   addXp: (xp: number) => void;
   // El saldo de destellos que acaba de devolver la API (repaso, desafío, tienda)
   setGlints: (glints: number) => void;
+  // Lo que lleva puesto, después de cambiarlo en la tienda
+  setWorn: (worn: Worn) => void;
   // La racha y el repaso de hoy (GET /me/stats). null mientras carga
   stats: Stats | null;
   refreshStats: () => void;

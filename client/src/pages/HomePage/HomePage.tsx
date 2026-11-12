@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import { useAuth } from "../../auth/useAuth";
 import { useCourses } from "../../hooks/useCourses";
 import { useConstellations } from "../../hooks/useConstellations";
@@ -57,6 +58,14 @@ export function HomePage() {
   useEffect(() => {
     refreshStats();
   }, [refreshStats]);
+
+  // Desde la tienda se llega con "/#mis-cupones": cuando ya están los cursos y sus constelaciones
+  // (que van arriba y cambian el alto), se baja hasta ahí
+  const { hash } = useLocation();
+  const coursesReady = state.status === "ready" && sky.state.status === "ready";
+  useEffect(() => {
+    if (hash === "#mis-cupones" && coursesReady) document.getElementById("mis-cupones")?.scrollIntoView();
+  }, [hash, coursesReady]);
 
   if (!user) return null;
   const level = levelFor(user.totalXp);
@@ -169,7 +178,7 @@ export function HomePage() {
           </div>
         </section>
 
-        <section className={styles.block} aria-labelledby="coupons-title">
+        <section id="mis-cupones" className={styles.block} aria-labelledby="coupons-title">
           <div className={styles.container}>
             <h2 id="coupons-title" className={styles.blockTitle}>Mis cupones</h2>
             <Coupons />

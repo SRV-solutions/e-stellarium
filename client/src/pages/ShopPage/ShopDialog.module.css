@@ -1,0 +1,155 @@
+.dialog {
+  width: min(440px, calc(100vw - 32px));
+  padding: 28px 28px 24px;
+  color: var(--text);
+  background: var(--night);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+
+.dialog[open] {
+  animation: rise 0.25s ease-out;
+}
+
+.dialog::backdrop {
+  background: rgba(3, 8, 23, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.dialog h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.dialog p {
+  margin: 10px 0 0;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.dialog p b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.dialog .error {
+  color: var(--error);
+}
+
+/* La cuenta: tenés, cuesta, te quedan */
+.ledger {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 16px;
+  margin: 18px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid rgba(36, 55, 107, 0.6);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger dt {
+  color: var(--muted);
+}
+
+.ledger dd {
+  margin: 0;
+  text-align: right;
+  font-weight: 700;
+}
+
+.minus {
+  color: var(--coral);
+}
+
+.ledger .total {
+  color: var(--glint);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.ghost,
+.go {
+  padding: 12px 20px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ghost {
+  color: var(--text);
+  background: none;
+  border: 1.5px solid var(--line);
+}
+
+.ghost:hover {
+  border-color: var(--muted);
+}
+
+.go {
+  color: #fff;
+  background: var(--blue);
+  border: 0;
+}
+
+.go:hover {
+  background: var(--blue-hover);
+}
+
+.ghost:disabled,
+.go:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* Canjeado: centrado, con el talón nuevo todavía tapado */
+.got {
+  text-align: center;
+}
+
+.got .actions {
+  justify-content: center;
+}
+
+.newStub {
+  max-width: 330px;
+  margin: 18px auto 0;
+  text-align: left;
+}
+
+.scratch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 30px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1b2a55;
+  background: repeating-linear-gradient(-45deg, #b8c4e6 0 6px, #a7b4dc 6px 12px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog[open] {
+    animation: none;
+  }
+}

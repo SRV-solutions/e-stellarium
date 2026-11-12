@@ -12,6 +12,7 @@ import { ExamPage } from "./pages/ExamPage/ExamPage";
 import { ReviewPage } from "./pages/ReviewPage/ReviewPage";
 import { PracticePage } from "./pages/PracticePage/PracticePage";
 import { ChallengesPage } from "./pages/ChallengesPage/ChallengesPage";
+import { ShopPage } from "./pages/ShopPage/ShopPage";
 
 export default function App() {
   return (
@@ -74,6 +75,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <ChallengesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/shop"
+            element={
+              <ProtectedRoute>
+                <ShopPage />
               </ProtectedRoute>
             }
           />

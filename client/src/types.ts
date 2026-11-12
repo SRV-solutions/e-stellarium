@@ -159,7 +159,7 @@ export type CouponSummary = {
   expiresAt: string;
   usedAt: string | null;
   createdAt: string;
-  course: { key: string; name: string };
+  course: { key: string; name: string } | null; // null: canjeado en la tienda
 };
 
 // GET /me/stats: la racha, los protectores del mes y cómo va el repaso de hoy
@@ -273,4 +273,60 @@ export type Ranking = {
   endsAt: string | null;
   top: { position: number; alias: string; xp: number; me: boolean }[];
   me: { position: number | null; xp: number } | null;
+};
+
+// ---------- La tienda ----------
+
+// Por qué no se puede comprar algo: no alcanzan los destellos, ya compró el cupón de la semana,
+// ya compró los protectores del mes o ya tiene ese cosmético. null: se puede
+export type Blocked = "glints" | "weekly_limit" | "monthly_limit" | "owned" | null;
+
+export type CosmeticKind = "frame" | "color" | "title";
+
+// Lo que lleva puesto (PUT /me/cosmetics lo devuelve igual)
+export type Worn = {
+  frame: string | null;
+  color: string; // "blue" si no eligió otro
+  title: string | null;
+  titleVariant: number;
+  titleText: string | null;
+};
+
+// GET /shop
+export type Shop = {
+  glints: number;
+  coupons: { item: string; percent: number; price: number; missing: number; blockedBy: Blocked }[];
+  couponValidDays: number;
+  couponBoughtThisWeek: boolean;
+  couponAvailableAt: string | null;
+  freeze: {
+    item: string;
+    price: number;
+    missing: number;
+    blockedBy: Blocked;
+    boughtThisMonth: number;
+    monthlyLimit: number;
+    owned: number; // los comprados que todavía no usó
+    availableAt: string | null;
+  };
+  cosmetics: {
+    item: string;
+    kind: CosmeticKind;
+    name: string;
+    note: string;
+    hex: string | null;
+    variants: [string, string] | null;
+    price: number;
+    missing: number;
+    owned: boolean;
+    blockedBy: Blocked;
+  }[];
+  worn: Worn;
+};
+
+// POST /shop/purchases: el cupón, si fue un cupón, y la tienda con el saldo nuevo
+export type Purchase = {
+  item: string;
+  coupon: { code: string; percent: number; expiresAt: string } | null;
+  shop: Shop;
 };

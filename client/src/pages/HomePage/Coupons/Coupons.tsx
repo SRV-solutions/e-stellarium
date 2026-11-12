@@ -128,7 +128,16 @@ function Ticket({ coupon, state, now, index, scratched, onScratched }: TicketPro
 
       <div className={styles.body}>
         <p className={styles.from}>
-          Por aprobar el examen de <b>{coupon.course.name}</b>
+          {/* Los de la tienda no vienen de un curso */}
+          {coupon.course ? (
+            <>
+              Por aprobar el examen de <b>{coupon.course.name}</b>
+            </>
+          ) : (
+            <>
+              Canjeado en la <b>tienda</b>
+            </>
+          )}
         </p>
 
         <div className={styles.code}>
