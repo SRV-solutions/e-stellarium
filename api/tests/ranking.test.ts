@@ -52,9 +52,9 @@ describe("GET /ranking", () => {
     const res = await agent.get("/ranking");
     expect(res.status).toBe(200);
     expect(res.body.top).toEqual([
-      { position: 1, alias: "caro", xp: 50, me: false },
-      { position: 2, alias: "ana", xp: 30, me: false },
-      { position: 3, alias: "beto", xp: 30, me: true },
+      { position: 1, alias: "caro", xp: 50, me: false, frame: null, title: null },
+      { position: 2, alias: "ana", xp: 30, me: false, frame: null, title: null },
+      { position: 3, alias: "beto", xp: 30, me: true, frame: null, title: null },
     ]);
     expect(res.body.me).toEqual({ position: 3, xp: 30 });
 

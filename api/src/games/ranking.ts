@@ -1,6 +1,7 @@
 import { QueryTypes } from "sequelize";
 import { sequelize } from "../db.js";
 import { addDays, argentinaDay } from "./streak.js";
+import { titleText } from "./cosmetics.js";
 
 export const RANKING_SIZE = 10;
 
@@ -17,7 +18,14 @@ export function weekRange(now: Date): { startsAt: Date; endsAt: Date } {
   };
 }
 
-export type RankingEntry = { position: number; alias: string; xp: number; me: boolean };
+export type RankingEntry = {
+  position: number;
+  alias: string;
+  xp: number;
+  me: boolean;
+  frame: string | null; // el marco del avatar que lleva puesto
+  title: string | null; // el título, ya con la forma que eligió
+};
 
 export type Ranking = {
   period: RankingPeriod;
@@ -32,7 +40,15 @@ export type Ranking = {
 export async function getRanking(userId: string, period: RankingPeriod, now = new Date()): Promise<Ranking> {
   const range = period === "week" ? weekRange(now) : null;
 
-  const rows = await sequelize.query<{ id: string; alias: string; xp: number; position: string }>(
+  const rows = await sequelize.query<{
+    id: string;
+    alias: string;
+    xp: number;
+    position: string;
+    worn_frame: string | null;
+    worn_title: string | null;
+    title_variant: number;
+  }>(
     `WITH totals AS (
        SELECT u.id, u.alias, sum(x.xp)::int AS xp, max(x.created_at) AS reached_at
          FROM xp_events x
@@ -44,9 +60,11 @@ export async function getRanking(userId: string, period: RankingPeriod, now = ne
      ), ranked AS (
        SELECT *, row_number() OVER (ORDER BY xp DESC, reached_at ASC, id) AS position FROM totals
      )
-     SELECT id, alias, xp, position FROM ranked
-      WHERE position <= :size OR id = :userId
-      ORDER BY position`,
+     SELECT r.id, r.alias, r.xp, r.position, u.worn_frame, u.worn_title, u.title_variant
+       FROM ranked r
+       JOIN users u ON u.id = r.id
+      WHERE r.position <= :size OR r.id = :userId
+      ORDER BY r.position`,
     {
       replacements: {
         userId,
@@ -58,7 +76,14 @@ export async function getRanking(userId: string, period: RankingPeriod, now = ne
     }
   );
 
-  const entries = rows.map((r) => ({ id: r.id, alias: r.alias, xp: r.xp, position: Number(r.position) }));
+  const entries = rows.map((r) => ({
+    id: r.id,
+    alias: r.alias,
+    xp: r.xp,
+    position: Number(r.position),
+    frame: r.worn_frame,
+    title: titleText(r.worn_title, r.title_variant),
+  }));
   const mine = entries.find((e) => e.id === userId);
   const [user] = await sequelize.query<{ role: string }>("SELECT role FROM users WHERE id = :userId", {
     replacements: { userId },
@@ -71,7 +96,7 @@ export async function getRanking(userId: string, period: RankingPeriod, now = ne
     endsAt: range?.endsAt ?? null,
     top: entries
       .filter((e) => e.position <= RANKING_SIZE)
-      .map((e) => ({ position: e.position, alias: e.alias, xp: e.xp, me: e.id === userId })),
+      .map((e) => ({ position: e.position, alias: e.alias, xp: e.xp, me: e.id === userId, frame: e.frame, title: e.title })),
     me: user?.role === "student" ? { position: mine?.position ?? null, xp: mine?.xp ?? 0 } : null,
   };
 }

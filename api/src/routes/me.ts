@@ -3,6 +3,8 @@ import { requireAuth } from "../middlewares/requireAuth.js";
 import { argentinaDay, currentStreak } from "../games/streak.js";
 import { todayReviewSummary } from "../games/review.js";
 import { badgesOf } from "../games/glints.js";
+import { wear, type CosmeticKind } from "../games/cosmetics.js";
+import { HttpError } from "../lib/errors.js";
 
 export const meRouter = Router();
 
@@ -22,4 +24,13 @@ meRouter.get("/me/stats", requireAuth, async (req, res) => {
     glints: user.glints,
     badges: await badgesOf(user.id),
   });
+});
+
+// Se pone un cosmético que ya compró (o se saca, con id null). Devuelve lo que lleva puesto
+meRouter.put("/me/cosmetics", requireAuth, async (req, res) => {
+  const { kind, id, variant = 0 } = req.body ?? {};
+  if (kind !== "frame" && kind !== "color" && kind !== "title") throw new HttpError(400, "No existe ese tipo de cosmético.");
+  if (id !== null && typeof id !== "string") throw new HttpError(400, "Falta el cosmético.");
+  if (variant !== 0 && variant !== 1) throw new HttpError(400, "La forma del título tiene que ser 0 o 1.");
+  res.json({ worn: await wear(req.user!.id, kind as CosmeticKind, id, variant) });
 });

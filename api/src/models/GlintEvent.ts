@@ -13,7 +13,8 @@ export type GlintReason =
   | "review_completed"
   | "streak_badge"
   | "coupon_purchase" // gastados en la tienda
-  | "freeze_purchase";
+  | "freeze_purchase"
+  | "cosmetic_purchase";
 
 // Un movimiento de destellos: positivo si los ganó, negativo si los gastó
 export class GlintEvent extends Model<InferAttributes<GlintEvent>, InferCreationAttributes<GlintEvent>> {
