@@ -11,6 +11,7 @@ import { welcomeEmail, newCoursesEmail } from "../lib/email.js";
 import { config } from "../config.js";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PAYMENT_ID_RE = /^\d{1,20}$/;
 
 type ProvisionResult = {
   user: User;
@@ -31,7 +32,7 @@ provisionRouter.post("/provision", requireInternalKey, async (req, res) => {
   if (typeof name !== "string" || !name.trim()) {
     throw new HttpError(400, "Falta el nombre.");
   }
-  if (!/^\d{1,20}$/.test(paymentIdStr)) {
+  if (!PAYMENT_ID_RE.test(paymentIdStr)) {
     throw new HttpError(400, "paymentId inválido.");
   }
   if (!Array.isArray(courses) || courses.length === 0 || !courses.every((c) => typeof c === "string")) {
@@ -112,4 +113,32 @@ provisionRouter.post("/provision", requireInternalKey, async (req, res) => {
     courses: products.map((p) => p.key),
     emailSent,
   });
+});
+// Un pago devuelto: se revocan los cursos que dio ese pago. No se borra nada (el progreso
+// queda guardado) y el pago sigue en processed_payments, así que si el Apps Script vuelve
+// a mandar su /provision, la respuesta es "already_processed" y el curso no se reactiva.
+// Si el alumno lo vuelve a comprar con otro pago, /provision lo reactiva.
+provisionRouter.post("/provision/refund", requireInternalKey, async (req, res) => {
+  const paymentIdStr = String(req.body?.paymentId ?? "");
+  if (!PAYMENT_ID_RE.test(paymentIdStr)) {
+    throw new HttpError(400, "paymentId inválido.");
+  }
+
+  if (!(await ProcessedPayment.findByPk(paymentIdStr))) {
+    throw new HttpError(404, "No hay un alta con ese pago.");
+  }
+
+  // Un solo UPDATE (no hace falta transacción): devuelve las filas que cambió
+  const [, revoked] = await Enrollment.update(
+    { status: "revoked" },
+    { where: { paymentId: paymentIdStr, status: "active" }, returning: true }
+  );
+
+  if (revoked.length === 0) {
+    res.json({ status: "already_refunded" });
+    return;
+  }
+
+  const products = await Product.findAll({ where: { id: revoked.map((e) => e.productId) } });
+  res.json({ status: "refunded", courses: products.map((p) => p.key) });
 });

@@ -45,7 +45,7 @@ function describe(coupon: Coupon | null, now = new Date()): CouponCheck {
 }
 
 // Solo consulta: para mostrar el descuento en el checkout antes de pagar
-couponsRouter.post("/coupons/check", requireInternalKey, async (req, res) => {
+couponsRouter.post("/coupons/validate", requireInternalKey, async (req, res) => {
   const coupon = await Coupon.findOne({ where: { code: normalize(req.body?.code) } });
   res.json(describe(coupon));
 });

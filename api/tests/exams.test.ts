@@ -127,14 +127,14 @@ describe("cupones para wearesrv.com", () => {
   }
 
   it("piden la clave interna", async () => {
-    expect((await request(app).post("/coupons/check").send({ code: "x" })).status).toBe(401);
+    expect((await request(app).post("/coupons/validate").send({ code: "x" })).status).toBe(401);
     expect((await request(app).post("/coupons/redeem").send({ code: "x" })).status).toBe(401);
   });
 
   it("consultar no lo consume; canjear sí, y una sola vez", async () => {
     const code = await passedCoupon();
 
-    const check = await request(app).post("/coupons/check").set("x-api-key", key()).send({ code: code.toLowerCase() });
+    const check = await request(app).post("/coupons/validate").set("x-api-key", key()).send({ code: code.toLowerCase() });
     expect(check.body).toMatchObject({ valid: true, code, percent: 60 });
 
     const first = await request(app).post("/coupons/redeem").set("x-api-key", key()).send({ code });
@@ -161,7 +161,7 @@ describe("cupones para wearesrv.com", () => {
     const expired = await request(app).post("/coupons/redeem").set("x-api-key", key()).send({ code });
     expect(expired.body).toEqual({ valid: false, reason: "expired" });
 
-    const missing = await request(app).post("/coupons/check").set("x-api-key", key()).send({ code: "ESTL-PY-NOEXIS" });
+    const missing = await request(app).post("/coupons/validate").set("x-api-key", key()).send({ code: "ESTL-PY-NOEXIS" });
     expect(missing.body).toEqual({ valid: false, reason: "not_found" });
   });
 });
