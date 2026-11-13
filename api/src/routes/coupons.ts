@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { Op } from "sequelize";
+import { sequelize } from "../db.js";
 import { Constellation, Coupon, Product } from "../models/index.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
 import { requireInternalKey } from "../middlewares/requireInternalKey.js";
@@ -56,9 +57,9 @@ couponsRouter.post("/coupons/redeem", requireInternalKey, async (req, res) => {
   const code = normalize(req.body?.code);
   const now = new Date();
 
-  const [count] = await Coupon.update(
-    { usedAt: now },
-    { where: { code, usedAt: null, expiresAt: { [Op.gt]: now } } }
+  // En una transacción para que se selle el dvh del cupón (tabla protegida)
+  const [count] = await sequelize.transaction((t) =>
+    Coupon.update({ usedAt: now }, { where: { code, usedAt: null, expiresAt: { [Op.gt]: now } }, transaction: t })
   );
 
   const coupon = await Coupon.findOne({ where: { code } });

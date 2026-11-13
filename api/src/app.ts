@@ -15,6 +15,7 @@ import { meRouter } from "./routes/me.js";
 import { challengesRouter } from "./routes/challenges.js";
 import { shopRouter } from "./routes/shop.js";
 import { adminRouter } from "./routes/admin.js";
+import { runDailyCheckIfDue } from "./lib/integrity.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
 export const app = express();
@@ -24,6 +25,15 @@ app.set("trust proxy", 2);
 
 app.use(express.json());
 app.use(cookieParser());
+
+// La verificación de integridad diaria arranca con el primer pedido del día (en segundo plano).
+// En los tests no: correría en medio de otros tests
+if (process.env.NODE_ENV !== "test") {
+  app.use((_req, _res, next) => {
+    runDailyCheckIfDue();
+    next();
+  });
+}
 
 app.use(authRouter);
 app.use(provisionRouter);

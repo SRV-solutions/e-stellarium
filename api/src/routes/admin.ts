@@ -10,6 +10,7 @@ import { listRoles, parsePermissions, setRolePermissions } from "../admin/roles.
 import { changeUserRole, deleteUser, restoreUser } from "../admin/users.js";
 import { listAudit, parseAuditFilters } from "../admin/auditLog.js";
 import { revertAudit } from "../admin/revert.js";
+import { lastCheck, runIntegrityCheck } from "../lib/integrity.js";
 
 export const adminRouter = Router();
 
@@ -70,4 +71,14 @@ adminRouter.post("/admin/audit/:id/revert", requireAuth, requirePermission("audi
   if (!Number.isInteger(id) || id < 1) throw new HttpError(404, "No existe ese registro.");
   const confirm = req.body?.confirm === true;
   res.json(await sequelize.transaction((t) => revertAudit(t, auditContext(req), id, confirm)));
+});
+
+// El resultado de la última verificación (manual o diaria)
+adminRouter.get("/admin/integrity", requireAuth, requirePermission("integrity:view"), async (_req, res) => {
+  res.json({ check: await lastCheck() });
+});
+
+// Corre la verificación de DVH, DVV y la cadena de la bitácora
+adminRouter.post("/admin/integrity/check", requireAuth, requirePermission("integrity:view"), async (req, res) => {
+  res.json({ check: await runIntegrityCheck("manual", auditContext(req)) });
 });

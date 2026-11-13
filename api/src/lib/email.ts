@@ -52,3 +52,21 @@ ${percent} % de descuento en tu próximo curso de WeAreSRV.</p>
 <p><strong>No lo compartas:</strong> el que lo use primero se queda con el descuento.</p>`,
   };
 }
+
+export function integrityFailEmail(problems: { kind: string; table: string; rowId?: string }[]) {
+  const KIND: Record<string, string> = {
+    row: "una fila no coincide con su dígito verificador",
+    table: "el dígito vertical no coincide (agregaron o borraron filas)",
+    chain: "la cadena de la bitácora se rompe en este registro",
+  };
+  const items = problems
+    .slice(0, 20)
+    .map((p) => `<li>${escapeHtml(p.table)}${p.rowId ? ` (${escapeHtml(p.rowId)})` : ""}: ${KIND[p.kind]}</li>`)
+    .join("");
+  return {
+    subject: "E-Stellarium: falló la verificación de integridad",
+    html: `<p>La verificación de integridad encontró datos que se cambiaron sin pasar por la app:</p>
+<ul>${items}</ul>
+<p>Revisalo en el panel, en Integridad.</p>`,
+  };
+}

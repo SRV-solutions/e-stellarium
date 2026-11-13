@@ -1,6 +1,7 @@
 import { QueryTypes, type Transaction } from "sequelize";
 import { sequelize } from "../db.js";
 import { hmac, stableStringify } from "./hmac.js";
+import { auditDvv } from "./sealing.js";
 
 // Las acciones que quedan en la bitácora
 export type AuditAction =
@@ -99,12 +100,22 @@ export async function writeAudit(transaction: Transaction, entry: AuditEntry): P
       transaction,
     }
   );
+
+  // El DVV de la bitácora (cuántos registros y el último hash), para notar si borran el último
+  const [{ count }] = await sequelize.query<{ count: number }>("SELECT count(*)::int AS count FROM audit_logs", {
+    type: QueryTypes.SELECT,
+    transaction,
+  });
+  await sequelize.query("UPDATE integrity SET dvv = :dvv WHERE table_name = 'audit_logs'", {
+    replacements: { dvv: auditDvv(count, auditHash(fields)) },
+    transaction,
+  });
   return id;
 }
 
 // Recorre la cadena en orden y devuelve el primer registro roto (o null si está entera).
 // Borrar, modificar o intercalar un registro a mano la rompe en ese punto.
-export async function verifyAuditChain(): Promise<{ count: number; lastHash: string | null; brokenAt: number | null }> {
+export async function verifyAuditChain(transaction?: Transaction): Promise<{ count: number; lastHash: string | null; brokenAt: number | null }> {
   const rows = await sequelize.query<{
     id: number;
     created_at: Date;
@@ -119,7 +130,7 @@ export async function verifyAuditChain(): Promise<{ count: number; lastHash: str
     reverts_id: number | null;
     prev_hash: string | null;
     hash: string;
-  }>("SELECT * FROM audit_logs ORDER BY id", { type: QueryTypes.SELECT });
+  }>("SELECT * FROM audit_logs ORDER BY id", { type: QueryTypes.SELECT, transaction });
 
   let prevHash: string | null = null;
   for (const r of rows) {

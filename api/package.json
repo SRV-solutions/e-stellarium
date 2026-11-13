@@ -15,6 +15,7 @@
     "load-content": "tsx src/scripts/load-content.ts",
     "open-exam": "tsx src/scripts/open-exam.ts",
     "set-role": "tsx src/scripts/set-role.ts",
+    "seal-integrity": "tsx src/scripts/seal-integrity.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },

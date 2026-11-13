@@ -15,13 +15,14 @@ if (password.length < PASSWORD_MIN || password.length > PASSWORD_MAX) {
 }
 
 const admin = await Role.findOne({ where: { key: "admin" } });
-const user = await User.create({
-  email,
-  name,
-  alias: email.split("@")[0].slice(0, 30),
-  roleId: admin!.id,
-  passwordHash: await hashPassword(password),
-});
+const passwordHash = await hashPassword(password);
+// En una transacción para que se selle el dvh del usuario (tabla protegida)
+const user = await sequelize.transaction((t) =>
+  User.create(
+    { email, name, alias: email.split("@")[0].slice(0, 30), roleId: admin!.id, passwordHash },
+    { transaction: t }
+  )
+);
 
 console.log(`Admin creado: ${user.email}`);
 await sequelize.close();
