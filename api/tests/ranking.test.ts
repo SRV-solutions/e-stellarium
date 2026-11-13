@@ -2,7 +2,8 @@ import { randomUUID } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { User, XpEvent } from "../src/models/index.js";
 import { weekRange } from "../src/games/ranking.js";
-import { createUser, http, loginAs } from "./helpers.js";
+import type { RoleKey } from "../src/models/Role.js";
+import { createUser, http, loginAs, setRole } from "./helpers.js";
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -12,10 +13,10 @@ async function xp(user: User, amount: number, msAgo = 0) {
   await XpEvent.update({ createdAt: new Date(Date.now() - msAgo) }, { where: { id: event.id } });
 }
 
-async function person(email: string, alias: string, role: "student" | "admin" = "student") {
+async function person(email: string, alias: string, role: RoleKey = "student") {
   const user = await createUser(email);
-  await user.update({ alias, role });
-  return user;
+  await user.update({ alias });
+  return setRole(user, role);
 }
 
 describe("la semana del ranking", () => {

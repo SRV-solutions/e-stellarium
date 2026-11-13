@@ -8,6 +8,8 @@ import { Constellation, ExamAttemptQuestion, Product, Question, Star, StarComple
 import { examSeed } from "../src/games/exam.js";
 import { grade } from "../src/games/grade.js";
 import type { QuestionPool, QuestionStatus } from "../src/models/Question.js";
+import { Role } from "../src/models/index.js";
+import type { RoleKey } from "../src/models/Role.js";
 
 export const PASSWORD = "Prueba1234";
 
@@ -26,6 +28,11 @@ export async function createUser(email = "alumno@test.com", password: string | n
     alias: `test-${Math.random().toString(36).slice(2, 8)}`,
     passwordHash: password ? await hashPassword(password) : null,
   });
+}
+
+export async function setRole(user: User, key: RoleKey) {
+  const role = await Role.findOne({ where: { key } });
+  return user.update({ roleId: role!.id });
 }
 
 // Un "agente" guarda las cookies entre peticiones, como un navegador

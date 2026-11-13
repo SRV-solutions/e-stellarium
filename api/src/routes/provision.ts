@@ -82,7 +82,7 @@ provisionRouter.post("/provision", requireInternalKey, async (req, res) => {
         }
       }
 
-      const token = user.passwordHash ? null : await createPasswordToken(user.id, "set_password", t);
+      const token = user.passwordHash || user.deletedAt ? null : await createPasswordToken(user.id, "set_password", t);
       return { user, products, token };
     });
   } catch (err) {
@@ -94,8 +94,16 @@ provisionRouter.post("/provision", requireInternalKey, async (req, res) => {
     throw err;
   }
 
-  // El mail va DESPUÉS del commit: un mail no se puede deshacer
   const { user, products, token } = result;
+
+  // Dado de baja: recibe el curso (pagó) pero sigue sin poder entrar, así que no se le manda mail.
+  // El Apps Script ve "deleted_user" y avisa, y un super admin decide si lo restaura.
+  if (user.deletedAt) {
+    res.status(201).json({ status: "deleted_user", courses: products.map((p) => p.key), emailSent: false });
+    return;
+  }
+
+  // El mail va DESPUÉS del commit: un mail no se puede deshacer
   const courseNames = products.map((p) => p.name);
   let emailSent = true;
   try {

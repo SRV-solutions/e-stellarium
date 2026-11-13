@@ -9,6 +9,7 @@ import { hashToken, createPasswordToken } from "../lib/passwordTokens.js";
 import { startSession } from "../lib/session.js";
 import { sendMail } from "../lib/mailer.js";
 import { resetPasswordEmail } from "../lib/email.js";
+import { sessionUser } from "../lib/permissions.js";
 
 const INVALID_LINK = "El link no es válido o ya venció. Pedí uno nuevo desde «Olvidé mi contraseña».";
 
@@ -48,7 +49,7 @@ passwordRouter.post("/auth/password/set", async (req, res) => {
     if (!token) throw new HttpError(400, INVALID_LINK);
 
     const user = await User.findByPk(token.userId, { transaction: t });
-    if (!user) throw new HttpError(400, INVALID_LINK);
+    if (!user || user.deletedAt) throw new HttpError(400, INVALID_LINK);
 
     await user.update({ passwordHash }, { transaction: t });
 
@@ -61,8 +62,7 @@ passwordRouter.post("/auth/password/set", async (req, res) => {
   });
 
   startSession(res, user.id);
-  const { passwordHash: _hash, ...publicUser } = user.toJSON();
-  res.json({ user: publicUser });
+  res.json({ user: await sessionUser(user) });
 });
 
 passwordRouter.post("/auth/password/forgot", async (req, res) => {
@@ -72,7 +72,8 @@ passwordRouter.post("/auth/password/forgot", async (req, res) => {
   }
 
   const user = await User.findOne({ where: { email: email.trim().toLowerCase() } });
-  if (user) {
+  // A uno dado de baja no se le manda nada (la respuesta es la misma)
+  if (user && !user.deletedAt) {
     const token = await createPasswordToken(user.id, "reset_password");
     try {
       const link = `${config.appUrl}/create-password?token=${token}`;

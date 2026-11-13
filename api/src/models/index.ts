@@ -21,6 +21,8 @@ import { ChallengeAttemptQuestion } from "./ChallengeAttemptQuestion.js";
 import { GlintEvent } from "./GlintEvent.js";
 import { StreakBadge } from "./StreakBadge.js";
 import { UserCosmetic } from "./UserCosmetic.js";
+import { Role } from "./Role.js";
+import { RolePermission } from "./RolePermission.js";
 
 User.hasMany(PasswordToken, { foreignKey: "userId" });
 PasswordToken.belongsTo(User, { foreignKey: "userId" });
@@ -110,4 +112,10 @@ StreakBadge.belongsTo(User, { foreignKey: "userId" });
 User.hasMany(UserCosmetic, { foreignKey: "userId" });
 UserCosmetic.belongsTo(User, { foreignKey: "userId" });
 
-export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, DailyActivity, DailyReview, DailyReviewQuestion, Challenge, ChallengeAttempt, ChallengeAttemptQuestion, GlintEvent, StreakBadge, UserCosmetic };
+Role.hasMany(User, { foreignKey: "roleId" });
+User.belongsTo(Role, { foreignKey: "roleId" });
+
+Role.hasMany(RolePermission, { foreignKey: "roleId" });
+RolePermission.belongsTo(Role, { foreignKey: "roleId" });
+
+export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, DailyActivity, DailyReview, DailyReviewQuestion, Challenge, ChallengeAttempt, ChallengeAttemptQuestion, GlintEvent, StreakBadge, UserCosmetic, Role, RolePermission };

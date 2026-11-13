@@ -52,7 +52,8 @@ export async function getRanking(userId: string, period: RankingPeriod, now = ne
     `WITH totals AS (
        SELECT u.id, u.alias, sum(x.xp)::int AS xp, max(x.created_at) AS reached_at
          FROM xp_events x
-         JOIN users u ON u.id = x.user_id AND u.role = 'student'
+         JOIN users u ON u.id = x.user_id AND u.deleted_at IS NULL
+         JOIN roles ro ON ro.id = u.role_id AND ro.key = 'student'
         WHERE (:startsAt::timestamptz IS NULL OR x.created_at >= :startsAt::timestamptz)
           AND (:endsAt::timestamptz IS NULL OR x.created_at < :endsAt::timestamptz)
         GROUP BY u.id, u.alias
@@ -85,10 +86,10 @@ export async function getRanking(userId: string, period: RankingPeriod, now = ne
     title: titleText(r.worn_title, r.title_variant),
   }));
   const mine = entries.find((e) => e.id === userId);
-  const [user] = await sequelize.query<{ role: string }>("SELECT role FROM users WHERE id = :userId", {
-    replacements: { userId },
-    type: QueryTypes.SELECT,
-  });
+  const [user] = await sequelize.query<{ role: string }>(
+    "SELECT r.key AS role FROM users u JOIN roles r ON r.id = u.role_id WHERE u.id = :userId",
+    { replacements: { userId }, type: QueryTypes.SELECT }
+  );
 
   return {
     period,

@@ -10,7 +10,8 @@ export async function requireAuth(req: Request, res: Response, next: NextFunctio
   }
 
   const user = await User.findByPk(userId);
-  if (!user) {
+  // Un usuario dado de baja deja de poder entrar, aunque tenga la cookie
+  if (!user || user.deletedAt) {
     endSession(res);
     return res.status(401).json({ error: "Tenés que iniciar sesión." });
   }

@@ -3,6 +3,7 @@ import { User } from "../models/index.js";
 import { verifyPassword, PASSWORD_MAX } from "../lib/password.js";
 import { startSession, endSession } from "../lib/session.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
+import { sessionUser } from "../lib/permissions.js";
 
 export const authRouter = Router();
 
@@ -23,13 +24,13 @@ authRouter.post("/auth/login", async (req, res) => {
   });
 
   const ok = await verifyPassword(password, user?.passwordHash ?? DUMMY_HASH);
-  if (!user || !user.passwordHash || !ok) {
+  // Dado de baja: el mismo error, para no contar qué cuentas existen
+  if (!user || !user.passwordHash || !ok || user.deletedAt) {
     return res.status(401).json({ error: "Email o contraseña incorrectos." });
   }
 
   startSession(res, user.id);
-  const { passwordHash, ...publicUser } = user.toJSON();
-  res.json({ user: publicUser });
+  res.json({ user: await sessionUser(user) });
 });
 
 authRouter.post("/auth/logout", (_req, res) => {
@@ -37,6 +38,6 @@ authRouter.post("/auth/logout", (_req, res) => {
   res.status(204).end();
 });
 
-authRouter.get("/me", requireAuth, (req, res) => {
-  res.json({ user: req.user });
+authRouter.get("/me", requireAuth, async (req, res) => {
+  res.json({ user: await sessionUser(req.user!) });
 });
