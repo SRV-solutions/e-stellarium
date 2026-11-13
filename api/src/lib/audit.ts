@@ -48,11 +48,16 @@ export function auditHash(fields: HashedFields): string {
   return hmac(stableStringify(fields));
 }
 
+// Hasta el commit, nadie más escribe en la bitácora: así dos registros nunca usan el mismo anterior.
+// Tomarlo dos veces en la misma transacción no hace nada.
+export async function lockAudit(transaction: Transaction) {
+  await sequelize.query("SELECT pg_advisory_xact_lock(:lock)", { replacements: { lock: AUDIT_LOCK }, transaction });
+}
+
 // Escribe un registro dentro de la transacción del cambio: si el cambio falla, no queda registro,
 // y si el registro falla, el cambio no se aplica. Devuelve el id.
 export async function writeAudit(transaction: Transaction, entry: AuditEntry): Promise<number> {
-  // Hasta el commit, nadie más escribe en la bitácora: así dos registros nunca usan el mismo anterior
-  await sequelize.query("SELECT pg_advisory_xact_lock(:lock)", { replacements: { lock: AUDIT_LOCK }, transaction });
+  await lockAudit(transaction);
 
   const [last] = await sequelize.query<{ hash: string }>("SELECT hash FROM audit_logs ORDER BY id DESC LIMIT 1", {
     type: QueryTypes.SELECT,

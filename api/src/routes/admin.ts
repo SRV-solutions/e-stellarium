@@ -9,6 +9,7 @@ import type { RoleKey } from "../models/Role.js";
 import { listRoles, parsePermissions, setRolePermissions } from "../admin/roles.js";
 import { changeUserRole, deleteUser, restoreUser } from "../admin/users.js";
 import { listAudit, parseAuditFilters } from "../admin/auditLog.js";
+import { revertAudit } from "../admin/revert.js";
 
 export const adminRouter = Router();
 
@@ -60,4 +61,13 @@ adminRouter.post("/admin/users/:id/restore", requireAuth, requirePermission("rol
 // Filtros: ?actor=<id>&action=user.delete&targetType=user&targetId=<id>&from=2026-11-01&to=2026-11-12&before=<id>
 adminRouter.get("/admin/audit", requireAuth, requirePermission("audit:view"), async (req, res) => {
   res.json(await listAudit(parseAuditFilters(req.query as Record<string, unknown>)));
+});
+
+// Revierte un registro: { confirm: true } para revertir aunque lo hayan cambiado después.
+// Devuelve el id del registro nuevo ("revirtió el #id") y el usuario o el rol como quedó.
+adminRouter.post("/admin/audit/:id/revert", requireAuth, requirePermission("audit:revert"), async (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id) || id < 1) throw new HttpError(404, "No existe ese registro.");
+  const confirm = req.body?.confirm === true;
+  res.json(await sequelize.transaction((t) => revertAudit(t, auditContext(req), id, confirm)));
 });
