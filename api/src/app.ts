@@ -14,10 +14,13 @@ import { reviewRouter } from "./routes/review.js";
 import { meRouter } from "./routes/me.js";
 import { challengesRouter } from "./routes/challenges.js";
 import { shopRouter } from "./routes/shop.js";
+import { adminRouter } from "./routes/admin.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
 export const app = express();
 app.disable("x-powered-by");
+// La API está detrás de dos proxies (Netlify y Railway): así req.ip es la IP del navegador, para la bitácora
+app.set("trust proxy", 2);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -35,6 +38,7 @@ app.use(reviewRouter);
 app.use(meRouter);
 app.use(challengesRouter);
 app.use(shopRouter);
+app.use(adminRouter);
 
 app.get("/health", async (_req, res) => {
   try {

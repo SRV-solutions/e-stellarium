@@ -12,6 +12,14 @@ beforeEach(async () => {
   await sequelize.query(
     "TRUNCATE users, processed_payments, constellations, questions, answers RESTART IDENTITY CASCADE"
   );
+  // Los permisos de cada rol vuelven a la matriz inicial (la de la migración), por si un test los cambió
+  await sequelize.query(`
+    DELETE FROM role_permissions;
+    INSERT INTO role_permissions (role_id, permission_key) VALUES
+      (2, 'content:edit'), (2, 'students:view'),
+      (3, 'content:edit'), (3, 'content:approve'), (3, 'students:view'), (3, 'challenges:manage'),
+      (3, 'economy:edit'), (3, 'users:manage'), (3, 'coupons:manage');
+  `);
 });
 
 afterAll(async () => {

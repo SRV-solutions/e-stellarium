@@ -6,4 +6,6 @@ function required(name: string): string {
 
 export const config = {
   appUrl: required("APP_URL"),
+  // La clave de los HMAC de la bitácora y de los dígitos verificadores. Distinta en cada entorno
+  integritySecret: required("INTEGRITY_SECRET"),
 };

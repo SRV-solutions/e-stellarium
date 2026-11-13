@@ -3,7 +3,9 @@ import { User } from "../models/index.js";
 import { verifyPassword, PASSWORD_MAX } from "../lib/password.js";
 import { startSession, endSession } from "../lib/session.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
-import { sessionUser } from "../lib/permissions.js";
+import { roleKeyOf, sessionUser } from "../lib/permissions.js";
+import { writeAudit } from "../lib/audit.js";
+import { sequelize } from "../db.js";
 
 export const authRouter = Router();
 
@@ -27,6 +29,20 @@ authRouter.post("/auth/login", async (req, res) => {
   // Dado de baja: el mismo error, para no contar qué cuentas existen
   if (!user || !user.passwordHash || !ok || user.deletedAt) {
     return res.status(401).json({ error: "Email o contraseña incorrectos." });
+  }
+
+  // Los inicios de sesión del staff quedan en la bitácora
+  if ((await roleKeyOf(user)) !== "student") {
+    await sequelize.transaction((t) =>
+      writeAudit(t, {
+        actorId: user.id,
+        ip: req.ip ?? null,
+        action: "auth.login",
+        targetType: "user",
+        targetId: user.id,
+        reversible: false,
+      })
+    );
   }
 
   startSession(res, user.id);
