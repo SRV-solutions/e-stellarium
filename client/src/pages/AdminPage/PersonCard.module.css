@@ -1,0 +1,315 @@
+/* La ficha: al costado en escritorio, desde abajo en pantallas angostas */
+.card {
+  position: sticky;
+  top: 24px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(10, 23, 53, 0.92);
+  animation: rise 0.25s both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.close {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--muted);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: var(--text);
+  background: var(--night-3);
+}
+
+.who {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-right: 28px;
+}
+
+.who h2 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.who p {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+  word-break: break-all;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 16px;
+  margin: 18px 0 0;
+  font-size: 14px;
+}
+
+.facts dt {
+  color: var(--placeholder);
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.sect {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(36, 55, 107, 0.6);
+}
+
+.sect h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+
+.muted {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.error {
+  margin: 14px 0 0;
+  font-size: 14px;
+  color: var(--error);
+}
+
+.lock {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(5, 13, 36, 0.5);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.lock svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+/* Elegir el rol: cuatro posiciones, la elegida con la mira */
+.roles {
+  display: grid;
+  gap: 4px;
+}
+
+.roles label {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 2px 12px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.roles label:hover {
+  background: rgba(17, 33, 74, 0.6);
+}
+
+.roles label:has(input:checked) {
+  border-color: var(--line);
+  background: rgba(5, 13, 36, 0.5);
+}
+
+.roles[aria-disabled="true"] label {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.roles input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pin {
+  position: relative;
+  grid-row: 1 / span 2;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  border: 1.5px solid var(--dim);
+  border-radius: 50%;
+}
+
+.roles input:checked + .pin {
+  border: 1.3px dashed var(--orange);
+  animation: spin 10s linear infinite;
+}
+
+.roles input:checked + .pin::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+
+.roles input:focus-visible + .pin {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.roles b {
+  font-size: 15px;
+}
+
+.roles small {
+  grid-column: 2;
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+.now {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.save {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(5, 13, 36, 0.6);
+  font-size: 14px;
+}
+
+.save p {
+  margin: 0 0 10px;
+}
+
+.save b {
+  color: var(--orange);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.button {
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(5, 13, 36, 0.6);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.button:hover {
+  border-color: var(--line-hover);
+  background: var(--night-3);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.primary {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
+.primary:hover {
+  border-color: var(--blue-hover);
+  background: var(--blue-hover);
+}
+
+.danger {
+  border-color: rgba(255, 122, 107, 0.5);
+  background: none;
+  color: var(--coral);
+}
+
+.danger:hover {
+  background: rgba(255, 122, 107, 0.08);
+}
+
+.gone {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 122, 107, 0.08);
+  font-size: 14px;
+}
+
+.gone b {
+  color: var(--coral);
+}
+
+.logLink {
+  font-size: 14px;
+  color: var(--orange);
+  text-decoration: none;
+}
+
+.logLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1060px) {
+  .card {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 8;
+    max-height: 88vh;
+    overflow-y: auto;
+    border-radius: 20px 20px 0 0;
+    background: var(--night-2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .roles input:checked + .pin {
+    animation: none;
+  }
+}

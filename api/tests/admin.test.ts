@@ -6,7 +6,7 @@ import { can } from "../src/lib/permissions.js";
 import { changeUserRole, deleteUser } from "../src/admin/users.js";
 import { AuditLog, User } from "../src/models/index.js";
 import type { RoleKey } from "../src/models/Role.js";
-import { createUser, http, loginAs, setRole } from "./helpers.js";
+import { createUser, enrolledStudent, http, loginAs, setRole } from "./helpers.js";
 
 async function staff(email: string, role: RoleKey) {
   const user = await setRole(await createUser(email), role);
@@ -281,5 +281,54 @@ describe("la cadena de hashes", () => {
     } finally {
       await sequelize.query("ALTER TABLE audit_logs ENABLE TRIGGER audit_logs_append_only");
     }
+  });
+});
+
+describe("GET /admin/users", () => {
+  it("pide roles:manage", async () => {
+    const { agent } = await staff("admin@test.com", "admin");
+    expect((await agent.get("/admin/users")).status).toBe(403);
+  });
+
+  it("lista primero al staff, busca por nombre o email y separa a los dados de baja", async () => {
+    const { user: me, agent } = await staff("super@test.com", "super_admin");
+    await me.update({ name: "Zoe Super" });
+    const ana = await (await createUser("ana@test.com")).update({ name: "Ana Pérez" });
+    const beto = await (await createUser("beto@test.com")).update({ name: "Beto 100%" });
+    await agent.delete(`/admin/users/${beto.id}`).expect(200);
+
+    const all = (await agent.get("/admin/users").expect(200)).body;
+    expect(all.people.map((p: { name: string }) => p.name)).toEqual(["Zoe Super", "Ana Pérez"]);
+    expect(all.people[0]).toMatchObject({ role: "super_admin", deletedAt: null, streak: 0, lastActiveOn: null });
+    expect(all.counts).toEqual({ all: 2, students: 1, staff: 1, deleted: 1 });
+    expect(all.nextOffset).toBeNull();
+
+    const search = (await agent.get("/admin/users?q=ANA@")).body.people;
+    expect(search.map((p: { id: string }) => p.id)).toEqual([ana.id]);
+    // Un % se busca tal cual, no como comodín
+    expect((await agent.get("/admin/users?q=%25&kind=deleted")).body.people).toHaveLength(1);
+    expect((await agent.get("/admin/users?q=%25")).body.people).toHaveLength(0);
+
+    expect((await agent.get("/admin/users?kind=students")).body.people).toHaveLength(1);
+    expect((await agent.get("/admin/users?kind=deleted")).body.people[0].id).toBe(beto.id);
+
+    expect((await agent.get("/admin/users?kind=otros")).status).toBe(400);
+    expect((await agent.get("/admin/users?offset=-1")).status).toBe(400);
+  });
+});
+
+describe("GET /admin/users/:id", () => {
+  it("trae los cursos activos y cuántos registros tiene en la bitácora", async () => {
+    await enrolledStudent(["python"], "alumno@test.com");
+    const student = (await User.findOne({ where: { email: "alumno@test.com" } }))!;
+    const { agent } = await staff("super@test.com", "super_admin");
+    await agent.patch(`/admin/users/${student.id}/role`).send({ role: "teacher" }).expect(200);
+
+    const { person } = (await agent.get(`/admin/users/${student.id}`).expect(200)).body;
+    expect(person).toMatchObject({ id: student.id, role: "teacher", auditCount: 1 });
+    expect(person.courses.map((c: { key: string }) => c.key)).toEqual(["python"]);
+
+    expect((await agent.get(`/admin/users/${randomUUID()}`)).status).toBe(404);
+    expect((await agent.get("/admin/users/123")).status).toBe(404);
   });
 });

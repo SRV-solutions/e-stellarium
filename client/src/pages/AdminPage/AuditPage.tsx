@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
 import { Avatar } from "../../components/Avatar/Avatar";
 import { useAuth } from "../../auth/useAuth";
 import { api, ApiError } from "../../lib/api";
@@ -63,7 +64,14 @@ export function AuditPage() {
   const canCheck = can(user, "integrity:view");
 
   const [filters, setFilters] = useState<Filters>({ actor: "", action: "", from: "", to: "" });
-  const [target, setTarget] = useState<Target | null>(null);
+  // Se puede llegar ya filtrado por un elemento, desde la ficha de una persona:
+  // /admin/audit?targetType=user&targetId=...&name=Panel%20Dos
+  const [params] = useSearchParams();
+  const [target, setTarget] = useState<Target | null>(() => {
+    const type = params.get("targetType");
+    const id = params.get("targetId");
+    return type && id ? { type, id, name: params.get("name") ?? id.slice(0, 8) } : null;
+  });
   const [entries, setEntries] = useState<AuditEntry[] | null>(null);
   const [nextBefore, setNextBefore] = useState<number | null>(null);
   const [loadingMore, setLoadingMore] = useState(false);

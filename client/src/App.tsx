@@ -15,6 +15,8 @@ import { ChallengesPage } from "./pages/ChallengesPage/ChallengesPage";
 import { ShopPage } from "./pages/ShopPage/ShopPage";
 import { AdminLayout } from "./pages/AdminPage/AdminLayout";
 import { AuditPage } from "./pages/AdminPage/AuditPage";
+import { PeoplePage } from "./pages/AdminPage/PeoplePage";
+import { RolesPage } from "./pages/AdminPage/RolesPage";
 import { ADMIN_SECTIONS } from "./lib/permissions";
 
 export default function App() {
@@ -103,6 +105,22 @@ export default function App() {
               element={
                 <ProtectedRoute anyOf={["audit:view", "integrity:view"]}>
                   <AuditPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="people"
+              element={
+                <ProtectedRoute anyOf={["roles:manage"]}>
+                  <PeoplePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="roles"
+              element={
+                <ProtectedRoute anyOf={["roles:manage"]}>
+                  <RolesPage />
                 </ProtectedRoute>
               }
             />

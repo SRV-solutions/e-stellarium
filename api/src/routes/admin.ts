@@ -11,6 +11,7 @@ import { listRoles, parsePermissions, setRolePermissions } from "../admin/roles.
 import { changeUserRole, deleteUser, restoreUser } from "../admin/users.js";
 import { listAudit, listAuditActors, parseAuditFilters } from "../admin/auditLog.js";
 import { revertAudit } from "../admin/revert.js";
+import { listPeople, parsePeopleFilters, personDetail } from "../admin/people.js";
 import { lastCheck, runIntegrityCheck } from "../lib/integrity.js";
 
 export const adminRouter = Router();
@@ -37,6 +38,15 @@ adminRouter.patch("/admin/roles/:key", requireAuth, requirePermission("roles:man
     setRolePermissions(t, auditContext(req), String(req.params.key), permissions)
   );
   res.json({ role });
+});
+
+// Las personas: ?q=texto&kind=all|students|staff|deleted&offset=50 (de a 50, nextOffset para seguir)
+adminRouter.get("/admin/users", requireAuth, requirePermission("roles:manage"), async (req, res) => {
+  res.json(await listPeople(parsePeopleFilters(req.query as Record<string, unknown>)));
+});
+
+adminRouter.get("/admin/users/:id", requireAuth, requirePermission("roles:manage"), async (req, res) => {
+  res.json({ person: await personDetail(userIdParam(req)) });
 });
 
 adminRouter.patch("/admin/users/:id/role", requireAuth, requirePermission("roles:manage"), async (req, res) => {

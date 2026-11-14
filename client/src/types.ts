@@ -384,3 +384,26 @@ export type IntegrityCheck = {
   problemCount: number;
   problems: IntegrityProblem[];
 };
+
+// Una persona en la lista del panel (GET /admin/users)
+export type Person = {
+  id: string;
+  name: string;
+  email: string;
+  alias: string;
+  role: RoleKey;
+  createdAt: string;
+  deletedAt: string | null;
+  lastActiveOn: string | null; // "2026-11-10", día de Argentina
+  streak: number; // 0 si se cortó
+};
+
+export type PeopleKind = "all" | "students" | "staff" | "deleted";
+
+export type PeoplePage = { people: Person[]; counts: Record<PeopleKind, number>; nextOffset: number | null };
+
+// La ficha (GET /admin/users/:id)
+export type PersonDetail = Person & { courses: { key: string; name: string }[]; auditCount: number };
+
+// Un rol con sus permisos (GET /admin/roles). El super admin no es editable
+export type RoleInfo = { key: RoleKey; name: string; editable: boolean; permissions: Permission[] };

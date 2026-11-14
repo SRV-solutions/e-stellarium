@@ -1,0 +1,331 @@
+.page {
+  min-width: 0;
+  padding-bottom: 90px; /* lugar para la barra de guardar */
+}
+
+.head h1 {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.head p {
+  max-width: 600px;
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.error {
+  margin: 6px 0 0;
+  color: var(--error);
+}
+
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+/* ---------- La tabla: permisos en filas, roles en columnas ---------- */
+.matrix {
+  width: 100%;
+  max-width: 860px;
+  margin-top: 22px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.matrix th,
+.matrix td {
+  padding: 0;
+  font-weight: inherit;
+  text-align: left;
+}
+
+.matrix thead th {
+  padding: 0 8px 14px;
+  vertical-align: bottom;
+  text-align: center;
+}
+
+.matrix thead th:first-child {
+  padding-left: 0;
+}
+
+.matrix thead b {
+  display: block;
+  font-size: 17px;
+}
+
+.matrix thead small {
+  display: block;
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+.locked {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+}
+
+.locked svg,
+.lock svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.group th {
+  padding: 22px 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.matrix tbody:first-of-type .group th {
+  padding-top: 4px;
+}
+
+.perm > * {
+  border-top: 1px solid rgba(36, 55, 107, 0.4);
+}
+
+.perm:hover > * {
+  background: rgba(17, 33, 74, 0.35);
+}
+
+.label {
+  padding: 12px 16px 12px 0 !important;
+}
+
+.label b {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.label small {
+  display: block;
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+.cell {
+  width: 140px;
+  text-align: center !important;
+}
+
+/* Cada permiso, una estrella: encendida si el rol lo tiene */
+.star {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+.star svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--dim);
+  stroke-width: 1.4;
+  transition: transform 0.2s;
+}
+
+.star[aria-checked="true"] svg {
+  fill: var(--orange);
+  stroke: var(--orange);
+}
+
+.star:hover:not(:disabled) svg {
+  transform: scale(1.15);
+}
+
+.star:disabled {
+  cursor: default;
+}
+
+/* La columna fija del super admin: encendida pero en gris */
+.star:disabled[aria-checked="true"] svg {
+  fill: var(--muted);
+  stroke: var(--muted);
+}
+
+/* Lo que cambió y todavía no se guardó: la mira alrededor (roja si se apagó) */
+.dirty::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1.3px dashed var(--orange);
+  border-radius: 50%;
+  animation: spin 10s linear infinite;
+}
+
+.dirty[aria-checked="false"]::after {
+  border-color: var(--coral);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.note {
+  max-width: 860px;
+  margin: 18px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ---------- La barra de guardar ---------- */
+.dock {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: min(760px, calc(100% - 32px));
+  padding: 12px 12px 12px 20px;
+  border: 1px solid var(--line-hover);
+  border-radius: 18px;
+  background: var(--night-2);
+  transform: translate(-50%, 160%);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.dockOn {
+  transform: translate(-50%, 0);
+}
+
+.summary {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+}
+
+.summary div + div {
+  margin-top: 4px;
+}
+
+.summary b {
+  margin-right: 8px;
+  font-weight: 600;
+}
+
+.add,
+.remove {
+  margin-right: 10px;
+}
+
+.add {
+  color: var(--mint);
+}
+
+.remove {
+  color: var(--coral);
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.button {
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(5, 13, 36, 0.6);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.primary {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
+.primary:hover {
+  background: var(--blue-hover);
+}
+
+@media (max-width: 640px) {
+  .head h1 {
+    font-size: 32px;
+  }
+
+  .cell {
+    width: 52px;
+  }
+
+  .matrix thead th {
+    padding: 0 2px 12px;
+  }
+
+  .matrix thead b {
+    font-size: 14px;
+  }
+
+  .matrix thead small,
+  .label small {
+    display: none !important;
+  }
+
+  .label {
+    padding-right: 8px !important;
+  }
+
+  .label b {
+    font-size: 14px;
+  }
+
+  .star {
+    width: 40px;
+    height: 40px;
+  }
+
+  .dock {
+    flex-wrap: wrap;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dirty::after {
+    animation: none;
+  }
+
+  .dock,
+  .star svg {
+    transition: none;
+  }
+}
