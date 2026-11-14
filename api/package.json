@@ -16,6 +16,7 @@
     "open-exam": "tsx src/scripts/open-exam.ts",
     "set-role": "tsx src/scripts/set-role.ts",
     "seal-integrity": "tsx src/scripts/seal-integrity.ts",
+    "set-password": "tsx src/scripts/set-password.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },
