@@ -20,8 +20,9 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 
 export const app = express();
 app.disable("x-powered-by");
-// La API está detrás de dos proxies (Netlify y Railway): así req.ip es la IP del navegador, para la bitácora
-app.set("trust proxy", 2);
+// Entre el navegador y la API hay tres saltos (Netlify y dos de Railway). Con 3, req.ip es la IP del
+// navegador, para la bitácora. Con 2 daba la de Netlify (54.232.x.x, Amazon São Paulo)
+app.set("trust proxy", 3);
 
 app.use(express.json());
 app.use(cookieParser());
