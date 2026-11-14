@@ -214,6 +214,25 @@ describe("GET /admin/audit", () => {
     expect(otherActor).toHaveLength(0);
   });
 
+  it("trae el nombre del elemento, filtra lo que hizo la app y lista quiénes aparecen", async () => {
+    const { user: me, agent } = await staff("super@test.com", "super_admin");
+    const student = await createUser("alumno@test.com");
+    await agent.patch(`/admin/users/${student.id}/role`).send({ role: "teacher" }).expect(200);
+    await agent.patch("/admin/roles/teacher").send({ permissions: ["content:edit"] }).expect(200);
+    // Un cambio sin actor, como el de npm run set-role
+    await sequelize.transaction((t) => changeUserRole(t, { actorId: null, ip: null }, student.id, "admin"));
+
+    const entries = (await agent.get("/admin/audit").expect(200)).body.entries;
+    expect(entries[0].target).toEqual({ type: "user", id: student.id, name: student.name });
+    expect(entries[1].target).toEqual({ type: "role", id: "teacher", name: expect.any(String) });
+
+    const bySystem = (await agent.get("/admin/audit?actor=system")).body.entries;
+    expect(bySystem.map((e: { id: number }) => e.id)).toEqual([entries[0].id]);
+
+    const actors = (await agent.get("/admin/audit/actors").expect(200)).body.actors;
+    expect(actors).toEqual([{ id: me.id, name: me.name, email: "super@test.com" }]);
+  });
+
   it("filtra por días de Argentina y valida los filtros", async () => {
     const { agent } = await staff("super@test.com", "super_admin");
     const today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Argentina/Buenos_Aires" }).format(new Date());

@@ -1,0 +1,517 @@
+/* El libro a la izquierda y el sello de integridad a la derecha */
+.page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px 44px;
+  align-items: start;
+}
+
+.head {
+  grid-column: 1 / -1;
+}
+
+.head h1 {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.head p {
+  max-width: 560px;
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.book {
+  min-width: 0;
+}
+
+/* ---------- Filtros ---------- */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 4px 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(5, 13, 36, 0.55);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.field select,
+.field input {
+  height: 36px;
+  padding: 0 6px;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+
+.field select option {
+  background: var(--night-2);
+}
+
+.field input[type="date"] {
+  width: 132px;
+  color-scheme: dark;
+}
+
+.focus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 6px 0 12px;
+  border: 1px solid var(--orange);
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.focus button {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.focus button:hover {
+  color: var(--text);
+  background: var(--night-3);
+}
+
+.error {
+  color: var(--error);
+}
+
+/* ---------- El libro: los registros cosidos por un hilo (la cadena de hashes) ---------- */
+.log {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.log::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  bottom: 12px;
+  width: 1.5px;
+  background: var(--line);
+}
+
+/* Al verificar, una luz baja por el hilo */
+.log::after {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 0;
+  width: 8px;
+  height: 90px;
+  border-radius: 4px;
+  opacity: 0;
+  background: linear-gradient(transparent, var(--mint), transparent);
+}
+
+.scanning::after {
+  animation: scan 1.6s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+}
+
+@keyframes scan {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: calc(100% - 90px);
+    opacity: 0;
+  }
+}
+
+.day {
+  position: relative;
+  padding: 26px 0 6px 44px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.day:first-child {
+  padding-top: 8px;
+}
+
+.empty {
+  padding: 30px 0 10px 44px;
+  color: var(--muted);
+}
+
+.entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 16px;
+  padding: 14px 14px 14px 44px;
+  border-radius: 12px;
+  transition:
+    background 1.2s,
+    box-shadow 1.2s;
+}
+
+.entry:hover {
+  background: rgba(17, 33, 74, 0.45);
+}
+
+.flash {
+  background: rgba(255, 153, 0, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 153, 0, 0.4);
+  transition: none;
+}
+
+/* El nodo: la puntada del hilo */
+.node {
+  position: absolute;
+  left: 8px;
+  top: 19px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--night);
+  border: 1.5px solid var(--dim);
+}
+
+.nodeLogin {
+  /* hueco: solo un registro, no cambió nada */
+}
+
+.nodeChange {
+  background: var(--blue);
+  border-color: var(--blue);
+}
+
+.nodeRevert {
+  border-color: var(--orange);
+}
+
+.nodeRevert::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+
+.nodeAlert {
+  background: var(--coral);
+  border-color: var(--coral);
+}
+
+/* Un cambio ya revertido: el nodo punteado */
+.undone .node {
+  background: var(--night);
+  border: 1.5px dashed var(--blue);
+}
+
+/* Donde se corta la cadena: el hilo cortado arriba y abajo del nodo */
+.broken .node {
+  background: var(--deep);
+  border-color: var(--coral);
+  box-shadow: 0 0 0 4px var(--deep);
+}
+
+.broken::before,
+.broken::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  width: 16px;
+  height: 2px;
+  background: var(--coral);
+  transform: rotate(-28deg);
+}
+
+.broken::before {
+  top: 8px;
+}
+
+.broken::after {
+  bottom: 8px;
+}
+
+.what {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.who {
+  font-weight: 600;
+}
+
+.avatar {
+  display: inline-grid;
+  margin-right: 8px;
+  vertical-align: -7px;
+}
+
+/* El "quién" de los registros sin persona: un círculo punteado */
+.system {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  margin-right: 8px;
+  vertical-align: -7px;
+  border: 1px dashed var(--dim);
+  border-radius: 50%;
+}
+
+.target {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline dotted var(--dim);
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.target:hover {
+  text-decoration-color: var(--orange);
+}
+
+/* El cambio: lo de antes tachado y lo de ahora */
+.diff {
+  grid-column: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin: 2px 0;
+  font-size: 14px;
+}
+
+.was {
+  color: var(--placeholder);
+  text-decoration: line-through;
+  text-decoration-color: rgba(255, 122, 107, 0.6);
+}
+
+.arrow {
+  color: var(--dim);
+}
+
+.perm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.perm i {
+  font-family: var(--mono);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.add {
+  color: var(--mint);
+  border-color: rgba(63, 224, 162, 0.35);
+}
+
+.remove {
+  color: var(--coral);
+  border-color: rgba(255, 122, 107, 0.35);
+}
+
+.meta {
+  grid-column: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+.num {
+  font-family: var(--mono);
+  color: var(--dim);
+}
+
+.ip {
+  font-family: var(--mono);
+}
+
+.brokenNote {
+  color: var(--coral);
+}
+
+.side {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Revertir aparece al pasar el mouse (en pantallas táctiles, siempre) */
+.revert {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(5, 13, 36, 0.6);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.revert svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.revert:hover {
+  border-color: var(--line-hover);
+  background: var(--night-3);
+}
+
+.entry:hover .revert,
+.revert:focus-visible {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .revert {
+    opacity: 1;
+  }
+}
+
+.tag {
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.tag button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--orange);
+  cursor: pointer;
+}
+
+.tag button:hover {
+  text-decoration: underline;
+}
+
+.more {
+  display: flex;
+  justify-content: center;
+  padding: 22px 0 0 44px;
+}
+
+.moreButton {
+  height: 38px;
+  padding: 0 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(5, 13, 36, 0.6);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.moreButton:hover {
+  border-color: var(--line-hover);
+}
+
+/* ---------- Angosto ---------- */
+@media (max-width: 1180px) {
+  .page {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* El sello pasa arriba del libro */
+  .book {
+    order: 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .head h1 {
+    font-size: 32px;
+  }
+
+  .entry {
+    grid-template-columns: minmax(0, 1fr);
+    padding-right: 6px;
+  }
+
+  .side {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 6px;
+  }
+
+  .field {
+    flex: 1 1 140px;
+  }
+
+  .field select,
+  .field input[type="date"] {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scanning::after {
+    animation: none;
+  }
+
+  .entry {
+    transition: none;
+  }
+}

@@ -1,0 +1,225 @@
+.seal {
+  position: sticky;
+  top: 24px;
+  padding: 22px 22px 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(10, 23, 53, 0.75);
+}
+
+.seal h2 {
+  margin: 0 0 14px;
+  font-size: 18px;
+}
+
+.mark {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.mark svg {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.mark strong {
+  display: block;
+  font-size: 19px;
+  line-height: 1.2;
+  color: var(--mint);
+}
+
+.bad .mark strong {
+  color: var(--coral);
+}
+
+.mark strong.unknown {
+  color: var(--text);
+}
+
+.mark span {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.markOk,
+.markBad {
+  --c: var(--mint);
+}
+
+.markBad {
+  --c: var(--coral);
+}
+
+.markOk line,
+.markBad line {
+  stroke: var(--c);
+  stroke-width: 1.4;
+  opacity: 0.7;
+}
+
+.markOk circle,
+.markBad circle {
+  fill: var(--c);
+}
+
+.markBad circle.off {
+  fill: var(--deep);
+  stroke: var(--c);
+  stroke-width: 1.4;
+}
+
+.tables {
+  display: grid;
+  gap: 7px;
+  margin: 18px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid rgba(36, 55, 107, 0.6);
+  list-style: none;
+  font-size: 14px;
+}
+
+.tables li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tables code {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--mint);
+}
+
+.tables .fail .dot {
+  background: var(--coral);
+}
+
+.tables .fail code {
+  color: var(--text);
+}
+
+.tables small {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--coral);
+}
+
+.problems {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 122, 107, 0.08);
+  font-size: 14px;
+}
+
+.problems p {
+  margin: 0 0 8px;
+  color: var(--muted);
+}
+
+.problems ul {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 4px;
+  padding-left: 18px;
+}
+
+.problems code {
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.jump {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  color: var(--orange);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.error {
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: var(--error);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.actions small {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 16px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.check:hover {
+  background: var(--blue-hover);
+}
+
+.check:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.spin {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1180px) {
+  .seal {
+    position: static;
+  }
+
+  .tables {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation: none;
+  }
+}

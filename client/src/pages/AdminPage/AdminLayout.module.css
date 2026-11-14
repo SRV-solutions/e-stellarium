@@ -1,0 +1,109 @@
+/* Un cielo quieto: el degradé de la noche y unas pocas estrellas fijas */
+.screen {
+  min-height: 100%;
+  background:
+    radial-gradient(1px 1px at 30px 40px, rgba(220, 231, 255, 0.35), transparent 60%) 0 0 / 520px 520px,
+    radial-gradient(1px 1px at 190px 120px, rgba(220, 231, 255, 0.25), transparent 60%) 0 0 / 520px 520px,
+    radial-gradient(1px 1px at 330px 300px, rgba(220, 231, 255, 0.3), transparent 60%) 0 0 / 520px 520px,
+    radial-gradient(40% 50% at 90% 10%, rgba(0, 123, 255, 0.12), transparent 70%),
+    linear-gradient(180deg, var(--night) 0%, var(--deep) 60%);
+  background-attachment: fixed;
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 36px 24px 60px;
+}
+
+.rail {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+}
+
+.rail p {
+  margin: 0 0 10px 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.rail p span {
+  color: var(--text);
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.link:hover {
+  color: var(--text);
+}
+
+.active {
+  color: var(--text);
+  background: var(--night-3);
+}
+
+/* La sección actual con la mira, como la estrella apuntada */
+.active::after {
+  content: "";
+  margin-left: auto;
+  width: 12px;
+  height: 12px;
+  border: 1.3px dashed var(--orange);
+  border-radius: 50%;
+  animation: spin 10s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.page {
+  min-width: 0;
+}
+
+/* Angosto: el índice pasa arriba, en una fila que se desliza */
+@media (max-width: 900px) {
+  .panel {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    padding: 16px 16px 48px;
+  }
+
+  .rail {
+    position: static;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .rail p {
+    display: none;
+  }
+
+  .active::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .active::after {
+    animation: none;
+  }
+}

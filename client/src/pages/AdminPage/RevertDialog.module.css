@@ -1,0 +1,195 @@
+.dialog {
+  width: min(520px, calc(100vw - 32px));
+  padding: 26px 26px 22px;
+  color: var(--text);
+  background: var(--night-2);
+  border: 1px solid var(--line-hover);
+  border-radius: 18px;
+}
+
+.dialog[open] {
+  animation: pop 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+
+.dialog::backdrop {
+  background: rgba(3, 8, 23, 0.72);
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+}
+
+.dialog h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.dialog p {
+  margin: 0 0 14px;
+  color: var(--muted);
+}
+
+.num {
+  font-family: var(--mono);
+  color: var(--orange);
+}
+
+.result {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(5, 13, 36, 0.6);
+  font-size: 15px;
+  color: var(--text) !important;
+}
+
+.result b {
+  color: var(--orange);
+}
+
+.error {
+  color: var(--error) !important;
+}
+
+/* El conflicto: tres momentos sobre una línea de tiempo */
+.when {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 6px 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.when::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  right: 7px;
+  top: 7px;
+  height: 1.5px;
+  background: var(--line);
+}
+
+.when li {
+  position: relative;
+  padding: 24px 10px 0 0;
+}
+
+.when li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--night-2);
+  border: 1.5px solid var(--dim);
+}
+
+.when li.recorded::before {
+  background: var(--blue);
+  border-color: var(--blue);
+}
+
+/* Ahora: la mira */
+.when li.current::before {
+  border: 1.3px dashed var(--orange);
+  animation: spin 10s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.when small {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.when b {
+  font-size: 16px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.cancel,
+.confirm,
+.anyway {
+  padding: 11px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.cancel {
+  color: var(--text);
+  background: none;
+  border: 1.5px solid var(--line);
+}
+
+.cancel:hover {
+  border-color: var(--muted);
+}
+
+.confirm {
+  color: #fff;
+  background: var(--blue);
+  border: 0;
+}
+
+.confirm:hover {
+  background: var(--blue-hover);
+}
+
+.anyway {
+  color: #111;
+  background: var(--orange);
+  border: 0;
+}
+
+.confirm:disabled,
+.anyway:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+@media (max-width: 520px) {
+  .when {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .when::before {
+    right: auto;
+    bottom: 7px;
+    width: 1.5px;
+    height: auto;
+  }
+
+  .when li {
+    padding: 0 0 0 26px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog[open],
+  .when li.current::before {
+    animation: none;
+  }
+}

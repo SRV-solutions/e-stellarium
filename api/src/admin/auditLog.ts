@@ -7,7 +7,7 @@ export const AUDIT_PAGE_SIZE = 50;
 const DAY_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 export type AuditFilters = {
-  actor?: string; // id del que hizo la acción
+  actor?: string; // id del que hizo la acción, o "system" para los que no tienen (scripts y verificación diaria)
   action?: string;
   targetType?: string;
   targetId?: string;
@@ -31,7 +31,7 @@ export function parseAuditFilters(query: Record<string, unknown>): AuditFilters 
     from: text(query.from, "from"),
     to: text(query.to, "to"),
   };
-  if (filters.actor && !isUuid(filters.actor)) throw new HttpError(400, "actor inválido.");
+  if (filters.actor && filters.actor !== "system" && !isUuid(filters.actor)) throw new HttpError(400, "actor inválido.");
   for (const day of [filters.from, filters.to]) {
     if (day && (!DAY_RE.test(day) || Number.isNaN(Date.parse(day)))) {
       throw new HttpError(400, "Las fechas van como 2026-11-12.");
@@ -62,6 +62,7 @@ export async function listAudit(filters: AuditFilters) {
     action: string;
     target_type: string | null;
     target_id: string | null;
+    target_name: string | null;
     before: unknown;
     after: unknown;
     reversible: boolean;
@@ -69,11 +70,16 @@ export async function listAudit(filters: AuditFilters) {
     reverted_by: number | null;
   }>(
     `SELECT a.id, a.created_at, a.actor_id, u.name AS actor_name, u.email AS actor_email, a.ip, a.action,
-            a.target_type, a.target_id, a.before, a.after, a.reversible, a.reverts_id, r.id AS reverted_by
+            a.target_type, a.target_id, COALESCE(tu.name, tr.name) AS target_name, a.before, a.after, a.reversible, a.reverts_id, r.id AS reverted_by
        FROM audit_logs a
        LEFT JOIN users u ON u.id = a.actor_id
        LEFT JOIN audit_logs r ON r.reverts_id = a.id
-      WHERE (:actor::uuid IS NULL OR a.actor_id = :actor::uuid)
+       -- El nombre del elemento, para que la pantalla diga "le cambió el rol a Marcos" y no un id
+       LEFT JOIN users tu ON a.target_type = 'user' AND tu.id::text = a.target_id
+       LEFT JOIN roles tr ON a.target_type = 'role' AND tr.key::text = a.target_id
+      WHERE (:actor::text IS NULL
+             OR (:actor = 'system' AND a.actor_id IS NULL)
+             OR (:actor <> 'system' AND a.actor_id::text = :actor))
         AND (:action::text IS NULL OR a.action = :action)
         AND (:targetType::text IS NULL OR a.target_type = :targetType)
         AND (:targetId::text IS NULL OR a.target_id = :targetId)
@@ -104,7 +110,7 @@ export async function listAudit(filters: AuditFilters) {
       actor: r.actor_id ? { id: r.actor_id, name: r.actor_name, email: r.actor_email } : null,
       ip: r.ip,
       action: r.action,
-      target: r.target_type ? { type: r.target_type, id: r.target_id } : null,
+      target: r.target_type ? { type: r.target_type, id: r.target_id, name: r.target_name } : null,
       before: r.before,
       after: r.after,
       reversible: r.reversible,
@@ -115,4 +121,15 @@ export async function listAudit(filters: AuditFilters) {
     // Hay más si vino la página llena: se piden con ?before=<este id>
     nextBefore: rows.length === AUDIT_PAGE_SIZE ? rows.at(-1)!.id : null,
   };
+}
+
+// Quiénes aparecen en la bitácora, para el filtro "Quién" de la pantalla (sin los registros sin actor)
+export async function listAuditActors() {
+  return sequelize.query<{ id: string; name: string; email: string }>(
+    `SELECT u.id, u.name, u.email
+       FROM users u
+      WHERE EXISTS (SELECT 1 FROM audit_logs a WHERE a.actor_id = u.id)
+      ORDER BY u.name`,
+    { type: QueryTypes.SELECT }
+  );
 }

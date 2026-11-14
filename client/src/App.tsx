@@ -13,6 +13,9 @@ import { ReviewPage } from "./pages/ReviewPage/ReviewPage";
 import { PracticePage } from "./pages/PracticePage/PracticePage";
 import { ChallengesPage } from "./pages/ChallengesPage/ChallengesPage";
 import { ShopPage } from "./pages/ShopPage/ShopPage";
+import { AdminLayout } from "./pages/AdminPage/AdminLayout";
+import { AuditPage } from "./pages/AdminPage/AuditPage";
+import { ADMIN_SECTIONS } from "./lib/permissions";
 
 export default function App() {
   return (
@@ -86,6 +89,24 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          {/* El panel de staff: entra quien tenga el permiso de alguna sección, y cada sección pide el suyo */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute anyOf={ADMIN_SECTIONS.flatMap((section) => section.permissions)}>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route
+              path="audit"
+              element={
+                <ProtectedRoute anyOf={["audit:view", "integrity:view"]}>
+                  <AuditPage />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
           <Route
             path="/"
             element={

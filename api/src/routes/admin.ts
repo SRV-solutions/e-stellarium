@@ -9,7 +9,7 @@ import type { AuditContext } from "../lib/audit.js";
 import type { RoleKey } from "../models/Role.js";
 import { listRoles, parsePermissions, setRolePermissions } from "../admin/roles.js";
 import { changeUserRole, deleteUser, restoreUser } from "../admin/users.js";
-import { listAudit, parseAuditFilters } from "../admin/auditLog.js";
+import { listAudit, listAuditActors, parseAuditFilters } from "../admin/auditLog.js";
 import { revertAudit } from "../admin/revert.js";
 import { lastCheck, runIntegrityCheck } from "../lib/integrity.js";
 
@@ -60,9 +60,13 @@ adminRouter.post("/admin/users/:id/restore", requireAuth, requirePermission("rol
   res.json({ user });
 });
 
-// Filtros: ?actor=<id>&action=user.delete&targetType=user&targetId=<id>&from=2026-11-01&to=2026-11-12&before=<id>
+// Filtros: ?actor=<id o system>&action=user.delete&targetType=user&targetId=<id>&from=2026-11-01&to=2026-11-12&before=<id>
 adminRouter.get("/admin/audit", requireAuth, requirePermission("audit:view"), async (req, res) => {
   res.json(await listAudit(parseAuditFilters(req.query as Record<string, unknown>)));
+});
+
+adminRouter.get("/admin/audit/actors", requireAuth, requirePermission("audit:view"), async (_req, res) => {
+  res.json({ actors: await listAuditActors() });
 });
 
 // Revierte un registro: { confirm: true } para revertir aunque lo hayan cambiado después.

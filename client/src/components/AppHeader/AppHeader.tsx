@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router";
 import { useAuth } from "../../auth/useAuth";
 import logo from "../../assets/logo-srv.png";
 import { levelFor } from "../../lib/levels";
+import { adminSectionsFor } from "../../lib/permissions";
 import { Avatar } from "../Avatar/Avatar";
 import { BrandGauge } from "../BrandGauge/BrandGauge";
 import { Comet } from "../Comet/Comet";
@@ -50,6 +51,18 @@ const LINKS: { to: string; label: string; end?: boolean; icon: ReactNode }[] = [
   },
 ];
 
+// El panel, solo para el staff que tenga alguna sección: una mira con su retícula
+const PANEL_LINK: (typeof LINKS)[number] = {
+  to: "/admin",
+  label: "Panel",
+  icon: (
+    <>
+      <rect x="3.5" y="3.5" width="17" height="17" rx="3" />
+      <path d="M3.5 9.5h17M9.5 9.5v11" />
+    </>
+  ),
+};
+
 const navClass = ({ isActive }: { isActive: boolean }) => `${styles.navLink} ${isActive ? styles.active : ""}`;
 const drawerClass = ({ isActive }: { isActive: boolean }) => `${styles.drawerLink} ${isActive ? styles.drawerActive : ""}`;
 const format = (n: number) => n.toLocaleString("es-AR");
@@ -73,6 +86,7 @@ export function AppHeader() {
 
   if (!user) return null;
   const level = levelFor(user.totalXp);
+  const links = adminSectionsFor(user).length > 0 ? [...LINKS, PANEL_LINK] : LINKS;
 
   function toggleMenu() {
     // El panel arranca justo debajo del encabezado, esté donde esté (si bajaste un poco, más arriba)
@@ -90,7 +104,7 @@ export function AppHeader() {
           </Link>
 
           <nav className={styles.nav} aria-label="Principal">
-            {LINKS.map((link) => (
+            {links.map((link) => (
               <NavLink key={link.to} to={link.to} end={link.end} className={navClass}>
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   {link.icon}
@@ -168,7 +182,7 @@ export function AppHeader() {
             destellos
           </div>
         </div>
-        {LINKS.map((link, i) => (
+        {links.map((link, i) => (
           <NavLink
             key={link.to}
             to={link.to}
@@ -183,7 +197,7 @@ export function AppHeader() {
             {link.label}
           </NavLink>
         ))}
-        <div className={styles.drawerOut} style={{ "--i": LINKS.length + 1 } as CSSProperties}>
+        <div className={styles.drawerOut} style={{ "--i": links.length + 1 } as CSSProperties}>
           <button
             type="button"
             onClick={() => {

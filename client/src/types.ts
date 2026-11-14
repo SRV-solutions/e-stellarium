@@ -1,9 +1,26 @@
+export type RoleKey = "student" | "teacher" | "admin" | "super_admin";
+
+// Los mismos que PERMISSIONS en la API (api/src/lib/permissions.ts)
+export type Permission =
+  | "content:edit"
+  | "content:approve"
+  | "students:view"
+  | "challenges:manage"
+  | "economy:edit"
+  | "users:manage"
+  | "coupons:manage"
+  | "audit:view"
+  | "audit:revert"
+  | "integrity:view"
+  | "roles:manage";
+
 export type User = {
   id: string;
   email: string;
   name: string;
   alias: string;
-  role: "student" | "admin";
+  role: RoleKey;
+  permissions: Permission[]; // los del rol, leídos de la base (el super admin, todos)
   totalXp: number;
   glints: number; // el saldo de destellos, para la tienda
   // Los cosméticos puestos (ids de la tienda). wornColor vacío = el azul de siempre
@@ -332,4 +349,38 @@ export type Purchase = {
   item: string;
   coupon: { code: string; percent: number; expiresAt: string } | null;
   shop: Shop;
+};
+
+// ---------- Panel de staff ----------
+
+// Un registro de la bitácora, como lo manda GET /admin/audit
+export type AuditEntry = {
+  id: number;
+  createdAt: string;
+  actor: { id: string; name: string; email: string } | null; // vacío: un script o la verificación diaria
+  ip: string | null;
+  action: string; // auth.login, user.role_update, role.update, user.delete, user.restore, audit.revert, integrity.fail
+  target: { type: string; id: string; name: string | null } | null;
+  before: Record<string, unknown> | null;
+  after: Record<string, unknown> | null;
+  reversible: boolean;
+  revertsId: number | null;
+  revertedBy: number | null;
+  canRevert: boolean;
+};
+
+export type AuditPage = { entries: AuditEntry[]; nextBefore: number | null };
+
+export type IntegrityProblem =
+  | { kind: "row"; table: string; rowId: string }
+  | { kind: "table"; table: string }
+  | { kind: "chain"; table: "audit_logs"; rowId: string };
+
+export type IntegrityCheck = {
+  id: number;
+  checkedAt: string;
+  source: "manual" | "daily";
+  ok: boolean;
+  problemCount: number;
+  problems: IntegrityProblem[];
 };
