@@ -4,6 +4,7 @@ import { requireAuth } from "../middlewares/requireAuth.js";
 import { requirePermission } from "../middlewares/requirePermission.js";
 import { HttpError } from "../lib/errors.js";
 import { isUuid } from "../lib/uuid.js";
+import { clientIp } from "../lib/clientIp.js";
 import type { AuditContext } from "../lib/audit.js";
 import type { RoleKey } from "../models/Role.js";
 import { listRoles, parsePermissions, setRolePermissions } from "../admin/roles.js";
@@ -16,7 +17,7 @@ export const adminRouter = Router();
 
 // Quién y desde dónde, para la bitácora
 export function auditContext(req: Request): AuditContext {
-  return { actorId: req.user!.id, ip: req.ip ?? null };
+  return { actorId: req.user!.id, ip: clientIp(req) };
 }
 
 function userIdParam(req: Request): string {

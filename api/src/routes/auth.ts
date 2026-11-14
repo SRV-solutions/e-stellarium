@@ -5,6 +5,7 @@ import { startSession, endSession } from "../lib/session.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
 import { roleKeyOf, sessionUser } from "../lib/permissions.js";
 import { writeAudit } from "../lib/audit.js";
+import { clientIp } from "../lib/clientIp.js";
 import { sequelize } from "../db.js";
 
 export const authRouter = Router();
@@ -36,7 +37,7 @@ authRouter.post("/auth/login", async (req, res) => {
     await sequelize.transaction((t) =>
       writeAudit(t, {
         actorId: user.id,
-        ip: req.ip ?? null,
+        ip: clientIp(req),
         action: "auth.login",
         targetType: "user",
         targetId: user.id,

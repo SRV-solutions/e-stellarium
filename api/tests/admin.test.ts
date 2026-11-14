@@ -162,6 +162,23 @@ describe("inicio de sesión del staff", () => {
     expect(log).toMatchObject({ actorId: user.id, targetId: user.id, reversible: false });
     expect(log!.ip).toBeTruthy();
   });
+
+  it("guarda la IP que manda Netlify, si es una IP válida", async () => {
+    await setRole(await createUser("docente@test.com"), "teacher");
+    const login = (header: string) =>
+      http()
+        .post("/auth/login")
+        .set("x-nf-client-connection-ip", header)
+        .send({ email: "docente@test.com", password: "Prueba1234" })
+        .expect(200);
+
+    await login("186.137.149.23");
+    await login("no-es-una-ip");
+    const ips = (await AuditLog.findAll({ order: [["id", "ASC"]] })).map((l) => l.ip);
+    expect(ips[0]).toBe("186.137.149.23");
+    expect(ips[1]).not.toBe("no-es-una-ip");
+    expect(ips[1]).toBeTruthy();
+  });
 });
 
 describe("GET /admin/audit", () => {
