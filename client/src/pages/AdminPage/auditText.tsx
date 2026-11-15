@@ -14,12 +14,31 @@ export const ACTION_FILTERS: { value: string; label: string }[] = [
   { value: "economy.update", label: "Cambios en la economía" },
   { value: "shop.update", label: "Cambios en la tienda" },
   { value: "shop.create", label: "Agregados a la tienda" },
+  { value: "content.approve", label: "Contenido aprobado" },
+  { value: "content.reject", label: "Contenido rechazado" },
+  { value: "content.unpublish", label: "Contenido despublicado" },
+  { value: "content.republish", label: "Contenido publicado de nuevo" },
+  { value: "teacher.courses_update", label: "Cursos de docentes" },
   { value: "audit.revert", label: "Reversiones" },
   { value: "auth.login", label: "Inicios de sesión" },
   { value: "integrity.fail", label: "Fallas de integridad" },
 ];
 
 type Values = Record<string, unknown> | null;
+
+// Las preguntas: { status, version } (aprobar, despublicar...) y los cursos de un docente
+const STATUS_NAMES: Record<string, string> = {
+  published: "Publicada",
+  draft: "Sin publicar",
+  in_review: "En revisión",
+  rejected: "Rechazada",
+};
+const isQuestionState = (v: Values) => !!v && typeof v.status === "string";
+const coursesOf = (v: Values) => (Array.isArray(v?.courses) ? (v!.courses as string[]) : null);
+function questionState(v: Values) {
+  const name = STATUS_NAMES[v!.status as string] ?? String(v!.status);
+  return typeof v!.version === "number" ? `${name} (v${v!.version})` : name;
+}
 
 const roleOf = (v: Values) => (v?.role as RoleKey | undefined) ?? null;
 const permissionsOf = (v: Values) => (v?.permissions as Permission[] | undefined) ?? null;
@@ -67,6 +86,16 @@ export function sentence(entry: AuditEntry, target: ReactNode): ReactNode {
       return <>cambió {target} en la tienda</>;
     case "shop.create":
       return <>agregó {target} a la tienda</>;
+    case "content.approve":
+      return <>publicó la v{String(entry.after?.version)} de {target}</>;
+    case "content.reject":
+      return <>rechazó la v{String(entry.after?.version)} de {target}</>;
+    case "content.unpublish":
+      return <>despublicó {target}</>;
+    case "content.republish":
+      return <>volvió a publicar {target}</>;
+    case "teacher.courses_update":
+      return <>cambió los cursos que da {target}</>;
     case "audit.revert":
       return (
         <>
@@ -84,6 +113,18 @@ export function sentence(entry: AuditEntry, target: ReactNode): ReactNode {
 
 // Cómo quedó lo revertido: la reversión guarda en "after" el valor al que volvió
 function revertResult(entry: AuditEntry) {
+  if (coursesOf(entry.after)) return "vuelve a sus cursos anteriores";
+  if (isQuestionState(entry.after)) {
+    const after = entry.after!;
+    if (after.status === "in_review") return "vuelve a revisión";
+    // Revertir una aprobación guarda cómo quedó la pregunta (con su versión, que puede ser ninguna)
+    if ("version" in after) {
+      return typeof after.version === "number"
+        ? `vuelve a revisión, y los alumnos ven la v${after.version}`
+        : "vuelve a revisión, y los alumnos dejan de verla";
+    }
+    return after.status === "published" ? "se ve de nuevo" : "deja de verse";
+  }
   if (isSettings(entry.after)) return "vuelve a como estaba";
   if (isItemFields(entry.after)) {
     const keys = Object.keys(entry.after!);
@@ -103,6 +144,24 @@ export type Change =
   | null;
 
 export function changeOf(entry: AuditEntry): Change {
+  // Los cursos de un docente: + sumados, − sacados
+  const coursesWas = coursesOf(entry.before);
+  const coursesNow = coursesOf(entry.after);
+  if (coursesWas && coursesNow) {
+    return {
+      kind: "permissions",
+      added: coursesNow.filter((c) => !coursesWas.includes(c)),
+      removed: coursesWas.filter((c) => !coursesNow.includes(c)),
+    };
+  }
+  // Una pregunta: el estado (y la versión) de antes y de ahora; el rechazo, con su comentario
+  if (isQuestionState(entry.after) && isQuestionState(entry.before)) {
+    const rows: { label: string; was: string | null; now: string }[] = [
+      { label: "Estado", was: questionState(entry.before), now: questionState(entry.after) },
+    ];
+    if (typeof entry.after!.comment === "string") rows.push({ label: "Comentario", was: null, now: entry.after!.comment });
+    return { kind: "values", rows };
+  }
   // Lo nuevo en la tienda: su precio (y el porcentaje o el color)
   if (entry.action === "shop.create" && entry.after) {
     const shown = ["price", "percent", "hex"].filter((f) => entry.after![f] !== null && entry.after![f] !== undefined);
@@ -150,6 +209,9 @@ export function changeOf(entry: AuditEntry): Change {
 
 // Cada valor de un registro en palabras, para el diálogo de revertir: "Admin", "3 permisos", "Activo"
 export function describeValue(value: Values): string {
+  const courses = coursesOf(value);
+  if (courses) return courses.length ? courses.join(", ") : "Ningún curso";
+  if (isQuestionState(value)) return questionState(value);
   if (isSettings(value)) {
     return Object.entries(value!)
       .map(([key, v]) => `${SETTING_NAMES[key].name}: ${formatSetting(key, v)}`)
@@ -175,6 +237,14 @@ export function revertOutcome(entry: AuditEntry): string {
   if (entry.action === "economy.update") return `Los valores vuelven a como estaban: ${describeValue(entry.before)}.`;
   if (entry.action === "shop.create") return `${name} se retira de la tienda (quien lo compró lo sigue teniendo).`;
   if (entry.action === "shop.update") return `${name} vuelve a como estaba: ${describeValue(entry.before)}.`;
+  if (entry.action === "teacher.courses_update") return `${name} vuelve a dar: ${describeValue(entry.before)}.`;
+  if (entry.action === "content.approve") {
+    const back = typeof entry.before?.version === "number" ? `los alumnos vuelven a ver la v${entry.before.version}` : "los alumnos dejan de verla";
+    return `La v${String(entry.after?.version)} vuelve a revisión y ${back}. No se puede si alguien ya la jugó.`;
+  }
+  if (entry.action === "content.reject") return `La v${String(entry.after?.version)} vuelve a esperar revisión.`;
+  if (entry.action === "content.unpublish") return "La pregunta se vuelve a ver.";
+  if (entry.action === "content.republish") return "La pregunta deja de verse.";
   const role = roleOf(entry.before);
   if (role) return `${name} vuelve a ser ${ROLE_NAMES[role]}.`;
   if (permissionsOf(entry.before)) return `El rol ${name} vuelve a los permisos que tenía.`;

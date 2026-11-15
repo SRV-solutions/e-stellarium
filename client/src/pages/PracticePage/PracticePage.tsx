@@ -109,7 +109,7 @@ function PracticeGame({ info, practice, onAgain }: GameProps) {
     try {
       const graded = await api<PracticeAnswer>(`/exams/${info.star.id}/practice/answer`, {
         method: "POST",
-        body: JSON.stringify({ practiceId: practice.practiceId, questionId: question.id, response }),
+        body: JSON.stringify({ practiceId: practice.practiceId, questionId: question.id, version: question.version, response }),
       });
       // flushSync aplica estos cambios ya, así la pantalla muestra el veredicto antes de animar
       flushSync(() => {

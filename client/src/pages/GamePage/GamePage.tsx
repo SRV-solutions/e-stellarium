@@ -92,7 +92,7 @@ function Game({ play: initialPlay }: { play: StarPlay }) {
         `/questions/${question!.id}/answer`,
         {
           method: "POST",
-          body: JSON.stringify({ response, attempt: question!.attempt }),
+          body: JSON.stringify({ response, attempt: question!.attempt, version: question!.version }),
         },
       );
       // flushSync aplica estos cambios ya, así la pantalla muestra el veredicto antes de animar

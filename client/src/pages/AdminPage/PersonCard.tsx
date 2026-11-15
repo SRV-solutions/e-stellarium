@@ -32,6 +32,7 @@ export function PersonCard({ id, roles, meId, onClose, onChanged }: Props) {
   const [person, setPerson] = useState<PersonDetail | null>(null);
   const [reloads, setReloads] = useState(0);
   const [pick, setPick] = useState<RoleKey | null>(null); // el rol elegido y todavía sin guardar
+  const [teach, setTeach] = useState<string[] | null>(null); // los cursos tildados y todavía sin guardar
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -63,6 +64,7 @@ export function PersonCard({ id, roles, meId, onClose, onChanged }: Props) {
     try {
       await api(path, { method, body: body ? JSON.stringify(body) : undefined });
       setPick(null);
+      setTeach(null);
       setReloads((n) => n + 1);
       onChanged(message);
     } catch (err) {
@@ -182,6 +184,56 @@ export function PersonCard({ id, roles, meId, onClose, onChanged }: Props) {
           </div>
         )}
       </section>
+
+      {person.role === "teacher" && !gone && (
+        <section className={styles.sect}>
+          <h3>Cursos que da</h3>
+          <p className={styles.muted}>Ve y edita las preguntas de estos cursos. Lo que envía lo aprueba un admin.</p>
+          <ul className={styles.teach}>
+            {person.courseOptions.map((course) => {
+              const checked = (teach ?? person.teaching).includes(course.key);
+              return (
+                <li key={course.key}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => {
+                        const current = teach ?? person.teaching;
+                        const next = checked ? current.filter((k) => k !== course.key) : [...current, course.key];
+                        setTeach(next.sort().join() === [...person.teaching].sort().join() ? null : next);
+                      }}
+                    />
+                    <span className={styles.box} />
+                    <b>{course.name}</b>
+                  </label>
+                </li>
+              );
+            })}
+          </ul>
+          {teach && (
+            <div className={styles.save}>
+              <p>
+                {name} va a dar:{" "}
+                <b>{teach.length ? person.courseOptions.filter((c) => teach.includes(c.key)).map((c) => c.name).join(", ") : "ningún curso"}</b>.
+              </p>
+              <div className={styles.buttons}>
+                <button type="button" className={styles.button} onClick={() => setTeach(null)} disabled={busy}>
+                  Dejar como estaba
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.button} ${styles.primary}`}
+                  disabled={busy}
+                  onClick={() => act(`/admin/users/${person.id}/teaching`, "PUT", { courses: teach }, `Listo: cambiaron los cursos de ${name}.`)}
+                >
+                  Guardar
+                </button>
+              </div>
+            </div>
+          )}
+        </section>
+      )}
 
       <section className={styles.sect}>
         {gone ? (

@@ -1,0 +1,396 @@
+.form {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+
+/* Cada paso, numerado */
+.step {
+  display: grid;
+  gap: 14px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(36, 55, 107, 0.5);
+}
+
+.step:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.step h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+
+.step h2 small,
+.label small {
+  margin-left: 8px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--placeholder);
+}
+
+.step h2 small {
+  margin-left: 0;
+}
+
+.n {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--line-hover);
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--orange);
+  transform: translateY(-2px);
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.label code {
+  font-family: var(--mono);
+  color: var(--muted);
+}
+
+.help {
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.input,
+.area {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(5, 13, 36, 0.55);
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+}
+
+.input {
+  height: 40px;
+}
+
+.input:focus,
+.area:focus {
+  outline: none;
+  border-color: var(--muted);
+}
+
+.input:disabled,
+.area:disabled {
+  opacity: 0.7;
+}
+
+.input option {
+  background: var(--night);
+}
+
+.area {
+  min-height: 76px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.code {
+  min-height: 120px;
+  background: var(--code);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.7;
+  tab-size: 4;
+}
+
+.short {
+  min-height: 52px;
+}
+
+.mono {
+  font-family: var(--mono);
+  font-size: 14px;
+}
+
+/* Las cuatro plantillas, cada una con su seña */
+.types {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.types label {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(5, 13, 36, 0.45);
+  cursor: pointer;
+}
+
+.types label:hover {
+  border-color: var(--line-hover);
+}
+
+.types input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.types label:has(input:checked) {
+  border-color: var(--blue);
+  background: rgba(0, 123, 255, 0.1);
+}
+
+.types label:has(input:focus-visible) {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+}
+
+.types label:has(input:disabled) {
+  cursor: default;
+}
+
+.types label:has(input:disabled:not(:checked)) {
+  opacity: 0.4;
+}
+
+.types b {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.types small {
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--placeholder);
+}
+
+.sign {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.sign i {
+  display: inline-block;
+  width: 18px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--muted);
+}
+
+.stack {
+  display: grid;
+  gap: 3px;
+}
+
+.gap {
+  display: inline-block;
+  width: 24px;
+  height: 12px;
+  border-radius: 4px;
+  background: rgba(154, 170, 208, 0.15);
+  box-shadow: inset 0 -2px 0 var(--muted);
+}
+
+/* Dificultad, como la regla de muescas */
+.seg {
+  display: inline-flex;
+  justify-self: start;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(5, 13, 36, 0.55);
+}
+
+.seg button {
+  height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.seg button[aria-pressed="true"] {
+  background: var(--night-3);
+  color: var(--text);
+}
+
+/* Las opciones: la correcta lleva la mira */
+.options {
+  display: grid;
+  gap: 6px;
+}
+
+.option {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 62px 32px;
+  align-items: center;
+  gap: 8px;
+}
+
+.pick {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+.pick span {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--dim);
+  border-radius: 50%;
+}
+
+.pick:hover span {
+  border-color: var(--muted);
+}
+
+.pick[aria-pressed="true"] span {
+  border: 1.3px dashed var(--orange);
+  animation: spin 10s linear infinite;
+}
+
+.pick[aria-pressed="true"] span::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+
+.pick:disabled {
+  cursor: default;
+}
+
+.is {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.remove {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--placeholder);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.remove:hover {
+  background: rgba(255, 122, 107, 0.08);
+  color: var(--coral);
+}
+
+.add {
+  justify-self: start;
+  margin-left: 38px;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--orange);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add:hover {
+  text-decoration: underline;
+}
+
+.hole {
+  padding: 12px;
+  border: 1px solid rgba(36, 55, 107, 0.6);
+  border-radius: 12px;
+}
+
+.hole h4 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.problems {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--coral);
+}
+
+.problems li::before {
+  content: "· ";
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pick[aria-pressed="true"] span {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .types {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .two {
+    grid-template-columns: 1fr;
+  }
+}

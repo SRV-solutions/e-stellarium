@@ -1,0 +1,165 @@
+/* La vista del alumno: el juego tal cual, en una pantalla más chica */
+.preview {
+  position: sticky;
+  top: 24px;
+  min-width: 0;
+}
+
+.cap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+.screen {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(10, 23, 53, 0.92), rgba(5, 13, 36, 0.92));
+}
+
+.where {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.where b {
+  margin-right: 6px;
+  font-family: var(--greek);
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.kind {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue-hover);
+}
+
+.prompt {
+  margin: 0 0 16px;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.empty {
+  color: var(--dim);
+}
+
+/* Los juegos de las estrellas son para la pantalla entera: acá van un poco más chicos */
+.game {
+  font-size: 15px;
+  zoom: 0.86;
+}
+
+.verdict {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 13px;
+  font-size: 14px;
+  animation: rise 0.25s both;
+}
+
+.verdict b {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 15px;
+}
+
+.verdict p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.ok {
+  background: rgba(2, 170, 109, 0.1);
+}
+
+.ok b {
+  color: var(--mint);
+}
+
+.bad {
+  background: rgba(255, 122, 107, 0.08);
+}
+
+.bad b {
+  color: var(--coral);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.button,
+.ghost {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(5, 13, 36, 0.6);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled),
+.ghost:hover {
+  border-color: var(--line-hover);
+  background: var(--night-3);
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.primary {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--blue-hover);
+}
+
+.ghost {
+  border-color: transparent;
+  background: none;
+  color: var(--muted);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (max-width: 1100px) {
+  .preview {
+    position: static;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .verdict {
+    animation: none;
+  }
+}

@@ -1,0 +1,412 @@
+.page {
+  min-width: 0;
+  padding-bottom: 60px;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.head h1 {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.head p {
+  max-width: 640px;
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.error {
+  margin: 16px 0 0;
+  color: var(--error);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(5, 13, 36, 0.6);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.button:hover {
+  border-color: var(--line-hover);
+  background: var(--night-3);
+}
+
+.primary {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
+.primary:hover {
+  background: var(--blue-hover);
+}
+
+.dest + .button {
+  margin-top: 20px;
+}
+
+/* Filtros */
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.bar + .bar {
+  margin-top: 10px;
+}
+
+.select,
+.search {
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(5, 13, 36, 0.55);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+
+.select:hover,
+.search:hover {
+  border-color: var(--line-hover);
+}
+
+.select option {
+  background: var(--night);
+}
+
+.search {
+  flex: 1;
+  min-width: 180px;
+  max-width: 320px;
+}
+
+.search::placeholder {
+  color: var(--placeholder);
+}
+
+/* La regla de muescas (como en Personas y Economía) */
+.kinds {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(5, 13, 36, 0.55);
+}
+
+.kinds button {
+  height: 32px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.kinds button[aria-pressed="true"] {
+  background: var(--night-3);
+  color: var(--text);
+}
+
+.kinds b {
+  margin-left: 6px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--placeholder);
+}
+
+.kinds .hot b {
+  font-weight: 700;
+  color: var(--orange);
+}
+
+/* El estado: un nodo, como en la bitácora */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.node {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.node.small {
+  width: 10px;
+  height: 10px;
+}
+
+.published {
+  background: var(--blue-hover);
+  box-shadow: 0 0 0 3px rgba(43, 146, 255, 0.18);
+}
+
+.in_review {
+  border: 1.5px dashed var(--orange);
+  animation: spin 10s linear infinite;
+}
+
+.in_review::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+
+.small.in_review::after {
+  inset: 2px;
+}
+
+.draft {
+  border: 1.5px solid var(--dim);
+}
+
+.rejected {
+  border: 1.5px solid var(--coral);
+}
+
+.rejected::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  left: 50%;
+  width: 1.5px;
+  background: var(--coral);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.unpublished {
+  border: 1.5px dotted var(--placeholder);
+}
+
+/* Los grupos: cada lección con su letra, el examen y los desafíos */
+.dest {
+  margin-top: 28px;
+}
+
+.dest h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.dest h2 small {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--placeholder);
+}
+
+.dest h2 .secret {
+  font-weight: 500;
+  color: var(--glint);
+}
+
+.letter {
+  min-width: 26px;
+  font-family: var(--greek);
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.examLetter {
+  color: var(--glint);
+}
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rows > li {
+  border-top: 1px solid rgba(36, 55, 107, 0.4);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 22px 130px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 8px;
+  border-radius: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.row:hover {
+  background: rgba(17, 33, 74, 0.4);
+}
+
+.type {
+  font-size: 13px;
+  white-space: nowrap;
+  color: var(--muted);
+}
+
+.text {
+  min-width: 0;
+}
+
+.text b,
+.text small {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.text b {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.snippet {
+  margin-left: 8px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--placeholder);
+}
+
+.text small {
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+.rejection {
+  color: var(--coral);
+}
+
+.d_easy {
+  color: var(--mint);
+}
+
+.d_medium {
+  color: var(--orange);
+}
+
+.d_hard {
+  color: var(--coral);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  white-space: nowrap;
+  color: var(--placeholder);
+}
+
+.version {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 9px 2px 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.empty {
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  text-align: center;
+  color: var(--muted);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .in_review {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .head h1 {
+    font-size: 32px;
+  }
+
+  .row {
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 4px 12px;
+  }
+
+  .type {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .meta {
+    grid-column: 2;
+    grid-row: 3;
+  }
+}

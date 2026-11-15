@@ -313,3 +313,71 @@
     animation: none;
   }
 }
+
+/* Los cursos de un docente: una casilla por curso */
+.teach {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.teach label {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.teach label:hover {
+  background: rgba(17, 33, 74, 0.6);
+}
+
+.teach input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.box {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--dim);
+  border-radius: 5px;
+}
+
+.teach input:checked + .box {
+  border-color: var(--orange);
+  background: rgba(255, 153, 0, 0.15);
+}
+
+.teach input:checked + .box::after {
+  content: "";
+  width: 8px;
+  height: 4px;
+  border-bottom: 2px solid var(--orange);
+  border-left: 2px solid var(--orange);
+  transform: translateY(-1px) rotate(-45deg);
+}
+
+.teach input:focus-visible + .box {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}
+
+.teach label:has(input:checked) {
+  border-color: var(--line);
+  background: rgba(5, 13, 36, 0.5);
+}
+
+.teach b {
+  font-size: 15px;
+  font-weight: 500;
+}

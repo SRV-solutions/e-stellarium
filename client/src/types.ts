@@ -87,6 +87,9 @@ type QuestionBase = {
   prompt: string;
   attempt: number;
   solved: boolean;
+  // La versión de la pregunta que se muestra (estrellas y práctica): se devuelve al responder, y la API
+  // corrige con esa aunque mientras tanto se haya aprobado otra
+  version?: number;
 };
 
 export type StudentQuestion =
@@ -405,7 +408,12 @@ export type PeopleKind = "all" | "students" | "staff" | "deleted";
 export type PeoplePage = { people: Person[]; counts: Record<PeopleKind, number>; nextOffset: number | null };
 
 // La ficha (GET /admin/users/:id)
-export type PersonDetail = Person & { courses: { key: string; name: string }[]; auditCount: number };
+export type PersonDetail = Person & {
+  courses: { key: string; name: string }[];
+  teaching: string[]; // los cursos que da (si es docente), por clave
+  courseOptions: { key: string; name: string }[]; // los que se le pueden asignar (solo si es docente)
+  auditCount: number;
+};
 
 // Un rol con sus permisos (GET /admin/roles). El super admin no es editable
 export type RoleInfo = { key: RoleKey; name: string; editable: boolean; permissions: Permission[] };
@@ -449,4 +457,73 @@ export type AdminShopItem = {
   count: number; // vendidos (cupones y protector) o cuántos lo tienen (cosméticos)
   fixed: boolean; // el azul: gratis y siempre a la venta
   retirable: boolean;
+};
+
+// ---------- Contenido (panel) ----------
+
+export type QuestionType = StudentQuestion["type"];
+export type Difficulty = "easy" | "medium" | "hard";
+export type VersionStatus = "draft" | "in_review" | "rejected" | "published" | "replaced";
+
+// GET /admin/content/courses
+export type ContentCourse = {
+  key: string;
+  name: string;
+  modules: { number: number; title: string }[];
+  stars: { id: string; letter: string; title: string; module: number | null }[];
+};
+
+// Una fila de GET /admin/questions
+export type ContentRow = {
+  id: string;
+  starId: string | null;
+  pool: "exam" | "challenge" | null;
+  visible: boolean;
+  answers: number;
+  published: { number: number; type: QuestionType; prompt: string; snippet: string | null; topic: string; difficulty: Difficulty } | null;
+  open: {
+    number: number;
+    status: "draft" | "in_review" | "rejected";
+    type: QuestionType;
+    prompt: string;
+    snippet: string | null; // un pedacito del código, para distinguir las que se preguntan igual
+    authorName: string | null;
+    updatedAt: string;
+    submittedAt: string | null;
+    rejection: { comment: string; by: string | null } | null;
+  } | null;
+};
+
+export type ContentFilter = "all" | "review" | "draft" | "rejected" | "published" | "unpublished" | "mine";
+export type ContentList = { questions: ContentRow[]; counts: Record<ContentFilter, number>; nextOffset: number | null };
+
+// Una versión entera (el staff ve la respuesta)
+export type QuestionVersionData = {
+  number: number;
+  status: VersionStatus;
+  type: QuestionType;
+  difficulty: Difficulty;
+  topic: string;
+  module: number | null;
+  prompt: string;
+  content: Record<string, unknown>;
+  answer: Record<string, unknown>;
+  explanation: string;
+  author: { id: string; name: string } | null;
+  submittedAt: string | null;
+  updatedAt: string;
+};
+
+// GET /admin/questions/:id
+export type QuestionDetail = {
+  id: string;
+  course: string;
+  starId: string | null;
+  pool: "exam" | "challenge" | null;
+  visible: boolean;
+  answers: number;
+  published: QuestionVersionData | null;
+  open: QuestionVersionData | null;
+  history: { number: number; status: VersionStatus; author: string | null; createdAt: string; submittedAt: string | null; answers: number }[];
+  reviews: { version: number; decision: "approved" | "rejected"; comment: string | null; reviewer: string | null; createdAt: string }[];
 };

@@ -9,6 +9,7 @@ export const ADMIN_SECTIONS: { to: string; label: string; permissions: Permissio
   { to: "/admin/audit", label: "Bitácora", permissions: ["audit:view", "integrity:view"] },
   { to: "/admin/people", label: "Personas", permissions: ["roles:manage"] },
   { to: "/admin/roles", label: "Roles", permissions: ["roles:manage"] },
+  { to: "/admin/content", label: "Contenido", permissions: ["content:edit", "content:approve"] },
   { to: "/admin/economy", label: "Economía", permissions: ["economy:edit"] },
 ];
 
