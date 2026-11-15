@@ -401,6 +401,25 @@
   }
 }
 
+/* El staff tiene "Panel" en el menú: con el alias no entra nunca en los 1280 px, y sin él hace falta
+   pasar a los íconos antes (desde 1260 y no desde 1180) */
+.staff .alias {
+  display: none;
+}
+
+@media (max-width: 1260px) {
+  .staff {
+    gap: 16px;
+  }
+  .staff .navLink span,
+  .staff .levelNumber {
+    display: none;
+  }
+  .staff .navLink {
+    padding: 9px;
+  }
+}
+
 /* Tablet: el menú solo con íconos y el nivel en el medidor y los XP (el "Nivel 2" se lee al pasar el mouse) */
 @media (max-width: 1180px) {
   .inner {

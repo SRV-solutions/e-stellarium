@@ -86,7 +86,8 @@ export function AppHeader() {
 
   if (!user) return null;
   const level = levelFor(user.totalXp);
-  const links = adminSectionsFor(user).length > 0 ? [...LINKS, PANEL_LINK] : LINKS;
+  const staff = adminSectionsFor(user).length > 0;
+  const links = staff ? [...LINKS, PANEL_LINK] : LINKS;
 
   function toggleMenu() {
     // El panel arranca justo debajo del encabezado, esté donde esté (si bajaste un poco, más arriba)
@@ -97,7 +98,7 @@ export function AppHeader() {
   return (
     <>
       <header className={styles.bar} ref={barRef}>
-        <div className={styles.inner}>
+        <div className={`${styles.inner} ${staff ? styles.staff : ""}`}>
           <Link to="/" className={styles.brand}>
             <img src={logo} alt="" className={styles.logo} />
             <span className={styles.brandName}>E-Stellarium</span>
