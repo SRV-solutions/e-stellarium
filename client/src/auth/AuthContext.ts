@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { NewBadge, Stats, User, Worn } from "../types";
+import type { Economy, NewBadge, Stats, User, Worn } from "../types";
 
 export type AuthState = {
   user: User | null;
@@ -19,6 +19,11 @@ export type AuthState = {
   refreshStats: () => void;
   // Después de responder algo: si era lo primero del día, la racha cambió y se vuelve a pedir
   noteActivity: () => void;
+  // Cuánta XP y cuántos destellos da cada cosa (GET /economy). Llega junto con el usuario: con sesión,
+  // nunca es null (usá useEconomy)
+  economy: Economy | null;
+  // Después de cambiar la economía en el panel, para que se vea enseguida
+  refreshEconomy: () => void;
 };
 
 export const AuthContext = createContext<AuthState | null>(null);

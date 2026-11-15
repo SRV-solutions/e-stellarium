@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../auth/useAuth";
 import { api, ApiError } from "../../lib/api";
-import { XP_PER_CHALLENGE } from "../../lib/xp";
-import { badgeGlints, GLINTS } from "../../lib/glints";
+import { badgeGlints } from "../../lib/glints";
+import { useEconomy } from "../../auth/useEconomy";
 import { MiniConstellation, type StepResult } from "../../components/MiniConstellation/MiniConstellation";
 import { ConfirmDialog } from "../../components/ConfirmDialog/ConfirmDialog";
 import { ChoiceGame } from "../GamePage/games/ChoiceGame";
@@ -44,6 +44,7 @@ type Props = {
 
 export function ChallengeRun({ view, title, onFinished, onLeave }: Props) {
   const { addXp, setGlints, noteActivity, announceBadges } = useAuth();
+  const economy = useEconomy();
   const id = view.challenge.id;
   const [{ step, endAt }, setCurrent] = useState(() => withEnd(view.current));
   const [now, setNow] = useState(() => Date.now());
@@ -76,7 +77,7 @@ export function ChallengeRun({ view, title, onFinished, onLeave }: Props) {
     solution: verdict.solution ?? { choice: -1 },
     output: verdict.output,
     explanation: verdict.explanation,
-    xpGained: verdict.xpGained - (verdict.finished ? XP_PER_CHALLENGE : 0),
+    xpGained: verdict.xpGained - (verdict.finished ? economy.xp.challengeCompleted : 0),
     starXp: 0,
     starCompleted: false,
     newBadges: verdict.newBadges,
@@ -215,7 +216,7 @@ export function ChallengeRun({ view, title, onFinished, onLeave }: Props) {
           hint={hint}
           // Solo los de esta pregunta: lo de terminarlo va en la pantalla final, y las insignias en su aviso
           glints={
-            verdict!.glintsGained - (verdict!.finished ? GLINTS.challengeCompleted : 0) - badgeGlints(verdict!.newBadges)
+            verdict!.glintsGained - (verdict!.finished ? economy.glints.challengeCompleted : 0) - badgeGlints(verdict!.newBadges)
           }
         />
       ) : timeUp ? (

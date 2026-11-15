@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { STREAK_BADGES } from "../../lib/glints";
+import { BADGE_NAMES } from "../../lib/glints";
 import type { NewBadge } from "../../types";
 import { Glint } from "../Glint/Glint";
 import { StreakBadge } from "../StreakBadge/StreakBadge";
@@ -48,8 +48,10 @@ export function BadgeEarned({ badges, onDone }: Props) {
     onDone();
   }
 
-  const info = badge && STREAK_BADGES.find((b) => b.days === badge.days);
-  const following = badge && STREAK_BADGES.find((b) => b.days > badge.days);
+  const name = (days: number) => BADGE_NAMES[days];
+  const info = badge && name(badge.days) ? { name: name(badge.days) } : null;
+  const nextDays = badge && Object.keys(BADGE_NAMES).map(Number).find((days) => days > badge.days);
+  const following = nextDays ? { days: nextDays, name: name(nextDays) } : null;
 
   return (
     <dialog

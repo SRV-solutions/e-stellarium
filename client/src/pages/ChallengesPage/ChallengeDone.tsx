@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { Glint } from "../../components/Glint/Glint";
 import { useAnimatedNumber } from "../../hooks/useAnimatedNumber";
-import { XP_PER_CHALLENGE, XP_PER_CHALLENGE_ANSWER } from "../../lib/xp";
+import { useEconomy } from "../../auth/useEconomy";
 import type { ChallengeResult } from "../../types";
 import { ChallengeRoute } from "./ChallengeRoute";
 import styles from "./ChallengeDone.module.css";
@@ -15,6 +15,8 @@ type Props = {
 
 // La pantalla final: cuántas acertó, la experiencia y la recomendación del curso de Explorá
 export function ChallengeDone({ result, title, discover, onRanking }: Props) {
+  // Lo de terminarlo, del total que dio la API (así la suma coincide aunque cambien los valores)
+  const completedXp = Math.min(useEconomy().xp.challengeCompleted, result.xpGained);
   const shown = useAnimatedNumber(result.correctCount);
   const explore = result.results.filter((r) => r.part === "explore");
   const exploreRight = explore.filter((r) => r.correct).length;
@@ -26,8 +28,7 @@ export function ChallengeDone({ result, title, discover, onRanking }: Props) {
         {shown} <small>de {result.total}</small>
       </p>
       <p className={styles.xpLine}>
-        <b>+{result.xpGained} XP</b> · {result.correctCount * XP_PER_CHALLENGE_ANSWER} por aciertos y {XP_PER_CHALLENGE}{" "}
-        por terminarlo
+        <b>+{result.xpGained} XP</b> · {result.xpGained - completedXp} por aciertos y {completedXp} por terminarlo
       </p>
       {result.glintsGained > 0 && (
         <p className={styles.glintLine}>

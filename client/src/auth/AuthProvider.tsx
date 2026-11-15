@@ -3,13 +3,24 @@ import { AuthContext } from "./AuthContext";
 import { api } from "../lib/api";
 import { applyTrail } from "../lib/trail";
 import { BadgeEarned } from "../components/BadgeEarned/BadgeEarned";
-import type { NewBadge, Stats, User, Worn } from "../types";
+import type { Economy, NewBadge, Stats, User, Worn } from "../types";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<Stats | null>(null);
   const [newBadges, setNewBadges] = useState<NewBadge[]>([]);
+  const [economy, setEconomy] = useState<Economy | null>(null);
+
+  // El usuario y la economía llegan juntos: así toda pantalla con sesión ya tiene los números
+  const startSession = useCallback(async (sessionUser: User) => {
+    setEconomy(await api<Economy>("/economy"));
+    setUser(sessionUser);
+  }, []);
+
+  const refreshEconomy = useCallback(() => {
+    api<Economy>("/economy").then(setEconomy, () => {});
+  }, []);
 
   const refreshStats = useCallback(() => {
     api<Stats>("/me/stats")
@@ -28,25 +39,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [userId, refreshStats]);
 
   // El color del trazo que lleva puesto se aplica a toda la página
-  const wornColor = user?.wornColor ?? null;
+  const wornColorHex = user?.wornColorHex ?? null;
   useEffect(() => {
-    applyTrail(wornColor);
-  }, [wornColor]);
+    applyTrail(wornColorHex);
+  }, [wornColorHex]);
 
   // Al abrir la app, preguntamos si ya hay una sesión activa
   useEffect(() => {
     api<{ user: User }>("/me")
-      .then((data) => setUser(data.user))
+      .then((data) => startSession(data.user))
       .catch(() => setUser(null))
       .finally(() => setLoading(false));
-  }, []);
+  }, [startSession]);
 
   async function login(email: string, password: string) {
     const data = await api<{ user: User }>("/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
-    setUser(data.user);
+    await startSession(data.user);
   }
 
   async function logout() {
@@ -60,7 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       method: "POST",
       body: JSON.stringify({ token, password }),
     });
-    setUser(data.user);
+    await startSession(data.user);
   }
 
   // Suma la experiencia que la API acaba de dar, sin volver a pedir el usuario
@@ -81,6 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           ...previous,
           wornFrame: worn.frame,
           wornColor: worn.color === "blue" ? null : worn.color,
+          wornColorHex: worn.colorHex,
           wornTitle: worn.title,
           titleVariant: worn.titleVariant,
         }
@@ -98,7 +110,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, setPassword, addXp, setGlints, setWorn, announceBadges, stats, refreshStats, noteActivity }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, setPassword, addXp, setGlints, setWorn, announceBadges, stats, refreshStats, noteActivity, economy, refreshEconomy }}>
       {children}
       <BadgeEarned badges={newBadges} onDone={() => setNewBadges([])} />
     </AuthContext.Provider>

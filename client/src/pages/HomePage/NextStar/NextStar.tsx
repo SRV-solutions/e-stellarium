@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { ordinal } from "../../../lib/sky";
 import { xpToGain } from "../../../lib/xp";
+import { useEconomy } from "../../../auth/useEconomy";
 import type { StarSummary } from "../../../types";
 import styles from "./NextStar.module.css";
 
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export function NextStar({ sighting, show }: Props) {
+  const { xp } = useEconomy();
   let content;
   if (sighting.kind === "next") {
     const { star, index, courseName } = sighting;
@@ -27,7 +29,7 @@ export function NextStar({ sighting, show }: Props) {
           {star.title}
         </h2>
         <p className={styles.course}>
-          <b>{courseName}</b>. {star.questionCount} juegos y hasta <b>+{xpToGain(star.questionCount)} XP</b>.
+          <b>{courseName}</b>. {star.questionCount} juegos y hasta <b>+{xpToGain(star.questionCount, xp)} XP</b>.
         </p>
         <Link to={`/stars/${star.id}`} className={styles.go}>
           <svg viewBox="0 0 24 24" aria-hidden="true">

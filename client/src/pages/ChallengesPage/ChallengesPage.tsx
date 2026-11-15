@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { Cosmos } from "../../components/Cosmos/Cosmos";
 import { api, ApiError } from "../../lib/api";
-import { XP_PER_CHALLENGE, XP_PER_CHALLENGE_ANSWER } from "../../lib/xp";
+import { useEconomy } from "../../auth/useEconomy";
 import type { ChallengeResult, ChallengeStep, ChallengeView, Ranking } from "../../types";
 import { ChallengeDone } from "./ChallengeDone";
 import { ChallengeRoute } from "./ChallengeRoute";
@@ -141,6 +141,7 @@ type PanelProps = { view: ChallengeView; title: string; starting: boolean; error
 
 // El desafío de esta semana: cuándo salió y cuándo cierra, sus preguntas y el botón para jugarlo
 function Panel({ view, title, starting, error, onPlay }: PanelProps) {
+  const { xp } = useEconomy();
   const published = new Date(view.challenge.publishedAt);
   const closes = new Date(view.challenge.closesAt);
   const next = `el ${dayName(closes)} a las 9:00`;
@@ -201,7 +202,7 @@ function Panel({ view, title, starting, error, onPlay }: PanelProps) {
         <>
           <p className={styles.done}>
             Lo jugaste: <b>{right} de {view.total}</b> bien,{" "}
-            <span className={styles.xp}>+{right * XP_PER_CHALLENGE_ANSWER + XP_PER_CHALLENGE} XP</span>. El próximo sale {next}.
+            <span className={styles.xp}>+{view.result?.xpGained ?? 0} XP</span>. El próximo sale {next}.
           </p>
           {view.explore && (
             <p className={styles.reco}>
@@ -220,7 +221,7 @@ function Panel({ view, title, starting, error, onPlay }: PanelProps) {
             <b>30 a 45 s</b> por pregunta
           </li>
           <li>
-            <b>{XP_PER_CHALLENGE_ANSWER} XP</b> por acierto y <b>{XP_PER_CHALLENGE}</b> al terminarlo
+            <b>{xp.challengeCorrect} XP</b> por acierto y <b>{xp.challengeCompleted}</b> al terminarlo
           </li>
         </ul>
       )}

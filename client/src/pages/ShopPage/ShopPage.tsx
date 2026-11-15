@@ -5,7 +5,8 @@ import { Cosmos } from "../../components/Cosmos/Cosmos";
 import { Glint } from "../../components/Glint/Glint";
 import { useAuth } from "../../auth/useAuth";
 import { api, ApiError } from "../../lib/api";
-import { formatGlints, GLINTS, STREAK_BADGES } from "../../lib/glints";
+import { formatGlints } from "../../lib/glints";
+import { useEconomy } from "../../auth/useEconomy";
 import type { CosmeticKind, Purchase, Shop, Worn } from "../../types";
 import { ShopDialog, type Offer } from "./ShopDialog";
 import styles from "./ShopPage.module.css";
@@ -139,6 +140,7 @@ type ContentProps = {
 };
 
 function ShopContent({ shop, alias, freeFreezes, wearError, onBuy, onWear }: ContentProps) {
+  const { glints: GLINTS, badges, freezes } = useEconomy();
   const { freeze } = shop;
   const freezesLeft = freeze.monthlyLimit - freeze.boughtThisMonth;
 
@@ -172,8 +174,8 @@ function ShopContent({ shop, alias, freeFreezes, wearError, onBuy, onWear }: Con
           <span>Repaso del día</span> <b>{GLINTS.reviewCompleted}</b> al terminarlo
         </li>
         <li>
-          <span>Insignias de racha</span> <b>{STREAK_BADGES[0].glints}</b>, <b>{STREAK_BADGES[1].glints}</b> y{" "}
-          <b>{STREAK_BADGES[2].glints}</b>
+          <span>Insignias de racha</span> <b>{badges[0].glints}</b>, <b>{badges[1].glints}</b> y{" "}
+          <b>{badges[2].glints}</b>
         </li>
       </ul>
 
@@ -222,7 +224,7 @@ function ShopContent({ shop, alias, freeFreezes, wearError, onBuy, onWear }: Con
           <div className={styles.freezeText}>
             <strong>Un día que faltás, sin perder la racha</strong>
             <span>
-              Tenés <b>2 gratis por mes</b>
+              Tenés <b>{freezes.freePerMonth} gratis por mes</b>
               {freeFreezes !== null && (
                 <>
                   {" "}

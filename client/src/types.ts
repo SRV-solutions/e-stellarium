@@ -26,6 +26,7 @@ export type User = {
   // Los cosméticos puestos (ids de la tienda). wornColor vacío = el azul de siempre
   wornFrame: string | null;
   wornColor: string | null;
+  wornColorHex: string | null; // el color de ese trazo, como lo guarda la tienda
   wornTitle: string | null;
   titleVariant: number; // 0 o 1: "Cazadora" o "Cazador"
   createdAt: string;
@@ -307,6 +308,7 @@ export type CosmeticKind = "frame" | "color" | "title";
 export type Worn = {
   frame: string | null;
   color: string; // "blue" si no eligió otro
+  colorHex: string | null;
   title: string | null;
   titleVariant: number;
   titleText: string | null;
@@ -407,3 +409,44 @@ export type PersonDetail = Person & { courses: { key: string; name: string }[]; 
 
 // Un rol con sus permisos (GET /admin/roles). El super admin no es editable
 export type RoleInfo = { key: RoleKey; name: string; editable: boolean; permissions: Permission[] };
+
+// GET /economy: cuánta XP y cuántos destellos da cada cosa. Los números viven en la API (settings) y se
+// editan desde el panel: el cliente no los repite, los recibe con la sesión
+export type Economy = {
+  xp: {
+    questionCorrect: number;
+    starCompleted: number;
+    examPassed: number;
+    reviewCorrect: number;
+    reviewCompleted: number;
+    challengeCorrect: number;
+    challengeCompleted: number;
+  };
+  glints: { reviewCompleted: number; challengeCorrect: number; challengeCompleted: number };
+  badges: { days: number; glints: number }[];
+  freezes: { freePerMonth: number; boughtPerMonth: number };
+};
+
+// ---------- Panel: economía ----------
+
+// GET /admin/settings
+export type SettingInfo = { key: string; value: number; min: number; max: number; updatedAt: string };
+
+export type ShopItemKind = "coupon" | "streak_freeze" | "frame" | "color" | "title";
+
+// GET /admin/shop: todo lo de la tienda, también lo retirado
+export type AdminShopItem = {
+  id: string;
+  kind: ShopItemKind;
+  name: string;
+  note: string;
+  price: number;
+  percent: number | null;
+  hex: string | null;
+  altName: string | null;
+  active: boolean;
+  position: number;
+  count: number; // vendidos (cupones y protector) o cuántos lo tienen (cosméticos)
+  fixed: boolean; // el azul: gratis y siempre a la venta
+  retirable: boolean;
+};

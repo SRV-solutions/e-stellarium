@@ -1,16 +1,7 @@
-// La experiencia que da cada cosa. Tienen que coincidir con XP en api/src/games/progress.ts
-export const XP_PER_QUESTION = 10;
-export const XP_PER_STAR = 50;
+import type { Economy } from "../types";
 
-// Lo máximo que se puede ganar en una estrella: todas sus preguntas y encenderla
-export function xpToGain(questionCount: number) {
-  return questionCount * XP_PER_QUESTION + XP_PER_STAR;
+// Lo máximo que se puede ganar en una estrella: todas sus preguntas y encenderla.
+// Los números salen de GET /economy (useAuth().economy): se editan desde el panel, no están acá
+export function xpToGain(questionCount: number, xp: Economy["xp"]) {
+  return questionCount * xp.questionCorrect + xp.starCompleted;
 }
-
-// El repaso del día: poco, porque su valor es la constancia
-export const XP_PER_REVIEW_ANSWER = 2;
-export const XP_PER_REVIEW = 10;
-
-// Los desafíos periódicos
-export const XP_PER_CHALLENGE_ANSWER = 5;
-export const XP_PER_CHALLENGE = 20;

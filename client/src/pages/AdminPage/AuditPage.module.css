@@ -324,6 +324,15 @@
   color: var(--dim);
 }
 
+/* El nombre de cada valor que cambió (economía y tienda) */
+.valueLabel {
+  color: var(--muted);
+}
+
+.valueLabel::after {
+  content: ":";
+}
+
 .perm {
   display: inline-flex;
   align-items: center;

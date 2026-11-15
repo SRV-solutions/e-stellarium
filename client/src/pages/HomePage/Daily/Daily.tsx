@@ -1,8 +1,8 @@
 import { Link } from "react-router";
 import { Comet } from "../../../components/Comet/Comet";
 import { StreakBadge } from "../../../components/StreakBadge/StreakBadge";
-import { STREAK_BADGES } from "../../../lib/glints";
-import { XP_PER_REVIEW, XP_PER_REVIEW_ANSWER } from "../../../lib/xp";
+import { BADGE_NAMES } from "../../../lib/glints";
+import { useEconomy } from "../../../auth/useEconomy";
 import type { Stats } from "../../../types";
 import styles from "./Daily.module.css";
 
@@ -66,9 +66,10 @@ const TIME_ZONE = "America/Argentina/Buenos_Aires";
 
 // Las insignias de racha, con un anillo que se llena con los días. Las ganadas quedan para siempre
 function Badges({ stats }: { stats: Stats }) {
+  const { badges } = useEconomy();
   return (
     <ul className={styles.badges} aria-label="Insignias de racha">
-      {STREAK_BADGES.map((badge) => {
+      {badges.map((badge) => {
         const earned = stats.badges.find((b) => b.days === badge.days);
         const since =
           earned &&
@@ -78,7 +79,7 @@ function Badges({ stats }: { stats: Stats }) {
           <li key={badge.days} className={`${styles.badge} ${earned ? "" : styles.badgeOff}`}>
             <StreakBadge days={badge.days} earned={!!earned} streak={stats.streak} className={styles.badgeIcon} />
             <span className={styles.badgeName}>
-              {badge.name}
+              {BADGE_NAMES[badge.days]}
               <small>
                 {earned
                   ? `Desde el ${since} · +${badge.glints}`
@@ -93,6 +94,7 @@ function Badges({ stats }: { stats: Stats }) {
 }
 
 function ReviewBox({ stats }: { stats: Stats }) {
+  const { xp } = useEconomy();
   const { review } = stats;
 
   if (review.status === "unavailable") {
@@ -112,7 +114,7 @@ function ReviewBox({ stats }: { stats: Stats }) {
       <h2 className={styles.title}>Repaso del día</h2>
       <p className={styles.lead}>
         {total} {total === 1 ? "pregunta" : "preguntas"} de lo que ya jugaste, empezando por las que te costaron.{" "}
-        {XP_PER_REVIEW_ANSWER} XP por acierto y {XP_PER_REVIEW} al terminarlo.
+        {xp.reviewCorrect} XP por acierto y {xp.reviewCompleted} al terminarlo.
       </p>
 
       {/* Una estrella por pregunta, unidas en fila. Desde acá solo se sabe cuántas respondió */}

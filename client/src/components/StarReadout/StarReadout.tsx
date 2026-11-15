@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import { ordinal } from "../../lib/sky";
 import { xpToGain } from "../../lib/xp";
+import { useEconomy } from "../../auth/useEconomy";
 import type { StarSummary } from "../../types";
 import { ExamReadout } from "./ExamReadout";
 import { BigLetter } from "./BigLetter";
@@ -27,6 +28,7 @@ export function StarReadout({ star, index, previous, onExamOpens }: Props) {
 }
 
 function LessonReadout({ star, index, previous }: Props) {
+  const { xp } = useEconomy();
   const navigate = useNavigate();
   const exam = star.kind === "exam";
   const play = () => navigate(`/stars/${star.id}`);
@@ -84,7 +86,7 @@ function LessonReadout({ star, index, previous }: Props) {
               juegos
             </div>
             <div className={styles.gain}>
-              <b>+{xpToGain(star.questionCount)}</b>
+              <b>+{xpToGain(star.questionCount, xp)}</b>
               XP para ganar
             </div>
           </div>

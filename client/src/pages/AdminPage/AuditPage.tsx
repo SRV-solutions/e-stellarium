@@ -248,7 +248,10 @@ export function AuditPage() {
                   isBroken ? styles.broken : "",
                   flashId === entry.id ? styles.flash : "",
                 ].join(" ");
-                const targetButton = entry.target && (
+                // Los valores de la economía no tienen id: se nombran sin botón para filtrar
+                const targetButton = entry.target && !entry.target.id ? (
+                  targetName(entry)
+                ) : entry.target && (
                   <button
                     type="button"
                     className={styles.target}
@@ -287,6 +290,21 @@ export function AuditPage() {
                         <span>{change.now}</span>
                       </div>
                     )}
+                    {change?.kind === "values" &&
+                      change.rows.map((row) => (
+                        <div key={row.label} className={styles.diff}>
+                          <span className={styles.valueLabel}>{row.label}</span>
+                          {row.was !== null && (
+                            <>
+                              <span className={styles.was}>{row.was}</span>
+                              <span className={styles.arrow} aria-label="pasó a">
+                                →
+                              </span>
+                            </>
+                          )}
+                          <span>{row.now}</span>
+                        </div>
+                      ))}
                     {change?.kind === "permissions" && (change.added.length > 0 || change.removed.length > 0) && (
                       <div className={styles.diff}>
                         {change.added.map((name) => (

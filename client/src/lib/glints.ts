@@ -1,17 +1,10 @@
-// Los destellos que da cada cosa. Son los mismos números que GLINTS y STREAK_BADGES en
-// api/src/games/glints.ts: si cambian allá, se cambian acá. Solo se usan para mostrar
-export const GLINTS = {
-  challengeCorrect: 3,
-  challengeCompleted: 10,
-  reviewCompleted: 3,
+// Los nombres de las insignias de racha (los días son fijos). Cuántos destellos da cada una sale de
+// GET /economy (economy.badges), porque se edita desde el panel
+export const BADGE_NAMES: Record<number, string> = {
+  7: "Cometa fugaz",
+  30: "Cometa periódico",
+  100: "Gran cometa",
 };
-
-// Las insignias de racha: los días seguidos que piden y los destellos que dan
-export const STREAK_BADGES = [
-  { days: 7, name: "Cometa fugaz", glints: 20 },
-  { days: 30, name: "Cometa periódico", glints: 60 },
-  { days: 100, name: "Gran cometa", glints: 200 },
-];
 
 // Los destellos que dieron las insignias de una respuesta. Se restan de glintsGained al mostrar
 // lo de la pregunta, porque las insignias ya tienen su propio aviso
