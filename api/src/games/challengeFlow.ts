@@ -17,6 +17,7 @@ import {
 import type { ChallengePart } from "../models/ChallengeAttemptQuestion.js";
 import type { Difficulty, QuestionType } from "../models/Question.js";
 import { recordActivity } from "./activity.js";
+import { publishedVersion, questionAt } from "./versions.js";
 import { challengeSeed, latestSlot, nextSlot, planChallenge, type Candidate } from "./challenge.js";
 import { advanceClock } from "./clock.js";
 import { SECONDS_PER_TYPE } from "./exam.js";
@@ -129,8 +130,20 @@ async function buildAttempt(userId: string, challenge: Challenge, t: Transaction
   if (plan.questions.length === 0) return null;
 
   const attempt = await ChallengeAttempt.create({ challengeId: challenge.id, userId }, { transaction: t });
+  // Con la versión de hoy de cada una: el desafío se juega entero con esa
+  const current = await Question.findAll({
+    attributes: ["id", "version"],
+    where: { id: plan.questions.map((q) => q.questionId) },
+    transaction: t,
+  });
   await ChallengeAttemptQuestion.bulkCreate(
-    plan.questions.map((q, i) => ({ attemptId: attempt.id, questionId: q.questionId, part: q.part, position: i + 1 })),
+    plan.questions.map((q, i) => ({
+      attemptId: attempt.id,
+      questionId: q.questionId,
+      questionVersion: publishedVersion(current.find((c) => c.id === q.questionId)!),
+      part: q.part,
+      position: i + 1,
+    })),
     { transaction: t }
   );
   return attempt;
@@ -153,14 +166,15 @@ async function courseOf(rows: Row[], part: ChallengePart, t: Transaction): Promi
   return product && { key: product.key, name: product.name };
 }
 
-function step(attempt: ChallengeAttempt, rows: Row[], row: Row, now: Date): ChallengeStep {
+async function step(attempt: ChallengeAttempt, rows: Row[], row: Row, now: Date, t: Transaction): Promise<ChallengeStep> {
+  const question = await questionAt(row.questionId, row.questionVersion, t);
   return {
     position: row.position,
     total: rows.length,
     part: row.part,
     timeLimitSeconds: SECONDS_PER_TYPE[row.Question.type],
     remainingMs: Math.max(0, row.deadlineAt!.getTime() - now.getTime()),
-    question: present(row.Question, challengeSeed(attempt.id, row.questionId)),
+    question: present(question!, challengeSeed(attempt.id, row.questionId)),
   };
 }
 
@@ -253,7 +267,7 @@ async function view(
     const current = await advanceClock(rows, now, t);
     // Se arma de nuevo: el reloj pudo haber dado por mal alguna vencida
     const questions = rows.map((r) => ({ part: r.part, correct: r.correct }));
-    if (current) return { ...summary, questions, status: "in_progress", current: step(attempt, rows, current, now) };
+    if (current) return { ...summary, questions, status: "in_progress", current: await step(attempt, rows, current, now, t) };
     await finish(user, attempt, rows, now, t);
     summary.questions = questions;
   }
@@ -360,7 +374,8 @@ export async function answerChallenge(
     let glintsGained = newBadges.reduce((sum, b) => sum + b.glints, 0);
 
     if (current?.position === position) {
-      const question = (await Question.scope("withAnswer").findByPk(row.questionId, { transaction: t }))!;
+      // La versión que le tocó al armar el desafío
+      const question = (await questionAt(row.questionId, row.questionVersion, t))!;
       let graded;
       try {
         graded = grade(question, challengeSeed(attempt.id, question.id), response);
@@ -369,7 +384,14 @@ export async function answerChallenge(
         throw err;
       }
       await Answer.create(
-        { userId, questionId: question.id, context: "challenge", correct: graded.correct, response: response as object },
+        {
+          userId,
+          questionId: question.id,
+          questionVersion: question.version,
+          context: "challenge",
+          correct: graded.correct,
+          response: response as object,
+        },
         { transaction: t }
       );
       await row.update({ correct: graded.correct, response: response as object, answeredAt: now }, { transaction: t });
@@ -387,7 +409,8 @@ export async function answerChallenge(
       };
     } else if (row.correct === false) {
       // Se le venció antes de que llegara la respuesta: cuenta como mal
-      verdict = { correct: false, timedOut: true, solution: null, output: null, explanation: row.Question.explanation };
+      const played = await questionAt(row.questionId, row.questionVersion, t);
+      verdict = { correct: false, timedOut: true, solution: null, output: null, explanation: played!.explanation };
     } else {
       // Todavía no se le mostró: no puede responderla
       throw new HttpError(409, "Esa pregunta todavía no te tocó.");

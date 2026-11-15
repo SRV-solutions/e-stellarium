@@ -35,17 +35,18 @@ async function isStarComplete(userId: string, starId: string, t: Transaction) {
 type StarAnswer = {
   userId: string;
   questionId: string;
+  questionVersion: number; // la versión que se le mostró
   starId: string;
   correct: boolean;
   response: object;
 };
 
-export async function recordStarAnswer({ userId, questionId, starId, correct, response }: StarAnswer) {
+export async function recordStarAnswer({ userId, questionId, questionVersion, starId, correct, response }: StarAnswer) {
   return sequelize.transaction(async (t) => {
     const user = await User.findByPk(userId, { lock: t.LOCK.UPDATE, transaction: t });
     if (!user) throw new Error("El usuario no existe");
 
-    await Answer.create({ userId, questionId, context: "star", correct, response }, { transaction: t });
+    await Answer.create({ userId, questionId, questionVersion, context: "star", correct, response }, { transaction: t });
     const { newBadges } = await recordActivity(user, new Date(), t);
 
     // xpGained es el total; starXp, la parte de ese total que se dio por encender la estrella

@@ -15,6 +15,16 @@ import {
   type ItemChanges,
   type SettingValues,
 } from "./economy.js";
+import {
+  currentQuestionState,
+  currentVersionStatus,
+  republishQuestion,
+  setTeacherCourses,
+  teacherCourses,
+  unapproveQuestion,
+  unpublishQuestion,
+  unrejectQuestion,
+} from "./content.js";
 
 // Cómo se revierte cada acción reversible: qué valor tiene hoy, y cómo se vuelve al "before".
 // Se vuelve con las mismas funciones del cambio original, así valen las mismas protecciones
@@ -76,6 +86,42 @@ const REVERTERS: Record<string, Reverter> = {
     current: (t, log) => currentItemFields(t, log.targetId!, ["active"]),
     compared: (log) => ({ before: log.before, after: { active: (log.after as Values).active } }),
     undo: (t, ctx, log) => updateShopItem(t, ctx, log.targetId!, { active: false }, { revertsId: log.id }),
+  },
+  // ---------- Contenido ----------
+  // Aprobar se revierte solo si nadie jugó esa versión (si no, 409: hay que despublicarla)
+  "content.approve": {
+    current: (t, log) => currentQuestionState(t, log.targetId!),
+    undo: (t, ctx, log) =>
+      unapproveQuestion(
+        t,
+        ctx,
+        log.targetId!,
+        log.after as { status: string; version: number },
+        log.before as { status: string; version: number | null },
+        log.id
+      ),
+  },
+  // El rechazo: la versión vuelve a esperar revisión (se compara solo el estado, no el comentario)
+  "content.reject": {
+    current: (t, log) => currentVersionStatus(t, log.targetId!, (log.after as Values).version as number),
+    compared: (log) => {
+      const { comment: _comment, ...after } = log.after as Values;
+      return { before: log.before, after };
+    },
+    undo: (t, ctx, log) => unrejectQuestion(t, ctx, log.targetId!, (log.after as Values).version as number, log.id),
+  },
+  "content.unpublish": {
+    current: async (t, log) => ({ status: (await currentQuestionState(t, log.targetId!)).status }),
+    undo: (t, ctx, log) => republishQuestion(t, ctx, null, log.targetId!, { revertsId: log.id }),
+  },
+  "content.republish": {
+    current: async (t, log) => ({ status: (await currentQuestionState(t, log.targetId!)).status }),
+    undo: (t, ctx, log) => unpublishQuestion(t, ctx, null, log.targetId!, { revertsId: log.id }),
+  },
+  "teacher.courses_update": {
+    current: async (t, log) => ({ courses: await teacherCourses(log.targetId!, t) }),
+    undo: (t, ctx, log) =>
+      setTeacherCourses(t, ctx, log.targetId!, (log.before as Values).courses as string[], { revertsId: log.id }),
   },
 };
 

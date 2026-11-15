@@ -14,6 +14,7 @@ export class ExamAttemptQuestion extends Model<
   declare id: CreationOptional<string>;
   declare attemptId: string;
   declare questionId: string;
+  declare questionVersion: number; // la versión de la pregunta que vio
   declare position: number;
   declare shownAt: CreationOptional<Date | null>;
   declare deadlineAt: CreationOptional<Date | null>;
@@ -27,6 +28,7 @@ ExamAttemptQuestion.init(
     id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
     attemptId: { type: DataTypes.UUID, allowNull: false },
     questionId: { type: DataTypes.UUID, allowNull: false },
+    questionVersion: { type: DataTypes.INTEGER, allowNull: false },
     position: { type: DataTypes.INTEGER, allowNull: false },
     shownAt: { type: DataTypes.DATE, allowNull: true },
     deadlineAt: { type: DataTypes.DATE, allowNull: true },

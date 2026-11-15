@@ -13,6 +13,11 @@ export type AuditAction =
   | "economy.update" // valores de settings (solo los que cambiaron)
   | "shop.create" // algo nuevo en la tienda
   | "shop.update" // un ítem de la tienda: precio, nombre, retirarlo...
+  | "content.approve" // publica una versión de una pregunta
+  | "content.reject" // la devuelve con un comentario
+  | "content.unpublish" // los alumnos dejan de verla
+  | "content.republish" // la vuelven a ver
+  | "teacher.courses_update" // los cursos que da un docente
   | "audit.revert"
   | "integrity.fail";
 

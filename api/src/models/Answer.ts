@@ -13,6 +13,7 @@ export class Answer extends Model<InferAttributes<Answer>, InferCreationAttribut
   declare id: CreationOptional<string>;
   declare userId: string;
   declare questionId: string;
+  declare questionVersion: number; // la versión de la pregunta que vio
   declare context: AnswerContext;
   declare correct: boolean;
   declare response: object;
@@ -24,6 +25,7 @@ Answer.init(
     id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
     userId: { type: DataTypes.UUID, allowNull: false },
     questionId: { type: DataTypes.UUID, allowNull: false },
+    questionVersion: { type: DataTypes.INTEGER, allowNull: false },
     context: {
       type: DataTypes.ENUM("star", "review", "challenge", "exam"),
       allowNull: false,

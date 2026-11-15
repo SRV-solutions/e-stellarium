@@ -1,7 +1,7 @@
 import { Router, type Request } from "express";
 import { sequelize } from "../db.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
-import { requirePermission } from "../middlewares/requirePermission.js";
+import { requireAnyPermission, requirePermission } from "../middlewares/requirePermission.js";
 import { HttpError } from "../lib/errors.js";
 import { isUuid } from "../lib/uuid.js";
 import { clientIp } from "../lib/clientIp.js";
@@ -23,6 +23,23 @@ import {
   updateShopItem,
 } from "../admin/economy.js";
 import { ShopItem } from "../models/index.js";
+import {
+  approveQuestion,
+  contentScope,
+  createQuestion,
+  listCourses,
+  listQuestions,
+  parseCourseKeys,
+  parseQuestionFilters,
+  questionDetail,
+  rejectQuestion,
+  republishQuestion,
+  setTeacherCourses,
+  submitQuestion,
+  unpublishQuestion,
+  updateQuestion,
+  withdrawQuestion,
+} from "../admin/content.js";
 
 export const adminRouter = Router();
 
@@ -142,4 +159,91 @@ adminRouter.patch("/admin/shop/:id", requireAuth, requirePermission("economy:edi
     return updateShopItem(t, auditContext(req), id, parseItemChanges(req.body, found.kind));
   });
   res.json({ item });
+});
+
+// ---------- Contenido (content:edit y content:approve) ----------
+// Un docente ve y edita solo sus cursos (teacher_products); afuera de eso, 404 como si no existiera
+
+function questionIdParam(req: Request): string {
+  const id = req.params.id;
+  if (!isUuid(id)) throw new HttpError(404, "No existe esa pregunta.");
+  return id;
+}
+
+const seeContent = requireAnyPermission("content:edit", "content:approve");
+
+// Los cursos que puede ver, con sus lecciones (y su letra) y sus módulos
+adminRouter.get("/admin/content/courses", requireAuth, seeContent, async (req, res) => {
+  res.json({ courses: await listCourses(await contentScope(req.user!)) });
+});
+
+// ?course=python&filter=all|review|draft|rejected|published|unpublished|mine&dest=<starId|exam|challenge>&q=texto&offset=50
+adminRouter.get("/admin/questions", requireAuth, seeContent, async (req, res) => {
+  const filters = parseQuestionFilters(req.query as Record<string, unknown>);
+  res.json(await listQuestions(await contentScope(req.user!), req.user!.id, filters));
+});
+
+adminRouter.get("/admin/questions/:id", requireAuth, seeContent, async (req, res) => {
+  res.json({ question: await questionDetail(await contentScope(req.user!), questionIdParam(req)) });
+});
+
+// Una pregunta nueva, en borrador: { course, dest: { starId } | { pool }, type, difficulty?, topic?, module?, prompt?, content?, answer?, explanation? }
+adminRouter.post("/admin/questions", requireAuth, requirePermission("content:edit"), async (req, res) => {
+  const scope = await contentScope(req.user!);
+  const question = await sequelize.transaction((t) => createQuestion(t, scope, req.user!, req.body));
+  res.status(201).json({ question });
+});
+
+// Guarda cambios en la versión abierta (si está publicada, crea la siguiente)
+adminRouter.patch("/admin/questions/:id", requireAuth, requirePermission("content:edit"), async (req, res) => {
+  const id = questionIdParam(req);
+  const scope = await contentScope(req.user!);
+  const question = await sequelize.transaction((t) => updateQuestion(t, scope, req.user!, id, req.body));
+  res.json({ question });
+});
+
+adminRouter.post("/admin/questions/:id/submit", requireAuth, requirePermission("content:edit"), async (req, res) => {
+  const id = questionIdParam(req);
+  const scope = await contentScope(req.user!);
+  res.json({ question: await sequelize.transaction((t) => submitQuestion(t, scope, id)) });
+});
+
+adminRouter.post("/admin/questions/:id/withdraw", requireAuth, requirePermission("content:edit"), async (req, res) => {
+  const id = questionIdParam(req);
+  const scope = await contentScope(req.user!);
+  res.json({ question: await sequelize.transaction((t) => withdrawQuestion(t, scope, id)) });
+});
+
+adminRouter.post("/admin/questions/:id/approve", requireAuth, requirePermission("content:approve"), async (req, res) => {
+  const id = questionIdParam(req);
+  const scope = await contentScope(req.user!);
+  res.json({ question: await sequelize.transaction((t) => approveQuestion(t, auditContext(req), scope, id)) });
+});
+
+// { comment } obligatorio
+adminRouter.post("/admin/questions/:id/reject", requireAuth, requirePermission("content:approve"), async (req, res) => {
+  const id = questionIdParam(req);
+  const scope = await contentScope(req.user!);
+  const question = await sequelize.transaction((t) => rejectQuestion(t, auditContext(req), scope, id, req.body?.comment));
+  res.json({ question });
+});
+
+adminRouter.post("/admin/questions/:id/unpublish", requireAuth, requirePermission("content:approve"), async (req, res) => {
+  const id = questionIdParam(req);
+  const scope = await contentScope(req.user!);
+  res.json({ question: await sequelize.transaction((t) => unpublishQuestion(t, auditContext(req), scope, id)) });
+});
+
+adminRouter.post("/admin/questions/:id/republish", requireAuth, requirePermission("content:approve"), async (req, res) => {
+  const id = questionIdParam(req);
+  const scope = await contentScope(req.user!);
+  res.json({ question: await sequelize.transaction((t) => republishQuestion(t, auditContext(req), scope, id)) });
+});
+
+// Los cursos que da un docente: { courses: ["python", ...] } (reemplaza la lista)
+adminRouter.put("/admin/users/:id/teaching", requireAuth, requirePermission("roles:manage"), async (req, res) => {
+  const userId = userIdParam(req);
+  const keys = parseCourseKeys(req.body?.courses);
+  const courses = await sequelize.transaction((t) => setTeacherCourses(t, auditContext(req), userId, keys));
+  res.json({ courses });
 });

@@ -1,7 +1,7 @@
 import { isDeepStrictEqual } from "node:util";
 import { Op, type Transaction } from "sequelize";
 import { sequelize } from "../db.js";
-import { Constellation, Product, Question, Star } from "../models/index.js";
+import { Constellation, Product, Question, QuestionVersion, Star } from "../models/index.js";
 import type { QuestionPool } from "../models/Question.js";
 import type { ContentFile, ContentQuestion } from "./parse.js";
 
@@ -27,11 +27,9 @@ async function upsertQuestion(
   t: Transaction,
   summary: LoadSummary
 ) {
-  const fields = {
-    productId,
-    starId,
-    position,
-    pool,
+  // Dónde está (se actualiza sin más) y qué dice (si cambia, es una versión nueva)
+  const placement = { productId, starId, position, pool, status: "published" as const };
+  const body = {
     module,
     type: q.type,
     difficulty: q.difficulty,
@@ -40,19 +38,39 @@ async function upsertQuestion(
     content: q.content,
     answer: q.answer,
     explanation: q.explanation,
-    status: "published" as const,
   };
 
   const existing = await Question.scope("withAnswer").findOne({ where: { slug: q.slug }, transaction: t });
   if (!existing) {
-    await Question.create({ slug: q.slug, ...fields }, { transaction: t });
+    // Nace con su versión 1, publicada (el gancho afterCreate de Question)
+    await Question.create({ slug: q.slug, ...placement, ...body }, { transaction: t });
     summary.questions.created++;
-  } else if (hasChanges(existing, fields)) {
-    await existing.update(fields, { transaction: t });
-    summary.questions.updated++;
-  } else {
-    summary.questions.unchanged++;
+    return;
   }
+
+  const bodyChanged = hasChanges(existing, body);
+  if (!bodyChanged && !hasChanges(existing, placement)) {
+    summary.questions.unchanged++;
+    return;
+  }
+
+  // El archivo ya está verificado (se ejecutó el código): la versión nueva se publica directo, sin
+  // pasar por revisión. La anterior queda como "replaced": quien la estaba jugando sigue con esa
+  let version = existing.version;
+  if (bodyChanged || version === null) {
+    const last = (await QuestionVersion.max("number", { where: { questionId: existing.id }, transaction: t })) as number | null;
+    version = (last ?? 0) + 1;
+    await QuestionVersion.update(
+      { status: "replaced" },
+      { where: { questionId: existing.id, status: "published" }, transaction: t }
+    );
+    await QuestionVersion.create(
+      { questionId: existing.id, number: version, status: "published", ...body, module: body.module ?? null },
+      { transaction: t }
+    );
+  }
+  await existing.update({ ...placement, ...body, version }, { transaction: t });
+  summary.questions.updated++;
 }
 
 export async function loadContent(file: ContentFile): Promise<LoadSummary> {

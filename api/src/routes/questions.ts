@@ -5,6 +5,7 @@ import { requireAuth } from "../middlewares/requireAuth.js";
 import { HttpError } from "../lib/errors.js";
 import { isUuid } from "../lib/uuid.js";
 import { seedFor } from "../games/present.js";
+import { publishedVersion, questionAt, requestedVersion } from "../games/versions.js";
 import { grade, InvalidResponseError } from "../games/grade.js";
 import { canOpenStar } from "../games/access.js";
 
@@ -16,8 +17,8 @@ questionsRouter.post("/questions/:id/answer", requireAuth, async (req, res) => {
   if (!isUuid(id)) throw notFound;
   const userId = req.user!.id;
 
-  // La pregunta, con la respuesta, solo si está en una estrella visible
-  const question = await Question.scope("withAnswer").findOne({
+  // La pregunta, solo si está en una estrella visible
+  const current = await Question.findOne({
     where: { id, status: "published" },
     include: [
       {
@@ -33,16 +34,16 @@ questionsRouter.post("/questions/:id/answer", requireAuth, async (req, res) => {
       },
     ],
   });
-  if (!question) throw notFound;
+  if (!current) throw notFound;
 
   // El alumno tiene que tener el curso
   const enrollment = await Enrollment.findOne({
-    where: { userId, productId: question.productId, status: "active" },
+    where: { userId, productId: current.productId, status: "active" },
   });
   if (!enrollment) throw notFound;
 
     // La estrella de la pregunta tiene que estar desbloqueada
-  if (!(await canOpenStar(userId, question.Star!))) {
+  if (!(await canOpenStar(userId, current.Star!))) {
     throw new HttpError(403, "Completá la estrella anterior para responder esta pregunta.");
   }
 
@@ -51,6 +52,12 @@ questionsRouter.post("/questions/:id/answer", requireAuth, async (req, res) => {
   if (!Number.isInteger(attempt) || attempt < 0) {
     throw new HttpError(400, "La respuesta no tiene un formato válido.");
   }
+
+  // La versión que se le mostró: si mientras jugaba se aprobó otra, se corrige igual con la suya
+  const question = await questionAt(current.id, requestedVersion(req.body?.version, publishedVersion(current)), undefined, {
+    onlyPublished: true,
+  });
+  if (!question) throw notFound;
 
   // Corregir, con la misma semilla con la que se le mostró
   const response = req.body?.response;
@@ -68,7 +75,8 @@ questionsRouter.post("/questions/:id/answer", requireAuth, async (req, res) => {
   const { xpGained, starXp, starCompleted, newBadges } = await recordStarAnswer({
     userId,
     questionId: question.id,
-    starId: question.starId!,
+    questionVersion: question.version,
+    starId: current.starId!,
     correct: result.correct,
     response,
   });

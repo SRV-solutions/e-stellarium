@@ -5,6 +5,7 @@ import { HttpError } from "../lib/errors.js";
 import { present, seedFor } from "../games/present.js";
 import { isUuid } from "../lib/uuid.js";
 import { canOpenStar } from "../games/access.js";
+import { publishedVersion } from "../games/versions.js";
 import { starLetters } from "../games/starLetter.js";
 
 export const starsRouter = Router();
@@ -83,7 +84,8 @@ starsRouter.get("/stars/:id", requireAuth, async (req, res) => {
     nextStar: next && { id: next.id, title: next.title, kind: next.kind, position: next.position, letter: letters.get(next.id)! },
     questions: questions.map((q) => {
       const attempt = attemptOf.get(q.id) ?? 0;
-      return { ...present(q, seedFor(req.user!.id, q.id, attempt)), attempt, solved: solved.has(q.id) };
+      // version: la que se le muestra; el navegador la devuelve al responder
+      return { ...present(q, seedFor(req.user!.id, q.id, attempt)), version: publishedVersion(q), attempt, solved: solved.has(q.id) };
     }),
   });
 });

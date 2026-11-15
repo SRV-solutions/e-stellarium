@@ -48,7 +48,11 @@ export class Question extends Model<InferAttributes<Question>, InferCreationAttr
   // Solo viene cargada con Question.scope("withAnswer")
   declare answer: QuestionAnswer;
   declare explanation: string;
+  // published: la ven los alumnos. draft: no la ve nadie (nunca se aprobó, o se despublicó).
+  // El ciclo de trabajo (borrador, en revisión, rechazada) está en question_versions
   declare status: CreationOptional<QuestionStatus>;
+  // El número de la versión aprobada, copiada en esta fila (vacío si nunca se aprobó)
+  declare version: CreationOptional<number | null>;
   declare authorId: CreationOptional<string | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -80,6 +84,7 @@ Question.init(
       allowNull: false,
       defaultValue: "draft",
     },
+    version: { type: DataTypes.INTEGER, allowNull: true },
     authorId: { type: DataTypes.UUID, allowNull: true },
     slug: { type: DataTypes.STRING(80), allowNull: true, unique: true },
     createdAt: DataTypes.DATE,

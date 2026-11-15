@@ -1,3 +1,4 @@
+import { teacherCourses } from "./content.js";
 import { QueryTypes } from "sequelize";
 import { sequelize } from "../db.js";
 import { HttpError } from "../lib/errors.js";
@@ -130,5 +131,18 @@ export async function personDetail(id: string) {
   );
 
   const { freezes } = await loadEconomy();
-  return { ...present(row, argentinaDay(), freezes.freePerMonth), courses, auditCount: Number(count) };
+  // Si es docente: los cursos que da (teaching) y los que se le pueden asignar (los activos)
+  const teacher = row.role === "teacher";
+  const options = teacher
+    ? await sequelize.query<{ key: string; name: string }>(`SELECT key, name FROM products WHERE active ORDER BY name`, {
+        type: QueryTypes.SELECT,
+      })
+    : [];
+  return {
+    ...present(row, argentinaDay(), freezes.freePerMonth),
+    courses,
+    teaching: teacher ? await teacherCourses(id) : [],
+    courseOptions: options,
+    auditCount: Number(count),
+  };
 }

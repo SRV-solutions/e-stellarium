@@ -18,6 +18,7 @@ export class DailyReviewQuestion extends Model<
   declare id: CreationOptional<string>;
   declare reviewId: string;
   declare questionId: string;
+  declare questionVersion: number; // la versión de la pregunta que vio
   declare position: number;
   declare correct: CreationOptional<boolean | null>; // vacío mientras no la respondió
   declare answeredAt: CreationOptional<Date | null>;
@@ -30,6 +31,7 @@ DailyReviewQuestion.init(
     id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
     reviewId: { type: DataTypes.UUID, allowNull: false },
     questionId: { type: DataTypes.UUID, allowNull: false },
+    questionVersion: { type: DataTypes.INTEGER, allowNull: false },
     position: { type: DataTypes.INTEGER, allowNull: false },
     correct: { type: DataTypes.BOOLEAN, allowNull: true },
     answeredAt: { type: DataTypes.DATE, allowNull: true },

@@ -3,6 +3,7 @@ import { sequelize } from "../db.js";
 import { HttpError } from "../lib/errors.js";
 import { Answer, DailyReview, DailyReviewQuestion, Question, User } from "../models/index.js";
 import { recordActivity } from "./activity.js";
+import { publishedVersion, questionAt, questionsAt } from "./versions.js";
 import { grade, InvalidResponseError } from "./grade.js";
 import { present, type StudentQuestion } from "./present.js";
 import { awardGlints } from "./glints.js";
@@ -66,7 +67,9 @@ async function loadRows(reviewId: string, t: Transaction) {
   })) as Row[];
 }
 
-function view(review: DailyReview, rows: Row[]): ReviewView {
+// Cada pregunta, con la versión que le tocó al armar el repaso
+async function view(review: DailyReview, rows: Row[], t: Transaction): Promise<ReviewView> {
+  const versions = await questionsAt(rows, t);
   return {
     id: review.id,
     day: review.day,
@@ -77,7 +80,7 @@ function view(review: DailyReview, rows: Row[]): ReviewView {
       position: r.position,
       answered: r.correct !== null,
       correct: r.correct,
-      question: present(r.Question, reviewSeed(review.id, r.questionId)),
+      question: present(versions.get(r.questionId)!, reviewSeed(review.id, r.questionId)),
     })),
   };
 }
@@ -96,13 +99,20 @@ export async function getTodayReview(userId: string, now = new Date()): Promise<
 
       review = await DailyReview.create({ userId, day }, { transaction: t });
       const reviewId = review.id;
+      // Con la versión de hoy de cada una: se responde con esa aunque después se apruebe otra
+      const current = await Question.findAll({ attributes: ["id", "version"], where: { id: questionIds }, transaction: t });
       await DailyReviewQuestion.bulkCreate(
-        questionIds.map((questionId, i) => ({ reviewId, questionId, position: i + 1 })),
+        questionIds.map((questionId, i) => ({
+          reviewId,
+          questionId,
+          questionVersion: publishedVersion(current.find((q) => q.id === questionId)!),
+          position: i + 1,
+        })),
         { transaction: t }
       );
     }
 
-    return view(review, await loadRows(review.id, t));
+    return view(review, await loadRows(review.id, t), t);
   });
 }
 
@@ -125,7 +135,7 @@ export async function answerReview(
     if (!row) throw new HttpError(404, "No encontramos esa pregunta del repaso.");
     if (row.correct !== null) throw new HttpError(409, "Ya respondiste esta pregunta.");
 
-    const question = (await Question.scope("withAnswer").findByPk(row.questionId, { transaction: t }))!;
+    const question = (await questionAt(row.questionId, row.questionVersion, t))!;
     let result;
     try {
       result = grade(question, reviewSeed(review.id, question.id), response);
@@ -137,7 +147,14 @@ export async function answerReview(
     }
 
     await Answer.create(
-      { userId, questionId: question.id, context: "review", correct: result.correct, response: response as object },
+      {
+        userId,
+        questionId: question.id,
+        questionVersion: question.version,
+        context: "review",
+        correct: result.correct,
+        response: response as object,
+      },
       { transaction: t }
     );
     await row.update({ correct: result.correct, answeredAt: now }, { transaction: t });

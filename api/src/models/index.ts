@@ -26,6 +26,9 @@ import { RolePermission } from "./RolePermission.js";
 import { AuditLog } from "./AuditLog.js";
 import { Setting } from "./Setting.js";
 import { ShopItem } from "./ShopItem.js";
+import { QuestionVersion } from "./QuestionVersion.js";
+import { QuestionReview } from "./QuestionReview.js";
+import { TeacherProduct } from "./TeacherProduct.js";
 
 User.hasMany(PasswordToken, { foreignKey: "userId" });
 PasswordToken.belongsTo(User, { foreignKey: "userId" });
@@ -121,4 +124,37 @@ User.belongsTo(Role, { foreignKey: "roleId" });
 Role.hasMany(RolePermission, { foreignKey: "roleId" });
 RolePermission.belongsTo(Role, { foreignKey: "roleId" });
 
-export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, DailyActivity, DailyReview, DailyReviewQuestion, Challenge, ChallengeAttempt, ChallengeAttemptQuestion, GlintEvent, StreakBadge, UserCosmetic, Role, RolePermission, AuditLog, Setting, ShopItem };
+Question.hasMany(QuestionVersion, { foreignKey: "questionId" });
+QuestionVersion.belongsTo(Question, { foreignKey: "questionId" });
+QuestionVersion.belongsTo(User, { foreignKey: "authorId", as: "Author" });
+QuestionVersion.hasMany(QuestionReview, { foreignKey: "versionId" });
+QuestionReview.belongsTo(QuestionVersion, { foreignKey: "versionId" });
+QuestionReview.belongsTo(User, { foreignKey: "reviewerId", as: "Reviewer" });
+User.hasMany(TeacherProduct, { foreignKey: "userId" });
+TeacherProduct.belongsTo(Product, { foreignKey: "productId" });
+
+// Toda pregunta nace con su versión 1, con lo mismo que la fila (publicada si se crea publicada).
+// Así load-content y los tests no tienen que acordarse. El panel crea la suya a mano (hooks: false)
+Question.afterCreate(async (question, options) => {
+  const published = question.status === "published";
+  await QuestionVersion.create(
+    {
+      questionId: question.id,
+      number: 1,
+      status: published ? "published" : "draft",
+      type: question.type,
+      difficulty: question.difficulty,
+      topic: question.topic,
+      module: question.module ?? null,
+      prompt: question.prompt,
+      content: question.content,
+      answer: question.answer,
+      explanation: question.explanation,
+      authorId: question.authorId ?? null,
+    },
+    { transaction: options.transaction }
+  );
+  if (published) await question.update({ version: 1 }, { transaction: options.transaction, hooks: false });
+});
+
+export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, DailyActivity, DailyReview, DailyReviewQuestion, Challenge, ChallengeAttempt, ChallengeAttemptQuestion, GlintEvent, StreakBadge, UserCosmetic, Role, RolePermission, AuditLog, Setting, ShopItem, QuestionVersion, QuestionReview, TeacherProduct };

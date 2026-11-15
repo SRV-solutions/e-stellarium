@@ -19,6 +19,7 @@ export class ChallengeAttemptQuestion extends Model<
   declare id: CreationOptional<string>;
   declare attemptId: string;
   declare questionId: string;
+  declare questionVersion: number; // la versión de la pregunta que vio
   declare position: number;
   declare part: ChallengePart;
   declare shownAt: CreationOptional<Date | null>;
@@ -34,6 +35,7 @@ ChallengeAttemptQuestion.init(
     id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
     attemptId: { type: DataTypes.UUID, allowNull: false },
     questionId: { type: DataTypes.UUID, allowNull: false },
+    questionVersion: { type: DataTypes.INTEGER, allowNull: false },
     position: { type: DataTypes.INTEGER, allowNull: false },
     part: { type: DataTypes.ENUM("own", "explore", "discover"), allowNull: false },
     shownAt: { type: DataTypes.DATE, allowNull: true },

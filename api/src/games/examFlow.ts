@@ -26,6 +26,7 @@ import {
   SECONDS_PER_TYPE,
 } from "./exam.js";
 import { getExamState } from "./examState.js";
+import { publishedVersion, questionAt } from "./versions.js";
 import { grade, InvalidResponseError } from "./grade.js";
 import { present, type StudentQuestion } from "./present.js";
 import { awardXp } from "./progress.js";
@@ -75,7 +76,7 @@ export async function startAttempt(userId: string, exam: Star): Promise<ExamAtte
 
     const constellation = await Constellation.findByPk(exam.constellationId, { transaction: t });
     const bank = await Question.findAll({
-      attributes: ["id", "type"],
+      attributes: ["id", "type", "version"],
       where: { productId: constellation!.productId, pool: "exam", status: "published" },
       transaction: t,
     });
@@ -93,7 +94,13 @@ export async function startAttempt(userId: string, exam: Star): Promise<ExamAtte
     }
 
     await ExamAttemptQuestion.bulkCreate(
-      questionIds.map((questionId, i) => ({ attemptId: attempt.id, questionId, position: i + 1 })),
+      // Con la versión de hoy de cada una: el intento se juega entero con esa
+      questionIds.map((questionId, i) => ({
+        attemptId: attempt.id,
+        questionId,
+        questionVersion: publishedVersion(bank.find((q) => q.id === questionId)!),
+        position: i + 1,
+      })),
       { transaction: t }
     );
 
@@ -110,7 +117,7 @@ export async function getProgress(userId: string, attemptId: string, now = new D
     const rows = await loadRows(attempt.id, t);
     const current = await advance(rows, now, t);
     if (!current) return finish(user, attempt, rows, now, t);
-    return buildQuestion(attempt, rows.length, current, now);
+    return buildQuestion(attempt, rows.length, current, now, t);
   });
 }
 
@@ -132,7 +139,8 @@ export async function answerQuestion(
     await recordActivity(user, now, t);
 
     if (current && current.position === position) {
-      const question = await Question.scope("withAnswer").findByPk(current.questionId, { transaction: t });
+      // La versión que le tocó al sortear, aunque después se haya aprobado otra
+      const question = await questionAt(current.questionId, current.questionVersion, t);
       let correct: boolean;
       try {
         correct = grade(question!, examSeed(attempt.id, question!.id), response).correct;
@@ -147,7 +155,7 @@ export async function answerQuestion(
     }
 
     if (!current) return finish(user, attempt, rows, now, t);
-    return buildQuestion(attempt, rows.length, current, now);
+    return buildQuestion(attempt, rows.length, current, now, t);
   });
 }
 
@@ -172,7 +180,8 @@ async function loadRows(attemptId: string, t: Transaction) {
   })) as Row[];
 }
 
-function buildQuestion(attempt: ExamAttempt, total: number, row: Row, now: Date): ExamProgress {
+async function buildQuestion(attempt: ExamAttempt, total: number, row: Row, now: Date, t: Transaction): Promise<ExamProgress> {
+  const question = await questionAt(row.questionId, row.questionVersion, t);
   return {
     status: "question",
     attemptId: attempt.id,
@@ -180,7 +189,7 @@ function buildQuestion(attempt: ExamAttempt, total: number, row: Row, now: Date)
     total,
     timeLimitSeconds: SECONDS_PER_TYPE[row.Question.type],
     remainingMs: Math.max(0, row.deadlineAt!.getTime() - now.getTime()),
-    question: present(row.Question, examSeed(attempt.id, row.questionId)),
+    question: present(question!, examSeed(attempt.id, row.questionId)),
   };
 }
 

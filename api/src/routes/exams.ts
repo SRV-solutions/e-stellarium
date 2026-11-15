@@ -10,6 +10,7 @@ import { getExamState } from "../games/examState.js";
 import { answerQuestion, getProgress, startAttempt } from "../games/examFlow.js";
 import { drawPractice, isPracticeId, newPracticeId, practiceSeed, practiceWhere } from "../games/practice.js";
 import { present } from "../games/present.js";
+import { publishedVersion, questionAt, requestedVersion } from "../games/versions.js";
 import { grade, InvalidResponseError } from "../games/grade.js";
 import { recordActivity } from "../games/activity.js";
 
@@ -117,7 +118,8 @@ examsRouter.post("/exams/:starId/practice", requireAuth, async (req, res) => {
   const questions = await drawPractice(star.Constellation!.productId, practiceId);
   res.status(201).json({
     practiceId,
-    questions: questions.map((q) => present(q, practiceSeed(userId, practiceId, q.id))),
+    // Con su versión: el navegador la devuelve al responder, y se corrige con esa
+    questions: questions.map((q) => ({ ...present(q, practiceSeed(userId, practiceId, q.id)), version: publishedVersion(q) })),
   });
 });
 
@@ -130,9 +132,13 @@ examsRouter.post("/exams/:starId/practice/answer", requireAuth, async (req, res)
   if (!isPracticeId(practiceId) || !isUuid(questionId)) throw new HttpError(400, "Faltan datos de la práctica.");
 
   // Tiene que ser una pregunta de práctica de este curso: así no se puede pedir la respuesta de una del banco
-  const question = await Question.scope("withAnswer").findOne({
+  const current = await Question.findOne({
     where: { id: questionId, ...practiceWhere(star.Constellation!.productId) },
   });
+  if (!current) throw new HttpError(404, "No encontramos esa pregunta.");
+  // La versión que se le mostró (puede haberse aprobado otra mientras practicaba)
+  const version = requestedVersion(req.body?.version, publishedVersion(current));
+  const question = await questionAt(current.id, version, undefined, { onlyPublished: true });
   if (!question) throw new HttpError(404, "No encontramos esa pregunta.");
 
   let result;

@@ -19,7 +19,7 @@ async function starWithQuestions(count: number) {
 
 // Una respuesta en la estrella, hace `daysAgo` días
 async function answered(userId: string, questionId: string, correct: boolean, daysAgo = 1) {
-  const answer = await Answer.create({ userId, questionId, context: "star", correct, response: { choice: 0 } });
+  const answer = await Answer.create({ userId, questionId, questionVersion: 1, context: "star", correct, response: { choice: 0 } });
   const createdAt = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000);
   await Answer.update({ createdAt }, { where: { id: answer.id } });
 }

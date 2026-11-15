@@ -90,6 +90,7 @@ describe("preguntas", () => {
     await Answer.create({
       userId: user.id,
       questionId: question.id,
+      questionVersion: 1,
       context: "star",
       correct: true,
       response: { choice: 0 },
