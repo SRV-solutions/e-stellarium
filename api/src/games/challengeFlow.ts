@@ -8,9 +8,11 @@ import {
   ChallengeAttempt,
   ChallengeAttemptQuestion,
   Enrollment,
+  GlintEvent,
   Product,
   Question,
   User,
+  XpEvent,
 } from "../models/index.js";
 import type { ChallengePart } from "../models/ChallengeAttemptQuestion.js";
 import type { Difficulty, QuestionType } from "../models/Question.js";
@@ -20,8 +22,9 @@ import { advanceClock } from "./clock.js";
 import { SECONDS_PER_TYPE } from "./exam.js";
 import { grade, InvalidResponseError } from "./grade.js";
 import { present, type StudentQuestion } from "./present.js";
-import { awardGlints, GLINTS, type NewBadge } from "./glints.js";
-import { awardXp, XP } from "./progress.js";
+import { awardGlints, type NewBadge } from "./glints.js";
+import { awardXp } from "./progress.js";
+import { loadEconomy } from "./economy.js";
 
 type Row = ChallengeAttemptQuestion & { Question: Question };
 type Course = { key: string; name: string };
@@ -161,13 +164,29 @@ function step(attempt: ChallengeAttempt, rows: Row[], row: Row, now: Date): Chal
   };
 }
 
-function result(attempt: ChallengeAttempt, rows: Row[], explore: Course | null): ChallengeResult {
+// Lo que dio de verdad el desafío: la suma de sus movimientos (por los aciertos y por terminarlo).
+// Así, si después cambian los valores en settings, el resultado sigue mostrando lo que se ganó
+async function earnedIn(attempt: ChallengeAttempt, rows: Row[], t: Transaction) {
+  const where = {
+    userId: attempt.userId,
+    [Op.or]: [
+      { reason: "challenge_completed", referenceId: attempt.id },
+      { reason: "challenge_correct", referenceId: rows.map((r) => r.id) },
+    ],
+  };
+  const xp = ((await XpEvent.sum("xp", { where, transaction: t })) as number | null) ?? 0;
+  const glints = ((await GlintEvent.sum("amount", { where, transaction: t })) as number | null) ?? 0;
+  return { xp, glints };
+}
+
+async function result(attempt: ChallengeAttempt, rows: Row[], explore: Course | null, t: Transaction): Promise<ChallengeResult> {
   const correctCount = attempt.correctCount ?? 0;
+  const earned = await earnedIn(attempt, rows, t);
   return {
     correctCount,
     total: rows.length,
-    xpGained: correctCount * XP.challengeCorrect + XP.challengeCompleted,
-    glintsGained: correctCount * GLINTS.challengeCorrect + GLINTS.challengeCompleted,
+    xpGained: earned.xp,
+    glintsGained: earned.glints,
     results: rows.map((r) => ({ part: r.part, correct: r.correct === true })),
     recommendation: explore,
   };
@@ -177,8 +196,9 @@ function result(attempt: ChallengeAttempt, rows: Row[], explore: Course | null):
 async function finish(user: User, attempt: ChallengeAttempt, rows: Row[], now: Date, t: Transaction) {
   const correctCount = rows.filter((r) => r.correct).length;
   await attempt.update({ finishedAt: now, correctCount }, { transaction: t });
-  const xp = await awardXp(user, "challenge_completed", attempt.id, XP.challengeCompleted, t);
-  const glints = await awardGlints(user, "challenge_completed", attempt.id, GLINTS.challengeCompleted, t);
+  const economy = await loadEconomy(t);
+  const xp = await awardXp(user, "challenge_completed", attempt.id, economy.xp.challengeCompleted, t);
+  const glints = await awardGlints(user, "challenge_completed", attempt.id, economy.glints.challengeCompleted, t);
   return { xp, glints };
 }
 
@@ -237,7 +257,7 @@ async function view(
     await finish(user, attempt, rows, now, t);
     summary.questions = questions;
   }
-  if (attempt.finishedAt) return { ...summary, status: "finished", result: result(attempt, rows, explore) };
+  if (attempt.finishedAt) return { ...summary, status: "finished", result: await result(attempt, rows, explore, t) };
   return { ...summary, status: "ready" };
 }
 
@@ -354,8 +374,9 @@ export async function answerChallenge(
       );
       await row.update({ correct: graded.correct, response: response as object, answeredAt: now }, { transaction: t });
       if (graded.correct) {
-        xpGained += await awardXp(user, "challenge_correct", row.id, XP.challengeCorrect, t);
-        glintsGained += await awardGlints(user, "challenge_correct", row.id, GLINTS.challengeCorrect, t);
+        const economy = await loadEconomy(t);
+        xpGained += await awardXp(user, "challenge_correct", row.id, economy.xp.challengeCorrect, t);
+        glintsGained += await awardGlints(user, "challenge_correct", row.id, economy.glints.challengeCorrect, t);
       }
       verdict = {
         correct: graded.correct,
@@ -387,7 +408,7 @@ export async function answerChallenge(
       glints: user.glints,
       newBadges,
       finished,
-      result: finished ? result(attempt, rows, await courseOf(rows, "explore", t)) : null,
+      result: finished ? await result(attempt, rows, await courseOf(rows, "explore", t), t) : null,
     };
   });
 }

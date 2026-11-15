@@ -70,13 +70,14 @@ export async function listAudit(filters: AuditFilters) {
     reverted_by: number | null;
   }>(
     `SELECT a.id, a.created_at, a.actor_id, u.name AS actor_name, u.email AS actor_email, a.ip, a.action,
-            a.target_type, a.target_id, COALESCE(tu.name, tr.name) AS target_name, a.before, a.after, a.reversible, a.reverts_id, r.id AS reverted_by
+            a.target_type, a.target_id, COALESCE(tu.name, tr.name, ts.name) AS target_name, a.before, a.after, a.reversible, a.reverts_id, r.id AS reverted_by
        FROM audit_logs a
        LEFT JOIN users u ON u.id = a.actor_id
        LEFT JOIN audit_logs r ON r.reverts_id = a.id
        -- El nombre del elemento, para que la pantalla diga "le cambió el rol a Marcos" y no un id
        LEFT JOIN users tu ON a.target_type = 'user' AND tu.id::text = a.target_id
        LEFT JOIN roles tr ON a.target_type = 'role' AND tr.key::text = a.target_id
+       LEFT JOIN shop_items ts ON a.target_type = 'shop_item' AND ts.id = a.target_id
       WHERE (:actor::text IS NULL
              OR (:actor = 'system' AND a.actor_id IS NULL)
              OR (:actor <> 'system' AND a.actor_id::text = :actor))

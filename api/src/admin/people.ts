@@ -2,6 +2,7 @@ import { QueryTypes } from "sequelize";
 import { sequelize } from "../db.js";
 import { HttpError } from "../lib/errors.js";
 import { argentinaDay, currentStreak } from "../games/streak.js";
+import { loadEconomy } from "../games/economy.js";
 import type { RoleKey } from "../models/Role.js";
 
 // La lista de personas del panel (alumnos y staff) y la ficha de cada una.
@@ -38,7 +39,7 @@ type PersonRow = {
 };
 
 // La racha que se muestra: si se cortó, 0 (como en GET /me/stats, sin escribir nada)
-function present(row: PersonRow, today: string) {
+function present(row: PersonRow, today: string, freezesPerMonth: number) {
   const { streak } = currentStreak(
     {
       streak: row.streak,
@@ -46,7 +47,8 @@ function present(row: PersonRow, today: string) {
       streakFreezes: row.streak_freezes,
       boughtFreezes: row.bought_freezes,
     },
-    today
+    today,
+    freezesPerMonth
   );
   return {
     id: row.id,
@@ -99,9 +101,10 @@ export async function listPeople(filters: PeopleFilters) {
   );
 
   const today = argentinaDay();
+  const { freezes } = await loadEconomy();
   const hasMore = rows.length > PEOPLE_PAGE_SIZE;
   return {
-    people: rows.slice(0, PEOPLE_PAGE_SIZE).map((row) => present(row, today)),
+    people: rows.slice(0, PEOPLE_PAGE_SIZE).map((row) => present(row, today, freezes.freePerMonth)),
     counts: Object.fromEntries(KINDS.map((k) => [k, Number(counts[k])])) as Record<Kind, number>,
     nextOffset: hasMore ? filters.offset + PEOPLE_PAGE_SIZE : null,
   };
@@ -126,5 +129,6 @@ export async function personDetail(id: string) {
     { replacements: { id }, type: QueryTypes.SELECT }
   );
 
-  return { ...present(row, argentinaDay()), courses, auditCount: Number(count) };
+  const { freezes } = await loadEconomy();
+  return { ...present(row, argentinaDay(), freezes.freePerMonth), courses, auditCount: Number(count) };
 }

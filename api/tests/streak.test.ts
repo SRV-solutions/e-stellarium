@@ -23,53 +23,60 @@ describe("la racha", () => {
   });
 
   it("arranca en 1 el primer día", () => {
-    expect(registerDay(state(0, null), "2026-11-10")).toEqual(state(1, "2026-11-10", 2));
+    expect(registerDay(state(0, null), "2026-11-10", 2)).toEqual(state(1, "2026-11-10", 2));
   });
 
   it("suma uno si jugó ayer, y no cambia si ya jugó hoy", () => {
-    expect(registerDay(state(4, "2026-11-09"), "2026-11-10")).toEqual(state(5, "2026-11-10", 2));
-    expect(registerDay(state(5, "2026-11-10", 1), "2026-11-10")).toEqual(state(5, "2026-11-10", 1));
+    expect(registerDay(state(4, "2026-11-09"), "2026-11-10", 2)).toEqual(state(5, "2026-11-10", 2));
+    expect(registerDay(state(5, "2026-11-10", 1), "2026-11-10", 2)).toEqual(state(5, "2026-11-10", 1));
   });
 
   it("gasta un protector por cada día que faltó", () => {
-    expect(registerDay(state(4, "2026-11-08"), "2026-11-10")).toEqual(state(5, "2026-11-10", 1));
-    expect(registerDay(state(4, "2026-11-07"), "2026-11-10")).toEqual(state(5, "2026-11-10", 0));
+    expect(registerDay(state(4, "2026-11-08"), "2026-11-10", 2)).toEqual(state(5, "2026-11-10", 1));
+    expect(registerDay(state(4, "2026-11-07"), "2026-11-10", 2)).toEqual(state(5, "2026-11-10", 0));
   });
 
   it("vuelve a 1 si los protectores no alcanzan", () => {
-    expect(registerDay(state(4, "2026-11-06"), "2026-11-10")).toEqual(state(1, "2026-11-10", 0));
-    expect(registerDay(state(4, "2026-11-08", 0), "2026-11-10")).toEqual(state(1, "2026-11-10", 0));
+    expect(registerDay(state(4, "2026-11-06"), "2026-11-10", 2)).toEqual(state(1, "2026-11-10", 0));
+    expect(registerDay(state(4, "2026-11-08", 0), "2026-11-10", 2)).toEqual(state(1, "2026-11-10", 0));
+  });
+
+  it("los protectores del mes nuevo son los que diga settings", () => {
+    // Con 3 por mes: al pasar a noviembre recarga 3 (y gasta uno en el 1)
+    expect(registerDay(state(4, "2026-10-31", 0), "2026-11-02", 3)).toEqual(state(5, "2026-11-02", 2));
+    // Con 0 por mes: el día que faltó corta la racha
+    expect(registerDay(state(4, "2026-10-31", 0), "2026-11-02", 0)).toEqual(state(1, "2026-11-02", 0));
   });
 
   it("cada mes trae 2 protectores nuevos", () => {
     // Le quedaba 0 en octubre: el 31 no tiene protector y la racha se corta
-    expect(registerDay(state(4, "2026-10-30", 0), "2026-11-02")).toEqual(state(1, "2026-11-02", 2));
+    expect(registerDay(state(4, "2026-10-30", 0), "2026-11-02", 2)).toEqual(state(1, "2026-11-02", 2));
     // Le quedaba 1 en octubre: cubre el 31 con el de octubre y el 1 con uno de noviembre
-    expect(registerDay(state(4, "2026-10-30", 1), "2026-11-02")).toEqual(state(5, "2026-11-02", 1));
+    expect(registerDay(state(4, "2026-10-30", 1), "2026-11-02", 2)).toEqual(state(5, "2026-11-02", 1));
     // Volver en un mes nuevo, sin haber faltado, también recarga
-    expect(registerDay(state(4, "2026-10-31", 0), "2026-11-01")).toEqual(state(5, "2026-11-01", 2));
+    expect(registerDay(state(4, "2026-10-31", 0), "2026-11-01", 2)).toEqual(state(5, "2026-11-01", 2));
   });
 
   it("al leer, muestra 0 si se cortó y la racha viva si todavía no jugó hoy", () => {
-    expect(currentStreak(state(4, "2026-11-09"), "2026-11-10")).toEqual({ streak: 4, freezes: 2, boughtFreezes: 0, activeToday: false });
-    expect(currentStreak(state(4, "2026-11-10"), "2026-11-10")).toEqual({ streak: 4, freezes: 2, boughtFreezes: 0, activeToday: true });
-    expect(currentStreak(state(4, "2026-11-08"), "2026-11-10")).toEqual({ streak: 4, freezes: 1, boughtFreezes: 0, activeToday: false });
-    expect(currentStreak(state(4, "2026-11-01"), "2026-11-10")).toEqual({ streak: 0, freezes: 0, boughtFreezes: 0, activeToday: false });
+    expect(currentStreak(state(4, "2026-11-09"), "2026-11-10", 2)).toEqual({ streak: 4, freezes: 2, boughtFreezes: 0, activeToday: false });
+    expect(currentStreak(state(4, "2026-11-10"), "2026-11-10", 2)).toEqual({ streak: 4, freezes: 2, boughtFreezes: 0, activeToday: true });
+    expect(currentStreak(state(4, "2026-11-08"), "2026-11-10", 2)).toEqual({ streak: 4, freezes: 1, boughtFreezes: 0, activeToday: false });
+    expect(currentStreak(state(4, "2026-11-01"), "2026-11-10", 2)).toEqual({ streak: 0, freezes: 0, boughtFreezes: 0, activeToday: false });
   });
 
   it("los comprados se usan después de los gratis del mes, y no vencen", () => {
     // Faltó 3 días con 2 gratis y 1 comprado: los cubre todos
-    expect(registerDay(state(4, "2026-11-06", 2, 1), "2026-11-10")).toEqual(state(5, "2026-11-10", 0, 0));
+    expect(registerDay(state(4, "2026-11-06", 2, 1), "2026-11-10", 2)).toEqual(state(5, "2026-11-10", 0, 0));
     // Faltó 1 día: usa uno gratis y no toca los comprados
-    expect(registerDay(state(4, "2026-11-08", 2, 2), "2026-11-10")).toEqual(state(5, "2026-11-10", 1, 2));
+    expect(registerDay(state(4, "2026-11-08", 2, 2), "2026-11-10", 2)).toEqual(state(5, "2026-11-10", 1, 2));
     // Al cambiar de mes, los comprados siguen ahí
-    expect(registerDay(state(4, "2026-10-31", 0, 2), "2026-11-01")).toEqual(state(5, "2026-11-01", 2, 2));
+    expect(registerDay(state(4, "2026-10-31", 0, 2), "2026-11-01", 2)).toEqual(state(5, "2026-11-01", 2, 2));
   });
 
   it("si igual se corta, los comprados no se gastan", () => {
     // Faltó 5 días con 2 gratis y 2 comprados: no alcanza
-    expect(registerDay(state(4, "2026-11-04", 2, 2), "2026-11-10")).toEqual(state(1, "2026-11-10", 0, 2));
-    expect(currentStreak(state(4, "2026-11-04", 2, 2), "2026-11-10")).toEqual({
+    expect(registerDay(state(4, "2026-11-04", 2, 2), "2026-11-10", 2)).toEqual(state(1, "2026-11-10", 0, 2));
+    expect(currentStreak(state(4, "2026-11-04", 2, 2), "2026-11-10", 2)).toEqual({
       streak: 0,
       freezes: 0,
       boughtFreezes: 2,

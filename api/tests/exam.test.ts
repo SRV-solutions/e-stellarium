@@ -76,14 +76,17 @@ describe("resultado del examen", () => {
 });
 
 describe("cupón del examen", () => {
+  // Los valores de la migración (en la app salen de settings)
+  const rules = { firstPercent: 60, laterPercent: 40, validDays: 60 };
+
   it("60 % el primero y 40 % los siguientes", () => {
-    expect(couponPercent(0)).toBe(60);
-    expect(couponPercent(1)).toBe(40);
-    expect(couponPercent(3)).toBe(40);
+    expect(couponPercent(0, rules)).toBe(60);
+    expect(couponPercent(1, rules)).toBe(40);
+    expect(couponPercent(3, rules)).toBe(40);
   });
 
   it("vence a los 60 días", () => {
-    expect(couponExpiresAt(new Date("2026-11-09T10:00:00Z"))).toEqual(new Date("2027-01-08T10:00:00Z"));
+    expect(couponExpiresAt(new Date("2026-11-09T10:00:00Z"), rules)).toEqual(new Date("2027-01-08T10:00:00Z"));
   });
 
   it("el código lleva el curso y caracteres que no se confunden", () => {

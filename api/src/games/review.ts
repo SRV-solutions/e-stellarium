@@ -5,8 +5,9 @@ import { Answer, DailyReview, DailyReviewQuestion, Question, User } from "../mod
 import { recordActivity } from "./activity.js";
 import { grade, InvalidResponseError } from "./grade.js";
 import { present, type StudentQuestion } from "./present.js";
-import { awardGlints, GLINTS } from "./glints.js";
-import { awardXp, XP } from "./progress.js";
+import { awardGlints } from "./glints.js";
+import { loadEconomy } from "./economy.js";
+import { awardXp } from "./progress.js";
 import { argentinaDay } from "./streak.js";
 
 export const REVIEW_SIZE = 5;
@@ -146,14 +147,15 @@ export async function answerReview(
     let xpGained = 0;
     let reviewXp = 0;
     let glintsGained = newBadges.reduce((sum, b) => sum + b.glints, 0);
-    if (result.correct) xpGained += await awardXp(user, "review_correct", row.id, XP.reviewCorrect, t);
+    const economy = await loadEconomy(t);
+    if (result.correct) xpGained += await awardXp(user, "review_correct", row.id, economy.xp.reviewCorrect, t);
 
     const finished = rows.every((r) => r.correct !== null);
     if (finished) {
       await review.update({ finishedAt: now }, { transaction: t });
-      reviewXp = await awardXp(user, "review_completed", review.id, XP.reviewCompleted, t);
+      reviewXp = await awardXp(user, "review_completed", review.id, economy.xp.reviewCompleted, t);
       xpGained += reviewXp;
-      glintsGained += await awardGlints(user, "review_completed", review.id, GLINTS.reviewCompleted, t);
+      glintsGained += await awardGlints(user, "review_completed", review.id, economy.glints.reviewCompleted, t);
     }
 
     return {

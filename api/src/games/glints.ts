@@ -1,20 +1,10 @@
 import type { Transaction } from "sequelize";
 import { GlintEvent, StreakBadge, type User } from "../models/index.js";
 import type { GlintReason } from "../models/GlintEvent.js";
+import { BADGE_DAYS, loadEconomy } from "./economy.js";
 
 // Los destellos: una moneda aparte del XP, que se gasta en la tienda. Las estrellas y el examen no dan.
-export const GLINTS = {
-  challengeCorrect: 3,
-  challengeCompleted: 10,
-  reviewCompleted: 3,
-};
-
-// Las insignias de racha: cuántos días hacen falta y cuántos destellos dan
-export const STREAK_BADGES = [
-  { days: 7, glints: 20 },
-  { days: 30, glints: 60 },
-  { days: 100, glints: 200 },
-] as const;
+// Cuántos da cada cosa está en settings (games/economy.ts)
 
 export type BadgeInfo = { days: number; earnedAt: Date };
 export type NewBadge = BadgeInfo & { glints: number }; // los destellos que dio
@@ -43,7 +33,10 @@ export async function spendGlints(user: User, reason: GlintReason, referenceId: 
 // Se llama dentro de una transacción que ya bloqueó al alumno. Devuelve las nuevas (casi siempre ninguna)
 export async function awardStreakBadges(user: User, streak: number, t: Transaction) {
   const earned: NewBadge[] = [];
-  for (const badge of STREAK_BADGES) {
+  // Casi siempre no hay ninguna nueva: se evita leer la economía si la racha no llega ni a la primera
+  if (streak < BADGE_DAYS[0]) return earned;
+  const { badges } = await loadEconomy(t);
+  for (const badge of badges) {
     if (streak < badge.days) continue;
     const [row, created] = await StreakBadge.findOrCreate({
       where: { userId: user.id, days: badge.days },

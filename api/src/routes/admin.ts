@@ -13,6 +13,16 @@ import { listAudit, listAuditActors, parseAuditFilters } from "../admin/auditLog
 import { revertAudit } from "../admin/revert.js";
 import { listPeople, parsePeopleFilters, personDetail } from "../admin/people.js";
 import { lastCheck, runIntegrityCheck } from "../lib/integrity.js";
+import {
+  createShopItem,
+  listSettings,
+  listShopItems,
+  parseItemChanges,
+  parseSettingValues,
+  updateSettings,
+  updateShopItem,
+} from "../admin/economy.js";
+import { ShopItem } from "../models/index.js";
 
 export const adminRouter = Router();
 
@@ -96,4 +106,40 @@ adminRouter.get("/admin/integrity", requireAuth, requirePermission("integrity:vi
 // Corre la verificación de DVH, DVV y la cadena de la bitácora
 adminRouter.post("/admin/integrity/check", requireAuth, requirePermission("integrity:view"), async (req, res) => {
   res.json({ check: await runIntegrityCheck("manual", auditContext(req)) });
+});
+
+// ---------- Economía (economy:edit) ----------
+
+// Los valores de settings, con su mínimo y máximo
+adminRouter.get("/admin/settings", requireAuth, requirePermission("economy:edit"), async (_req, res) => {
+  res.json({ settings: await listSettings() });
+});
+
+// Cambia valores: { values: { "xp.star_completed": 60, ... } }. Un registro en la bitácora con lo que cambió
+adminRouter.patch("/admin/settings", requireAuth, requirePermission("economy:edit"), async (req, res) => {
+  const values = parseSettingValues(req.body?.values);
+  const settings = await sequelize.transaction((t) => updateSettings(t, auditContext(req), values));
+  res.json({ settings });
+});
+
+// Todo lo de la tienda, también lo retirado, con cuántos se vendieron o cuántos lo tienen
+adminRouter.get("/admin/shop", requireAuth, requirePermission("economy:edit"), async (_req, res) => {
+  res.json({ items: await listShopItems() });
+});
+
+// Agrega un cupón, un color o un título: { kind, name, note?, price, percent?, hex?, altName? }
+adminRouter.post("/admin/shop", requireAuth, requirePermission("economy:edit"), async (req, res) => {
+  const item = await sequelize.transaction((t) => createShopItem(t, auditContext(req), req.body));
+  res.status(201).json({ item });
+});
+
+// Cambia un ítem: { name?, note?, price?, percent?, hex?, altName?, active? } (active: false lo retira)
+adminRouter.patch("/admin/shop/:id", requireAuth, requirePermission("economy:edit"), async (req, res) => {
+  const id = String(req.params.id);
+  const item = await sequelize.transaction(async (t) => {
+    const found = await ShopItem.findByPk(id, { transaction: t });
+    if (!found) throw new HttpError(404, "No existe eso en la tienda.");
+    return updateShopItem(t, auditContext(req), id, parseItemChanges(req.body, found.kind));
+  });
+  res.json({ item });
 });

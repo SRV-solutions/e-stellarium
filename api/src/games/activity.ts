@@ -2,6 +2,7 @@ import type { Transaction } from "sequelize";
 import { DailyActivity, type User } from "../models/index.js";
 import { awardStreakBadges } from "./glints.js";
 import { argentinaDay, registerDay } from "./streak.js";
+import { loadEconomy } from "./economy.js";
 
 // Anota que el alumno jugó hoy y, si es lo primero del día, actualiza la racha y da las insignias
 // que alcanzó. Se llama dentro de una transacción que ya bloqueó al alumno.
@@ -11,7 +12,8 @@ export async function recordActivity(user: User, now: Date, t: Transaction) {
   const [, created] = await DailyActivity.findOrCreate({ where: { userId: user.id, day }, transaction: t });
   if (!created) return { newBadges: [] };
 
-  const next = registerDay(user, day);
+  const { freezes } = await loadEconomy(t);
+  const next = registerDay(user, day, freezes.freePerMonth);
   await user.update(
     {
       streak: next.streak,

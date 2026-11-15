@@ -5,6 +5,7 @@ import { requireAuth } from "../middlewares/requireAuth.js";
 import { HttpError } from "../lib/errors.js";
 import { isUuid } from "../lib/uuid.js";
 import { couponPercent, EXAM_SIZE, PASS_MARK, SECONDS_PER_TYPE } from "../games/exam.js";
+import { loadEconomy } from "../games/economy.js";
 import { getExamState } from "../games/examState.js";
 import { answerQuestion, getProgress, startAttempt } from "../games/examFlow.js";
 import { drawPractice, isPracticeId, newPracticeId, practiceSeed, practiceWhere } from "../games/practice.js";
@@ -59,7 +60,7 @@ examsRouter.get("/exams/:starId", requireAuth, async (req, res) => {
       passMark: PASS_MARK,
       secondsPerType: SECONDS_PER_TYPE,
       // El porcentaje que ganaría si aprueba ahora (o el que ganó, si ya aprobó)
-      couponPercent: coupon ? coupon.percent : couponPercent(earned),
+      couponPercent: coupon ? coupon.percent : couponPercent(earned, (await loadEconomy()).coupons),
     },
     coupon: coupon && {
       code: coupon.code,

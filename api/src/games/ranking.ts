@@ -1,7 +1,6 @@
 import { QueryTypes } from "sequelize";
 import { sequelize } from "../db.js";
 import { addDays, argentinaDay } from "./streak.js";
-import { titleText } from "./cosmetics.js";
 
 export const RANKING_SIZE = 10;
 
@@ -46,8 +45,7 @@ export async function getRanking(userId: string, period: RankingPeriod, now = ne
     xp: number;
     position: string;
     worn_frame: string | null;
-    worn_title: string | null;
-    title_variant: number;
+    title: string | null;
   }>(
     `WITH totals AS (
        SELECT u.id, u.alias, sum(x.xp)::int AS xp, max(x.created_at) AS reached_at
@@ -61,9 +59,12 @@ export async function getRanking(userId: string, period: RankingPeriod, now = ne
      ), ranked AS (
        SELECT *, row_number() OVER (ORDER BY xp DESC, reached_at ASC, id) AS position FROM totals
      )
-     SELECT r.id, r.alias, r.xp, r.position, u.worn_frame, u.worn_title, u.title_variant
+     SELECT r.id, r.alias, r.xp, r.position, u.worn_frame,
+            -- El título con la forma que eligió (los de una sola forma usan siempre el nombre)
+            CASE WHEN u.title_variant = 1 AND s.alt_name IS NOT NULL THEN s.alt_name ELSE s.name END AS title
        FROM ranked r
        JOIN users u ON u.id = r.id
+       LEFT JOIN shop_items s ON s.id = u.worn_title
       WHERE r.position <= :size OR r.id = :userId
       ORDER BY r.position`,
     {
@@ -83,7 +84,7 @@ export async function getRanking(userId: string, period: RankingPeriod, now = ne
     xp: r.xp,
     position: Number(r.position),
     frame: r.worn_frame,
-    title: titleText(r.worn_title, r.title_variant),
+    title: r.title,
   }));
   const mine = entries.find((e) => e.id === userId);
   const [user] = await sequelize.query<{ role: string }>(

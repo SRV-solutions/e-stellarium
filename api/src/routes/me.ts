@@ -5,6 +5,7 @@ import { todayReviewSummary } from "../games/review.js";
 import { badgesOf } from "../games/glints.js";
 import { wear, type CosmeticKind } from "../games/cosmetics.js";
 import { HttpError } from "../lib/errors.js";
+import { loadEconomy } from "../games/economy.js";
 
 export const meRouter = Router();
 
@@ -13,7 +14,12 @@ export const meRouter = Router();
 meRouter.get("/me/stats", requireAuth, async (req, res) => {
   const user = req.user!;
   const now = new Date();
-  const { streak, freezes, boughtFreezes, activeToday } = currentStreak(user, argentinaDay(now));
+  const economy = await loadEconomy();
+  const { streak, freezes, boughtFreezes, activeToday } = currentStreak(
+    user,
+    argentinaDay(now),
+    economy.freezes.freePerMonth
+  );
 
   res.json({
     streak,

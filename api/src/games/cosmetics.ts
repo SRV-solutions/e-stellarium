@@ -1,71 +1,43 @@
 import type { Transaction } from "sequelize";
 import { sequelize } from "../db.js";
 import { HttpError } from "../lib/errors.js";
-import { User, UserCosmetic } from "../models/index.js";
+import { ShopItem, User, UserCosmetic } from "../models/index.js";
 
 // Los cosméticos: no dan ninguna ventaja, solo se ven. Se compran una vez y se elige cuál llevar puesto.
-// El catálogo está en el código, como los precios de la tienda; en el bloque 5 pasa a ser editable.
+// El catálogo (nombres, precios, colores y títulos) está en shop_items y se edita desde el panel.
 export type CosmeticKind = "frame" | "color" | "title";
-
-export type Cosmetic = {
-  id: string;
-  kind: CosmeticKind;
-  name: string;
-  note: string;
-  price: number;
-  hex?: string; // el color del trazo
-  variants?: [string, string]; // los títulos con dos formas: "Cazadora de cometas" o "Cazador de cometas"
-};
+export const COSMETIC_KINDS: CosmeticKind[] = ["frame", "color", "title"];
 
 // El azul de siempre: gratis y puesto si no eligió otro (worn_color vacío)
 export const DEFAULT_COLOR = "blue";
 
-export const COSMETICS: Cosmetic[] = [
-  { id: "orbit", kind: "frame", name: "Órbita", note: "Una luna que gira", price: 120 },
-  { id: "eclipse", kind: "frame", name: "Eclipse", note: "Corona de luz", price: 200 },
-  { id: "rings", kind: "frame", name: "Anillos", note: "Como Saturno", price: 300 },
-  { id: "blue", kind: "color", name: "Azul", note: "El de siempre", price: 0, hex: "#4fa3ff" },
-  { id: "aurora", kind: "color", name: "Aurora", note: "Verde polar", price: 150, hex: "#3fe0a2" },
-  { id: "nebula", kind: "color", name: "Nebulosa", note: "Violeta", price: 150, hex: "#b9a6ff" },
-  { id: "corona", kind: "color", name: "Corona solar", note: "Oro", price: 250, hex: "#ffc94a" },
-  {
-    id: "comet_hunter",
-    kind: "title",
-    name: "Cazadora de cometas",
-    note: "o Cazador",
-    price: 100,
-    variants: ["Cazadora de cometas", "Cazador de cometas"],
-  },
-  { id: "navigator", kind: "title", name: "Navegante", note: "", price: 100 },
-  {
-    id: "astronomer",
-    kind: "title",
-    name: "Astrónoma de guardia",
-    note: "o Astrónomo",
-    price: 180,
-    variants: ["Astrónoma de guardia", "Astrónomo de guardia"],
-  },
-];
-
-export function findCosmetic(id: unknown): Cosmetic | undefined {
-  return COSMETICS.find((c) => c.id === id);
+// Un cosmético por su id, aunque esté retirado (quien lo compró lo sigue pudiendo llevar)
+export async function findCosmetic(id: unknown, t?: Transaction): Promise<ShopItem | null> {
+  if (typeof id !== "string") return null;
+  return ShopItem.findOne({ where: { id, kind: COSMETIC_KINDS }, transaction: t });
 }
 
-// El texto del título con la forma que eligió (los que tienen una sola forma la usan siempre)
-export function titleText(titleId: string | null, variant: number): string | null {
-  const title = titleId ? findCosmetic(titleId) : undefined;
+// El texto del título con la forma que eligió (los que tienen una sola forma usan siempre el nombre)
+export function titleText(title: ShopItem | null, variant: number): string | null {
   if (!title) return null;
-  return title.variants ? title.variants[variant === 1 ? 1 : 0] : title.name;
+  return variant === 1 && title.altName ? title.altName : title.name;
 }
 
-// Lo que lleva puesto, como lo necesita el cliente
-export function wornBy(user: User) {
+// Lo que lleva puesto, como lo necesita el cliente. colorHex es el color del trazo (sale de la tienda,
+// así un color nuevo funciona sin tocar el cliente)
+export async function wornBy(user: User, t?: Transaction) {
+  const color = user.wornColor ?? DEFAULT_COLOR;
+  const [title, colorItem] = await Promise.all([
+    user.wornTitle ? findCosmetic(user.wornTitle, t) : null,
+    findCosmetic(color, t),
+  ]);
   return {
     frame: user.wornFrame,
-    color: user.wornColor ?? DEFAULT_COLOR,
+    color,
+    colorHex: colorItem?.hex ?? null,
     title: user.wornTitle,
     titleVariant: user.titleVariant,
-    titleText: titleText(user.wornTitle, user.titleVariant),
+    titleText: titleText(title, user.titleVariant),
   };
 }
 
@@ -88,7 +60,7 @@ export async function wear(userId: string, kind: CosmeticKind, id: string | null
     if (!user) throw new HttpError(404, "No encontramos al alumno.");
 
     if (id !== null) {
-      const cosmetic = findCosmetic(id);
+      const cosmetic = await findCosmetic(id, t);
       if (!cosmetic || cosmetic.kind !== kind) throw new HttpError(404, "No existe ese cosmético.");
       if (!(await ownedCosmetics(userId, t)).has(id)) throw new HttpError(409, "Todavía no lo compraste.");
     }
@@ -100,6 +72,6 @@ export async function wear(userId: string, kind: CosmeticKind, id: string | null
       { [COLUMN[kind]]: value, ...(kind === "title" ? { titleVariant: variant } : {}) },
       { transaction: t }
     );
-    return wornBy(user);
+    return wornBy(user, t);
   });
 }

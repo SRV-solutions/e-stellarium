@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import type { Agent } from "supertest";
 import { GlintEvent, User, UserCosmetic, XpEvent } from "../src/models/index.js";
-import { titleText } from "../src/games/cosmetics.js";
+import { findCosmetic, titleText } from "../src/games/cosmetics.js";
 import { enrolledStudent } from "./helpers.js";
 
 async function shopper(glints: number) {
@@ -26,7 +26,14 @@ describe("comprar cosméticos", () => {
     // El azul es gratis y ya lo tiene
     expect(byId.blue).toMatchObject({ kind: "color", price: 0, owned: true, blockedBy: "owned", hex: "#4fa3ff" });
     expect(byId.comet_hunter.variants).toEqual(["Cazadora de cometas", "Cazador de cometas"]);
-    expect(body.worn).toEqual({ frame: null, color: "blue", title: null, titleVariant: 0, titleText: null });
+    expect(body.worn).toEqual({
+      frame: null,
+      color: "blue",
+      colorHex: "#4fa3ff",
+      title: null,
+      titleVariant: 0,
+      titleText: null,
+    });
   });
 
   it("se compra una sola vez y descuenta los destellos", async () => {
@@ -86,13 +93,19 @@ describe("ponerse cosméticos", () => {
     expect(titled.body.worn).toEqual({
       frame: "eclipse",
       color: "nebula",
+      colorHex: "#b9a6ff",
       title: "comet_hunter",
       titleVariant: 1,
       titleText: "Cazador de cometas",
     });
 
     const me = await agent.get("/me");
-    expect(me.body.user).toMatchObject({ wornFrame: "eclipse", wornColor: "nebula", wornTitle: "comet_hunter" });
+    expect(me.body.user).toMatchObject({
+      wornFrame: "eclipse",
+      wornColor: "nebula",
+      wornColorHex: "#b9a6ff",
+      wornTitle: "comet_hunter",
+    });
   });
 
   it("se saca con null, y el color vuelve al azul", async () => {
@@ -145,9 +158,10 @@ describe("cosméticos en el ranking", () => {
     expect(body.top[0]).toMatchObject({ me: true, frame: "rings", title: "Astrónoma de guardia" });
   });
 
-  it("el título sin dos formas usa siempre su nombre", () => {
-    expect(titleText("navigator", 1)).toBe("Navegante");
+  it("el título sin dos formas usa siempre su nombre", async () => {
+    expect(titleText(await findCosmetic("navigator"), 1)).toBe("Navegante");
+    expect(titleText(await findCosmetic("comet_hunter"), 1)).toBe("Cazador de cometas");
     expect(titleText(null, 0)).toBeNull();
-    expect(titleText("no-existe", 0)).toBeNull();
+    expect(await findCosmetic("no-existe")).toBeNull();
   });
 });

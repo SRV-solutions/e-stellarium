@@ -2,26 +2,24 @@ import { randomUUID } from "node:crypto";
 import { Op, type Transaction } from "sequelize";
 import { sequelize } from "../db.js";
 import { HttpError } from "../lib/errors.js";
-import { Coupon, GlintEvent, User, UserCosmetic } from "../models/index.js";
-import { COSMETICS, findCosmetic, ownedCosmetics, wornBy, type CosmeticKind } from "./cosmetics.js";
-import { COUPON_VALID_DAYS, couponExpiresAt } from "./exam.js";
+import { Coupon, GlintEvent, ShopItem, User, UserCosmetic } from "../models/index.js";
+import { COSMETIC_KINDS, ownedCosmetics, wornBy, type CosmeticKind } from "./cosmetics.js";
+import { loadEconomy } from "./economy.js";
+import { couponExpiresAt } from "./exam.js";
 import { uniqueCouponCode } from "./examFlow.js";
 import { spendGlints } from "./glints.js";
 import { weekRange } from "./ranking.js";
 import { addDays, argentinaDay } from "./streak.js";
 
-// Los precios, en destellos. Por ahora en el código; en el bloque 5 pasan a ser editables
-export const SHOP_COUPONS = [
-  { item: "coupon_10", percent: 10, price: 150 },
-  { item: "coupon_20", percent: 20, price: 350 },
-  { item: "coupon_30", percent: 30, price: 700 },
-] as const;
-export const FREEZE_PRICE = 60;
-export const FREEZES_BOUGHT_PER_MONTH = 2;
+// Lo que se vende y su precio en destellos está en shop_items (se edita desde el panel); el tope de
+// protectores comprados por mes, en settings. Al comprar, el navegador manda solo el id ("coupon_10",
+// "streak_freeze", "orbit"...): el precio nunca viene del navegador.
+export type ItemId = string;
 
-// Lo que se puede pedir al comprar: un cupón, un protector o el id de un cosmético ("orbit", "aurora"...).
-// El precio nunca viene del navegador: sale de acá o del catálogo de cosméticos
-export type ShopItem = (typeof SHOP_COUPONS)[number]["item"] | "streak_freeze" | string;
+// Lo que está a la venta, en el orden de la tienda
+export async function itemsForSale(t?: Transaction) {
+  return ShopItem.findAll({ where: { active: true }, order: [["position", "ASC"]], transaction: t });
+}
 
 // El prefijo del código de los cupones de la tienda: ESTL-TI-7K3QM2
 const SHOP_CODE_KEY = "tienda";
@@ -39,7 +37,7 @@ export type Blocked = "glints" | "weekly_limit" | "monthly_limit" | "owned" | nu
 export type ShopView = {
   glints: number;
   coupons: {
-    item: ShopItem;
+    item: ItemId;
     percent: number;
     price: number;
     missing: number; // cuántos destellos le faltan (0 si le alcanza)
@@ -49,7 +47,7 @@ export type ShopView = {
   couponBoughtThisWeek: boolean;
   couponAvailableAt: Date | null; // si ya compró uno esta semana, cuándo puede comprar otro
   freeze: {
-    item: ShopItem;
+    item: ItemId;
     price: number;
     missing: number;
     blockedBy: Blocked;
@@ -70,7 +68,7 @@ export type ShopView = {
     owned: boolean;
     blockedBy: Blocked; // "owned" si ya lo tiene
   }[];
-  worn: ReturnType<typeof wornBy>;
+  worn: Awaited<ReturnType<typeof wornBy>>;
 };
 
 async function couponBoughtThisWeek(userId: string, now: Date, t?: Transaction) {
@@ -97,68 +95,87 @@ export async function shopView(user: User, now = new Date(), t?: Transaction): P
   const monthly = await freezesBoughtThisMonth(user.id, now, t);
   const missing = (price: number) => Math.max(0, price - glints);
   const owned = await ownedCosmetics(user.id, t);
+  const economy = await loadEconomy(t);
+  const items = await itemsForSale(t);
+  const monthlyLimit = economy.freezes.boughtPerMonth;
+  // El protector siempre existe (no se puede retirar): la migración lo crea y una restricción deja uno solo
+  const freeze = items.find((i) => i.kind === "streak_freeze")!;
 
   const freezeBlocked: Blocked =
-    monthly >= FREEZES_BOUGHT_PER_MONTH ? "monthly_limit" : glints < FREEZE_PRICE ? "glints" : null;
+    monthly >= monthlyLimit ? "monthly_limit" : glints < freeze.price ? "glints" : null;
 
   return {
     glints,
-    coupons: SHOP_COUPONS.map((c) => ({
-      item: c.item,
-      percent: c.percent,
-      price: c.price,
-      missing: missing(c.price),
-      blockedBy: weekly ? "weekly_limit" : glints < c.price ? "glints" : null,
-    })),
-    couponValidDays: COUPON_VALID_DAYS,
+    coupons: items
+      .filter((i) => i.kind === "coupon")
+      .map((c) => ({
+        item: c.id,
+        percent: c.percent!,
+        price: c.price,
+        missing: missing(c.price),
+        blockedBy: weekly ? "weekly_limit" : glints < c.price ? "glints" : null,
+      })),
+    couponValidDays: economy.coupons.validDays,
     couponBoughtThisWeek: weekly,
     couponAvailableAt: weekly ? weekRange(now).endsAt : null,
     freeze: {
-      item: "streak_freeze",
-      price: FREEZE_PRICE,
-      missing: missing(FREEZE_PRICE),
+      item: freeze.id,
+      price: freeze.price,
+      missing: missing(freeze.price),
       blockedBy: freezeBlocked,
       boughtThisMonth: monthly,
-      monthlyLimit: FREEZES_BOUGHT_PER_MONTH,
+      monthlyLimit,
       owned: user.boughtFreezes,
-      availableAt: monthly >= FREEZES_BOUGHT_PER_MONTH ? monthRange(now).endsAt : null,
+      availableAt: monthly >= monthlyLimit ? monthRange(now).endsAt : null,
     },
-    cosmetics: COSMETICS.map((c) => ({
+    // Los retirados no se ven, salvo que ya lo tenga (así sigue viendo lo suyo y lo puede llevar)
+    cosmetics: (await cosmeticsFor(owned, items, t)).map((c) => ({
       item: c.id,
-      kind: c.kind,
+      kind: c.kind as CosmeticKind,
       name: c.name,
       note: c.note,
-      hex: c.hex ?? null,
-      variants: c.variants ?? null,
+      hex: c.hex,
+      variants: c.altName ? ([c.name, c.altName] as [string, string]) : null,
       price: c.price,
       missing: owned.has(c.id) ? 0 : missing(c.price),
       owned: owned.has(c.id),
       blockedBy: owned.has(c.id) ? "owned" : glints < c.price ? "glints" : null,
     })),
-    worn: wornBy(user),
+    worn: await wornBy(user, t),
   };
 }
 
 const BLOCKED_MESSAGE: Record<Exclude<Blocked, null>, string> = {
   glints: "No te alcanzan los destellos.",
   weekly_limit: "Ya compraste un cupón esta semana. El lunes podés comprar otro.",
-  monthly_limit: "Ya compraste los 2 protectores de este mes.",
+  monthly_limit: "Ya compraste todos los protectores de este mes.",
   owned: "Ya lo tenés.",
 };
 
-export function isShopItem(value: unknown): value is ShopItem {
-  return value === "streak_freeze" || SHOP_COUPONS.some((c) => c.item === value) || findCosmetic(value) !== undefined;
+// Los cosméticos que se ven en la tienda: los que están a la venta y los retirados que ya tiene
+async function cosmeticsFor(owned: Set<string>, forSale: ShopItem[], t?: Transaction) {
+  const retired = await ShopItem.findAll({
+    where: { active: false, kind: COSMETIC_KINDS, id: [...owned] },
+    transaction: t,
+  });
+  return [...forSale.filter((i) => (COSMETIC_KINDS as string[]).includes(i.kind)), ...retired].sort(
+    (a, b) => a.position - b.position
+  );
+}
+
+export function isItemId(value: unknown): value is ItemId {
+  return typeof value === "string" && value.length > 0 && value.length <= 40;
 }
 
 export type Purchase = {
-  item: ShopItem;
+  item: ItemId;
   coupon: { code: string; percent: number; expiresAt: Date } | null;
   shop: ShopView; // la tienda después de comprar, con el saldo nuevo
 };
 
 // Compra algo. Bloquea al alumno: dos compras a la vez no pueden gastar los mismos destellos
 // ni pasar los límites de la semana o del mes.
-export async function buy(userId: string, item: ShopItem, now = new Date()): Promise<Purchase> {
+export async function buy(userId: string, item: ItemId, now = new Date()): Promise<Purchase> {
   return sequelize.transaction(async (t) => {
     const user = await User.findByPk(userId, { lock: t.LOCK.UPDATE, transaction: t });
     if (!user) throw new HttpError(404, "No encontramos al alumno.");
@@ -171,19 +188,20 @@ export async function buy(userId: string, item: ShopItem, now = new Date()): Pro
       if (cosmetic.blockedBy) throw new HttpError(409, BLOCKED_MESSAGE[cosmetic.blockedBy]);
       const row = await UserCosmetic.create({ userId: user.id, cosmeticId: cosmetic.item }, { transaction: t });
       await spendGlints(user, "cosmetic_purchase", row.id, cosmetic.price, t);
-    } else if (item === "streak_freeze") {
+    } else if (item === before.freeze.item) {
       if (before.freeze.blockedBy) throw new HttpError(409, BLOCKED_MESSAGE[before.freeze.blockedBy]);
       // Un protector no es una fila: la referencia del movimiento es un id nuevo
-      await spendGlints(user, "freeze_purchase", randomUUID(), FREEZE_PRICE, t);
+      await spendGlints(user, "freeze_purchase", randomUUID(), before.freeze.price, t);
       await user.increment("boughtFreezes", { by: 1, transaction: t });
     } else {
-      const offer = before.coupons.find((c) => c.item === item)!;
+      const offer = before.coupons.find((c) => c.item === item);
+      if (!offer) throw new HttpError(404, "No existe eso en la tienda.");
       if (offer.blockedBy) throw new HttpError(409, BLOCKED_MESSAGE[offer.blockedBy]);
       const created = await Coupon.create(
         {
           code: await uniqueCouponCode(SHOP_CODE_KEY, t),
           percent: offer.percent,
-          expiresAt: couponExpiresAt(now),
+          expiresAt: couponExpiresAt(now, (await loadEconomy(t)).coupons),
           source: "shop",
           userId: user.id,
           constellationId: null,

@@ -7,13 +7,23 @@ import { PERMISSIONS, type Permission } from "../lib/permissions.js";
 import type { AuditContext } from "../lib/audit.js";
 import { changeUserRole, deleteUser, restoreUser } from "./users.js";
 import { setRolePermissions } from "./roles.js";
+import {
+  currentItemFields,
+  currentSettings,
+  updateSettings,
+  updateShopItem,
+  type ItemChanges,
+  type SettingValues,
+} from "./economy.js";
 
 // Cómo se revierte cada acción reversible: qué valor tiene hoy, y cómo se vuelve al "before".
 // Se vuelve con las mismas funciones del cambio original, así valen las mismas protecciones
 // (tu propio rol, el último super admin) y el registro nuevo queda enlazado con reverts_id.
+// compared: qué partes del registro se comparan con el valor actual (por defecto, before y after enteros)
 type Reverter = {
   current: (t: Transaction, log: AuditLog) => Promise<unknown>;
   undo: (t: Transaction, ctx: AuditContext, log: AuditLog) => Promise<unknown>;
+  compared?: (log: AuditLog) => { before: unknown; after: unknown };
 };
 
 type Values = Record<string, unknown>;
@@ -52,6 +62,21 @@ const REVERTERS: Record<string, Reverter> = {
     current: async (t, log) => ({ deletedAt: (await userOf(t, log)).deletedAt?.toISOString() ?? null }),
     undo: (t, ctx, log) => deleteUser(t, ctx, log.targetId!, { revertsId: log.id }),
   },
+  // Los valores que cambió ese registro vuelven a como estaban (los demás no se tocan)
+  "economy.update": {
+    current: (t, log) => currentSettings(t, Object.keys(log.after as Values)),
+    undo: (t, ctx, log) => updateSettings(t, ctx, log.before as SettingValues, { revertsId: log.id }),
+  },
+  "shop.update": {
+    current: (t, log) => currentItemFields(t, log.targetId!, Object.keys(log.after as Values)),
+    undo: (t, ctx, log) => updateShopItem(t, ctx, log.targetId!, log.before as ItemChanges, { revertsId: log.id }),
+  },
+  // Revertir un ítem nuevo lo retira: no se borra, porque alguien pudo haberlo comprado
+  "shop.create": {
+    current: (t, log) => currentItemFields(t, log.targetId!, ["active"]),
+    compared: (log) => ({ before: log.before, after: { active: (log.after as Values).active } }),
+    undo: (t, ctx, log) => updateShopItem(t, ctx, log.targetId!, { active: false }, { revertsId: log.id }),
+  },
 };
 
 // confirm: true revierte aunque el valor actual ya no sea el que dejó el registro
@@ -69,12 +94,13 @@ export async function revertAudit(t: Transaction, ctx: AuditContext, id: number,
 
   // Control de conflicto: si alguien lo cambió después, no se revierte a ciegas
   const current = await reverter.current(t, log);
-  if (isDeepStrictEqual(current, log.before)) {
+  const { before, after } = reverter.compared?.(log) ?? { before: log.before, after: log.after };
+  if (isDeepStrictEqual(current, before)) {
     throw new HttpError(409, "Ya está como antes de ese cambio: no hay nada que revertir.");
   }
-  if (!isDeepStrictEqual(current, log.after) && !confirm) {
+  if (!isDeepStrictEqual(current, after) && !confirm) {
     throw new HttpError(409, "Lo cambiaron después de este registro. Confirmá para revertir igual.", {
-      conflict: { before: log.before, recorded: log.after, current },
+      conflict: { before, recorded: after, current },
     });
   }
 

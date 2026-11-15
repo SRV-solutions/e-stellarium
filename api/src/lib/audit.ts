@@ -10,6 +10,9 @@ export type AuditAction =
   | "user.role_update"
   | "user.delete" // baja lógica
   | "user.restore"
+  | "economy.update" // valores de settings (solo los que cambiaron)
+  | "shop.create" // algo nuevo en la tienda
+  | "shop.update" // un ítem de la tienda: precio, nombre, retirarlo...
   | "audit.revert"
   | "integrity.fail";
 

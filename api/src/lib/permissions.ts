@@ -1,6 +1,7 @@
 import type { Transaction } from "sequelize";
 import { Role, RolePermission, type User } from "../models/index.js";
 import type { RoleKey } from "../models/Role.js";
+import { DEFAULT_COLOR, findCosmetic } from "../games/cosmetics.js";
 
 // Los permisos que existen. Cada endpoint de staff pide uno. La tabla permissions tiene los mismos
 // (los crea la migración, y un test verifica que coincidan); lo editable es qué rol tiene cuál.
@@ -36,7 +37,13 @@ export async function permissionsOf(user: User, transaction?: Transaction): Prom
 // Lo que reciben el navegador al entrar y GET /me: el usuario, su rol y sus permisos
 export async function sessionUser(user: User, transaction?: Transaction) {
   const { passwordHash: _hash, ...data } = user.toJSON();
-  return { ...data, role: await roleKeyOf(user, transaction), permissions: await permissionsOf(user, transaction) };
+  return {
+    ...data,
+    role: await roleKeyOf(user, transaction),
+    permissions: await permissionsOf(user, transaction),
+    // El color del trazo que lleva puesto, como lo guarda la tienda (el cliente no tiene la lista)
+    wornColorHex: (await findCosmetic(user.wornColor ?? DEFAULT_COLOR, transaction))?.hex ?? null,
+  };
 }
 
 export async function can(user: User, permission: Permission, transaction?: Transaction): Promise<boolean> {

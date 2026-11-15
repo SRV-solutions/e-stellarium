@@ -80,17 +80,16 @@ export function retryOpensAt(finishedAt: Date): Date {
   return new Date(finishedAt.getTime() + RETRY_AFTER_DAYS * DAY_MS);
 }
 
-// El cupón: 60 % en la primera constelación que aprueba (de cualquier curso), 40 % en las siguientes
-export const FIRST_COUPON_PERCENT = 60;
-export const LATER_COUPON_PERCENT = 40;
-export const COUPON_VALID_DAYS = 60;
+// El cupón: uno más alto en la primera constelación que aprueba (de cualquier curso; hoy 60 %) y otro
+// en las siguientes (hoy 40 %). Los porcentajes y los días que dura salen de settings (Economy.coupons)
+type CouponRules = { firstPercent: number; laterPercent: number; validDays: number };
 
-export function couponPercent(couponsAlreadyEarned: number) {
-  return couponsAlreadyEarned === 0 ? FIRST_COUPON_PERCENT : LATER_COUPON_PERCENT;
+export function couponPercent(couponsAlreadyEarned: number, rules: CouponRules) {
+  return couponsAlreadyEarned === 0 ? rules.firstPercent : rules.laterPercent;
 }
 
-export function couponExpiresAt(createdAt: Date): Date {
-  return new Date(createdAt.getTime() + COUPON_VALID_DAYS * DAY_MS);
+export function couponExpiresAt(createdAt: Date, rules: CouponRules): Date {
+  return new Date(createdAt.getTime() + rules.validDays * DAY_MS);
 }
 
 // Sin 0/O, 1/I/L ni U/V, que se confunden al copiarlos a mano

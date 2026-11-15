@@ -24,6 +24,8 @@ import { UserCosmetic } from "./UserCosmetic.js";
 import { Role } from "./Role.js";
 import { RolePermission } from "./RolePermission.js";
 import { AuditLog } from "./AuditLog.js";
+import { Setting } from "./Setting.js";
+import { ShopItem } from "./ShopItem.js";
 
 User.hasMany(PasswordToken, { foreignKey: "userId" });
 PasswordToken.belongsTo(User, { foreignKey: "userId" });
@@ -119,4 +121,4 @@ User.belongsTo(Role, { foreignKey: "roleId" });
 Role.hasMany(RolePermission, { foreignKey: "roleId" });
 RolePermission.belongsTo(Role, { foreignKey: "roleId" });
 
-export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, DailyActivity, DailyReview, DailyReviewQuestion, Challenge, ChallengeAttempt, ChallengeAttemptQuestion, GlintEvent, StreakBadge, UserCosmetic, Role, RolePermission, AuditLog };
+export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, DailyActivity, DailyReview, DailyReviewQuestion, Challenge, ChallengeAttempt, ChallengeAttemptQuestion, GlintEvent, StreakBadge, UserCosmetic, Role, RolePermission, AuditLog, Setting, ShopItem };

@@ -96,7 +96,7 @@ describe("comprar cupones", () => {
 
   it("el precio y el porcentaje nunca vienen del navegador", async () => {
     const { agent, user } = await shopper(150);
-    expect((await purchase(agent, "coupon_60")).status).toBe(400);
+    expect((await purchase(agent, "coupon_60")).status).toBe(404);
     expect((await purchase(agent, undefined)).status).toBe(400);
 
     const res = await purchase(agent, "coupon_10", { price: 0, percent: 60 });

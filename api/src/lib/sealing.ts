@@ -13,13 +13,23 @@ import { hmac } from "./hmac.js";
 // sealTransaction justo antes del commit de cada sequelize.transaction(...). Por eso toda escritura en una
 // tabla protegida tiene que ir dentro de una transacción.
 
-export const PROTECTED_TABLES = ["coupons", "role_permissions", "roles", "users", "xp_events"] as const;
+export const PROTECTED_TABLES = [
+  "coupons",
+  "role_permissions",
+  "roles",
+  "settings",
+  "shop_items",
+  "users",
+  "xp_events",
+] as const;
 export type ProtectedTable = (typeof PROTECTED_TABLES)[number];
 
 export const ID_TYPES: Record<ProtectedTable, string> = {
   coupons: "uuid",
   role_permissions: "uuid",
   roles: "smallint",
+  settings: "text",
+  shop_items: "text",
   users: "uuid",
   xp_events: "uuid",
 };

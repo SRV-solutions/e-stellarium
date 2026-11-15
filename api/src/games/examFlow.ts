@@ -13,6 +13,7 @@ import {
   Star,
   StarCompletion,
   User,
+  XpEvent,
 } from "../models/index.js";
 import {
   couponExpiresAt,
@@ -27,7 +28,8 @@ import {
 import { getExamState } from "./examState.js";
 import { grade, InvalidResponseError } from "./grade.js";
 import { present, type StudentQuestion } from "./present.js";
-import { awardXp, XP } from "./progress.js";
+import { awardXp } from "./progress.js";
+import { loadEconomy } from "./economy.js";
 import { recordActivity } from "./activity.js";
 import { advanceClock as advance } from "./clock.js";
 
@@ -190,22 +192,23 @@ async function finish(user: User, attempt: ExamAttempt, rows: Row[], now: Date, 
 
   if (passed) {
     await StarCompletion.findOrCreate({ where: { userId: user.id, starId: attempt.starId }, transaction: t });
-    await awardXp(user, "exam_passed", attempt.starId, XP.examPassed, t);
+    const economy = await loadEconomy(t);
+    await awardXp(user, "exam_passed", attempt.starId, economy.xp.examPassed, t);
 
     const star = await Star.findByPk(attempt.starId, {
       include: [{ model: Constellation, include: [Product] }],
       transaction: t,
     });
     const constellation = star!.Constellation!;
-    // El primero de constelación es del 60 %: los de la tienda no cuentan
+    // El primero de constelación es el más alto: los de la tienda no cuentan
     const earned = await Coupon.count({ where: { userId: user.id, source: "constellation" }, transaction: t });
 
     const coupon = await Coupon.create(
       {
         code: await uniqueCouponCode(constellation.Product!.key, t),
-        percent: couponPercent(earned),
+        percent: couponPercent(earned, economy.coupons),
         source: "constellation",
-        expiresAt: couponExpiresAt(now),
+        expiresAt: couponExpiresAt(now, economy.coupons),
         userId: user.id,
         constellationId: constellation.id,
         examAttemptId: attempt.id,
@@ -235,6 +238,13 @@ export async function uniqueCouponCode(courseKey: string, t: Transaction) {
 async function buildResult(attempt: ExamAttempt, t: Transaction, rows?: Row[]): Promise<ExamProgress> {
   rows ??= await loadRows(attempt.id, t);
   const coupon = await Coupon.findOne({ where: { examAttemptId: attempt.id }, transaction: t });
+  // La XP que dio de verdad (si después cambió en settings, se muestra la de ese momento)
+  const xpEvent = attempt.passed
+    ? await XpEvent.findOne({
+        where: { userId: attempt.userId, reason: "exam_passed", referenceId: attempt.starId },
+        transaction: t,
+      })
+    : null;
 
   return {
     status: "finished",
@@ -243,7 +253,7 @@ async function buildResult(attempt: ExamAttempt, t: Transaction, rows?: Row[]): 
     correctCount: attempt.correctCount!,
     passed: attempt.passed!,
     results: rows.map((r) => r.correct === true),
-    xpGained: attempt.passed ? XP.examPassed : 0,
+    xpGained: xpEvent?.xp ?? 0,
     coupon: coupon && { code: coupon.code, percent: coupon.percent, expiresAt: coupon.expiresAt },
     retryOpensAt: attempt.passed ? null : retryOpensAt(attempt.finishedAt!),
   };

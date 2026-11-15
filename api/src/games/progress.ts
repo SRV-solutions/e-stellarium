@@ -3,16 +3,7 @@ import { sequelize } from "../db.js";
 import { Answer, Question, StarCompletion, User, XpEvent } from "../models/index.js";
 import type { XpReason } from "../models/XpEvent.js";
 import { recordActivity } from "./activity.js";
-
-export const XP = {
-  questionCorrect: 10,
-  starCompleted: 50,
-  examPassed: 100,
-  reviewCorrect: 2,
-  reviewCompleted: 10,
-  challengeCorrect: 5,
-  challengeCompleted: 20,
-};
+import { loadEconomy } from "./economy.js";
 
 // Da experiencia solo si nunca la dio por este mismo motivo. Devuelve cuánta dio
 export async function awardXp(user: User, reason: XpReason, referenceId: string, xp: number, t: Transaction) {
@@ -63,7 +54,9 @@ export async function recordStarAnswer({ userId, questionId, starId, correct, re
     let starCompleted = false;
     if (!correct) return { xpGained, starXp, starCompleted, newBadges };
 
-    xpGained += await awardXp(user, "question_correct", questionId, XP.questionCorrect, t);
+    // Cuánta XP da cada cosa: la tabla settings (se edita desde el panel)
+    const { xp } = await loadEconomy(t);
+    xpGained += await awardXp(user, "question_correct", questionId, xp.questionCorrect, t);
 
     if (await isStarComplete(userId, starId, t)) {
       const [, created] = await StarCompletion.findOrCreate({
@@ -72,7 +65,7 @@ export async function recordStarAnswer({ userId, questionId, starId, correct, re
       });
       if (created) {
         starCompleted = true;
-        starXp = await awardXp(user, "star_completed", starId, XP.starCompleted, t);
+        starXp = await awardXp(user, "star_completed", starId, xp.starCompleted, t);
         xpGained += starXp;
       }
     }
