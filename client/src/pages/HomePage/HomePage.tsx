@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import { useAuth } from "../../auth/useAuth";
 import { useCourses } from "../../hooks/useCourses";
 import { useConstellations } from "../../hooks/useConstellations";
 import { SUPPORT_HREF } from "../../config";
 import { levelFor } from "../../lib/levels";
+import { adminSectionsFor } from "../../lib/permissions";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { BrandGauge } from "../../components/BrandGauge/BrandGauge";
 import { Cosmos } from "../../components/Cosmos/Cosmos";
@@ -68,6 +69,12 @@ export function HomePage() {
   }, [hash, coursesReady]);
 
   if (!user) return null;
+  // El staff que no cursa nada no tiene inicio de alumno: va al panel. Mientras se cargan sus cursos
+  // no se dibuja nada, para que no se vea un instante el inicio vacío
+  if (adminSectionsFor(user).length > 0) {
+    if (state.status === "loading") return null;
+    if (state.status === "ready" && state.courses.length === 0) return <Navigate to="/admin" replace />;
+  }
   const level = levelFor(user.totalXp);
   const constellations = sky.state.status === "ready" ? sky.state.constellations : [];
   const telescope = sky.state.status === "ready" ? aimTelescope(constellations) : null;
