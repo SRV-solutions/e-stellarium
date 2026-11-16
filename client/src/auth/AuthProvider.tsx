@@ -99,6 +99,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     );
   }
 
+  function updateProfile(changes: Partial<Pick<User, "alias" | "aliasChangedAt" | "avatar" | "notifyEmail" | "notifyApp">>) {
+    setUser((previous) => previous && { ...previous, ...changes });
+  }
+
   // El aviso vive acá (y no en cada pantalla) porque la respuesta que da la insignia puede ser la
   // última: la pantalla pasa al resultado, y el aviso tiene que seguir ahí
   function announceBadges(badges: NewBadge[] | undefined) {
@@ -110,7 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, setPassword, addXp, setGlints, setWorn, announceBadges, stats, refreshStats, noteActivity, economy, refreshEconomy }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, setPassword, addXp, setGlints, setWorn, updateProfile, announceBadges, stats, refreshStats, noteActivity, economy, refreshEconomy }}>
       {children}
       <BadgeEarned badges={newBadges} onDone={() => setNewBadges([])} />
     </AuthContext.Provider>

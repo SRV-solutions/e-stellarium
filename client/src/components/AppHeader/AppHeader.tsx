@@ -146,7 +146,9 @@ export function AppHeader() {
               </>
             )}
             <NotificationBell />
-            <Avatar alias={user.alias} frame={user.wornFrame} className={styles.avatar} />
+            <Link to="/profile" className={styles.avatarLink} aria-label="Mi perfil" title="Mi perfil">
+              <Avatar alias={user.alias} frame={user.wornFrame} drawing={user.avatar} className={styles.avatar} />
+            </Link>
             <button type="button" className={styles.logout} onClick={() => setConfirming(true)} aria-label="Salir">
               <span>Salir</span>
             </button>
@@ -176,8 +178,8 @@ export function AppHeader() {
         aria-label="Menú"
         inert={!menuOpen}
       >
-        <div className={styles.who} style={{ "--i": 0 } as CSSProperties}>
-          <Avatar alias={user.alias} frame={user.wornFrame} size={52} />
+        <Link to="/profile" className={styles.who} style={{ "--i": 0 } as CSSProperties} onClick={() => setMenuOpen(false)}>
+          <Avatar alias={user.alias} frame={user.wornFrame} drawing={user.avatar} size={52} />
           <div>
             <strong>{user.alias}</strong>
             {!panelOnly && (
@@ -195,7 +197,7 @@ export function AppHeader() {
               destellos
             </div>
           )}
-        </div>
+        </Link>
         {links.map((link, i) => (
           <NavLink
             key={link.to}

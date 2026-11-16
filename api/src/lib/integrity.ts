@@ -167,6 +167,7 @@ export async function runIntegrityCheck(
         body: `${problems.length === 1 ? "1 problema" : `${problems.length} problemas`} en ${listOf(tables)}. Mirá cuáles en la bitácora.`,
         link: "/admin/audit",
         key: `integrity:${row.id}`,
+        always: true, // es de seguridad: no se puede silenciar
         emailSent: true,
       });
     }

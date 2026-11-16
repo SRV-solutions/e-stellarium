@@ -1,21 +1,24 @@
 import styles from "./Avatar.module.css";
+import { Drawing } from "./drawings";
 
 type Props = {
   alias: string;
   frame: string | null; // el marco puesto (orbit, eclipse, rings) o ninguno
+  drawing?: string | null; // el dibujo elegido (luna, saturno...); sin dibujo, las iniciales
   size?: number; // en píxeles; el marco crece con el avatar
   className?: string;
 };
 
-// Las dos primeras letras del alias en un círculo y, encima, el marco que compró en la tienda
-export function Avatar({ alias, frame, size = 34, className = "" }: Props) {
+// El dibujo que eligió (o, sin dibujo, las dos primeras letras del alias) en un círculo y, encima,
+// el marco que compró en la tienda
+export function Avatar({ alias, frame, drawing = null, size = 34, className = "" }: Props) {
   return (
     <span
       className={`${styles.avatar} ${className}`}
       style={{ width: size, height: size, fontSize: Math.round(size * 0.4) }}
       aria-hidden="true"
     >
-      {alias.slice(0, 2).toUpperCase()}
+      {drawing ? <Drawing id={drawing} className={styles.drawing} /> : alias.slice(0, 2).toUpperCase()}
       {frame && <Frame id={frame} />}
     </span>
   );

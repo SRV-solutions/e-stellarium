@@ -12,6 +12,8 @@ export type AuthState = {
   setGlints: (glints: number) => void;
   // Lo que lleva puesto, después de cambiarlo en la tienda
   setWorn: (worn: Worn) => void;
+  // Lo que cambió en el perfil (alias, dibujo, preferencias), con lo que devolvió la API
+  updateProfile: (changes: Partial<Pick<User, "alias" | "aliasChangedAt" | "avatar" | "notifyEmail" | "notifyApp">>) => void;
   // Las insignias que trajo una respuesta: se muestra el aviso después del veredicto
   announceBadges: (badges: NewBadge[] | undefined) => void;
   // La racha y el repaso de hoy (GET /me/stats). null mientras carga

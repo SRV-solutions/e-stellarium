@@ -89,7 +89,7 @@ export async function checkChallengeBank(t: Transaction) {
         body: `${left} para los desafíos: alcanzan para menos de ${BANK_MIN_CHALLENGES}. Hace falta sumar más.`,
         link: "/admin/challenges",
       },
-      challengeBankLowEmail(item.name, PLURAL[item.difficulty], item.left, BANK_MIN_CHALLENGES)
+      { ...challengeBankLowEmail(item.name, PLURAL[item.difficulty], item.left, BANK_MIN_CHALLENGES), optional: true }
     );
   }
 }

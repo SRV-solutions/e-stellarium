@@ -18,7 +18,11 @@ export type User = {
   id: string;
   email: string;
   name: string;
-  alias: string;
+  alias: string; // se puede repetir con el de otra persona: lo que identifica es el email
+  avatar: string | null; // el dibujo elegido (components/Avatar/drawings.tsx); vacío = las iniciales
+  aliasChangedAt: string | null;
+  notifyEmail: boolean; // los mails que se pueden desactivar (desafío nuevo, banco bajo)
+  notifyApp: boolean; // los avisos de la campanita
   role: RoleKey;
   permissions: Permission[]; // los del rol, leídos de la base (el super admin, todos)
   totalXp: number;
@@ -296,7 +300,7 @@ export type Ranking = {
   startsAt: string | null;
   endsAt: string | null;
   // frame: el marco que lleva puesto; title: su título, ya con la forma que eligió
-  top: { position: number; alias: string; xp: number; me: boolean; frame: string | null; title: string | null }[];
+  top: { position: number; alias: string; xp: number; me: boolean; frame: string | null; avatar: string | null; title: string | null }[];
   me: { position: number | null; xp: number } | null;
 };
 

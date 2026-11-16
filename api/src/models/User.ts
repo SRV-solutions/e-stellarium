@@ -11,7 +11,9 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare id: CreationOptional<string>;
   declare email: string;
   declare name: string;
-  declare alias: string;
+  declare alias: string; // se puede repetir: lo que identifica a una persona es el email
+  declare avatar: CreationOptional<string | null>; // el dibujo elegido (lib/avatars.ts); vacío = las iniciales
+  declare aliasChangedAt: CreationOptional<Date | null>;
   declare passwordHash: CreationOptional<string | null>;
   declare roleId: CreationOptional<number>; // ver roles: 1 es student
   declare totalXp: CreationOptional<number>;
@@ -25,6 +27,9 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare wornColor: CreationOptional<string | null>;
   declare wornTitle: CreationOptional<string | null>;
   declare titleVariant: CreationOptional<number>; // 0 o 1: "Cazadora" o "Cazador"
+  // Preferencias: los mails que se pueden desactivar (desafío nuevo, banco bajo) y los avisos de la campanita
+  declare notifyEmail: CreationOptional<boolean>;
+  declare notifyApp: CreationOptional<boolean>;
   declare deletedAt: CreationOptional<Date | null>; // la baja lógica: con fecha, no puede entrar
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -52,8 +57,9 @@ User.init(
     alias: {
       type: DataTypes.STRING(30),
       allowNull: false,
-      unique: true,
     },
+    avatar: { type: DataTypes.STRING(20), allowNull: true },
+    aliasChangedAt: { type: DataTypes.DATE, allowNull: true },
     passwordHash: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -96,6 +102,8 @@ User.init(
     wornColor: { type: DataTypes.STRING(40), allowNull: true },
     wornTitle: { type: DataTypes.STRING(40), allowNull: true },
     titleVariant: { type: DataTypes.SMALLINT, allowNull: false, defaultValue: 0 },
+    notifyEmail: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
+    notifyApp: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
     deletedAt: { type: DataTypes.DATE, allowNull: true },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,

@@ -20,6 +20,7 @@ import { recordActivity } from "./activity.js";
 import { publishedVersion, questionAt } from "./versions.js";
 import { challengeSeed, challengeWindow, planChallenge, recipeOf, scheduleOf, type Candidate } from "./challenge.js";
 import { advanceClock } from "./clock.js";
+import { announceChallenge } from "./challengeMail.js";
 import { SECONDS_PER_TYPE } from "./exam.js";
 import { grade, InvalidResponseError } from "./grade.js";
 import { present, type StudentQuestion } from "./present.js";
@@ -78,10 +79,14 @@ export async function currentChallenge(now: Date, t: Transaction): Promise<Chall
 
   // El horario sale de settings (se edita desde el panel); challengeWindow evita que se superpongan
   const { publishedAt, closesAt } = challengeWindow(now, scheduleOf(await loadSettings(t)), latest?.closesAt ?? null);
-  await Challenge.bulkCreate([{ publishedAt, closesAt }], {
-    ignoreDuplicates: true,
-    transaction: t,
-  });
+  // RETURNING dice si esta transacción fue la que lo creó: si dos piden a la vez, la segunda espera
+  // al índice único, no inserta nada y no devuelve filas (así el mail sale una sola vez)
+  const [inserted] = await sequelize.query<{ id: string }>(
+    `INSERT INTO challenges (published_at, closes_at) VALUES (:publishedAt, :closesAt)
+     ON CONFLICT (published_at) DO NOTHING RETURNING id`,
+    { replacements: { publishedAt, closesAt }, type: QueryTypes.SELECT, transaction: t }
+  );
+  if (inserted) await announceChallenge(t, { closesAt });
   // Al salir cada desafío se revisa si quedan preguntas suficientes (avisa una sola vez)
   await checkChallengeBank(t);
   return (await Challenge.findOne({ where: { publishedAt }, transaction: t }))!;

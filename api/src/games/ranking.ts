@@ -23,6 +23,7 @@ export type RankingEntry = {
   xp: number;
   me: boolean;
   frame: string | null; // el marco del avatar que lleva puesto
+  avatar: string | null; // el dibujo del avatar (vacío = las iniciales)
   title: string | null; // el título, ya con la forma que eligió
 };
 
@@ -45,6 +46,7 @@ export async function getRanking(userId: string, period: RankingPeriod, now = ne
     xp: number;
     position: string;
     worn_frame: string | null;
+    avatar: string | null;
     title: string | null;
   }>(
     `WITH totals AS (
@@ -59,7 +61,7 @@ export async function getRanking(userId: string, period: RankingPeriod, now = ne
      ), ranked AS (
        SELECT *, row_number() OVER (ORDER BY xp DESC, reached_at ASC, id) AS position FROM totals
      )
-     SELECT r.id, r.alias, r.xp, r.position, u.worn_frame,
+     SELECT r.id, r.alias, r.xp, r.position, u.worn_frame, u.avatar,
             -- El título con la forma que eligió (los de una sola forma usan siempre el nombre)
             CASE WHEN u.title_variant = 1 AND s.alt_name IS NOT NULL THEN s.alt_name ELSE s.name END AS title
        FROM ranked r
@@ -84,6 +86,7 @@ export async function getRanking(userId: string, period: RankingPeriod, now = ne
     xp: r.xp,
     position: Number(r.position),
     frame: r.worn_frame,
+    avatar: r.avatar,
     title: r.title,
   }));
   const mine = entries.find((e) => e.id === userId);
@@ -98,7 +101,7 @@ export async function getRanking(userId: string, period: RankingPeriod, now = ne
     endsAt: range?.endsAt ?? null,
     top: entries
       .filter((e) => e.position <= RANKING_SIZE)
-      .map((e) => ({ position: e.position, alias: e.alias, xp: e.xp, me: e.id === userId, frame: e.frame, title: e.title })),
+      .map((e) => ({ position: e.position, alias: e.alias, xp: e.xp, me: e.id === userId, frame: e.frame, avatar: e.avatar, title: e.title })),
     me: user?.role === "student" ? { position: mine?.position ?? null, xp: mine?.xp ?? 0 } : null,
   };
 }

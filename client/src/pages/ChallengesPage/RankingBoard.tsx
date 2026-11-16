@@ -112,7 +112,7 @@ export function RankingBoard({ ranking, period, onPeriod }: Props) {
               <span className={styles.mag}>
                 <Magnitude position={e.position} />
               </span>
-              <Avatar alias={e.alias} frame={e.frame} size={30} />
+              <Avatar alias={e.alias} frame={e.frame} drawing={e.avatar} size={30} />
               <span className={styles.who}>
                 <span className={styles.alias}>{e.me ? `${e.alias} (vos)` : e.alias}</span>
                 {e.title && <small className={styles.title}>{e.title}</small>}
@@ -132,7 +132,7 @@ export function RankingBoard({ ranking, period, onPeriod }: Props) {
                 <span className={styles.mag}>
                   <Magnitude position={me.position!} />
                 </span>
-                <Avatar alias={user?.alias ?? ""} frame={user?.wornFrame ?? null} size={30} />
+                <Avatar alias={user?.alias ?? ""} frame={user?.wornFrame ?? null} drawing={user?.avatar ?? null} size={30} />
                 <span className={styles.who}>
                   <span className={styles.alias}>Vos</span>
                 </span>

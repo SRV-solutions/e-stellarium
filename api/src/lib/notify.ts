@@ -11,39 +11,49 @@ export type Notice = {
   body: string;
   link?: string | null;
   key?: string | null; // si ya tiene uno con esta clave, no se repite
+  always?: boolean; // llega aunque haya desactivado los avisos de la app (lo de seguridad)
   emailSent?: boolean; // quien llama ya manda su propio mail (se muestra "también por mail")
 };
 
-type Mail = { subject: string; html: string };
+// `optional`: el mail se puede desactivar desde las preferencias (los de cuenta no)
+type Mail = { subject: string; html: string; optional?: boolean };
 
 // Crea el mismo aviso para cada persona, dentro de la transacción del cambio: si el cambio se
 // deshace, el aviso también. Con `mail`, además se manda por mail, siempre después del commit.
+// Respeta las preferencias: quien desactivó los avisos de la app no recibe el de la campanita
+// (salvo `always`), y quien desactivó los mails no recibe uno `optional`.
 // Devuelve los avisos creados (con clave, el que ya existía no se vuelve a crear).
 export async function notify(t: Transaction, userIds: string[], notice: Notice, mail?: Mail) {
   const ids = [...new Set(userIds)];
   if (!ids.length) return [];
+  const people = await sequelize.query<{ id: string; email: string; notify_app: boolean; notify_email: boolean }>(
+    "SELECT id, email, notify_app, notify_email FROM users WHERE id IN (:ids) AND deleted_at IS NULL",
+    { replacements: { ids }, type: QueryTypes.SELECT, transaction: t }
+  );
+  const byId = new Map(people.map((p) => [p.id, p]));
+  const wantsApp = (id: string) => notice.always || (byId.get(id)?.notify_app ?? true);
+  const mailTo = mail ? people.filter((p) => !mail.optional || p.notify_email) : [];
+  const mailed = new Set(mailTo.map((p) => p.id));
+
   const created = await Notification.bulkCreate(
-    ids.map((userId) => ({
+    ids.filter(wantsApp).map((userId) => ({
       userId,
       kind: notice.kind,
       title: notice.title,
       body: notice.body,
       link: notice.link ?? null,
       key: notice.key ?? null,
-      emailSent: Boolean(mail) || Boolean(notice.emailSent),
+      emailSent: mailed.has(userId) || Boolean(notice.emailSent),
     })),
     // Con clave, el que choca con la restricción única se saltea (puede pedirse dos veces a la vez)
     { transaction: t, ...(notice.key ? { ignoreDuplicates: true } : {}), returning: true }
   );
 
-  if (mail) {
-    const users = await sequelize.query<{ email: string }>(
-      "SELECT email FROM users WHERE id IN (:ids) AND deleted_at IS NULL",
-      { replacements: { ids }, type: QueryTypes.SELECT, transaction: t }
-    );
+  if (mail && mailTo.length) {
+    const { optional: _optional, ...content } = mail;
     t.afterCommit(async () => {
-      for (const { email } of users) {
-        await sendMail({ to: email, ...mail }).catch((err) => console.error("No se pudo mandar el mail del aviso", err));
+      for (const { email } of mailTo) {
+        await sendMail({ to: email, ...content }).catch((err) => console.error("No se pudo mandar el mail del aviso", err));
       }
     });
   }

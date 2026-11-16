@@ -14,6 +14,7 @@ import { ReviewPage } from "./pages/ReviewPage/ReviewPage";
 import { PracticePage } from "./pages/PracticePage/PracticePage";
 import { ChallengesPage } from "./pages/ChallengesPage/ChallengesPage";
 import { ShopPage } from "./pages/ShopPage/ShopPage";
+import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { AdminLayout } from "./pages/AdminPage/AdminLayout";
 import { AuditPage } from "./pages/AdminPage/AuditPage";
 import { PeoplePage } from "./pages/AdminPage/PeoplePage";
@@ -96,6 +97,15 @@ export default function App() {
               <PlayerRoute>
                 <ShopPage />
               </PlayerRoute>
+            }
+          />
+          {/* El perfil lo ve cualquiera con sesión, también el staff */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
             }
           />
           {/* El panel de staff: entra quien tenga el permiso de alguna sección, y cada sección pide el suyo */}

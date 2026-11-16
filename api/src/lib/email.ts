@@ -91,3 +91,15 @@ export function challengeBankLowEmail(courseName: string, difficulty: string, le
 <p>Hace falta sumar más desde el panel, en Contenido. Este aviso no se repite hasta que se repongan.</p>`,
   };
 }
+
+// El mail del desafío nuevo: se puede desactivar, así que lleva el link para darse de baja con un clic
+export function newChallengeEmail(name: string, closesAt: string, link: string, unsubscribe: string) {
+  return {
+    subject: "Salió un desafío nuevo en E-Stellarium",
+    html: `<p>¡Hola ${escapeHtml(name)}!</p>
+<p>Ya está el desafío: una sola vez, contra reloj. Cierra ${escapeHtml(closesAt)}.</p>
+<p><a href="${link}">Entrar al desafío</a></p>
+<p style="color:#666;font-size:13px">¿No querés más estos mails? <a href="${unsubscribe}">Dejar de recibirlos</a>
+(con un clic, sin iniciar sesión). También lo cambiás desde tu perfil.</p>`,
+  };
+}
