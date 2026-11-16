@@ -180,8 +180,9 @@ export type CouponSummary = {
   percent: number;
   expiresAt: string;
   usedAt: string | null;
+  voided: boolean; // anulado desde el panel
   createdAt: string;
-  course: { key: string; name: string } | null; // null: canjeado en la tienda
+  course: { key: string; name: string } | null; // null: canjeado en la tienda o de regalo
 };
 
 // GET /me/stats: la racha, los protectores del mes y cómo va el repaso de hoy
@@ -585,4 +586,41 @@ export type StudentDetail = {
   access?: { hasPassword: boolean; linkUntil: string | null };
   auditCount?: number;
   courseOptions?: { key: string; name: string }[];
+};
+
+// ---------- Cupones del panel (GET /admin/coupons) ----------
+
+export type AdminCouponStatus = "live" | "used" | "expired" | "void";
+
+export type AdminCoupon = {
+  id: string;
+  code: string;
+  percent: number;
+  source: "constellation" | "shop" | "manual";
+  course: string | null; // el curso, si es del examen
+  createdAt: string;
+  expiresAt: string;
+  usedAt: string | null;
+  status: AdminCouponStatus;
+  user: { id: string; name: string; email: string };
+  reason: string | null; // el motivo, si es de regalo
+  void: { at: string; reason: string; by: string | null } | null;
+};
+
+export type AdminCouponsPage = {
+  coupons: AdminCoupon[];
+  counts: Record<AdminCouponStatus | "all", number>;
+  nextOffset: number | null;
+};
+
+// ---------- Desafíos del panel (GET /admin/challenges) ----------
+
+export type ChallengeNumbers = { started: number; finished: number; average: number | null };
+
+export type ChallengesOverview = {
+  settings: SettingInfo[];
+  current: { publishedAt: string; closesAt: string } & ChallengeNumbers;
+  upcoming: string[];
+  past: ({ publishedAt: string } & ChallengeNumbers)[];
+  bank: { key: string; name: string; easy: number; medium: number; hard: number }[];
 };

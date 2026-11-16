@@ -1,0 +1,382 @@
+/* Lo propio de Cupones; lo compartido (buscador, regla, lista) está en PeoplePage.module.css */
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid var(--blue);
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.primary:hover {
+  background: var(--blue-hover);
+}
+
+.primary svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1.3fr) minmax(0, 1.2fr) minmax(0, 1fr) 96px;
+  gap: 16px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+li.row:hover {
+  background: rgba(17, 33, 74, 0.45);
+}
+
+.colhead {
+  padding-top: 0;
+  padding-bottom: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  color: var(--placeholder);
+}
+
+/* El porcentaje como una ficha recortada, como en "Mis cupones" */
+.ticket {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 44px;
+  border: 1px dashed var(--orange);
+  border-radius: 10px;
+  font-size: 19px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--orange);
+}
+
+.ticket small {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ticket::before,
+.ticket::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border: 1px dashed var(--orange);
+  border-radius: 50%;
+  background: var(--deep);
+}
+
+.ticket::before {
+  left: -6px;
+  clip-path: inset(0 0 0 50%);
+}
+
+.ticket::after {
+  right: -6px;
+  clip-path: inset(0 50% 0 0);
+}
+
+.off .ticket,
+.off .ticket::before,
+.off .ticket::after {
+  border-color: var(--dim);
+  color: var(--placeholder);
+}
+
+.code {
+  min-width: 0;
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+.off .code {
+  color: var(--placeholder);
+}
+
+.code small,
+.who small,
+.status small {
+  display: block;
+  overflow: hidden;
+  font-family: var(--font);
+  font-size: 13px;
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--placeholder);
+}
+
+.who {
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status {
+  min-width: 0;
+  font-size: 14px;
+}
+
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  vertical-align: 1px;
+}
+
+.live .dot {
+  background: var(--mint);
+}
+
+.used .dot {
+  background: var(--muted);
+}
+
+.expired .dot {
+  border: 1px solid var(--dim);
+}
+
+.void {
+  color: var(--coral);
+}
+
+.void .dot {
+  background: var(--coral);
+}
+
+.act {
+  text-align: right;
+}
+
+.sm {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+/* ---------- Los diálogos ---------- */
+.dialog {
+  width: min(480px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 26px 26px 22px;
+  border: 1px solid var(--line-hover);
+  border-radius: 18px;
+  background: var(--night-2);
+  color: var(--text);
+}
+
+.dialog::backdrop {
+  background: rgba(3, 8, 23, 0.7);
+}
+
+.dialog h2 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+.note {
+  margin: 6px 0 16px;
+  color: var(--muted);
+}
+
+.mono {
+  font-family: var(--mono);
+  color: var(--text);
+}
+
+.say {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 14px;
+  padding-left: 18px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.field > span:first-child {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.field > input,
+.field textarea {
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(5, 13, 36, 0.6);
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+}
+
+.field textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--placeholder);
+}
+
+.field small,
+.small {
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Un número con su unidad, como en Economía */
+.num {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(5, 13, 36, 0.6);
+  color: var(--placeholder);
+}
+
+.num input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: none;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 15px;
+}
+
+.bad {
+  border-color: var(--coral);
+}
+
+.err {
+  margin: -8px 0 12px;
+  font-size: 13px;
+  color: var(--coral);
+}
+
+.found {
+  margin: -6px 0 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(5, 13, 36, 0.6);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.found b {
+  color: var(--text);
+}
+
+.warn b {
+  color: var(--coral);
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--orange);
+}
+
+.what {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(5, 13, 36, 0.6);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.what b {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+@media (max-width: 1180px) {
+  .row {
+    grid-template-columns: 74px minmax(0, 1.3fr) minmax(0, 1.2fr) 96px;
+  }
+
+  .status,
+  .colStatus {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .row {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .colhead {
+    display: none;
+  }
+
+  .who,
+  .act {
+    grid-column: 2;
+    text-align: left;
+  }
+}

@@ -23,6 +23,9 @@ export const ACTION_FILTERS: { value: string; label: string }[] = [
   { value: "enrollment.grant", label: "Cursos dados" },
   { value: "enrollment.revoke", label: "Cursos sacados" },
   { value: "user.link_resent", label: "Links reenviados" },
+  { value: "coupon.issue", label: "Cupones emitidos" },
+  { value: "coupon.void", label: "Cupones anulados" },
+  { value: "challenge.update", label: "Cambios en los desafíos" },
   { value: "audit.revert", label: "Reversiones" },
   { value: "auth.login", label: "Inicios de sesión" },
   { value: "integrity.fail", label: "Fallas de integridad" },
@@ -62,7 +65,10 @@ export function initials(name: string) {
 // El nombre del elemento, o el comienzo de su id si ya no existe. Los valores de la economía no tienen id
 export function targetName(entry: AuditEntry) {
   const target = entry.target!;
-  if (target.type === "settings") return "la economía";
+  if (target.type === "settings") {
+    const keys = Object.keys(entry.after ?? entry.before ?? {});
+    return keys.some((k) => k.startsWith("challenge.")) ? "la configuración de los desafíos" : "la economía";
+  }
   return target.name ?? target.id.slice(0, 8);
 }
 
@@ -100,6 +106,16 @@ export function sentence(entry: AuditEntry, target: ReactNode): ReactNode {
       return <>volvió a publicar {target}</>;
     case "teacher.courses_update":
       return <>cambió los cursos que da {target}</>;
+    case "challenge.update":
+      return "cambió el horario o la receta de los desafíos";
+    case "coupon.issue":
+      return (
+        <>
+          le dio el cupón {target} ({String(entry.after?.percent)} %) a {String(entry.after?.user ?? "un alumno")}
+        </>
+      );
+    case "coupon.void":
+      return <>anuló el cupón {target}</>;
     case "user.create":
       return <>dio de alta a {target}</>;
     case "enrollment.grant":
@@ -129,6 +145,7 @@ export function sentence(entry: AuditEntry, target: ReactNode): ReactNode {
 
 // Cómo quedó lo revertido: la reversión guarda en "after" el valor al que volvió
 function revertResult(entry: AuditEntry) {
+  if (entry.after && typeof entry.after.voided === "boolean") return entry.after.voided ? "queda anulado" : "vuelve a servir";
   if (coursesOf(entry.after)) return "vuelve a sus cursos anteriores";
   if (isQuestionState(entry.after)) {
     const after = entry.after!;
@@ -160,6 +177,20 @@ export type Change =
   | null;
 
 export function changeOf(entry: AuditEntry): Change {
+  // Un cupón: lo emitido (descuento, vencimiento, motivo) o el motivo de la anulación
+  if (entry.action === "coupon.issue" && entry.after) {
+    return {
+      kind: "values",
+      rows: [
+        { label: "Descuento", was: null, now: `${String(entry.after.percent)} %` },
+        { label: "Vence", was: null, now: new Date(String(entry.after.expiresAt)).toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" }) },
+        { label: "Motivo", was: null, now: String(entry.after.reason ?? "") },
+      ],
+    };
+  }
+  if (entry.action === "coupon.void" && entry.after) {
+    return { kind: "values", rows: [{ label: "Motivo", was: null, now: String(entry.after.reason ?? "") }] };
+  }
   // Los cursos de un docente: + sumados, − sacados
   const coursesWas = coursesOf(entry.before);
   const coursesNow = coursesOf(entry.after);
@@ -228,6 +259,7 @@ export function describeValue(value: Values): string {
   const courses = coursesOf(value);
   if (courses) return courses.length ? courses.join(", ") : "Ningún curso";
   if (isQuestionState(value)) return questionState(value);
+  if (value && typeof value.voided === "boolean") return value.voided ? "Anulado" : "Vigente";
   if (isSettings(value)) {
     return Object.entries(value!)
       .map(([key, v]) => `${SETTING_NAMES[key].name}: ${formatSetting(key, v)}`)
@@ -250,7 +282,11 @@ export function describeValue(value: Values): string {
 // Qué pasa si se revierte, en una frase: el elemento vuelve a su "antes"
 export function revertOutcome(entry: AuditEntry): string {
   const name = targetName(entry);
-  if (entry.action === "economy.update") return `Los valores vuelven a como estaban: ${describeValue(entry.before)}.`;
+  if (entry.action === "economy.update" || entry.action === "challenge.update") {
+    return `Los valores vuelven a como estaban: ${describeValue(entry.before)}.`;
+  }
+  if (entry.action === "coupon.issue") return `El cupón ${name} se anula. No se puede si ya se usó.`;
+  if (entry.action === "coupon.void") return `El cupón ${name} vuelve a servir.`;
   if (entry.action === "shop.create") return `${name} se retira de la tienda (quien lo compró lo sigue teniendo).`;
   if (entry.action === "shop.update") return `${name} vuelve a como estaba: ${describeValue(entry.before)}.`;
   if (entry.action === "teacher.courses_update") return `${name} vuelve a dar: ${describeValue(entry.before)}.`;

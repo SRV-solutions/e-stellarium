@@ -8,7 +8,7 @@ export function parseInteger(text: string): number | null {
   return /^\d+$/.test(text.trim()) ? Number(text.trim()) : null;
 }
 
-export type SettingUnit = "xp" | "glints" | "percent" | "days" | "count";
+export type SettingUnit = "xp" | "glints" | "percent" | "days" | "count" | "weekday" | "hour" | "questions";
 
 export const SETTING_NAMES: Record<string, { name: string; unit: SettingUnit }> = {
   "xp.question_correct": { name: "Acertar una pregunta", unit: "xp" },
@@ -29,6 +29,25 @@ export const SETTING_NAMES: Record<string, { name: string; unit: SettingUnit }> 
   "coupon.first_percent": { name: "El primer cupón", unit: "percent" },
   "coupon.later_percent": { name: "Los cupones siguientes", unit: "percent" },
   "coupon.valid_days": { name: "Los cupones vencen a los", unit: "days" },
+  // Los desafíos (pantalla Desafíos)
+  "challenge.day_mon": { name: "Sale los lunes", unit: "weekday" },
+  "challenge.day_tue": { name: "Sale los martes", unit: "weekday" },
+  "challenge.day_wed": { name: "Sale los miércoles", unit: "weekday" },
+  "challenge.day_thu": { name: "Sale los jueves", unit: "weekday" },
+  "challenge.day_fri": { name: "Sale los viernes", unit: "weekday" },
+  "challenge.day_sat": { name: "Sale los sábados", unit: "weekday" },
+  "challenge.day_sun": { name: "Sale los domingos", unit: "weekday" },
+  "challenge.hour": { name: "Hora de salida", unit: "hour" },
+  "challenge.own_easy": { name: "Sus cursos, fáciles", unit: "questions" },
+  "challenge.own_medium": { name: "Sus cursos, medias", unit: "questions" },
+  "challenge.own_hard": { name: "Sus cursos, difíciles", unit: "questions" },
+  "challenge.own_review": { name: "De repaso", unit: "questions" },
+  "challenge.explore_easy": { name: "Explorá, fáciles", unit: "questions" },
+  "challenge.explore_medium": { name: "Explorá, medias", unit: "questions" },
+  "challenge.explore_hard": { name: "Explorá, difíciles", unit: "questions" },
+  "challenge.discover_easy": { name: "Descubrí, fáciles", unit: "questions" },
+  "challenge.discover_medium": { name: "Descubrí, medias", unit: "questions" },
+  "challenge.discover_hard": { name: "Descubrí, difíciles", unit: "questions" },
 };
 
 // La tabla "Lo que da cada cosa": cada actividad con su XP y sus destellos (null = no da),
@@ -99,6 +118,9 @@ export function formatSetting(key: string, value: unknown): string {
   if (unit === "glints") return `${n} destellos`;
   if (unit === "percent") return `${n} %`;
   if (unit === "days") return `${n} días`;
+  if (unit === "weekday") return value ? "Sí" : "No";
+  if (unit === "hour") return `${String(value).padStart(2, "0")}:00`;
+  if (unit === "questions") return value === 1 ? "1 pregunta" : `${n} preguntas`;
   return n;
 }
 

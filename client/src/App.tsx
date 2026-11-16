@@ -19,6 +19,8 @@ import { PeoplePage } from "./pages/AdminPage/PeoplePage";
 import { RolesPage } from "./pages/AdminPage/RolesPage";
 import { EconomyPage } from "./pages/AdminPage/EconomyPage";
 import { StudentsPage } from "./pages/AdminPage/StudentsPage";
+import { CouponsPage } from "./pages/AdminPage/CouponsPage";
+import { AdminChallengesPage } from "./pages/AdminPage/ChallengesPage";
 import { ContentPage } from "./pages/AdminPage/ContentPage";
 import { QuestionPage } from "./pages/AdminPage/QuestionPage";
 import { ADMIN_SECTIONS } from "./lib/permissions";
@@ -125,6 +127,22 @@ export default function App() {
               element={
                 <ProtectedRoute anyOf={["roles:manage"]}>
                   <RolesPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="coupons"
+              element={
+                <ProtectedRoute anyOf={["coupons:manage"]}>
+                  <CouponsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="challenges"
+              element={
+                <ProtectedRoute anyOf={["challenges:manage"]}>
+                  <AdminChallengesPage />
                 </ProtectedRoute>
               }
             />

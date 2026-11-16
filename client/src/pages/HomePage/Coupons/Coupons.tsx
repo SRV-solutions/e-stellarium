@@ -28,9 +28,10 @@ function saveScratched(code: string) {
   }
 }
 
-type State = "active" | "used" | "expired";
+type State = "active" | "used" | "expired" | "voided";
 
 function stateOf(coupon: CouponSummary, now: number): State {
+  if (coupon.voided) return "voided";
   if (coupon.usedAt) return "used";
   return new Date(coupon.expiresAt).getTime() <= now ? "expired" : "active";
 }
@@ -173,6 +174,7 @@ function Ticket({ coupon, state, now, index, scratched, onScratched }: TicketPro
             )}
             {state === "used" && <p>Lo usaste el {dayMonth(coupon.usedAt!)}</p>}
             {state === "expired" && <p>Venció el {dayMonth(coupon.expiresAt)}</p>}
+            {state === "voided" && <p>Lo anulamos: ya no sirve</p>}
           </div>
           {active && (
             <a className={styles.use} href={SHOP_HREF} target="_blank" rel="noreferrer">
@@ -182,7 +184,7 @@ function Ticket({ coupon, state, now, index, scratched, onScratched }: TicketPro
           )}
         </div>
 
-        {!active && <p className={styles.stamp}>{state === "used" ? "Usado" : "Vencido"}</p>}
+        {!active && <p className={styles.stamp}>{state === "used" ? "Usado" : state === "voided" ? "Anulado" : "Vencido"}</p>}
       </div>
     </li>
   );

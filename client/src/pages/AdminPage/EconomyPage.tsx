@@ -339,6 +339,10 @@ const UNIT: Record<SettingUnit, ReactNode> = {
   percent: <span className={styles.unit}>%</span>,
   days: <span className={styles.unit}>días</span>,
   count: null,
+  // Los de los desafíos no aparecen en esta pantalla
+  weekday: null,
+  hour: null,
+  questions: null,
 };
 
 type FieldProps = {

@@ -1,0 +1,424 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 36px;
+  align-items: start;
+  margin-top: 26px;
+  padding-bottom: 110px; /* lugar para la barra de guardar */
+}
+
+.block + .block {
+  margin-top: 34px;
+}
+
+.block h2 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+
+.block > p {
+  max-width: 620px;
+  margin: 4px 0 14px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.muted {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.muted a {
+  color: var(--orange);
+}
+
+.err {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--coral);
+}
+
+/* Los días: siete muescas, encendidas las que sale */
+.days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.days button {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(5, 13, 36, 0.5);
+  color: var(--muted);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.1;
+  cursor: pointer;
+}
+
+.days button small {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--placeholder);
+}
+
+.days button[aria-pressed="true"] {
+  border-color: var(--orange);
+  background: rgba(255, 153, 0, 0.08);
+  color: var(--text);
+}
+
+.days button[aria-pressed="true"] small {
+  color: var(--orange);
+}
+
+.days button.dirty {
+  border-style: dashed;
+}
+
+.when {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.sentence b {
+  font-weight: 600;
+  color: var(--orange);
+}
+
+/* El número editable, como en Economía: lo cambiado con borde punteado */
+.field {
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(5, 13, 36, 0.55);
+}
+
+.field input,
+.field select {
+  border: 0;
+  outline: none;
+  background: none;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 15px;
+}
+
+.field input {
+  width: 30px;
+  text-align: right;
+}
+
+.field select option {
+  background: var(--night-2);
+}
+
+.dirty {
+  border-style: dashed;
+  border-color: var(--orange);
+}
+
+.bad {
+  border-style: solid;
+  border-color: var(--coral);
+}
+
+/* La receta */
+.recipe,
+.bank {
+  width: 100%;
+  max-width: 640px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.recipe th,
+.bank th {
+  padding: 0 0 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--placeholder);
+}
+
+.recipe th:first-child,
+.bank th:first-child {
+  text-align: left;
+}
+
+.recipe td {
+  padding: 10px 0;
+  border-top: 1px solid rgba(36, 55, 107, 0.45);
+  text-align: center;
+}
+
+.recipe td:first-child {
+  padding-right: 12px;
+  text-align: left;
+}
+
+.recipe td b {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.recipe td small {
+  display: block;
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+.recipe tfoot td {
+  border-top: 1px solid var(--line);
+  font-weight: 600;
+}
+
+.sum {
+  font-family: var(--mono);
+  color: var(--muted);
+}
+
+.part {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.own {
+  background: var(--orange);
+}
+
+.explore {
+  background: #b9a6ff;
+}
+
+.discover {
+  background: var(--glint);
+}
+
+.review {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.bank {
+  font-size: 14px;
+}
+
+.bank th {
+  text-align: right;
+}
+
+.bank td {
+  padding: 9px 0;
+  border-top: 1px solid rgba(36, 55, 107, 0.45);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.bank td:first-child {
+  text-align: left;
+}
+
+.low {
+  color: var(--coral);
+}
+
+/* A la derecha: cómo queda un desafío y el de ahora */
+.side {
+  position: sticky;
+  top: 24px;
+  display: grid;
+  gap: 16px;
+}
+
+.box {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(10, 23, 53, 0.8);
+}
+
+.box h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.box > p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.ten {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0 12px;
+}
+
+.ten i {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+}
+
+.rev {
+  box-shadow: 0 0 0 2px var(--night), 0 0 0 3.5px var(--orange);
+}
+
+.legend {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.legend > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.facts {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.facts dt {
+  font-size: 12px;
+  color: var(--placeholder);
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.facts dd::first-letter {
+  text-transform: uppercase;
+}
+
+.facts b {
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.past {
+  display: grid;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid rgba(36, 55, 107, 0.6);
+  list-style: none;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.past li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.past li span:first-child::first-letter {
+  text-transform: uppercase;
+}
+
+/* La barra de guardar: aparece abajo cuando hay cambios */
+.dock {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: min(760px, calc(100% - 32px));
+  padding: 12px 12px 12px 20px;
+  border: 1px solid var(--line-hover);
+  border-radius: 18px;
+  background: var(--night-2);
+  transform: translate(-50%, 160%);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.on {
+  transform: translate(-50%, 0);
+}
+
+.dockSum {
+  flex: 1;
+  min-width: 0;
+  max-height: 30vh;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.dockSum div + div {
+  margin-top: 3px;
+}
+
+.k {
+  color: var(--muted);
+}
+
+.was {
+  color: var(--placeholder);
+  text-decoration: line-through;
+  text-decoration-color: var(--coral);
+}
+
+.dockActions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+@media (max-width: 1060px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .side {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .dock {
+    flex-wrap: wrap;
+  }
+
+  .dockActions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock {
+    transition: none;
+  }
+}
