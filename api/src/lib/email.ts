@@ -53,6 +53,19 @@ ${percent} % de descuento en tu próximo curso de WeAreSRV.</p>
   };
 }
 
+// Un cupón de regalo, emitido a mano desde el panel (el motivo no va: es para el staff)
+export function giftCouponEmail(name: string, code: string, percent: number, expiresAt: Date) {
+  const until = expiresAt.toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Argentina/Buenos_Aires" });
+  return {
+    subject: `Te regalamos un cupón del ${percent} %`,
+    html: `<p>¡Hola ${escapeHtml(name)}!</p>
+<p>Te regalamos un ${percent} % de descuento en tu próximo curso de WeAreSRV.</p>
+<p style="font-size:20px"><strong>${escapeHtml(code)}</strong></p>
+<p>Vale para una sola compra, hasta el ${until}. También lo ves en <strong>Mis cupones</strong>, en E-Stellarium.</p>
+<p><strong>No lo compartas:</strong> el que lo use primero se queda con el descuento.</p>`,
+  };
+}
+
 export function integrityFailEmail(problems: { kind: string; table: string; rowId?: string }[]) {
   const KIND: Record<string, string> = {
     row: "una fila no coincide con su dígito verificador",

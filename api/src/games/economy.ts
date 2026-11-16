@@ -23,11 +23,36 @@ export const SETTINGS = {
   "coupon.first_percent": { min: 1, max: 60 }, // ningún cupón pasa del 60 %
   "coupon.later_percent": { min: 1, max: 60 },
   "coupon.valid_days": { min: 1, max: 365 },
+  // Los desafíos (challenges:manage): qué días (1 = sale ese día) y a qué hora de Argentina
+  "challenge.day_mon": { min: 0, max: 1 },
+  "challenge.day_tue": { min: 0, max: 1 },
+  "challenge.day_wed": { min: 0, max: 1 },
+  "challenge.day_thu": { min: 0, max: 1 },
+  "challenge.day_fri": { min: 0, max: 1 },
+  "challenge.day_sat": { min: 0, max: 1 },
+  "challenge.day_sun": { min: 0, max: 1 },
+  "challenge.hour": { min: 0, max: 23 },
+  // La receta: cuántas preguntas de cada parte y dificultad, y cuántas de sus cursos son de repaso
+  "challenge.own_easy": { min: 0, max: 10 },
+  "challenge.own_medium": { min: 0, max: 10 },
+  "challenge.own_hard": { min: 0, max: 10 },
+  "challenge.own_review": { min: 0, max: 10 },
+  "challenge.explore_easy": { min: 0, max: 10 },
+  "challenge.explore_medium": { min: 0, max: 10 },
+  "challenge.explore_hard": { min: 0, max: 10 },
+  "challenge.discover_easy": { min: 0, max: 10 },
+  "challenge.discover_medium": { min: 0, max: 10 },
+  "challenge.discover_hard": { min: 0, max: 10 },
 } as const;
 
 export type SettingKey = keyof typeof SETTINGS;
 export type Settings = Record<SettingKey, number>;
 export const SETTING_KEYS = Object.keys(SETTINGS) as SettingKey[];
+
+// Cada pantalla edita las suyas: Economía (economy:edit) y Desafíos (challenges:manage)
+export type SettingGroup = "economy" | "challenge";
+export const groupOf = (key: SettingKey): SettingGroup => (key.startsWith("challenge.") ? "challenge" : "economy");
+export const keysOf = (group: SettingGroup) => SETTING_KEYS.filter((k) => groupOf(k) === group);
 
 export function isSettingKey(key: unknown): key is SettingKey {
   return typeof key === "string" && Object.hasOwn(SETTINGS, key);

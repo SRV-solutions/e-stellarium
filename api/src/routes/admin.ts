@@ -54,8 +54,10 @@ import {
   revokeCourse,
 } from "../admin/enrollments.js";
 import { can } from "../lib/permissions.js";
+import { issueCoupon, listCoupons, lookupCouponOwner, parseCouponFilters, parseNewCoupon, parseReason, voidCoupon } from "../admin/coupons.js";
+import { challengesOverview } from "../admin/challenges.js";
 import { sendMail } from "../lib/mailer.js";
-import { newCoursesEmail, resetPasswordEmail, welcomeEmail } from "../lib/email.js";
+import { giftCouponEmail, newCoursesEmail, resetPasswordEmail, welcomeEmail } from "../lib/email.js";
 import { config } from "../config.js";
 
 export const adminRouter = Router();
@@ -343,4 +345,50 @@ adminRouter.post("/admin/users/:id/link", requireAuth, requirePermission("users:
     type === "set_password" ? welcomeEmail(user.name, link, await courseNames(courses)) : resetPasswordEmail(user.name, link)
   );
   res.json({ type, emailSent });
+});
+
+// ---------- Cupones (coupons:manage) ----------
+
+// Todos los cupones (?q=, ?status=live|used|expired|void|all, ?offset=), con cuántos hay de cada estado
+adminRouter.get("/admin/coupons", requireAuth, requirePermission("coupons:manage"), async (req, res) => {
+  res.json(await listCoupons(parseCouponFilters(req.query)));
+});
+
+// Para el diálogo de emitir: ?email= dice de quién es, y cuántos días vale un cupón por defecto
+adminRouter.get("/admin/coupons/lookup", requireAuth, requirePermission("coupons:manage"), async (req, res) => {
+  const email = typeof req.query.email === "string" ? req.query.email.slice(0, 200) : "";
+  res.json(await lookupCouponOwner(email));
+});
+
+// Emite un cupón de regalo: { email, percent, validDays, reason, notify }. El mail, después del commit
+adminRouter.post("/admin/coupons", requireAuth, requirePermission("coupons:manage"), async (req, res) => {
+  const input = parseNewCoupon(req.body);
+  const { coupon, user } = await sequelize.transaction((t) => issueCoupon(t, auditContext(req), input));
+  const emailSent = input.notify
+    ? await trySend(user.email, giftCouponEmail(user.name, coupon.code, coupon.percent, coupon.expiresAt))
+    : null;
+  res.status(201).json({ coupon: { id: coupon.id, code: coupon.code, percent: coupon.percent, expiresAt: coupon.expiresAt }, emailSent });
+});
+
+// Anula un cupón sin usar: { reason }
+adminRouter.delete("/admin/coupons/:id", requireAuth, requirePermission("coupons:manage"), async (req, res) => {
+  const id = req.params.id;
+  if (!isUuid(id)) throw new HttpError(404, "No existe ese cupón.");
+  const reason = parseReason(req.body?.reason);
+  await sequelize.transaction((t) => voidCoupon(t, auditContext(req), id, reason));
+  res.json({ voided: true });
+});
+
+// ---------- Desafíos (challenges:manage) ----------
+
+// El horario y la receta, el desafío de ahora, los últimos y cuántas preguntas hay por curso
+adminRouter.get("/admin/challenges", requireAuth, requirePermission("challenges:manage"), async (_req, res) => {
+  res.json(await challengesOverview());
+});
+
+// Cambia el horario o la receta: { values: { "challenge.hour": 10, ... } }. Registro challenge.update
+adminRouter.patch("/admin/challenges", requireAuth, requirePermission("challenges:manage"), async (req, res) => {
+  const values = parseSettingValues(req.body?.values, "challenge");
+  await sequelize.transaction((t) => updateSettings(t, auditContext(req), values));
+  res.json(await challengesOverview());
 });

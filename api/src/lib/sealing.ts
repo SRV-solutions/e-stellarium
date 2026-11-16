@@ -14,6 +14,7 @@ import { hmac } from "./hmac.js";
 // tabla protegida tiene que ir dentro de una transacción.
 
 export const PROTECTED_TABLES = [
+  "coupon_voids",
   "coupons",
   "role_permissions",
   "roles",
@@ -25,6 +26,7 @@ export const PROTECTED_TABLES = [
 export type ProtectedTable = (typeof PROTECTED_TABLES)[number];
 
 export const ID_TYPES: Record<ProtectedTable, string> = {
+  coupon_voids: "uuid",
   coupons: "uuid",
   role_permissions: "uuid",
   roles: "smallint",

@@ -4,7 +4,8 @@ import { HttpError } from "../lib/errors.js";
 import { writeAudit, type AuditContext } from "../lib/audit.js";
 import { Setting, ShopItem } from "../models/index.js";
 import type { ShopItemKind } from "../models/ShopItem.js";
-import { isSettingKey, SETTING_KEYS, SETTINGS, type SettingKey } from "../games/economy.js";
+import { groupOf, isSettingKey, keysOf, loadSettings, SETTINGS, type SettingGroup, type SettingKey } from "../games/economy.js";
+import { challengeSettingsProblem } from "../games/challenge.js";
 import { DEFAULT_COLOR } from "../games/cosmetics.js";
 import type { ChangeOptions } from "./users.js";
 
@@ -13,9 +14,10 @@ import type { ChangeOptions } from "./users.js";
 
 // ---------- Valores (settings) ----------
 
-export async function listSettings(t?: Transaction) {
+// Los valores de un grupo: Economía o Desafíos (cada pantalla con su permiso)
+export async function listSettings(group: SettingGroup = "economy", t?: Transaction) {
   const rows = await Setting.findAll({ transaction: t });
-  return SETTING_KEYS.map((key) => {
+  return keysOf(group).map((key) => {
     const row = rows.find((r) => r.id === key)!;
     return { key, value: row.value, min: SETTINGS[key].min, max: SETTINGS[key].max, updatedAt: row.updatedAt };
   });
@@ -23,8 +25,8 @@ export async function listSettings(t?: Transaction) {
 
 export type SettingValues = Partial<Record<SettingKey, number>>;
 
-// { "xp.star_completed": 60, ... }: solo claves que existen, enteros dentro de su rango
-export function parseSettingValues(value: unknown): SettingValues {
+// { "xp.star_completed": 60, ... }: solo claves que existen (y son de ese grupo), enteros dentro de su rango
+export function parseSettingValues(value: unknown, group: SettingGroup = "economy"): SettingValues {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     throw new HttpError(400, "values tiene que ser un objeto { clave: número }.");
   }
@@ -32,7 +34,7 @@ export function parseSettingValues(value: unknown): SettingValues {
   if (entries.length === 0) throw new HttpError(400, "No mandaste ningún valor.");
   const out: SettingValues = {};
   for (const [key, v] of entries) {
-    if (!isSettingKey(key)) throw new HttpError(400, `No existe el valor ${key}.`);
+    if (!isSettingKey(key) || groupOf(key) !== group) throw new HttpError(400, `No existe el valor ${key}.`);
     const { min, max } = SETTINGS[key];
     if (!Number.isInteger(v) || (v as number) < min || (v as number) > max) {
       throw new HttpError(400, `${key} tiene que ser un número entero entre ${min} y ${max}.`);
@@ -51,6 +53,9 @@ export async function updateSettings(
   options: ChangeOptions = {}
 ) {
   const keys = (Object.keys(values) as SettingKey[]).sort();
+  const groups = [...new Set(keys.map(groupOf))];
+  if (groups.length !== 1) throw new HttpError(400, "No se pueden cambiar valores de la economía y de los desafíos juntos.");
+  const group = groups[0]!;
   // Bloqueadas en orden: dos cambios a la vez sobre los mismos valores van en fila
   const rows = await Setting.findAll({ where: { id: keys }, order: [["id", "ASC"]], lock: t.LOCK.UPDATE, transaction: t });
 
@@ -64,10 +69,16 @@ export async function updateSettings(
     await row.update({ value }, { transaction: t });
   }
 
+  // Los desafíos se validan juntos, con lo que queda después del cambio (al menos un día, el repaso...)
+  if (group === "challenge") {
+    const problem = challengeSettingsProblem(await loadSettings(t));
+    if (problem) throw new HttpError(400, problem);
+  }
+
   if (Object.keys(after).length > 0) {
     await writeAudit(t, {
       ...ctx,
-      action: options.revertsId ? "audit.revert" : "economy.update",
+      action: options.revertsId ? "audit.revert" : group === "challenge" ? "challenge.update" : "economy.update",
       targetType: "settings",
       targetId: null,
       before,
@@ -76,7 +87,7 @@ export async function updateSettings(
       revertsId: options.revertsId,
     });
   }
-  return listSettings(t);
+  return listSettings(group, t);
 }
 
 // Los valores actuales de esas claves (para comparar al revertir)

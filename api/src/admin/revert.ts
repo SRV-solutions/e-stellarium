@@ -26,6 +26,7 @@ import {
   unrejectQuestion,
 } from "./content.js";
 import { activeCourses, setStudentCourses } from "./enrollments.js";
+import { couponVoided, unvoidCoupon, voidCoupon } from "./coupons.js";
 
 // Dar y sacar cursos se revierten igual: el alumno vuelve a tener los cursos que tenía antes
 const coursesReverter = (): Reverter => ({
@@ -57,6 +58,19 @@ async function userOf(t: Transaction, log: AuditLog) {
 const REVERTERS: Record<string, Reverter> = {
   "enrollment.grant": coursesReverter(),
   "enrollment.revoke": coursesReverter(),
+  // Un cupón emitido se revierte anulándolo, solo si no se usó (voidCoupon da 409 si ya se usó)
+  "coupon.issue": {
+    current: (t, log) => couponVoided(t, log.targetId!),
+    compared: () => ({ before: { voided: true }, after: { voided: false } }),
+    undo: (t, ctx, log) =>
+      voidCoupon(t, ctx, log.targetId!, "Se revirtió la emisión desde la bitácora", { revertsId: log.id }),
+  },
+  // Una anulación se revierte y el cupón vuelve a servir (se compara sin el motivo)
+  "coupon.void": {
+    current: (t, log) => couponVoided(t, log.targetId!),
+    compared: (log) => ({ before: log.before, after: { voided: (log.after as Values).voided } }),
+    undo: (t, ctx, log) => unvoidCoupon(t, ctx, log.targetId!, log.id),
+  },
   "user.role_update": {
     current: async (t, log) => {
       const user = await userOf(t, log);
@@ -86,6 +100,11 @@ const REVERTERS: Record<string, Reverter> = {
   },
   // Los valores que cambió ese registro vuelven a como estaban (los demás no se tocan)
   "economy.update": {
+    current: (t, log) => currentSettings(t, Object.keys(log.after as Values)),
+    undo: (t, ctx, log) => updateSettings(t, ctx, log.before as SettingValues, { revertsId: log.id }),
+  },
+  // El horario y la receta de los desafíos: igual que la economía (valen las mismas validaciones)
+  "challenge.update": {
     current: (t, log) => currentSettings(t, Object.keys(log.after as Values)),
     undo: (t, ctx, log) => updateSettings(t, ctx, log.before as SettingValues, { revertsId: log.id }),
   },

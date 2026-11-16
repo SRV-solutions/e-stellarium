@@ -8,6 +8,7 @@ import {
 } from "sequelize";
 import { sequelize } from "../db.js";
 import type { Constellation } from "./Constellation.js";
+import type { CouponVoid } from "./CouponVoid.js";
 
 // De dónde sale: aprobar el examen de una constelación, la tienda (con destellos) o cargado a mano
 export type CouponSource = "constellation" | "shop" | "manual";
@@ -25,6 +26,7 @@ export class Coupon extends Model<InferAttributes<Coupon>, InferCreationAttribut
   declare createdAt: CreationOptional<Date>;
 
   declare Constellation?: NonAttribute<Constellation>;
+  declare CouponVoid?: NonAttribute<CouponVoid>; // si se anuló desde el panel
 }
 
 Coupon.init(

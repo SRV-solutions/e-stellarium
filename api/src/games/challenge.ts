@@ -7,9 +7,10 @@ import { addDays, argentinaDay } from "./streak.js";
 
 // ---------- Cuándo sale ----------
 
-// Lunes (1) y sábados (6) a las 9:00 de Argentina. Cuando exista la tabla settings, salen de ahí.
-export const CHALLENGE_WEEKDAYS = [1, 6];
-export const CHALLENGE_HOUR = 9;
+// Qué días (0 = domingo, como getUTCDay) y a qué hora de Argentina sale. Viven en settings (challenge.*)
+// y se editan desde el panel; estos son los de siempre, para las funciones puras y los tests.
+export type ChallengeSchedule = { weekdays: number[]; hour: number };
+export const DEFAULT_SCHEDULE: ChallengeSchedule = { weekdays: [1, 6], hour: 9 };
 // Argentina no tiene horario de verano: siempre es UTC-3
 const ARGENTINA_OFFSET_HOURS = -3;
 
@@ -17,40 +18,97 @@ function weekday(day: string) {
   return new Date(`${day}T12:00:00Z`).getUTCDay(); // 0 = domingo
 }
 
-// El momento exacto de las 9:00 de Argentina de ese día
-function slotOn(day: string): Date {
-  const utcHour = CHALLENGE_HOUR - ARGENTINA_OFFSET_HOURS;
-  return new Date(`${day}T${String(utcHour).padStart(2, "0")}:00:00Z`);
+// El momento exacto de la hora de salida de ese día (en Argentina)
+function slotOn(day: string, hour: number): Date {
+  return new Date(Date.parse(`${day}T00:00:00Z`) + (hour - ARGENTINA_OFFSET_HOURS) * 3_600_000);
 }
 
 // La última publicación que ya pasó: por ejemplo, un miércoles da el lunes a las 9:00
-export function latestSlot(now: Date): Date {
+export function latestSlot(now: Date, schedule: ChallengeSchedule = DEFAULT_SCHEDULE): Date {
   const today = argentinaDay(now);
   for (let back = 0; back <= 7; back++) {
     const day = addDays(today, -back);
-    if (CHALLENGE_WEEKDAYS.includes(weekday(day)) && slotOn(day) <= now) return slotOn(day);
+    if (schedule.weekdays.includes(weekday(day)) && slotOn(day, schedule.hour) <= now) return slotOn(day, schedule.hour);
   }
   throw new Error("No hay ningún día de desafío configurado");
 }
 
 // La próxima publicación después de `after`: es cuando cierra el desafío actual
-export function nextSlot(after: Date): Date {
+export function nextSlot(after: Date, schedule: ChallengeSchedule = DEFAULT_SCHEDULE): Date {
   const today = argentinaDay(after);
   for (let ahead = 0; ahead <= 8; ahead++) {
     const day = addDays(today, ahead);
-    if (CHALLENGE_WEEKDAYS.includes(weekday(day)) && slotOn(day) > after) return slotOn(day);
+    if (schedule.weekdays.includes(weekday(day)) && slotOn(day, schedule.hour) > after) return slotOn(day, schedule.hour);
   }
   throw new Error("No hay ningún día de desafío configurado");
 }
 
+// Cuándo sale y cuándo cierra el desafío que corresponde a `now`. previousClosesAt: cuándo cerró el
+// anterior. Si cambiaron el horario mientras había uno abierto, la última salida del horario nuevo puede
+// quedar antes de que cerrara el anterior: entonces el nuevo arranca justo cuando cerró el anterior (no se
+// superponen) y dura hasta la siguiente salida de otro día (si no, cambiar solo la hora daría un desafío
+// de una hora).
+export function challengeWindow(
+  now: Date,
+  schedule: ChallengeSchedule = DEFAULT_SCHEDULE,
+  previousClosesAt: Date | null = null
+): { publishedAt: Date; closesAt: Date } {
+  const publishedAt = latestSlot(now, schedule);
+  if (!previousClosesAt || publishedAt >= previousClosesAt) return { publishedAt, closesAt: nextSlot(publishedAt, schedule) };
+  const endOfDay = new Date(Date.parse(`${addDays(argentinaDay(previousClosesAt), 1)}T00:00:00Z`) - ARGENTINA_OFFSET_HOURS * 3_600_000 - 1);
+  return { publishedAt: previousClosesAt, closesAt: nextSlot(endOfDay, schedule) };
+}
+
 // ---------- La receta ----------
 
-// Cuántas preguntas de cada parte y de qué dificultad. Cuando exista settings, la edita el admin.
-export const RECIPE = {
-  own: { difficulties: ["easy", "easy", "medium", "medium", "hard", "hard"] as Difficulty[], review: 2 },
-  explore: ["easy", "easy", "medium"] as Difficulty[],
-  discover: ["easy"] as Difficulty[],
+// Cuántas preguntas de cada parte y de qué dificultad (una por lugar), y cuántas de sus cursos son de
+// repaso. Vive en settings y la edita el admin; esta es la de siempre.
+export type ChallengeRecipe = {
+  own: { difficulties: Difficulty[]; review: number };
+  explore: Difficulty[];
+  discover: Difficulty[];
 };
+export const DEFAULT_RECIPE: ChallengeRecipe = {
+  own: { difficulties: ["easy", "easy", "medium", "medium", "hard", "hard"], review: 2 },
+  explore: ["easy", "easy", "medium"],
+  discover: ["easy"],
+};
+export const MAX_CHALLENGE_QUESTIONS = 20;
+
+// ---------- Lo que se guarda en settings ----------
+
+const DAY_KEYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"] as const; // en el orden de getUTCDay
+type Values = Record<string, number>;
+
+export function scheduleOf(s: Values): ChallengeSchedule {
+  return { weekdays: DAY_KEYS.flatMap((d, i) => (s[`challenge.day_${d}`] ? [i] : [])), hour: s["challenge.hour"]! };
+}
+
+function slots(s: Values, part: string): Difficulty[] {
+  return (["easy", "medium", "hard"] as Difficulty[]).flatMap((d) => Array(s[`challenge.${part}_${d}`] ?? 0).fill(d));
+}
+
+export function recipeOf(s: Values): ChallengeRecipe {
+  return {
+    own: { difficulties: slots(s, "own"), review: s["challenge.own_review"]! },
+    explore: slots(s, "explore"),
+    discover: slots(s, "discover"),
+  };
+}
+
+// Lo que no puede pasar con los valores juntos (cada uno por separado ya tiene su mínimo y máximo)
+export function challengeSettingsProblem(s: Values): string | null {
+  const schedule = scheduleOf(s);
+  const recipe = recipeOf(s);
+  if (schedule.weekdays.length === 0) return "Elegí al menos un día para el desafío.";
+  if (recipe.own.difficulties.length === 0) return "Tiene que haber al menos una pregunta de sus cursos.";
+  if (recipe.own.review > recipe.own.difficulties.length) {
+    return "No puede haber más preguntas de repaso que de sus cursos.";
+  }
+  const total = recipe.own.difficulties.length + recipe.explore.length + recipe.discover.length;
+  if (total > MAX_CHALLENGE_QUESTIONS) return `Un desafío tiene hasta ${MAX_CHALLENGE_QUESTIONS} preguntas.`;
+  return null;
+}
 
 export type Candidate = {
   id: string;
@@ -104,7 +162,12 @@ function pickFor(slot: Slot, pool: Candidate[], used: Set<string>, seed: string)
 
 // Arma el desafío de un alumno. `own` son sus cursos; `candidates`, las preguntas de desafío de
 // todos los cursos activos. La semilla es el id del intento: el mismo intento siempre da lo mismo.
-export function planChallenge(own: string[], candidates: Candidate[], seed: string): ChallengePlan {
+export function planChallenge(
+  own: string[],
+  candidates: Candidate[],
+  seed: string,
+  recipe: ChallengeRecipe = DEFAULT_RECIPE
+): ChallengePlan {
   const ownCourses = shuffled(
     own.filter((p) => candidates.some((c) => c.productId === p)),
     `${seed}:own`
@@ -119,16 +182,16 @@ export function planChallenge(own: string[], candidates: Candidate[], seed: stri
   const discover = others[1] ?? others[0] ?? null;
 
   // Los lugares de sus cursos se reparten entre ellos, de a uno
-  const slots: Slot[] = RECIPE.own.difficulties.map((difficulty, i) => ({
+  const slots: Slot[] = recipe.own.difficulties.map((difficulty, i) => ({
     part: "own",
     difficulty,
     productIds: [ownCourses[i % ownCourses.length]!],
   }));
   // Si no hay otro curso con preguntas, esos lugares también son de sus cursos
-  for (const difficulty of RECIPE.explore) {
+  for (const difficulty of recipe.explore) {
     slots.push(explore ? { part: "explore", difficulty, productIds: [explore] } : ownSlot(difficulty, slots.length));
   }
-  for (const difficulty of RECIPE.discover) {
+  for (const difficulty of recipe.discover) {
     slots.push(discover ? { part: "discover", difficulty, productIds: [discover] } : ownSlot(difficulty, slots.length));
   }
   function ownSlot(difficulty: Difficulty, i: number): Slot {
@@ -143,7 +206,7 @@ export function planChallenge(own: string[], candidates: Candidate[], seed: stri
   const toReview = candidates
     .filter((c) => c.failed && ownCourses.includes(c.productId))
     .sort((a, b) => a.lastSeenAt!.getTime() - b.lastSeenAt!.getTime() || tiebreak(seed, a.id) - tiebreak(seed, b.id))
-    .slice(0, RECIPE.own.review);
+    .slice(0, recipe.own.review);
   for (const question of toReview) {
     const free = slots
       .filter((s) => s.part === "own")

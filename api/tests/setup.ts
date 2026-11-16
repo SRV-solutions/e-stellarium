@@ -30,7 +30,12 @@ beforeEach(async () => {
       ('xp.challenge_completed', 20), ('glints.review_completed', 3), ('glints.challenge_correct', 3),
       ('glints.challenge_completed', 10), ('glints.badge_7', 20), ('glints.badge_30', 60),
       ('glints.badge_100', 200), ('streak.free_freezes', 2), ('shop.freezes_per_month', 2),
-      ('coupon.first_percent', 60), ('coupon.later_percent', 40), ('coupon.valid_days', 60)
+      ('coupon.first_percent', 60), ('coupon.later_percent', 40), ('coupon.valid_days', 60),
+      ('challenge.day_mon', 1), ('challenge.day_tue', 0), ('challenge.day_wed', 0), ('challenge.day_thu', 0),
+      ('challenge.day_fri', 0), ('challenge.day_sat', 1), ('challenge.day_sun', 0), ('challenge.hour', 9),
+      ('challenge.own_easy', 2), ('challenge.own_medium', 2), ('challenge.own_hard', 2), ('challenge.own_review', 2),
+      ('challenge.explore_easy', 2), ('challenge.explore_medium', 1), ('challenge.explore_hard', 0),
+      ('challenge.discover_easy', 1), ('challenge.discover_medium', 0), ('challenge.discover_hard', 0)
     ) AS v(id, value) WHERE settings.id = v.id;
     DELETE FROM shop_items;
     INSERT INTO shop_items (id, kind, name, note, price, percent, hex, alt_name, position, created_at, updated_at) VALUES

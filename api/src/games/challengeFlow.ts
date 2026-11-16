@@ -18,14 +18,14 @@ import type { ChallengePart } from "../models/ChallengeAttemptQuestion.js";
 import type { Difficulty, QuestionType } from "../models/Question.js";
 import { recordActivity } from "./activity.js";
 import { publishedVersion, questionAt } from "./versions.js";
-import { challengeSeed, latestSlot, nextSlot, planChallenge, type Candidate } from "./challenge.js";
+import { challengeSeed, challengeWindow, planChallenge, recipeOf, scheduleOf, type Candidate } from "./challenge.js";
 import { advanceClock } from "./clock.js";
 import { SECONDS_PER_TYPE } from "./exam.js";
 import { grade, InvalidResponseError } from "./grade.js";
 import { present, type StudentQuestion } from "./present.js";
 import { awardGlints, type NewBadge } from "./glints.js";
 import { awardXp } from "./progress.js";
-import { loadEconomy } from "./economy.js";
+import { loadEconomy, loadSettings } from "./economy.js";
 
 type Row = ChallengeAttemptQuestion & { Question: Question };
 type Course = { key: string; name: string };
@@ -75,8 +75,9 @@ async function currentChallenge(now: Date, t: Transaction): Promise<Challenge> {
   });
   if (latest && latest.closesAt > now) return latest;
 
-  const publishedAt = latestSlot(now);
-  await Challenge.bulkCreate([{ publishedAt, closesAt: nextSlot(publishedAt) }], {
+  // El horario sale de settings (se edita desde el panel); challengeWindow evita que se superpongan
+  const { publishedAt, closesAt } = challengeWindow(now, scheduleOf(await loadSettings(t)), latest?.closesAt ?? null);
+  await Challenge.bulkCreate([{ publishedAt, closesAt }], {
     ignoreDuplicates: true,
     transaction: t,
   });
@@ -126,7 +127,7 @@ async function buildAttempt(userId: string, challenge: Challenge, t: Transaction
   const candidates = await loadCandidates(userId, t);
 
   // La semilla es alumno y desafío: si se arma dos veces (no debería), da lo mismo
-  const plan = planChallenge(own, candidates, `${challenge.id}:${userId}`);
+  const plan = planChallenge(own, candidates, `${challenge.id}:${userId}`, recipeOf(await loadSettings(t)));
   if (plan.questions.length === 0) return null;
 
   const attempt = await ChallengeAttempt.create({ challengeId: challenge.id, userId }, { transaction: t });
