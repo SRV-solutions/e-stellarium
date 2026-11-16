@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { AuthProvider } from "./auth/AuthProvider";
+import { PlayerRoute } from "./auth/PlayerRoute";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
 import { HomePage } from "./pages/HomePage/HomePage";
@@ -36,65 +37,65 @@ export default function App() {
           <Route
             path="/constellations"
             element={
-              <ProtectedRoute>
+              <PlayerRoute>
                 <ConstellationsIndex />
-              </ProtectedRoute>
+              </PlayerRoute>
             }
           />
           <Route
             path="/constellations/:courseKey"
             element={
-              <ProtectedRoute>
+              <PlayerRoute>
                 <ConstellationPage />
-              </ProtectedRoute>
+              </PlayerRoute>
             }
           />
           <Route
             path="/stars/:starId"
             element={
-              <ProtectedRoute>
+              <PlayerRoute>
                 <GamePage />
-              </ProtectedRoute>
+              </PlayerRoute>
             }
           />
           <Route
             path="/exams/:starId"
             element={
-              <ProtectedRoute>
+              <PlayerRoute>
                 <ExamPage />
-              </ProtectedRoute>
+              </PlayerRoute>
             }
           />
           <Route
             path="/exams/:starId/practice"
             element={
-              <ProtectedRoute>
+              <PlayerRoute>
                 <PracticePage />
-              </ProtectedRoute>
+              </PlayerRoute>
             }
           />
           <Route
             path="/review"
             element={
-              <ProtectedRoute>
+              <PlayerRoute>
                 <ReviewPage />
-              </ProtectedRoute>
+              </PlayerRoute>
             }
           />
           <Route
             path="/challenges"
             element={
-              <ProtectedRoute>
+              <PlayerRoute>
                 <ChallengesPage />
-              </ProtectedRoute>
+              </PlayerRoute>
             }
           />
           <Route
             path="/shop"
             element={
-              <ProtectedRoute>
+              <PlayerRoute>
                 <ShopPage />
-              </ProtectedRoute>
+              </PlayerRoute>
             }
           />
           {/* El panel de staff: entra quien tenga el permiso de alguna sección, y cada sección pide el suyo */}
