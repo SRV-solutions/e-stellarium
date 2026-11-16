@@ -19,6 +19,7 @@
   --mint: #3fe0a2;
   --coral: #ff7a6b;
   --glint: #8fe3ff; /* los destellos, la moneda de la tienda */
+  --violet: #b9a6ff; /* lo que espera revisión (la campanita) */
   --trail: #4fa3ff; /* el color del trazo de las constelaciones: cambia con el que compró (lib/trail.ts) */
   --font: "Bricolage Grotesque", system-ui, sans-serif;
   --greek: "Noto Serif Display", Georgia, serif;

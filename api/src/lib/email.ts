@@ -83,3 +83,11 @@ export function integrityFailEmail(problems: { kind: string; table: string; rowI
 <p>Revisalo en el panel, en Integridad.</p>`,
   };
 }
+
+export function challengeBankLowEmail(courseName: string, difficulty: string, left: number, minChallenges: number) {
+  return {
+    subject: `E-Stellarium: se acaban las preguntas ${difficulty} de ${courseName}`,
+    html: `<p>A los desafíos de <strong>${escapeHtml(courseName)}</strong> les quedan ${left} preguntas ${escapeHtml(difficulty)}: con la receta de hoy alcanzan para menos de ${minChallenges} desafíos.</p>
+<p>Hace falta sumar más desde el panel, en Contenido. Este aviso no se repite hasta que se repongan.</p>`,
+  };
+}

@@ -2,6 +2,7 @@ import { QueryTypes, Transaction } from "sequelize";
 import { sequelize } from "../db.js";
 import { verifyAuditChain, writeAudit } from "./audit.js";
 import { sendMail } from "./mailer.js";
+import { listOf, notify, superAdmins } from "./notify.js";
 import { integrityFailEmail } from "./email.js";
 import { argentinaDay } from "../games/streak.js";
 import { PROTECTED_TABLES, ZERO_DVV, auditDvv, dvhOf, dvvPart, writeDvhs, xorHex, type ProtectedTable } from "./sealing.js";
@@ -157,6 +158,16 @@ export async function runIntegrityCheck(
         targetId: String(row.id),
         after: { problemCount: problems.length, problems: problems.slice(0, 10) },
         reversible: false,
+      });
+      // La campanita de los super admins (el mail sale abajo, después del commit)
+      const tables = [...new Set(problems.map((p) => p.table))];
+      await notify(t, await superAdmins(t), {
+        kind: "integrity_fail",
+        title: "Falló la verificación de integridad",
+        body: `${problems.length === 1 ? "1 problema" : `${problems.length} problemas`} en ${listOf(tables)}. Mirá cuáles en la bitácora.`,
+        link: "/admin/audit",
+        key: `integrity:${row.id}`,
+        emailSent: true,
       });
     }
     return present(row);

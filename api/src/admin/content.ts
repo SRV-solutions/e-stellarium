@@ -3,6 +3,8 @@ import { sequelize } from "../db.js";
 import { HttpError } from "../lib/errors.js";
 import { writeAudit, type AuditContext } from "../lib/audit.js";
 import { roleKeyOf } from "../lib/permissions.js";
+import { notify, snippetOf as promptSnippet, staffWith } from "../lib/notify.js";
+import { checkChallengeBank } from "../games/challengeBank.js";
 import {
   Constellation,
   Product,
@@ -507,8 +509,48 @@ export async function submitQuestion(t: Transaction, scope: string[] | null, id:
   if (!version) throw new HttpError(409, "No hay cambios para enviar.");
   const problems = problemsOf(version);
   if (problems.length > 0) throw new HttpError(400, "Le falta algo para poder enviarla.", { problems });
-  await version.update({ status: "in_review", submittedAt: new Date() }, { transaction: t });
+  const submittedAt = new Date();
+  await version.update({ status: "in_review", submittedAt }, { transaction: t });
+
+  // A quienes pueden aprobar, menos a quien la escribió
+  const author = version.authorId ? await User.findByPk(version.authorId, { transaction: t }) : null;
+  const course = await Product.findByPk(question.productId, { transaction: t });
+  const reviewers = (await staffWith("content:approve", t)).filter((u) => u !== version.authorId);
+  await notify(t, reviewers, {
+    kind: "content_review",
+    title: `${author ? author.name.split(" ")[0] : "Alguien"} mandó una pregunta para revisar`,
+    body: `${course!.name}: «${promptSnippet(version.prompt)}»`,
+    link: `/admin/content/${question.id}`,
+    // Una por envío: si la devuelven y la vuelve a mandar, es otro aviso
+    key: `${REVIEW_KEY}${version.id}:${submittedAt.getTime()}`,
+  });
   return questionDetail(scope, id, t);
+}
+
+const REVIEW_KEY = "review:";
+
+// Cuando la versión deja de esperar revisión (aprobada, rechazada o retirada), el aviso "para revisar"
+// de los demás ya no sirve: se da por leído
+async function closeReviewNotices(t: Transaction, versionId: string) {
+  await sequelize.query(
+    "UPDATE notifications SET read_at = now() WHERE read_at IS NULL AND kind = 'content_review' AND key LIKE :prefix",
+    { replacements: { prefix: `${REVIEW_KEY}${versionId}:%` }, transaction: t }
+  );
+}
+
+// Le avisa al autor qué pasó con su pregunta (si no la revisó él mismo)
+async function notifyAuthor(t: Transaction, version: QuestionVersion, reviewerId: string | null, approved: boolean, comment?: string) {
+  if (!version.authorId || version.authorId === reviewerId) return;
+  const reviewer = reviewerId ? await User.findByPk(reviewerId, { transaction: t }) : null;
+  const snippet = promptSnippet(version.prompt);
+  await notify(t, [version.authorId], approved
+    ? { kind: "content_approved", title: "Aprobaron tu pregunta", body: `«${snippet}» ya la ven los alumnos.`, link: `/admin/content/${version.questionId}` }
+    : {
+        kind: "content_rejected",
+        title: reviewer ? `${reviewer.name.split(" ")[0]} te devolvió una pregunta` : "Te devolvieron una pregunta",
+        body: `«${snippet}»: “${promptSnippet(comment ?? "", 200)}”`,
+        link: `/admin/content/${version.questionId}`,
+      });
 }
 
 // La saca de revisión para seguir editándola
@@ -517,6 +559,7 @@ export async function withdrawQuestion(t: Transaction, scope: string[] | null, i
   const version = await QuestionVersion.findOne({ where: { questionId: question.id, status: "in_review" }, transaction: t });
   if (!version) throw new HttpError(409, "No está en revisión.");
   await version.update({ status: "draft" }, { transaction: t });
+  await closeReviewNotices(t, version.id);
   return questionDetail(scope, id, t);
 }
 
@@ -549,6 +592,9 @@ export async function approveQuestion(t: Transaction, ctx: AuditContext, scope: 
   await version.update({ status: "published" }, { transaction: t });
   await question.update({ ...bodyOf(version), version: version.number, status: "published" }, { transaction: t });
   await QuestionReview.create({ versionId: version.id, reviewerId: ctx.actorId, decision: "approved" }, { transaction: t });
+  await closeReviewNotices(t, version.id);
+  await notifyAuthor(t, version, ctx.actorId, true);
+  if (question.pool === "challenge") await checkChallengeBank(t);
 
   await writeAudit(t, {
     ...ctx,
@@ -575,6 +621,8 @@ export async function rejectQuestion(t: Transaction, ctx: AuditContext, scope: s
     { versionId: version.id, reviewerId: ctx.actorId, decision: "rejected", comment: comment.trim() },
     { transaction: t }
   );
+  await closeReviewNotices(t, version.id);
+  await notifyAuthor(t, version, ctx.actorId, false, comment.trim());
   await writeAudit(t, {
     ...ctx,
     action: "content.reject",
@@ -592,6 +640,7 @@ export async function unpublishQuestion(t: Transaction, ctx: AuditContext, scope
   const question = await findQuestion(scope, id, t, true);
   if (question.status !== "published") throw new HttpError(409, "No está publicada.");
   await question.update({ status: "draft" }, { transaction: t });
+  if (question.pool === "challenge") await checkChallengeBank(t);
   await writeAudit(t, {
     ...ctx,
     action: options.revertsId ? "audit.revert" : "content.unpublish",
@@ -611,6 +660,7 @@ export async function republishQuestion(t: Transaction, ctx: AuditContext, scope
   if (question.status === "published") throw new HttpError(409, "Ya está publicada.");
   if (question.version === null) throw new HttpError(409, "Nunca se aprobó: enviala a revisión.");
   await question.update({ status: "published" }, { transaction: t });
+  if (question.pool === "challenge") await checkChallengeBank(t);
   await writeAudit(t, {
     ...ctx,
     action: options.revertsId ? "audit.revert" : "content.republish",
@@ -664,6 +714,7 @@ export async function unapproveQuestion(
   } else {
     await question.update({ version: null, status: "draft" }, { transaction: t });
   }
+  if (question.pool === "challenge") await checkChallengeBank(t);
 
   await writeAudit(t, {
     ...ctx,

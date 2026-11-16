@@ -11,7 +11,7 @@ beforeEach(async () => {
   vi.clearAllMocks();
   // Vacía los datos que generan los tests. CASCADE vacía también las tablas que dependen de users.
   await sequelize.query(
-    "TRUNCATE users, processed_payments, constellations, questions, answers, integrity_pending, integrity_checks RESTART IDENTITY CASCADE"
+    "TRUNCATE users, processed_payments, constellations, questions, answers, integrity_pending, integrity_checks, challenge_bank_alerts RESTART IDENTITY CASCADE"
   );
   // Los permisos de cada rol vuelven a la matriz inicial (la de la migración), por si un test los cambió
   await sequelize.query(`

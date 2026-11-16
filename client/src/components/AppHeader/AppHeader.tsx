@@ -10,6 +10,7 @@ import { Comet } from "../Comet/Comet";
 import { ConfirmDialog } from "../ConfirmDialog/ConfirmDialog";
 import { Glint } from "../Glint/Glint";
 import styles from "./AppHeader.module.css";
+import { NotificationBell } from "../NotificationBell/NotificationBell";
 
 // Las secciones: las mismas en el menú de arriba y en el del celular
 const LINKS: { to: string; label: string; end?: boolean; icon: ReactNode }[] = [
@@ -136,8 +137,8 @@ export function AppHeader() {
               <b className={styles.levelNumber}>Nivel {level.level}</b>
               <span className={styles.xp}>{user.totalXp} XP</span>
             </Link>
+            <NotificationBell />
             <Avatar alias={user.alias} frame={user.wornFrame} className={styles.avatar} />
-            <span className={styles.alias}>{user.alias}</span>
             <button type="button" className={styles.logout} onClick={() => setConfirming(true)} aria-label="Salir">
               <span>Salir</span>
             </button>

@@ -26,6 +26,7 @@ import { present, type StudentQuestion } from "./present.js";
 import { awardGlints, type NewBadge } from "./glints.js";
 import { awardXp } from "./progress.js";
 import { loadEconomy, loadSettings } from "./economy.js";
+import { checkChallengeBank } from "./challengeBank.js";
 
 type Row = ChallengeAttemptQuestion & { Question: Question };
 type Course = { key: string; name: string };
@@ -67,7 +68,7 @@ export type ChallengeView = {
 // El desafío vigente. Si todavía nadie lo pidió desde que se publicó, crea la fila: así no hace
 // falta un proceso programado. Si dos alumnos lo piden a la vez, la restricción única de
 // published_at hace que se cree uno solo.
-async function currentChallenge(now: Date, t: Transaction): Promise<Challenge> {
+export async function currentChallenge(now: Date, t: Transaction): Promise<Challenge> {
   const latest = await Challenge.findOne({
     where: { publishedAt: { [Op.lte]: now } },
     order: [["publishedAt", "DESC"]],
@@ -81,6 +82,8 @@ async function currentChallenge(now: Date, t: Transaction): Promise<Challenge> {
     ignoreDuplicates: true,
     transaction: t,
   });
+  // Al salir cada desafío se revisa si quedan preguntas suficientes (avisa una sola vez)
+  await checkChallengeBank(t);
   return (await Challenge.findOne({ where: { publishedAt }, transaction: t }))!;
 }
 

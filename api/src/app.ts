@@ -15,6 +15,7 @@ import { meRouter } from "./routes/me.js";
 import { challengesRouter } from "./routes/challenges.js";
 import { shopRouter } from "./routes/shop.js";
 import { adminRouter } from "./routes/admin.js";
+import { notificationsRouter } from "./routes/notifications.js";
 import { runDailyCheckIfDue } from "./lib/integrity.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
@@ -48,6 +49,7 @@ app.use(reviewRouter);
 app.use(meRouter);
 app.use(challengesRouter);
 app.use(shopRouter);
+app.use(notificationsRouter);
 app.use(adminRouter);
 
 app.get("/health", async (_req, res) => {

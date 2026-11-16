@@ -30,6 +30,7 @@ import { ShopItem } from "./ShopItem.js";
 import { QuestionVersion } from "./QuestionVersion.js";
 import { QuestionReview } from "./QuestionReview.js";
 import { TeacherProduct } from "./TeacherProduct.js";
+import { Notification } from "./Notification.js";
 
 User.hasMany(PasswordToken, { foreignKey: "userId" });
 PasswordToken.belongsTo(User, { foreignKey: "userId" });
@@ -161,4 +162,4 @@ Question.afterCreate(async (question, options) => {
   if (published) await question.update({ version: 1 }, { transaction: options.transaction, hooks: false });
 });
 
-export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, CouponVoid, DailyActivity, DailyReview, DailyReviewQuestion, Challenge, ChallengeAttempt, ChallengeAttemptQuestion, GlintEvent, StreakBadge, UserCosmetic, Role, RolePermission, AuditLog, Setting, ShopItem, QuestionVersion, QuestionReview, TeacherProduct };
+export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, CouponVoid, DailyActivity, DailyReview, DailyReviewQuestion, Challenge, ChallengeAttempt, ChallengeAttemptQuestion, GlintEvent, StreakBadge, UserCosmetic, Role, RolePermission, AuditLog, Setting, ShopItem, QuestionVersion, QuestionReview, TeacherProduct, Notification };

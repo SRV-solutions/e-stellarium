@@ -145,10 +145,6 @@
   color: var(--muted);
 }
 
-.alias {
-  font-weight: 600;
-}
-
 .logout {
   margin-left: 6px;
   padding: 6px 4px;
@@ -194,7 +190,6 @@
 .level,
 .streak,
 .glints,
-.alias,
 .logout {
   white-space: nowrap;
 }
@@ -394,20 +389,10 @@
   cursor: pointer;
 }
 
-/* Los escalones: a medida que se angosta, se esconde lo que no entra */
-@media (max-width: 1300px) {
-  .alias {
-    display: none;
-  }
-}
-
-/* El staff tiene "Panel" en el menú: con el alias no entra nunca en los 1280 px, y sin él hace falta
-   pasar a los íconos antes (desde 1260 y no desde 1180) */
-.staff .alias {
-  display: none;
-}
-
-@media (max-width: 1260px) {
+/* Los escalones: a medida que se angosta, se esconde lo que no entra. El alias no va en el encabezado:
+   con la campanita no entra en los 1280 px (se ve en el menú del celular y en el inicio).
+   El staff tiene además "Panel" en el menú: pasa a los íconos antes (desde 1340 y no desde 1240) */
+@media (max-width: 1340px) {
   .staff {
     gap: 16px;
   }
@@ -421,7 +406,7 @@
 }
 
 /* Tablet: el menú solo con íconos y el nivel en el medidor y los XP (el "Nivel 2" se lee al pasar el mouse) */
-@media (max-width: 1180px) {
+@media (max-width: 1240px) {
   .inner {
     gap: 16px;
   }

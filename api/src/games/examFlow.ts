@@ -2,6 +2,7 @@ import type { Transaction } from "sequelize";
 import { sequelize } from "../db.js";
 import { HttpError } from "../lib/errors.js";
 import { couponEmail } from "../lib/email.js";
+import { notify } from "../lib/notify.js";
 import { sendMail } from "../lib/mailer.js";
 import {
   Constellation,
@@ -225,6 +226,13 @@ async function finish(user: User, attempt: ExamAttempt, rows: Row[], now: Date, 
       { transaction: t }
     );
 
+    await notify(t, [user.id], {
+      kind: "coupon",
+      title: `Ganaste un cupón del ${coupon.percent} %`,
+      body: `Por aprobar el examen de ${constellation.Product!.name}. Está en Mis cupones.`,
+      link: "/#mis-cupones",
+      emailSent: true, // el mail del cupón sale abajo, después del commit
+    });
     // El mail, solo si la transacción se guardó
     const mail = couponEmail(user.name, constellation.Product!.name, coupon.code, coupon.percent, coupon.expiresAt);
     t.afterCommit(() => {

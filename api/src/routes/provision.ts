@@ -7,6 +7,7 @@ import { HttpError } from "../lib/errors.js";
 import { createPasswordToken } from "../lib/passwordTokens.js";
 import { generateUniqueAlias } from "../lib/alias.js";
 import { sendMail } from "../lib/mailer.js";
+import { listOf, notify } from "../lib/notify.js";
 import { welcomeEmail, newCoursesEmail } from "../lib/email.js";
 import { config } from "../config.js";
 
@@ -70,6 +71,7 @@ provisionRouter.post("/provision", requireInternalKey, async (req, res) => {
         );
       }
 
+      const activated: string[] = [];
       for (const product of products) {
         const [enrollment, created] = await Enrollment.findOrCreate({
           where: { userId: user.id, productId: product.id },
@@ -77,9 +79,21 @@ provisionRouter.post("/provision", requireInternalKey, async (req, res) => {
           transaction: t,
         });
         // Si tenía el curso revocado (por un reembolso viejo) y lo vuelve a comprar, se reactiva
-        if (!created && enrollment.status === "revoked") {
+        const reactivated = !created && enrollment.status === "revoked";
+        if (reactivated) {
           await enrollment.update({ status: "active", paymentId: paymentIdStr }, { transaction: t });
         }
+        if (created || reactivated) activated.push(product.name);
+      }
+      // La campanita (el mail va después del commit, salvo que esté dado de baja)
+      if (activated.length) {
+        await notify(t, [user.id], {
+          kind: "courses",
+          title: `Ya tenés ${listOf(activated)}`,
+          body: activated.length === 1 ? "Su constelación te espera en Constelaciones." : "Sus constelaciones te esperan en Constelaciones.",
+          link: "/constellations",
+          emailSent: !user.deletedAt,
+        });
       }
 
       const token = user.passwordHash || user.deletedAt ? null : await createPasswordToken(user.id, "set_password", t);

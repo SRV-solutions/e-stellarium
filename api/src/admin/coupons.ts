@@ -2,6 +2,7 @@ import { QueryTypes, type Transaction } from "sequelize";
 import { sequelize } from "../db.js";
 import { Coupon, CouponVoid, User } from "../models/index.js";
 import { HttpError } from "../lib/errors.js";
+import { dateOf, notify } from "../lib/notify.js";
 import { writeAudit, type AuditContext } from "../lib/audit.js";
 import { loadEconomy, SETTINGS } from "../games/economy.js";
 import { uniqueCouponCode } from "../games/examFlow.js";
@@ -189,6 +190,13 @@ export async function issueCoupon(t: Transaction, ctx: AuditContext, input: NewC
       reason: input.reason,
     },
     reversible: true,
+  });
+  await notify(t, [user.id], {
+    kind: "coupon",
+    title: `Te regalamos un cupón del ${coupon.percent} %`,
+    body: `${coupon.code}, vale hasta el ${dateOf(coupon.expiresAt)}. Está en Mis cupones.`,
+    link: "/#mis-cupones",
+    emailSent: input.notify, // el mail lo manda la ruta, después del commit
   });
   return { coupon, user };
 }

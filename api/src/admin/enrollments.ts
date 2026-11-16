@@ -2,6 +2,7 @@ import { Op, QueryTypes, type Transaction } from "sequelize";
 import { sequelize } from "../db.js";
 import { Enrollment, PasswordToken, Product, User } from "../models/index.js";
 import { HttpError } from "../lib/errors.js";
+import { listOf, notify } from "../lib/notify.js";
 import { writeAudit, type AuditContext } from "../lib/audit.js";
 import { generateUniqueAlias } from "../lib/alias.js";
 import { createPasswordToken } from "../lib/passwordTokens.js";
@@ -67,6 +68,17 @@ export async function setStudentCourses(
       { status: "revoked" },
       { where: { userId, productId: products.filter((p) => removed.includes(p.key)).map((p) => p.id) }, transaction: t }
     );
+  }
+
+  if (added.length) {
+    const names = added.map((k) => products.find((p) => p.key === k)!.name);
+    await notify(t, [userId], {
+      kind: "courses",
+      title: `Ya tenés ${listOf(names)}`,
+      body: names.length === 1 ? "Su constelación te espera en Constelaciones." : "Sus constelaciones te esperan en Constelaciones.",
+      link: "/constellations",
+      emailSent: !options.revertsId, // al darlo desde el panel, la ruta manda el mail
+    });
   }
 
   await writeAudit(t, {

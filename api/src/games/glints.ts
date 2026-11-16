@@ -2,6 +2,7 @@ import type { Transaction } from "sequelize";
 import { GlintEvent, StreakBadge, type User } from "../models/index.js";
 import type { GlintReason } from "../models/GlintEvent.js";
 import { BADGE_DAYS, loadEconomy } from "./economy.js";
+import { notify } from "../lib/notify.js";
 
 // Los destellos: una moneda aparte del XP, que se gasta en la tienda. Las estrellas y el examen no dan.
 // Cuántos da cada cosa está en settings (games/economy.ts)
@@ -44,6 +45,12 @@ export async function awardStreakBadges(user: User, streak: number, t: Transacti
     });
     if (!created) continue;
     const glints = await awardGlints(user, "streak_badge", row.id, badge.glints, t);
+    await notify(t, [user.id], {
+      kind: "badge",
+      title: `Ganaste la insignia de ${badge.days} días`,
+      body: `${badge.days} días seguidos jugando.${glints > 0 ? ` Te dio ${glints} destellos.` : ""}`,
+      link: "/",
+    });
     earned.push({ days: badge.days, earnedAt: row.earnedAt, glints });
   }
   return earned;

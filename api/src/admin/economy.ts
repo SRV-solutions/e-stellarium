@@ -1,6 +1,7 @@
 import { QueryTypes, type Transaction } from "sequelize";
 import { sequelize } from "../db.js";
 import { HttpError } from "../lib/errors.js";
+import { checkChallengeBank } from "../games/challengeBank.js";
 import { writeAudit, type AuditContext } from "../lib/audit.js";
 import { Setting, ShopItem } from "../models/index.js";
 import type { ShopItemKind } from "../models/ShopItem.js";
@@ -73,6 +74,8 @@ export async function updateSettings(
   if (group === "challenge") {
     const problem = challengeSettingsProblem(await loadSettings(t));
     if (problem) throw new HttpError(400, problem);
+    // Con otra receta, lo que alcanzaba puede no alcanzar (o al revés)
+    await checkChallengeBank(t);
   }
 
   if (Object.keys(after).length > 0) {

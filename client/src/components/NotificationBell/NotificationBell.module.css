@@ -1,0 +1,352 @@
+.wrap {
+  position: relative;
+}
+
+/* La campana: redonda, sin borde hasta que se pasa el mouse o se abre */
+.bell {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.bell:hover {
+  color: var(--text);
+  border-color: var(--line);
+}
+
+.bell[aria-expanded="true"] {
+  color: var(--text);
+  border-color: var(--line-hover);
+  background: var(--night-3);
+}
+
+.bell svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform-origin: 50% 3px;
+}
+
+.has {
+  color: var(--text);
+}
+
+/* Cuando llega uno nuevo, la campana se balancea una vez */
+.ringing svg {
+  animation: ring 0.9s ease;
+}
+
+@keyframes ring {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20% {
+    transform: rotate(14deg);
+  }
+  40% {
+    transform: rotate(-11deg);
+  }
+  60% {
+    transform: rotate(7deg);
+  }
+  80% {
+    transform: rotate(-4deg);
+  }
+}
+
+/* El número: un punto naranja que tapa el borde de la campana */
+.count {
+  position: absolute;
+  top: 1px;
+  right: -3px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--orange);
+  color: var(--deep);
+  font-size: 11px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 2.5px var(--night);
+  animation: pop 0.25s both;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.4);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* El panel de avisos, debajo de la campana */
+.sheet {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: -64px;
+  z-index: 30;
+  width: 400px;
+  max-height: min(620px, calc(100vh - 110px));
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line-hover);
+  border-radius: 18px;
+  background: var(--night-2);
+  overflow: hidden;
+  animation: rise 0.22s both;
+  text-align: left;
+}
+
+.sheet[hidden] {
+  display: none;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px 10px;
+}
+
+.head h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.head span {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.list {
+  overflow-y: auto;
+  padding: 0 8px 8px;
+}
+
+.list ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.day {
+  margin: 10px 12px 4px;
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+.notice {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+}
+
+button.notice {
+  cursor: pointer;
+}
+
+button.notice:hover {
+  background: rgba(23, 42, 90, 0.7);
+}
+
+.glyph {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--muted);
+}
+
+.glyph svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.text {
+  min-width: 0;
+}
+
+.text b {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.body {
+  display: block;
+  margin-top: 2px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+/* La hora y "también por mail", en una misma fila */
+.when {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--placeholder);
+}
+
+.mail {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mail svg {
+  display: block;
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Las nuevas: un puntito al lado del título y el borde del ícono en su color */
+.newDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+  vertical-align: 2px;
+}
+
+.orange .glyph {
+  color: var(--orange);
+}
+.fresh.orange .glyph {
+  border-color: rgba(255, 153, 0, 0.55);
+}
+.glint .glyph {
+  color: var(--glint);
+}
+.fresh.glint .glyph {
+  border-color: rgba(143, 227, 255, 0.5);
+}
+.mint .glyph {
+  color: var(--mint);
+}
+.fresh.mint .glyph {
+  border-color: rgba(63, 224, 162, 0.5);
+}
+.coral .glyph {
+  color: var(--coral);
+}
+.fresh.coral .glyph {
+  border-color: rgba(255, 122, 107, 0.55);
+}
+.violet .glyph {
+  color: var(--violet);
+}
+.fresh.violet .glyph {
+  border-color: rgba(185, 166, 255, 0.5);
+}
+
+.empty {
+  margin: 0;
+  padding: 24px 24px 30px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty svg {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 4px;
+  fill: none;
+  stroke: var(--dim);
+  stroke-width: 1.4;
+}
+
+.empty p {
+  margin: 0;
+}
+
+.empty .dot {
+  fill: var(--dim);
+}
+
+.foot {
+  padding: 10px 20px 14px;
+  border-top: 1px solid rgba(36, 55, 107, 0.6);
+  font-size: 12px;
+  color: var(--placeholder);
+}
+
+/* Celular: el panel ocupa el ancho, debajo del encabezado */
+@media (max-width: 760px) {
+  .sheet {
+    position: fixed;
+    top: 76px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    max-height: calc(100vh - 88px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ringing svg,
+  .count,
+  .sheet {
+    animation: none;
+  }
+  .bell {
+    transition: none;
+  }
+}
