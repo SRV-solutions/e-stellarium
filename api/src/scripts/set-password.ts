@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { sequelize } from "../db.js";
 import { PasswordToken, User } from "../models/index.js";
+import { writeAudit } from "../lib/audit.js";
 import { hashPassword, validatePassword } from "../lib/password.js";
 
 // Cambia la contraseña de un usuario desde la compu, para cuando el mail de "Olvidé mi contraseña"
@@ -23,6 +24,15 @@ try {
     if (!user) throw new Error(`No existe un usuario con el email ${email}.`);
     await user.update({ passwordHash }, { transaction: t });
     await PasswordToken.update({ usedAt: new Date() }, { where: { userId: user.id, usedAt: null }, transaction: t });
+    // Sin actor (es un script) y sin la contraseña ni su hash. No se puede revertir
+    await writeAudit(t, {
+      actorId: null,
+      ip: null,
+      action: "user.password_set",
+      targetType: "user",
+      targetId: user.id,
+      reversible: false,
+    });
   });
   console.log(`Listo: ${email} ya puede entrar con la contraseña nueva.`);
 } catch (err) {

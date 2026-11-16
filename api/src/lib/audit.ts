@@ -22,6 +22,7 @@ export type AuditAction =
   | "enrollment.grant" // cursos dados a mano a un alumno
   | "enrollment.revoke" // un curso sacado a mano
   | "user.link_resent" // un link para crear o cambiar la contraseña
+  | "user.password_set" // contraseña cambiada desde la compu con el script (sin actor, no reversible)
   | "challenge.update" // el horario y la receta de los desafíos (settings challenge.*)
   | "coupon.issue" // un cupón de regalo emitido a mano
   | "coupon.void" // un cupón anulado

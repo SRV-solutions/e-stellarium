@@ -23,6 +23,7 @@ export const ACTION_FILTERS: { value: string; label: string }[] = [
   { value: "enrollment.grant", label: "Cursos dados" },
   { value: "enrollment.revoke", label: "Cursos sacados" },
   { value: "user.link_resent", label: "Links reenviados" },
+  { value: "user.password_set", label: "Contraseñas cambiadas" },
   { value: "coupon.issue", label: "Cupones emitidos" },
   { value: "coupon.void", label: "Cupones anulados" },
   { value: "challenge.update", label: "Cambios en los desafíos" },
@@ -128,6 +129,8 @@ export function sentence(entry: AuditEntry, target: ReactNode): ReactNode {
       ) : (
         <>le reenvió a {target} el link para crear la contraseña</>
       );
+    case "user.password_set":
+      return <>le cambió la contraseña a {target}</>;
     case "audit.revert":
       return (
         <>
