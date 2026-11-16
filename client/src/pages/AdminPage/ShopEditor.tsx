@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Avatar } from "../../components/Avatar/Avatar";
+import { ConfirmDialog } from "../../components/ConfirmDialog/ConfirmDialog";
 import { Glint } from "../../components/Glint/Glint";
 import { useAuth } from "../../auth/useAuth";
 import { SHOP_GROUPS } from "../../lib/economy";
@@ -37,6 +38,7 @@ const LOCK = (
 export function ShopEditor({ items, edits, added, disabled, freezeLimit, onEdit, onAdd, onChangeNew, onDropNew }: Props) {
   const { user } = useAuth();
   const [open, setOpen] = useState<string | null>(null); // el id (o tempId) que se está editando
+  const [retiring, setRetiring] = useState<{ id: string; name: string } | null>(null); // el ítem que se está por retirar
 
   function add(kind: ShopItemKind) {
     const tempId = `nuevo-${crypto.randomUUID()}`;
@@ -106,7 +108,7 @@ export function ShopEditor({ items, edits, added, disabled, freezeLimit, onEdit,
                             type="button"
                             className={styles.ghost}
                             disabled={disabled}
-                            onClick={() => onEdit(item.id, { active: !form.active })}
+                            onClick={() => (form.active ? setRetiring({ id: item.id, name: form.name || item.name }) : onEdit(item.id, { active: true }))}
                           >
                             {form.active ? "Retirar" : "Volver a vender"}
                           </button>
@@ -178,6 +180,21 @@ export function ShopEditor({ items, edits, added, disabled, freezeLimit, onEdit,
           </section>
         );
       })}
+
+      <ConfirmDialog
+        open={retiring !== null}
+        title={`¿Retirar ${retiring?.name ?? ""} de la tienda?`}
+        cancelLabel="Cancelar"
+        confirmLabel="Retirar"
+        onCancel={() => setRetiring(null)}
+        onConfirm={() => {
+          if (retiring) onEdit(retiring.id, { active: false });
+          setRetiring(null);
+        }}
+      >
+        Deja de venderse cuando guardes los cambios de Economía. Quien ya lo compró lo sigue teniendo, y lo podés volver a
+        vender cuando quieras.
+      </ConfirmDialog>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 import { Link, NavLink } from "react-router";
 import { useAuth } from "../../auth/useAuth";
 import logo from "../../assets/logo-srv.png";
+import { useCourses } from "../../hooks/useCourses";
 import { levelFor } from "../../lib/levels";
 import { adminSectionsFor } from "../../lib/permissions";
 import { Avatar } from "../Avatar/Avatar";
@@ -74,6 +75,7 @@ export function AppHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [drawerTop, setDrawerTop] = useState(68);
   const barRef = useRef<HTMLElement>(null);
+  const { state: courses } = useCourses();
 
   // El menú del celular se cierra con Escape
   useEffect(() => {
@@ -88,7 +90,9 @@ export function AppHeader() {
   if (!user) return null;
   const level = levelFor(user.totalXp);
   const staff = adminSectionsFor(user).length > 0;
-  const links = staff ? [...LINKS, PANEL_LINK] : LINKS;
+  // El staff sin cursos no juega: solo ve el panel. Mientras carga la lista también (para que el menú no parpadee)
+  const panelOnly = staff && (courses.status === "loading" || (courses.status === "ready" && courses.courses.length === 0));
+  const links = panelOnly ? [PANEL_LINK] : staff ? [...LINKS, PANEL_LINK] : LINKS;
 
   function toggleMenu() {
     // El panel arranca justo debajo del encabezado, esté donde esté (si bajaste un poco, más arriba)
@@ -117,26 +121,30 @@ export function AppHeader() {
           </nav>
 
           <div className={styles.user}>
-            {stats && <StreakChip streak={stats.streak} activeToday={stats.activeToday} />}
-            <Link
-              to="/shop"
-              className={styles.glints}
-              title="Destellos para la tienda"
-              aria-label={`${format(user.glints)} destellos. Ir a la tienda`}
-            >
-              <Glint />
-              {format(user.glints)}
-            </Link>
-            <Link
-              to="/"
-              className={styles.level}
-              aria-label={`Nivel ${level.level}, ${level.name}, ${user.totalXp} XP`}
-              title={`${level.name}. Te faltan ${level.xpToNext} XP para el nivel ${level.level + 1}`}
-            >
-              <BrandGauge progress={level.progress} still className={styles.gauge} />
-              <b className={styles.levelNumber}>Nivel {level.level}</b>
-              <span className={styles.xp}>{user.totalXp} XP</span>
-            </Link>
+            {!panelOnly && stats && <StreakChip streak={stats.streak} activeToday={stats.activeToday} />}
+            {!panelOnly && (
+              <>
+                <Link
+                  to="/shop"
+                  className={styles.glints}
+                  title="Destellos para la tienda"
+                  aria-label={`${format(user.glints)} destellos. Ir a la tienda`}
+                >
+                  <Glint />
+                  {format(user.glints)}
+                </Link>
+                <Link
+                  to="/"
+                  className={styles.level}
+                  aria-label={`Nivel ${level.level}, ${level.name}, ${user.totalXp} XP`}
+                  title={`${level.name}. Te faltan ${level.xpToNext} XP para el nivel ${level.level + 1}`}
+                >
+                  <BrandGauge progress={level.progress} still className={styles.gauge} />
+                  <b className={styles.levelNumber}>Nivel {level.level}</b>
+                  <span className={styles.xp}>{user.totalXp} XP</span>
+                </Link>
+              </>
+            )}
             <NotificationBell />
             <Avatar alias={user.alias} frame={user.wornFrame} className={styles.avatar} />
             <button type="button" className={styles.logout} onClick={() => setConfirming(true)} aria-label="Salir">
@@ -172,17 +180,21 @@ export function AppHeader() {
           <Avatar alias={user.alias} frame={user.wornFrame} size={52} />
           <div>
             <strong>{user.alias}</strong>
-            <span className={styles.whoLevel}>
-              Nivel {level.level} · {level.name} · <b>{format(user.totalXp)} XP</b>
-            </span>
+            {!panelOnly && (
+              <span className={styles.whoLevel}>
+                Nivel {level.level} · {level.name} · <b>{format(user.totalXp)} XP</b>
+              </span>
+            )}
           </div>
-          <div className={styles.balance}>
-            <b>
-              <Glint />
-              {format(user.glints)}
-            </b>
-            destellos
-          </div>
+          {!panelOnly && (
+            <div className={styles.balance}>
+              <b>
+                <Glint />
+                {format(user.glints)}
+              </b>
+              destellos
+            </div>
+          )}
         </div>
         {links.map((link, i) => (
           <NavLink

@@ -34,6 +34,7 @@ export function PersonCard({ id, roles, meId, onClose, onChanged }: Props) {
   const [pick, setPick] = useState<RoleKey | null>(null); // el rol elegido y todavía sin guardar
   const [teach, setTeach] = useState<string[] | null>(null); // los cursos tildados y todavía sin guardar
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [confirmRole, setConfirmRole] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -51,11 +52,11 @@ export function PersonCard({ id, roles, meId, onClose, onChanged }: Props) {
   // Escape cierra la ficha (si no está abierto el diálogo de la baja, que se cierra solo)
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !confirmDelete) onClose();
+      if (event.key === "Escape" && !confirmDelete && !confirmRole) onClose();
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [confirmDelete, onClose]);
+  }, [confirmDelete, confirmRole, onClose]);
 
   // Cambiar el rol, dar de baja o restaurar: los tres siguen el mismo camino
   async function act(path: string, method: string, body: object | undefined, message: string) {
@@ -169,14 +170,7 @@ export function PersonCard({ id, roles, meId, onClose, onChanged }: Props) {
                 type="button"
                 className={`${styles.button} ${styles.primary}`}
                 disabled={busy}
-                onClick={() =>
-                  act(
-                    `/admin/users/${person.id}/role`,
-                    "PATCH",
-                    { role: pick },
-                    `Listo: ${name} pasó de ${ROLE_NAMES[person.role]} a ${ROLE_NAMES[pick]}.`
-                  )
-                }
+                onClick={() => setConfirmRole(true)}
               >
                 Cambiar el rol
               </button>
@@ -296,6 +290,27 @@ export function PersonCard({ id, roles, meId, onClose, onChanged }: Props) {
           )}
         </section>
       )}
+
+      <ConfirmDialog
+        open={confirmRole && pick !== null}
+        title={`¿Cambiar el rol de ${name}?`}
+        cancelLabel="Cancelar"
+        confirmLabel="Cambiar el rol"
+        onCancel={() => setConfirmRole(false)}
+        onConfirm={() => {
+          setConfirmRole(false);
+          if (pick)
+            act(
+              `/admin/users/${person.id}/role`,
+              "PATCH",
+              { role: pick },
+              `Listo: ${name} pasó de ${ROLE_NAMES[person.role]} a ${ROLE_NAMES[pick]}.`
+            );
+        }}
+      >
+        Pasa de {ROLE_NAMES[person.role]} a {pick ? ROLE_NAMES[pick] : ""}.{consequence} Queda en la bitácora y se puede
+        revertir desde ahí.
+      </ConfirmDialog>
 
       <ConfirmDialog
         open={confirmDelete}

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { api, ApiError } from "../../lib/api";
 import { PERMISSION_GROUPS, PERMISSION_NAMES, ROLE_NAMES } from "../../lib/permissions";
 import type { Permission, RoleInfo, RoleKey } from "../../types";
+import { ConfirmDialog } from "../../components/ConfirmDialog/ConfirmDialog";
 import { Toast } from "./Toast";
 import styles from "./RolesPage.module.css";
 
@@ -28,6 +29,7 @@ export function RolesPage() {
   const [draft, setDraft] = useState<Draft>({}); // lo que se tocó y todavía no se guardó
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const clearToast = useCallback(() => setToast(null), []);
 
@@ -188,13 +190,28 @@ export function RolesPage() {
           <button type="button" className={styles.button} onClick={() => setDraft({})} disabled={saving}>
             Descartar
           </button>
-          <button type="button" className={`${styles.button} ${styles.primary}`} onClick={save} disabled={saving}>
+          <button type="button" className={`${styles.button} ${styles.primary}`} onClick={() => setConfirming(true)} disabled={saving}>
             {saving ? "Guardando…" : "Guardar"}
           </button>
         </div>
       </div>
 
       <Toast message={toast} onDone={clearToast} />
+
+      <ConfirmDialog
+        open={confirming}
+        title="¿Guardar los permisos?"
+        cancelLabel="Cancelar"
+        confirmLabel="Guardar"
+        onCancel={() => setConfirming(false)}
+        onConfirm={() => {
+          setConfirming(false);
+          save();
+        }}
+      >
+        Cambian los permisos de {changed.map((r) => ROLE_NAMES[r.key]).join(" y ")}. Se aplican en el momento, quedan en
+        la bitácora y se pueden revertir.
+      </ConfirmDialog>
     </div>
   );
 }
