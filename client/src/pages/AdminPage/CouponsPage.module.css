@@ -61,8 +61,11 @@ li.row:hover {
 /* El porcentaje como una ficha recortada, como en "Mis cupones" */
 .ticket {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 1px;
+  line-height: 44px;
   height: 44px;
   border: 1px dashed var(--orange);
   border-radius: 10px;
@@ -269,7 +272,7 @@ li.row:hover {
 
 /* Un número con su unidad, como en Economía */
 .num {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
   height: 40px;
@@ -281,8 +284,11 @@ li.row:hover {
 }
 
 .num input {
+  flex: 1;
   width: 100%;
   min-width: 0;
+  height: 100%;
+  padding: 0;
   border: 0;
   outline: none;
   background: none;
