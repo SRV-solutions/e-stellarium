@@ -85,6 +85,7 @@ describe("GET /ranking", () => {
 
     await person("admin@test.com", "staff", "admin");
     const staff = await loginAs("admin@test.com");
-    expect((await staff.get("/ranking")).body.me).toBeNull();
+    // El staff que no cursa nada ni siquiera ve el ranking (ver requirePlayer)
+    await staff.get("/ranking").expect(403);
   });
 });

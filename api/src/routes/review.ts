@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { requireAuth } from "../middlewares/requireAuth.js";
+import { requirePlayer } from "../middlewares/requirePlayer.js";
 import { HttpError } from "../lib/errors.js";
 import { isUuid } from "../lib/uuid.js";
 import { answerReview, getTodayReview } from "../games/review.js";
@@ -7,11 +8,11 @@ import { answerReview, getTodayReview } from "../games/review.js";
 export const reviewRouter = Router();
 
 // El repaso de hoy (se arma la primera vez que se abre). Si todavía no jugó ninguna lección, null
-reviewRouter.get("/review/today", requireAuth, async (req, res) => {
+reviewRouter.get("/review/today", requireAuth, requirePlayer, async (req, res) => {
   res.json({ review: await getTodayReview(req.user!.id) });
 });
 
-reviewRouter.post("/reviews/:id/answer", requireAuth, async (req, res) => {
+reviewRouter.post("/reviews/:id/answer", requireAuth, requirePlayer, async (req, res) => {
   const { id } = req.params;
   if (!isUuid(id)) throw new HttpError(404, "No encontramos ese repaso.");
 

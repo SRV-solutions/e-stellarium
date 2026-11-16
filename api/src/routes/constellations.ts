@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { Constellation, Coupon, Enrollment, ExamAttempt, Product, Question, Star, StarCompletion } from "../models/index.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
+import { requirePlayer } from "../middlewares/requirePlayer.js";
 import { examOpensAt, unlockedStarIds } from "../games/unlock.js";
 import { computeExamState } from "../games/examState.js";
 import { couponPercent } from "../games/exam.js";
@@ -11,7 +12,7 @@ import { practiceWhere } from "../games/practice.js";
 
 export const constellationsRouter = Router();
 
-constellationsRouter.get("/constellations", requireAuth, async (req, res) => {
+constellationsRouter.get("/constellations", requireAuth, requirePlayer, async (req, res) => {
   const userId = req.user!.id;
 
   // Los cursos del alumno
