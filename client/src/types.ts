@@ -527,3 +527,62 @@ export type QuestionDetail = {
   history: { number: number; status: VersionStatus; author: string | null; createdAt: string; submittedAt: string | null; answers: number }[];
   reviews: { version: number; decision: "approved" | "rejected"; comment: string | null; reviewer: string | null; createdAt: string }[];
 };
+
+// ---------- Alumnos del panel (GET /admin/students) ----------
+
+export type StudentRow = {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+  lastActiveOn: string | null;
+  streak: number;
+  courses: { key: string; name: string; lit: number; total: number; passed: boolean }[];
+};
+
+export type StudentsPage = {
+  students: StudentRow[];
+  total: number;
+  courses: { key: string; name: string; count: number }[]; // los cursos para filtrar (el docente, los suyos)
+  nextOffset: number | null;
+};
+
+// El examen de un curso, con el estado que ve el alumno (ExamState) más lo que suma la ficha
+export type StudentExam =
+  | ({ status: "locked" } | { status: "waiting"; opensAt: string } | { status: "open" } | { status: "in_progress" }
+      | { status: "retry_wait"; opensAt: string; lastCorrect: number } | { status: "passed"; correctCount: number }) & {
+      attempts: number;
+      passedAt: string | null;
+      couponPercent: number | null;
+    };
+
+export type StudentCourse = {
+  key: string;
+  name: string;
+  status: "active" | "revoked";
+  manual: boolean; // dado desde el panel (no comprado)
+  revokedAt: string | null;
+  lit: number;
+  total: number;
+  // Dónde va: la primera lección que no encendió (null si las encendió todas)
+  current: { module: number | null; moduleTitle: string | null; lesson: string; index: number; of: number } | null;
+  modules: { number: number | null; title: string | null; lessons: { title: string; lit: boolean }[] }[];
+  exam: StudentExam | null;
+};
+
+export type StudentDetail = {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+  deletedAt: string | null;
+  totalXp: number;
+  lastActiveOn: string | null;
+  streak: number;
+  courses: StudentCourse[];
+  challenges: { publishedAt: string; correct: number | null; total: number | null; finished: boolean; played: boolean }[];
+  // Solo con users:manage
+  access?: { hasPassword: boolean; linkUntil: string | null };
+  auditCount?: number;
+  courseOptions?: { key: string; name: string }[];
+};

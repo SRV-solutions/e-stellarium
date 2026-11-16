@@ -18,6 +18,7 @@ import { AuditPage } from "./pages/AdminPage/AuditPage";
 import { PeoplePage } from "./pages/AdminPage/PeoplePage";
 import { RolesPage } from "./pages/AdminPage/RolesPage";
 import { EconomyPage } from "./pages/AdminPage/EconomyPage";
+import { StudentsPage } from "./pages/AdminPage/StudentsPage";
 import { ContentPage } from "./pages/AdminPage/ContentPage";
 import { QuestionPage } from "./pages/AdminPage/QuestionPage";
 import { ADMIN_SECTIONS } from "./lib/permissions";
@@ -124,6 +125,14 @@ export default function App() {
               element={
                 <ProtectedRoute anyOf={["roles:manage"]}>
                   <RolesPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="students"
+              element={
+                <ProtectedRoute anyOf={["students:view"]}>
+                  <StudentsPage />
                 </ProtectedRoute>
               }
             />

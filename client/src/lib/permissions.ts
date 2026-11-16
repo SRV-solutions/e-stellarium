@@ -11,6 +11,7 @@ export const ADMIN_SECTIONS: { to: string; label: string; permissions: Permissio
   { to: "/admin/roles", label: "Roles", permissions: ["roles:manage"] },
   { to: "/admin/content", label: "Contenido", permissions: ["content:edit", "content:approve"] },
   { to: "/admin/economy", label: "Economía", permissions: ["economy:edit"] },
+  { to: "/admin/students", label: "Alumnos", permissions: ["students:view"] },
 ];
 
 export const adminSectionsFor = (user: User | null) =>

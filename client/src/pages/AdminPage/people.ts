@@ -21,6 +21,9 @@ export const streakNote = (person: Person) => (person.streak > 0 ? `racha de ${p
 export const dayMonth = (iso: string) =>
   new Date(iso).toLocaleDateString("es-AR", { day: "numeric", month: "long", timeZone: TIME_ZONE });
 
+// "Master en Python" → "Python": en la regla de cursos y en la ficha entra mejor
+export const shortName = (name: string) => name.replace(/^(Master en|Curso de|Curso)\s+/i, "");
+
 export const firstName = (name: string) => name.trim().split(/\s+/)[0];
 
 // Qué puede hacer cada rol, en una línea que sale de sus permisos de hoy

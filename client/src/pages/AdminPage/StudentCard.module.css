@@ -1,0 +1,386 @@
+/* Lo propio de la ficha de un alumno; la base (card, who, sect, botones) está en PersonCard.module.css */
+
+/* En escritorio la ficha no pasa del alto de la pantalla: se scrollea adentro */
+.card {
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 18px 0 0;
+}
+
+.facts div {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(5, 13, 36, 0.5);
+}
+
+.facts dt {
+  font-size: 12px;
+  color: var(--placeholder);
+}
+
+.facts dd {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.facts dd small {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.facts dd.small {
+  font-size: 15px;
+}
+
+.goneBox {
+  margin: 16px 0 0;
+}
+
+/* Cada curso: dónde va, la barra, el examen y el recorrido */
+.courses {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.course {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(5, 13, 36, 0.5);
+  font-size: 14px;
+}
+
+.off {
+  opacity: 0.6;
+}
+
+.off b {
+  text-decoration: line-through;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+}
+
+.top b {
+  font-size: 16px;
+}
+
+.top small {
+  font-size: 12px;
+  color: var(--placeholder);
+}
+
+.top button {
+  margin-left: auto;
+}
+
+.sm {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.where {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 0;
+}
+
+.where b {
+  font-weight: 600;
+}
+
+.where svg {
+  flex-shrink: 0;
+  width: 13px;
+  height: 13px;
+}
+
+.meter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--placeholder);
+}
+
+.bar {
+  position: relative;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--track);
+}
+
+.bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 2px;
+  background: var(--orange);
+}
+
+.done i {
+  background: var(--mint);
+}
+
+.exam {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.exam svg {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  margin-top: 2px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ok svg {
+  color: var(--mint);
+}
+
+.fail svg {
+  color: var(--coral);
+}
+
+.wait svg {
+  color: var(--muted);
+}
+
+.see {
+  margin-top: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--orange);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.see:hover {
+  text-decoration: underline;
+}
+
+.give {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.give select {
+  flex: 1 1 160px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(5, 13, 36, 0.6);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+
+/* Las estrellas de cuatro puntas */
+.lit {
+  fill: var(--orange);
+}
+
+.unlit {
+  fill: none;
+  stroke: var(--dim);
+  stroke-width: 1.4;
+}
+
+/* Desafíos: cuatro casilleros, uno por desafío */
+.challenges {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.challenges li {
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(5, 13, 36, 0.5);
+}
+
+.challenges b {
+  display: block;
+  font-size: 17px;
+  font-variant-numeric: tabular-nums;
+}
+
+.challenges b small {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--placeholder);
+}
+
+.challenges span {
+  font-size: 12px;
+  color: var(--placeholder);
+}
+
+.skip b {
+  color: var(--dim);
+}
+
+.access {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.access svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pending svg {
+  color: var(--orange);
+}
+
+.access span {
+  flex: 1 1 180px;
+}
+
+.access small {
+  display: block;
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+/* El recorrido: un diálogo con cada módulo y sus estrellas */
+.dialog {
+  width: min(480px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 26px 26px 22px;
+  border: 1px solid var(--line-hover);
+  border-radius: 18px;
+  background: var(--night-2);
+  color: var(--text);
+}
+
+.dialog::backdrop {
+  background: rgba(3, 8, 23, 0.7);
+}
+
+.dialog h2 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+.dialogNote {
+  margin: 6px 0 14px;
+  color: var(--muted);
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.mods {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 6px;
+  padding: 0;
+  list-style: none;
+}
+
+.mods li {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--placeholder);
+}
+
+.modTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modDone .modTitle,
+.modHere .modTitle {
+  color: var(--text);
+}
+
+.modHere .modTitle::after {
+  content: " · por acá va";
+  color: var(--orange);
+}
+
+.stars {
+  display: flex;
+  gap: 3px;
+}
+
+.stars svg {
+  width: 11px;
+  height: 11px;
+}
+
+@media (max-width: 1060px) {
+  .card {
+    max-height: 88vh;
+  }
+}
+
+@media (max-width: 640px) {
+  .facts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

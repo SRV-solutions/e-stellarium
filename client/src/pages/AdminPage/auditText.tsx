@@ -19,6 +19,10 @@ export const ACTION_FILTERS: { value: string; label: string }[] = [
   { value: "content.unpublish", label: "Contenido despublicado" },
   { value: "content.republish", label: "Contenido publicado de nuevo" },
   { value: "teacher.courses_update", label: "Cursos de docentes" },
+  { value: "user.create", label: "Altas manuales" },
+  { value: "enrollment.grant", label: "Cursos dados" },
+  { value: "enrollment.revoke", label: "Cursos sacados" },
+  { value: "user.link_resent", label: "Links reenviados" },
   { value: "audit.revert", label: "Reversiones" },
   { value: "auth.login", label: "Inicios de sesión" },
   { value: "integrity.fail", label: "Fallas de integridad" },
@@ -96,6 +100,18 @@ export function sentence(entry: AuditEntry, target: ReactNode): ReactNode {
       return <>volvió a publicar {target}</>;
     case "teacher.courses_update":
       return <>cambió los cursos que da {target}</>;
+    case "user.create":
+      return <>dio de alta a {target}</>;
+    case "enrollment.grant":
+      return <>le dio cursos a {target}</>;
+    case "enrollment.revoke":
+      return <>le sacó un curso a {target}</>;
+    case "user.link_resent":
+      return entry.after?.link === "reset_password" ? (
+        <>le mandó a {target} un link para cambiar la contraseña</>
+      ) : (
+        <>le reenvió a {target} el link para crear la contraseña</>
+      );
     case "audit.revert":
       return (
         <>
@@ -238,6 +254,9 @@ export function revertOutcome(entry: AuditEntry): string {
   if (entry.action === "shop.create") return `${name} se retira de la tienda (quien lo compró lo sigue teniendo).`;
   if (entry.action === "shop.update") return `${name} vuelve a como estaba: ${describeValue(entry.before)}.`;
   if (entry.action === "teacher.courses_update") return `${name} vuelve a dar: ${describeValue(entry.before)}.`;
+  if (entry.action === "enrollment.grant" || entry.action === "enrollment.revoke") {
+    return `${name} vuelve a tener: ${describeValue(entry.before)}. Su avance no se borra, y no le mandamos ningún mail.`;
+  }
   if (entry.action === "content.approve") {
     const back = typeof entry.before?.version === "number" ? `los alumnos vuelven a ver la v${entry.before.version}` : "los alumnos dejan de verla";
     return `La v${String(entry.after?.version)} vuelve a revisión y ${back}. No se puede si alguien ya la jugó.`;
