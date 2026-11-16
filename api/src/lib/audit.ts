@@ -18,6 +18,10 @@ export type AuditAction =
   | "content.unpublish" // los alumnos dejan de verla
   | "content.republish" // la vuelven a ver
   | "teacher.courses_update" // los cursos que da un docente
+  | "user.create" // alta manual de una cuenta
+  | "enrollment.grant" // cursos dados a mano a un alumno
+  | "enrollment.revoke" // un curso sacado a mano
+  | "user.link_resent" // un link para crear o cambiar la contraseña
   | "audit.revert"
   | "integrity.fail";
 

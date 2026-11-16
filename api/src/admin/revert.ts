@@ -25,6 +25,16 @@ import {
   unpublishQuestion,
   unrejectQuestion,
 } from "./content.js";
+import { activeCourses, setStudentCourses } from "./enrollments.js";
+
+// Dar y sacar cursos se revierten igual: el alumno vuelve a tener los cursos que tenía antes
+const coursesReverter = (): Reverter => ({
+  current: async (t, log) => ({ courses: await activeCourses(log.targetId!, t) }),
+  undo: (t, ctx, log) =>
+    setStudentCourses(t, ctx, log.targetId!, (log.before as Values).courses as string[], "enrollment.grant", {
+      revertsId: log.id,
+    }),
+});
 
 // Cómo se revierte cada acción reversible: qué valor tiene hoy, y cómo se vuelve al "before".
 // Se vuelve con las mismas funciones del cambio original, así valen las mismas protecciones
@@ -45,6 +55,8 @@ async function userOf(t: Transaction, log: AuditLog) {
 }
 
 const REVERTERS: Record<string, Reverter> = {
+  "enrollment.grant": coursesReverter(),
+  "enrollment.revoke": coursesReverter(),
   "user.role_update": {
     current: async (t, log) => {
       const user = await userOf(t, log);

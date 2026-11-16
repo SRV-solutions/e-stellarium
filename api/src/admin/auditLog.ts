@@ -105,6 +105,17 @@ export async function listAudit(filters: AuditFilters) {
     }
   );
 
+  // Los cursos se guardan por clave ("fundamentos-backend"); la pantalla los muestra con su nombre
+  const products = await sequelize.query<{ key: string; name: string }>("SELECT key, name FROM products", {
+    type: QueryTypes.SELECT,
+  });
+  const names = new Map(products.map((p) => [p.key, p.name]));
+  const withNames = (value: unknown) => {
+    const courses = (value as { courses?: unknown } | null)?.courses;
+    if (!Array.isArray(courses)) return value;
+    return { ...(value as object), courses: courses.map((k: string) => names.get(k) ?? k) };
+  };
+
   return {
     entries: rows.map((r) => ({
       id: r.id,
@@ -113,8 +124,8 @@ export async function listAudit(filters: AuditFilters) {
       ip: r.ip,
       action: r.action,
       target: r.target_type ? { type: r.target_type, id: r.target_id, name: r.target_name } : null,
-      before: r.before,
-      after: r.after,
+      before: withNames(r.before),
+      after: withNames(r.after),
       reversible: r.reversible,
       revertsId: r.reverts_id,
       revertedBy: r.reverted_by,

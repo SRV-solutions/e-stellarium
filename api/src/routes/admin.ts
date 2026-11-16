@@ -22,7 +22,8 @@ import {
   updateSettings,
   updateShopItem,
 } from "../admin/economy.js";
-import { ShopItem } from "../models/index.js";
+import { ShopItem, User } from "../models/index.js";
+import { createPasswordToken } from "../lib/passwordTokens.js";
 import {
   approveQuestion,
   contentScope,
@@ -40,6 +41,22 @@ import {
   updateQuestion,
   withdrawQuestion,
 } from "../admin/content.js";
+
+import { listStudents, parseStudentFilters, studentDetail } from "../admin/students.js";
+import {
+  courseNames,
+  createEnrollment,
+  grantCourse,
+  lookupEnrollment,
+  parseCourseKey,
+  parseNewEnrollment,
+  resendLink,
+  revokeCourse,
+} from "../admin/enrollments.js";
+import { can } from "../lib/permissions.js";
+import { sendMail } from "../lib/mailer.js";
+import { newCoursesEmail, resetPasswordEmail, welcomeEmail } from "../lib/email.js";
+import { config } from "../config.js";
 
 export const adminRouter = Router();
 
@@ -246,4 +263,84 @@ adminRouter.put("/admin/users/:id/teaching", requireAuth, requirePermission("rol
   const keys = parseCourseKeys(req.body?.courses);
   const courses = await sequelize.transaction((t) => setTeacherCourses(t, auditContext(req), userId, keys));
   res.json({ courses });
+});
+
+// ---------- Alumnos (bloque 5, paso 5) ----------
+
+// El docente ve solo los alumnos de sus cursos (y solo esos cursos); el resto con students:view, todos
+adminRouter.get("/admin/students", requireAuth, requirePermission("students:view"), async (req, res) => {
+  const scope = await contentScope(req.user!);
+  res.json(await listStudents(parseStudentFilters(req.query), scope));
+});
+
+adminRouter.get("/admin/students/:id", requireAuth, requirePermission("students:view"), async (req, res) => {
+  const id = req.params.id;
+  if (!isUuid(id)) throw new HttpError(404, "No existe ese alumno.");
+  const scope = await contentScope(req.user!);
+  res.json({ student: await studentDetail(id, scope, await can(req.user!, "users:manage")) });
+});
+
+// Los mails van después del commit (un mail no se deshace). Si falla, el cambio queda igual y se avisa
+async function trySend(to: string, mail: { subject: string; html: string }) {
+  try {
+    await sendMail({ to, ...mail });
+    return true;
+  } catch (err) {
+    console.error("No se pudo enviar el mail", err);
+    return false;
+  }
+}
+
+// Cursos nuevos: la bienvenida con el link si todavía no tiene contraseña; si no, el aviso de siempre
+async function coursesMail(user: { email: string; name: string }, token: string | null, added: string[], all: string[]) {
+  return token
+    ? trySend(user.email, welcomeEmail(user.name, `${config.appUrl}/create-password?token=${token}`, await courseNames(all)))
+    : trySend(user.email, newCoursesEmail(user.name, await courseNames(added)));
+}
+
+// Para el diálogo de alta: ?email= dice si ya tiene cuenta (y con qué cursos) y qué cursos se pueden dar
+adminRouter.get("/admin/enrollments/lookup", requireAuth, requirePermission("users:manage"), async (req, res) => {
+  const email = typeof req.query.email === "string" ? req.query.email.slice(0, 200) : "";
+  res.json(await lookupEnrollment(email));
+});
+
+// Alta manual: { email, name, courses }. Si el email ya tiene cuenta, le suma los cursos
+adminRouter.post("/admin/enrollments", requireAuth, requirePermission("users:manage"), async (req, res) => {
+  const input = parseNewEnrollment(req.body);
+  const result = await sequelize.transaction((t) => createEnrollment(t, auditContext(req), input));
+  const emailSent = await coursesMail(result.user, result.token, result.added, result.courses);
+  res.status(201).json({ userId: result.user.id, created: result.created, courses: result.courses, emailSent });
+});
+
+// Darle un curso desde la ficha (o devolvérselo): { course }
+adminRouter.post("/admin/users/:id/courses", requireAuth, requirePermission("users:manage"), async (req, res) => {
+  const userId = userIdParam(req);
+  const key = parseCourseKey(req.body?.course);
+  const { user, token, added, after } = await sequelize.transaction(async (t) => {
+    const change = await grantCourse(t, auditContext(req), userId, key);
+    const user = (await User.scope("withPassword").findByPk(userId, { transaction: t }))!;
+    return { ...change, user, token: user.passwordHash ? null : await createPasswordToken(userId, "set_password", t) };
+  });
+  const emailSent = await coursesMail(user, token, added, after);
+  res.json({ courses: after, emailSent });
+});
+
+// Sacarle un curso: pasa a revocado (el avance queda guardado). Sin mail
+adminRouter.delete("/admin/users/:id/courses/:course", requireAuth, requirePermission("users:manage"), async (req, res) => {
+  const userId = userIdParam(req);
+  const key = parseCourseKey(req.params.course);
+  const { after } = await sequelize.transaction((t) => revokeCourse(t, auditContext(req), userId, key));
+  res.json({ courses: after });
+});
+
+// Reenviar el link para crear la contraseña (o mandar uno para cambiarla, si ya tiene)
+adminRouter.post("/admin/users/:id/link", requireAuth, requirePermission("users:manage"), async (req, res) => {
+  const userId = userIdParam(req);
+  const { user, type, token, courses } = await sequelize.transaction((t) => resendLink(t, auditContext(req), userId));
+  const link = `${config.appUrl}/create-password?token=${token}`;
+  const emailSent = await trySend(
+    user.email,
+    type === "set_password" ? welcomeEmail(user.name, link, await courseNames(courses)) : resetPasswordEmail(user.name, link)
+  );
+  res.json({ type, emailSent });
 });
