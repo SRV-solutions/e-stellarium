@@ -13,6 +13,7 @@ import { ExamAttempt } from "./ExamAttempt.js";
 import { ExamAttemptQuestion } from "./ExamAttemptQuestion.js";
 import { Coupon } from "./Coupon.js";
 import { CouponVoid } from "./CouponVoid.js";
+import { DemoLead } from "./DemoLead.js";
 import { DailyActivity } from "./DailyActivity.js";
 import { DailyReview } from "./DailyReview.js";
 import { DailyReviewQuestion } from "./DailyReviewQuestion.js";
@@ -92,6 +93,9 @@ Coupon.belongsTo(ExamAttempt, { foreignKey: "examAttemptId" });
 Coupon.hasOne(CouponVoid, { foreignKey: "couponId" });
 CouponVoid.belongsTo(Coupon, { foreignKey: "couponId" });
 
+Coupon.hasOne(DemoLead, { foreignKey: "couponId" });
+DemoLead.belongsTo(Coupon, { foreignKey: "couponId" });
+
 User.hasMany(DailyActivity, { foreignKey: "userId" });
 DailyActivity.belongsTo(User, { foreignKey: "userId" });
 
@@ -162,4 +166,4 @@ Question.afterCreate(async (question, options) => {
   if (published) await question.update({ version: 1 }, { transaction: options.transaction, hooks: false });
 });
 
-export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, CouponVoid, DailyActivity, DailyReview, DailyReviewQuestion, Challenge, ChallengeAttempt, ChallengeAttemptQuestion, GlintEvent, StreakBadge, UserCosmetic, Role, RolePermission, AuditLog, Setting, ShopItem, QuestionVersion, QuestionReview, TeacherProduct, Notification };
+export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, CouponVoid, DemoLead, DailyActivity, DailyReview, DailyReviewQuestion, Challenge, ChallengeAttempt, ChallengeAttemptQuestion, GlintEvent, StreakBadge, UserCosmetic, Role, RolePermission, AuditLog, Setting, ShopItem, QuestionVersion, QuestionReview, TeacherProduct, Notification };

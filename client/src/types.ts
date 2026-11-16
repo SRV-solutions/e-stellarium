@@ -223,6 +223,12 @@ export type Practice = { practiceId: string; questions: ExamQuestion[] };
 // POST /exams/:starId/practice/answer: sin XP; la racha, por si era lo primero del día
 export type PracticeAnswer = Pick<AnswerResult, "correct" | "solution" | "output" | "explanation"> & { streak: number; newBadges: NewBadge[] };
 
+// GET /demo: la estrella de prueba para invitados (sin cuenta). `coupon` es lo que vale el cupón del final
+export type Demo = { demoId: string; questions: ExamQuestion[]; coupon: { percent: number; hours: number } };
+
+// POST /demo/answer: sin XP ni racha
+export type DemoAnswer = Pick<AnswerResult, "correct" | "solution" | "output" | "explanation">;
+
 // POST /reviews/:id/answer
 export type ReviewAnswer = Omit<AnswerResult, "starXp" | "starCompleted"> & {
   reviewXp: number; // la parte de xpGained que se dio por terminar el repaso
@@ -600,13 +606,13 @@ export type AdminCoupon = {
   id: string;
   code: string;
   percent: number;
-  source: "constellation" | "shop" | "manual";
+  source: "constellation" | "shop" | "manual" | "demo";
   course: string | null; // el curso, si es del examen
   createdAt: string;
   expiresAt: string;
   usedAt: string | null;
   status: AdminCouponStatus;
-  user: { id: string; name: string; email: string };
+  user: { id: string | null; name: string; email: string }; // sin id: invitado de la demo
   reason: string | null; // el motivo, si es de regalo
   void: { at: string; reason: string; by: string | null } | null;
 };

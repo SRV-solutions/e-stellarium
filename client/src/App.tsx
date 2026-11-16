@@ -12,6 +12,7 @@ import { GamePage } from "./pages/GamePage/GamePage";
 import { ExamPage } from "./pages/ExamPage/ExamPage";
 import { ReviewPage } from "./pages/ReviewPage/ReviewPage";
 import { PracticePage } from "./pages/PracticePage/PracticePage";
+import { DemoPage } from "./pages/DemoPage/DemoPage";
 import { ChallengesPage } from "./pages/ChallengesPage/ChallengesPage";
 import { ShopPage } from "./pages/ShopPage/ShopPage";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
@@ -35,6 +36,8 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/create-password" element={<SetPasswordPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          {/* La demo es para invitados: sin sesión */}
+          <Route path="/demo" element={<DemoPage />} />
           <Route
             path="/constellations"
             element={

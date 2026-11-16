@@ -17,6 +17,7 @@ import { shopRouter } from "./routes/shop.js";
 import { adminRouter } from "./routes/admin.js";
 import { notificationsRouter } from "./routes/notifications.js";
 import { unsubscribeRouter } from "./routes/unsubscribe.js";
+import { demoRouter } from "./routes/demo.js";
 import { runDailyCheckIfDue } from "./lib/integrity.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
@@ -52,6 +53,7 @@ app.use(challengesRouter);
 app.use(shopRouter);
 app.use(notificationsRouter);
 app.use(unsubscribeRouter);
+app.use(demoRouter);
 app.use(adminRouter);
 
 app.get("/health", async (_req, res) => {

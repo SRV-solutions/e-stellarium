@@ -1,0 +1,212 @@
+/* Donde en las estrellas va el XP: la demo no tiene cuenta */
+.free {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.kickerInline {
+  font-weight: 600;
+  color: #ffd38a;
+}
+
+/* Entrada y final: pantallas centradas, como el final de la práctica */
+.screen {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 40px 24px;
+  text-align: center;
+  background:
+    radial-gradient(60% 40% at 50% -5%, rgba(255, 153, 0, 0.14), transparent 70%),
+    #050d24;
+}
+
+.introScreen {
+  background:
+    radial-gradient(60% 40% at 50% -5%, rgba(0, 123, 255, 0.16), transparent 70%),
+    #050d24;
+}
+
+.inner {
+  max-width: 480px;
+}
+
+.wide {
+  width: 100%;
+  max-width: 520px;
+}
+
+.letter {
+  font-family: var(--greek);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 110px;
+  line-height: 0.9;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--orange);
+}
+
+.mint {
+  -webkit-text-stroke-color: var(--mint);
+}
+
+.kicker {
+  margin: 10px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.mintText {
+  color: var(--mint);
+}
+
+.title {
+  margin: 6px 0 0;
+  font-size: clamp(34px, 6vw, 52px);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.lead {
+  max-width: 44ch;
+  margin: 14px auto 0;
+  font-size: 18px;
+  color: var(--muted);
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  justify-content: center;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.facts b,
+.score b,
+.hint b {
+  color: var(--text);
+}
+
+.score {
+  margin: 16px 0 0;
+  font-size: 18px;
+  color: var(--muted);
+}
+
+.hint {
+  margin: 8px auto 0;
+  max-width: 44ch;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.login {
+  margin-top: 18px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.login a {
+  color: var(--text);
+  text-underline-offset: 3px;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.go {
+  composes: go from "../GamePage/GamePage.module.css";
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ghost {
+  padding: 15px 24px;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  background: none;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.ghost:hover {
+  border-color: var(--muted);
+}
+
+/* El email */
+.form {
+  margin: 26px 0 0;
+  text-align: left;
+}
+
+.form label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.row input {
+  flex: 1;
+  min-width: 0;
+  padding: 15px 18px;
+  font: inherit;
+  font-size: 17px;
+  color: var(--text);
+  background: var(--night);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+}
+
+.row input:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+  border-color: transparent;
+}
+
+.error {
+  margin: 10px 0 0;
+  font-size: 15px;
+  color: var(--coral);
+}
+
+.small {
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: var(--dim);
+}
+
+@media (max-width: 600px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .letter {
+    font-size: 90px;
+  }
+}

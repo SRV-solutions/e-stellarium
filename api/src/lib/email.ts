@@ -103,3 +103,24 @@ export function newChallengeEmail(name: string, closesAt: string, link: string, 
 (con un clic, sin iniciar sesión). También lo cambiás desde tu perfil.</p>`,
   };
 }
+
+// El cupón de la demo: el invitado no tiene cuenta, así que el mail es lo único que recibe.
+// Invita a ver los cursos, con el link a la web de SRV
+export function demoCouponEmail(code: string, percent: number, expiresAt: Date, webUrl: string) {
+  const until = expiresAt.toLocaleString("es-AR", {
+    day: "numeric",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "America/Argentina/Buenos_Aires",
+  });
+  return {
+    subject: `Tu cupón del ${percent} % para tu primer curso en WeAreSRV`,
+    html: `<p>¡Hola!</p>
+<p>Gracias por probar E-Stellarium. Este es tu cupón del <strong>${percent} %</strong> para tu primera compra en WeAreSRV:</p>
+<p style="font-size:20px"><strong>${escapeHtml(code)}</strong></p>
+<p>Vale para una sola compra, <strong>hasta el ${until}</strong> (hora de Argentina). No se suma a otros cupones ni aplica en preventas, combos o packs.</p>
+<p>Mirá los cursos y elegí el tuyo: <a href="${escapeHtml(webUrl)}">${escapeHtml(webUrl)}</a></p>
+<p>Si comprás, tu constelación empieza desde cero: lo que jugaste en la demo no se guarda.</p>`,
+  };
+}

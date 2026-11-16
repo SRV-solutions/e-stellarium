@@ -19,6 +19,7 @@ const STATUSES: { key: AdminCouponStatus | "all"; label: string }[] = [
 function origin(c: AdminCoupon) {
   if (c.source === "constellation") return c.course ? `Examen de ${shortName(c.course)}` : "Examen";
   if (c.source === "shop") return "Tienda (destellos)";
+  if (c.source === "demo") return "Demo (invitado)";
   return c.reason ? `A mano · ${c.reason}` : "A mano";
 }
 

@@ -43,12 +43,12 @@ type CouponRow = {
   id: string;
   code: string;
   percent: number;
-  source: "constellation" | "shop" | "manual";
+  source: "constellation" | "shop" | "manual" | "demo";
   created_at: Date;
   expires_at: Date;
   used_at: Date | null;
   status: Exclude<Status, "all">;
-  user_id: string;
+  user_id: string | null; // vacío en los de la demo
   user_name: string;
   user_email: string;
   course: string | null;
@@ -59,7 +59,8 @@ type CouponRow = {
 };
 
 const FROM = `FROM coupons c
-  JOIN users u ON u.id = c.user_id
+  LEFT JOIN users u ON u.id = c.user_id
+  LEFT JOIN demo_leads dl ON dl.coupon_id = c.id
   LEFT JOIN coupon_voids cv ON cv.coupon_id = c.id
   LEFT JOIN users vu ON vu.id = cv.voided_by
   LEFT JOIN constellations k ON k.id = c.constellation_id
@@ -67,11 +68,11 @@ const FROM = `FROM coupons c
 
 export async function listCoupons(filters: CouponFilters) {
   const pattern = filters.q ? `%${filters.q.replace(/[\\%_]/g, (ch) => `\\${ch}`)}%` : null;
-  const search = "(:pattern::text IS NULL OR c.code ILIKE :pattern OR u.name ILIKE :pattern OR u.email ILIKE :pattern)";
+  const search = "(:pattern::text IS NULL OR c.code ILIKE :pattern OR u.name ILIKE :pattern OR u.email ILIKE :pattern OR dl.email ILIKE :pattern)";
   const rows = await sequelize.query<CouponRow>(
     `SELECT * FROM (
        SELECT c.id, c.code, c.percent, c.source, c.created_at, c.expires_at, c.used_at, ${STATUS_SQL} AS status,
-              u.id AS user_id, u.name AS user_name, u.email AS user_email, p.name AS course,
+              u.id AS user_id, COALESCE(u.name, 'Invitado de la demo') AS user_name, COALESCE(u.email, dl.email) AS user_email, p.name AS course,
               -- El motivo de un cupón de regalo está en su registro de la bitácora
               (SELECT a.after->>'reason' FROM audit_logs a
                 WHERE a.action = 'coupon.issue' AND a.target_type = 'coupon' AND a.target_id = c.id::text

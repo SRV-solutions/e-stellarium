@@ -172,6 +172,10 @@
   text-underline-offset: 3px;
 }
 
+.demo {
+  margin: 14px 0 0;
+}
+
 @media (max-width: 860px) {
   .title {
     font-size: 28px;

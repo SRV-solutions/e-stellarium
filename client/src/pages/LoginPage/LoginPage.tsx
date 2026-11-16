@@ -86,6 +86,9 @@ export function LoginPage() {
         <strong>¿No tenés cuenta?</strong> Se crea sola cuando comprás un curso en{" "}
         <a href="https://wearesrv.com">wearesrv.com</a>, y te llega un mail para elegir tu contraseña. Si
         compraste y no te llegó, <a href={SUPPORT_HREF}>escribinos a soporte</a>.
+        <p className={form.demo}>
+          ¿Querés probarlo antes? <Link to="/demo">Jugá una estrella de prueba</Link>, sin cuenta.
+        </p>
       </div>
     </AuthLayout>
   );
