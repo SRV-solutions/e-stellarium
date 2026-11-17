@@ -6,6 +6,7 @@
   white-space: nowrap;
 }
 
+/* Un span y no un b: en las estrellas, `.where b` es la letra griega y le pone la tipografía serif */
 .kickerInline {
   font-weight: 600;
   color: #ffd38a;

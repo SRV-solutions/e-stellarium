@@ -341,7 +341,7 @@ function DemoGame({ demo, onFinish }: { demo: Demo; onFinish: (correctCount: num
           <span className={styles.free}>Sin cuenta</span>
         </div>
         <p className={gameStyles.where}>
-          <b className={styles.kickerInline}>Estrella de prueba</b>, pregunta {step + 1} de {questions.length}
+          <span className={styles.kickerInline}>Estrella de prueba</span>, pregunta {step + 1} de {questions.length}
         </p>
       </header>
 
