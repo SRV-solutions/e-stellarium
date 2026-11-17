@@ -1,0 +1,2288 @@
+{
+  "course": "scratch",
+  "constellation": {
+    "name": "Constelación Scratch",
+    "description": "Desde tu primera historia animada hasta tu primer videojuego.",
+    "published": true
+  },
+  "modules": [
+    {
+      "number": 1,
+      "title": "Mis Primeros Proyectos: Historias Animadas",
+      "classes": "1–7"
+    },
+    {
+      "number": 2,
+      "title": "Mi Primer Videojuego",
+      "classes": "8–14"
+    }
+  ],
+  "stars": [
+    {
+      "slug": "sc-editor",
+      "module": 1,
+      "title": "Scratch y su editor",
+      "description": "Qué es Scratch, tu cuenta, el escenario, los personajes, los disfraces y los fondos.",
+      "questions": [
+        {
+          "slug": "sc-editor-que-es",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "qué es Scratch",
+          "prompt": "¿Qué es Scratch?",
+          "content": {
+            "options": [
+              "Un lenguaje de programación visual: armás programas encastrando bloques",
+              "Un editor de videos para películas largas",
+              "Un juego ya hecho que solo se puede jugar",
+              "Un programa para dibujar que no permite animar"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En Scratch no escribís código: arrastrás bloques de colores y los encastrás, como piezas de un rompecabezas."
+        },
+        {
+          "slug": "sc-editor-usuario",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "cuenta",
+          "prompt": "Al crear tu cuenta de Scratch, ¿qué conviene hacer con el nombre de usuario?",
+          "content": {
+            "options": [
+              "Inventar uno que no tenga tu nombre real ni datos personales",
+              "Poner tu nombre y apellido completos",
+              "Poner tu dirección, para que te encuentren",
+              "Usar tu número de teléfono"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los proyectos son públicos cuando los compartís, así que el usuario no debería mostrar datos personales."
+        },
+        {
+          "slug": "sc-editor-escenario",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "editor",
+          "prompt": "¿Dónde ves lo que hace tu programa mientras corre?",
+          "content": {
+            "options": [
+              "En el escenario",
+              "En la paleta de bloques",
+              "En la pestaña Sonidos",
+              "En el menú Archivo"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El escenario es la pantalla donde se mueven y hablan los personajes. Los bloques se arman en el área de código."
+        },
+        {
+          "slug": "sc-editor-disfraces",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "disfraces",
+          "prompt": "Querés que tu personaje parezca que camina. ¿Qué cosa usás?",
+          "content": {
+            "options": [
+              "Disfraces: cambiar de uno a otro, uno tras otro",
+              "Fondos: cambiar el escenario",
+              "Sonidos: sumar pasos",
+              "Extensiones de música"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Un personaje (sprite) puede tener varios disfraces, y al cambiarlos rápido parece que se mueve."
+        },
+        {
+          "slug": "sc-editor-centro",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "coordenadas",
+          "prompt": "El personaje está en cualquier lugar del escenario. ¿Qué pasa al ejecutar este bloque?",
+          "content": {
+            "code": "ir a x: (0) y: (0)",
+            "options": [
+              "Va al centro del escenario",
+              "Va a la esquina de arriba a la izquierda",
+              "Se mueve 0 pasos",
+              "Desaparece del escenario"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El escenario tiene su centro en x: 0, y: 0. La x va de izquierda a derecha y la y, de abajo hacia arriba."
+        },
+        {
+          "slug": "sc-editor-orden-cuenta",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "cuenta",
+          "prompt": "Ordená los pasos para abrir el editor por primera vez.",
+          "content": {
+            "lines": [
+              "Entrar a scratch.mit.edu",
+              "Crear tu cuenta con un nombre de usuario",
+              "Iniciar sesión",
+              "Elegir Crear para abrir el editor"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "El editor abierto, listo para programar"
+          },
+          "explanation": "Primero se entra al sitio, después se crea la cuenta, se inicia sesión y recién ahí se abre el editor."
+        }
+      ]
+    },
+    {
+      "slug": "sc-bloques",
+      "module": 1,
+      "title": "Mover, hablar y eventos",
+      "description": "Mover, girar, decir y pensar, y los eventos que arrancan tus scripts.",
+      "questions": [
+        {
+          "slug": "sc-bloques-mover",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "movimiento",
+          "prompt": "¿Qué hace el personaje?",
+          "content": {
+            "code": "al hacer clic en la bandera verde\nmover (50) pasos",
+            "options": [
+              "Avanza 50 pasos hacia donde está mirando",
+              "Retrocede 50 pasos",
+              "Gira 50 grados",
+              "Dice «50» en una burbuja"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El bloque mover hace avanzar al personaje en la dirección en que mira. Para girar se usa otro bloque."
+        },
+        {
+          "slug": "sc-bloques-decir-pensar",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "apariencia",
+          "prompt": "¿Qué hace el personaje?",
+          "content": {
+            "code": "al hacer clic en la bandera verde\ndecir [¡Hola!] por (2) segundos\npensar [Hmm...] por (2) segundos",
+            "options": [
+              "Dice ¡Hola! durante 2 segundos y después piensa Hmm... otros 2 segundos",
+              "Piensa Hmm... y después dice ¡Hola!",
+              "Dice y piensa al mismo tiempo",
+              "Dice ¡Hola! y nunca llega a pensar"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los bloques de un script se ejecutan de arriba hacia abajo, uno por vez. Decir tiene burbuja con cola; pensar, con nubecitas."
+        },
+        {
+          "slug": "sc-bloques-bandera",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "eventos",
+          "prompt": "¿Qué bloque hace que el programa arranque cuando apretás la bandera verde?",
+          "content": {
+            "options": [
+              "al hacer clic en la bandera verde",
+              "por siempre",
+              "mover (10) pasos",
+              "decir [Hola]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los bloques de Eventos (amarillos) son los que empiezan un script. Sin un evento, el script no arranca solo."
+        },
+        {
+          "slug": "sc-bloques-tecla",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "eventos",
+          "prompt": "Completá para que el personaje avance 10 pasos cada vez que se presiona la tecla flecha derecha.",
+          "content": {
+            "code": "al presionar la tecla [flecha derecha]\n___ (10) pasos",
+            "blanks": [
+              [
+                "mover",
+                "girar ↻",
+                "pensar"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "Avanza 10 pasos con cada presión de la tecla"
+          },
+          "explanation": "Mover hace avanzar. Girar y pensar necesitan otro tipo de valor: grados y un texto."
+        },
+        {
+          "slug": "sc-bloques-orden-saludo",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "movimiento",
+          "prompt": "Ordená el script: primero va al centro, después saluda y por último avanza.",
+          "content": {
+            "lines": [
+              "al hacer clic en la bandera verde",
+              "ir a x: (0) y: (0)",
+              "decir [Empecemos] por (2) segundos",
+              "mover (100) pasos"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "Va al centro, dice Empecemos 2 segundos y avanza 100 pasos"
+          },
+          "explanation": "Siempre arranca el bloque de evento; después los demás se ejecutan en el orden en que están."
+        },
+        {
+          "slug": "sc-bloques-clic-objeto",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "eventos",
+          "prompt": "¿Cuándo se ejecutan los bloques que cuelgan de «al hacer clic en este objeto»?",
+          "content": {
+            "options": [
+              "Cuando tocás con el mouse a ese personaje",
+              "Cuando apretás la bandera verde",
+              "Cuando presionás cualquier tecla",
+              "Cuando termina un sonido"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Sirve para botones y personajes que reaccionan al clic, como un menú o un enemigo que se toca."
+        }
+      ]
+    },
+    {
+      "slug": "sc-repetir",
+      "module": 1,
+      "title": "Repetir, sonidos y efectos",
+      "description": "Repetir y por siempre, sonidos, música y efectos visuales.",
+      "questions": [
+        {
+          "slug": "sc-repetir-cuatro",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "repetir",
+          "prompt": "¿Cuántos pasos avanza en total?",
+          "content": {
+            "code": "repetir (4)\n  mover (10) pasos",
+            "options": [
+              "40 pasos",
+              "10 pasos",
+              "4 pasos",
+              "14 pasos"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Repite el mover 4 veces: 4 × 10 = 40 pasos."
+        },
+        {
+          "slug": "sc-repetir-siempre",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "repetir",
+          "prompt": "¿Qué hace el bloque «por siempre»?",
+          "content": {
+            "options": [
+              "Repite lo que tiene adentro sin parar, hasta que se detiene el proyecto",
+              "Repite lo de adentro 10 veces",
+              "Ejecuta lo de adentro una sola vez",
+              "Espera a que se presione una tecla"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es ideal para cosas que siguen todo el tiempo, como un personaje que se mueve o que revisa si toca algo."
+        },
+        {
+          "slug": "sc-repetir-sonido",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "sonidos",
+          "prompt": "¿Qué diferencia hay entre «iniciar sonido» y «tocar sonido hasta que termine»?",
+          "content": {
+            "options": [
+              "Con «iniciar» el script sigue enseguida; con «hasta que termine» espera a que el sonido acabe",
+              "No hay ninguna diferencia",
+              "«Iniciar» sube el volumen y «hasta que termine» lo baja",
+              "«Iniciar» solo funciona con música y el otro con voces"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "«Iniciar sonido» no frena el script: el sonido suena mientras se ejecutan los bloques siguientes."
+        },
+        {
+          "slug": "sc-repetir-vuelta",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "repetir",
+          "prompt": "Completá para que el personaje dé una vuelta completa (360 grados).",
+          "content": {
+            "code": "repetir (___)\n  girar ↻ (90) grados",
+            "blanks": [
+              [
+                "4",
+                "2",
+                "8"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "Da una vuelta completa"
+          },
+          "explanation": "4 × 90 = 360. Con 2 daría media vuelta y con 8, dos vueltas."
+        },
+        {
+          "slug": "sc-repetir-color",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "efectos",
+          "prompt": "¿Qué hace el personaje?",
+          "content": {
+            "code": "al hacer clic en la bandera verde\nrepetir (3)\n  cambiar efecto [color] por (25)\n  esperar (1) segundos",
+            "options": [
+              "Cambia de color de a poco: tres cambios, uno por segundo",
+              "Cambia de color una sola vez, de golpe",
+              "Cambia de color sin parar",
+              "No cambia de color, solo espera"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Cada vuelta suma 25 al efecto color y espera 1 segundo. Sin el esperar, los cambios serían tan rápidos que no se notarían."
+        },
+        {
+          "slug": "sc-repetir-orden-rebote",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "repetir",
+          "prompt": "Ordená el script para que el gato camine sin parar y rebote en los bordes.",
+          "content": {
+            "lines": [
+              "al hacer clic en la bandera verde",
+              "por siempre",
+              "mover (10) pasos",
+              "rebotar si toca un borde"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "El gato camina y rebota en los bordes sin parar"
+          },
+          "explanation": "El mover y el rebotar van adentro del por siempre, así se repiten todo el tiempo."
+        }
+      ]
+    },
+    {
+      "slug": "sc-historia",
+      "module": 1,
+      "title": "Historia animada",
+      "description": "Dos personajes que conversan, con escenas y turnos.",
+      "questions": [
+        {
+          "slug": "sc-historia-dialogo",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "historia",
+          "prompt": "En una historia con dos personajes que conversan, ¿cómo se logra que hablen uno después del otro?",
+          "content": {
+            "options": [
+              "Con «decir por segundos» y «esperar» para respetar los turnos",
+              "Poniendo los dos con «por siempre»",
+              "Cambiando de fondo cada vez que habla uno",
+              "Usando el mismo disfraz en los dos"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si los dos scripts arrancan juntos, el que habla segundo tiene que esperar a que el primero termine."
+        },
+        {
+          "slug": "sc-historia-orden-dialogo",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "historia",
+          "prompt": "Ordená los bloques para que el Gato salude y después el Perro le conteste.",
+          "content": {
+            "lines": [
+              "[Gato] al hacer clic en la bandera verde",
+              "[Gato] decir [¡Hola, Perro!] por (2) segundos",
+              "[Perro] esperar (2) segundos",
+              "[Perro] decir [¡Hola, Gato!] por (2) segundos"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "El Gato saluda y 2 segundos después contesta el Perro"
+          },
+          "explanation": "El Perro espera lo mismo que dura el saludo del Gato: así no se pisan."
+        },
+        {
+          "slug": "sc-historia-turnos",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "historia",
+          "prompt": "Los dos scripts arrancan con la bandera verde. ¿Qué se ve en el escenario?",
+          "content": {
+            "code": "[Gato]\nal hacer clic en la bandera verde\ndecir [¿Jugamos?] por (2) segundos\n\n[Perro]\nal hacer clic en la bandera verde\nesperar (2) segundos\ndecir [¡Dale!] por (2) segundos",
+            "options": [
+              "El Gato dice ¿Jugamos? y 2 segundos después el Perro dice ¡Dale!",
+              "Los dos hablan al mismo tiempo",
+              "El Perro habla primero",
+              "Solo habla el Gato"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los scripts de distintos personajes corren a la vez. El esperar del Perro lo hace entrar recién cuando el Gato termina."
+        },
+        {
+          "slug": "sc-historia-fondo",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "fondos",
+          "prompt": "¿Para qué sirve cambiar de fondo en una historia?",
+          "content": {
+            "options": [
+              "Para mostrar otro lugar o escena",
+              "Para que el personaje camine",
+              "Para cambiar el sonido de fondo",
+              "Para borrar al personaje"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los fondos son las imágenes del escenario. Cambiarlos cambia el lugar donde pasa la historia."
+        },
+        {
+          "slug": "sc-historia-esperar",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "historia",
+          "prompt": "Completá para que el Perro conteste recién cuando el Gato terminó de hablar (2 segundos).",
+          "content": {
+            "code": "al hacer clic en la bandera verde\n___ (2) segundos\ndecir [¡Dale!] por (2) segundos",
+            "blanks": [
+              [
+                "esperar",
+                "mover",
+                "pensar"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "El Perro contesta 2 segundos después"
+          },
+          "explanation": "Esperar frena el script el tiempo indicado. Mover y pensar no tienen sentido en ese lugar."
+        },
+        {
+          "slug": "sc-historia-escena",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "fondos",
+          "prompt": "Tu historia tiene dos escenas. ¿Qué bloque usás para que el escenario muestre la segunda?",
+          "content": {
+            "options": [
+              "cambiar fondo a [escena 2]",
+              "siguiente disfraz",
+              "cambiar efecto [color] por (25)",
+              "ir a x: (0) y: (0)"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "«Cambiar fondo a» es un bloque de Apariencia del escenario. «Siguiente disfraz» cambia el aspecto de un personaje."
+        }
+      ]
+    },
+    {
+      "slug": "sc-condicionales",
+      "module": 2,
+      "title": "Condicionales y sensores",
+      "description": "Si, sino, y sensores: bordes, colores y otros personajes.",
+      "questions": [
+        {
+          "slug": "sc-cond-si",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "condicionales",
+          "prompt": "¿Qué hace el bloque «si <> entonces»?",
+          "content": {
+            "options": [
+              "Ejecuta los bloques de adentro solo si la condición es verdadera",
+              "Los ejecuta siempre",
+              "Los ejecuta una vez cada segundo",
+              "Los ejecuta solo si la condición es falsa"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La condición es una pregunta con respuesta verdadero o falso, por ejemplo «¿tocando el borde?»."
+        },
+        {
+          "slug": "sc-cond-rojo",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "sensores",
+          "prompt": "El personaje está tocando un obstáculo rojo en el momento en que corre este script. ¿Qué pasa?",
+          "content": {
+            "code": "mover (10) pasos\nsi <¿tocando el color [rojo]?> entonces\n  decir [¡Ay!] por (1) segundos",
+            "options": [
+              "Avanza 10 pasos y dice ¡Ay! durante 1 segundo",
+              "Dice ¡Ay! y no avanza",
+              "Avanza 10 pasos y no dice nada",
+              "No hace nada"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El mover está afuera del si: siempre se ejecuta. El decir solo se ejecuta si la condición es verdadera."
+        },
+        {
+          "slug": "sc-cond-tocando",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "sensores",
+          "prompt": "Completá para que sume 1 al puntaje cuando el personaje toque la Pelota.",
+          "content": {
+            "code": "por siempre\n  si <¿___ [Pelota]?> entonces\n    sumar a [puntaje] (1)",
+            "blanks": [
+              [
+                "tocando",
+                "tecla presionada",
+                "distancia a"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "Suma 1 punto cuando toca la Pelota"
+          },
+          "explanation": "«¿tocando [objeto]?» es el sensor que detecta contacto. «Tecla presionada» pregunta por el teclado."
+        },
+        {
+          "slug": "sc-cond-sino",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "condicionales",
+          "prompt": "¿Qué agrega «si <> entonces … sino» al «si <> entonces»?",
+          "content": {
+            "options": [
+              "Un grupo de bloques que se ejecuta cuando la condición es falsa",
+              "Una repetición infinita",
+              "Un segundo sonido",
+              "Que la condición se pregunte dos veces"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con sino hay dos caminos: uno si es verdadera y otro si no lo es."
+        },
+        {
+          "slug": "sc-cond-sensores",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "sensores",
+          "prompt": "¿En qué categoría de bloques está «¿tocando [borde]?»?",
+          "content": {
+            "options": [
+              "Sensores",
+              "Movimiento",
+              "Eventos",
+              "Sonido"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los Sensores (celestes) preguntan cosas: tocar, colores, teclas, distancia, cronómetro, preguntas al jugador."
+        },
+        {
+          "slug": "sc-cond-orden-puntos",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "condicionales",
+          "prompt": "Ordená el script para que sume 1 punto cuando la Manzana toque al personaje, revisando todo el tiempo.",
+          "content": {
+            "lines": [
+              "al hacer clic en la bandera verde",
+              "por siempre",
+              "si <¿tocando [Manzana]?> entonces",
+              "sumar a [puntaje] (1)"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "Suma 1 punto cada vez que revisa y la Manzana está tocando"
+          },
+          "explanation": "Si no se mueve la Manzana después de tocarla, el puntaje seguiría subiendo a cada vuelta del por siempre."
+        }
+      ]
+    },
+    {
+      "slug": "sc-variables",
+      "module": 2,
+      "title": "Puntaje, vidas y tiempo",
+      "description": "Variables para llevar la cuenta de la partida.",
+      "questions": [
+        {
+          "slug": "sc-var-que-es",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "¿Qué es una variable?",
+          "content": {
+            "options": [
+              "Una cajita con nombre donde el programa guarda un dato que puede cambiar, como el puntaje",
+              "Un personaje que se mueve",
+              "Un fondo del escenario",
+              "Un sonido que se repite"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El puntaje, las vidas y el tiempo son datos que cambian mientras se juega: por eso se guardan en variables."
+        },
+        {
+          "slug": "sc-var-suma",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "variables",
+          "prompt": "¿Cuánto vale el puntaje al terminar?",
+          "content": {
+            "code": "fijar [puntaje] a (0)\nsumar a [puntaje] (1)\nsumar a [puntaje] (1)",
+            "options": [
+              "2",
+              "0",
+              "1",
+              "11"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Empieza en 0 y se le suma 1 dos veces: vale 2."
+        },
+        {
+          "slug": "sc-var-cero",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "variables",
+          "prompt": "¿Por qué se pone «fijar [puntaje] a (0)» justo después de la bandera verde?",
+          "content": {
+            "options": [
+              "Para que cada partida empiece desde cero",
+              "Para que el puntaje suba solo",
+              "Para esconder el puntaje",
+              "Porque Scratch lo exige para sumar"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si no se reinicia, el puntaje de la partida anterior se queda guardado."
+        },
+        {
+          "slug": "sc-var-vidas",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "variables",
+          "prompt": "Completá para que el jugador pierda una vida al tocar al Enemigo.",
+          "content": {
+            "code": "fijar [vidas] a (3)\nsi <¿tocando [Enemigo]?> entonces\n  sumar a [vidas] (___)",
+            "blanks": [
+              [
+                "-1",
+                "1",
+                "0"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "Las vidas bajan en 1"
+          },
+          "explanation": "Sumar un número negativo es restar. Con 1 ganaría vidas y con 0 no pasaría nada."
+        },
+        {
+          "slug": "sc-var-cronometro",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "variables",
+          "prompt": "¿Qué dice el personaje?",
+          "content": {
+            "code": "al hacer clic en la bandera verde\nreiniciar cronómetro\nesperar (5) segundos\ndecir (cronómetro) por (2) segundos",
+            "options": [
+              "Un número cercano a 5",
+              "El número 0",
+              "La palabra cronómetro",
+              "No dice nada"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El cronómetro cuenta los segundos desde que se reinició. Entre bloque y bloque pasa un poquito más de 5."
+        },
+        {
+          "slug": "sc-var-todos",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "variables",
+          "prompt": "El puntaje lo usan el jugador y la moneda. Al crearla, ¿qué opción elegís?",
+          "content": {
+            "options": [
+              "Para todos los objetos",
+              "Para este objeto solamente",
+              "Ninguna: se crea sola",
+              "Para el escenario nada más"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si es «para este objeto solamente», solo ese personaje la ve. Una variable compartida es «para todos los objetos»."
+        }
+      ]
+    },
+    {
+      "slug": "sc-clones",
+      "module": 2,
+      "title": "Clones y mensajes",
+      "description": "Enemigos y monedas con clones, y personajes que se avisan con mensajes.",
+      "questions": [
+        {
+          "slug": "sc-clon-que",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "clones",
+          "prompt": "¿Qué hace «crear clon de [yo mismo]»?",
+          "content": {
+            "options": [
+              "Crea una copia del personaje que puede moverse por su cuenta",
+              "Duplica el sonido",
+              "Borra al personaje",
+              "Cambia el fondo"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los clones sirven para tener muchos enemigos o monedas sin dibujar un personaje por cada uno."
+        },
+        {
+          "slug": "sc-clon-tres",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "clones",
+          "prompt": "¿Qué pasa al hacer clic en la bandera verde?",
+          "content": {
+            "code": "al hacer clic en la bandera verde\nrepetir (3)\n  crear clon de [yo mismo]\n  esperar (1) segundos",
+            "options": [
+              "Se crean 3 clones, uno por segundo",
+              "Se crea un solo clon",
+              "Se crean clones sin parar",
+              "No pasa nada"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Repite 3 veces: crear un clon y esperar 1 segundo."
+        },
+        {
+          "slug": "sc-clon-comenzar",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "clones",
+          "prompt": "¿Qué bloque define lo que hace cada clon cuando nace?",
+          "content": {
+            "options": [
+              "al comenzar como clon",
+              "al hacer clic en la bandera verde",
+              "al recibir [mensaje]",
+              "por siempre"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "«Al comenzar como clon» es el evento que ejecuta cada copia apenas se crea."
+        },
+        {
+          "slug": "sc-clon-orden-mensaje",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "mensajes",
+          "prompt": "Ordená los bloques: al tocar el Botón, el Enemigo aparece.",
+          "content": {
+            "lines": [
+              "[Botón] al hacer clic en este objeto",
+              "[Botón] enviar [empezar] a todos",
+              "[Enemigo] al recibir [empezar]",
+              "[Enemigo] mostrar"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "Al tocar el Botón aparece el Enemigo"
+          },
+          "explanation": "El mensaje es la forma de avisarle a otro personaje que pase algo. Quien lo recibe tiene su propio script."
+        },
+        {
+          "slug": "sc-clon-borrar",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "clones",
+          "prompt": "Completá para que el clon desaparezca del todo al terminar de moverse.",
+          "content": {
+            "code": "al comenzar como clon\nmostrar\nrepetir hasta que <¿tocando [borde]?>\n  mover (5) pasos\n___",
+            "blanks": [
+              [
+                "borrar este clon",
+                "esconder",
+                "crear clon de [yo mismo]"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "El clon se elimina al llegar al borde"
+          },
+          "explanation": "Esconder solo lo hace invisible: sigue existiendo y ocupa lugar. Borrar este clon lo elimina."
+        },
+        {
+          "slug": "sc-clon-esperar",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "mensajes",
+          "prompt": "¿Qué diferencia hay entre «enviar [x] a todos» y «enviar [x] a todos y esperar»?",
+          "content": {
+            "options": [
+              "El segundo espera a que terminen los scripts que reciben el mensaje",
+              "El segundo envía el mensaje dos veces",
+              "El primero solo lo reciben los clones",
+              "No hay diferencia"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "«Y esperar» frena el script que envía hasta que todos los receptores terminaron."
+        }
+      ]
+    },
+    {
+      "slug": "sc-juego",
+      "module": 2,
+      "title": "Pantallas y juego final",
+      "description": "Inicio, niveles, Game Over, el juego de esquivar y atrapar y cómo compartirlo.",
+      "questions": [
+        {
+          "slug": "sc-pant-inicio",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "pantallas",
+          "prompt": "¿Cómo se arma una pantalla de inicio?",
+          "content": {
+            "options": [
+              "Con un fondo con el título y un script que espera un clic o una tecla antes de enviar «empezar»",
+              "Con un por siempre que mueve al personaje",
+              "Borrando todos los personajes",
+              "Con un clon por cada letra"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El juego no arranca solo: espera al jugador y después avisa con un mensaje."
+        },
+        {
+          "slug": "sc-pant-gameover",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "pantallas",
+          "prompt": "¿Qué pasa cuando las vidas llegan a 0?",
+          "content": {
+            "code": "por siempre\n  si <(vidas) = (0)> entonces\n    cambiar fondo a [Game Over]\n    detener [todos]",
+            "options": [
+              "Se muestra el fondo Game Over y se detiene todo",
+              "Se muestra Game Over y el juego sigue",
+              "Las vidas vuelven a 3",
+              "Nada: faltan bloques"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La condición compara las vidas con 0 usando el operador =. Al cumplirse, cambia el fondo y detiene todos los scripts."
+        },
+        {
+          "slug": "sc-pant-nivel",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "niveles",
+          "prompt": "Completá para pasar al nivel 2 cuando el puntaje sea mayor que 10.",
+          "content": {
+            "code": "si <(puntaje) ___ (10)> entonces\n  enviar [nivel 2] a todos",
+            "blanks": [
+              [
+                ">",
+                "<",
+                "="
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "Pasa de nivel cuando el puntaje supera 10"
+          },
+          "explanation": "El operador > es «mayor que». Con < pasaría de nivel recién empezado el juego."
+        },
+        {
+          "slug": "sc-pant-compartir",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "compartir",
+          "prompt": "¿Qué tenés que hacer para que otras personas jueguen tu proyecto en línea?",
+          "content": {
+            "options": [
+              "Iniciar sesión y apretar el botón Compartir",
+              "Mandarlo por mail sin guardarlo",
+              "Borrarlo de tu cuenta",
+              "Cambiar el fondo"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Necesitás tu cuenta de Scratch. Al compartir, los demás pueden jugar y también ver cómo está armado."
+        },
+        {
+          "slug": "sc-pant-orden-flujo",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "proyecto final",
+          "prompt": "Ordená el recorrido del juego de esquivar y atrapar, de principio a fin.",
+          "content": {
+            "lines": [
+              "Mostrar la pantalla de inicio",
+              "Esperar a que el jugador presione espacio",
+              "Fijar el puntaje en 0 y las vidas en 3",
+              "Jugar: esquivar enemigos y atrapar monedas",
+              "Cuando las vidas llegan a 0, mostrar Game Over"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "output": "Un juego completo: inicio, partida y Game Over"
+          },
+          "explanation": "Antes de jugar se reinician los datos; el Game Over es lo último."
+        },
+        {
+          "slug": "sc-pant-moneda",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "proyecto final",
+          "prompt": "En el juego de esquivar y atrapar, ¿qué debería hacer una moneda cuando el jugador la toca?",
+          "content": {
+            "options": [
+              "Sumar al puntaje y desaparecer o volver a caer desde arriba",
+              "Quitar una vida",
+              "Cambiar el fondo",
+              "Detener el juego"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Atrapar suma puntos. Si la moneda no se mueve ni se borra, seguiría sumando a cada vuelta."
+        }
+      ]
+    },
+    {
+      "slug": "sc-examen",
+      "module": null,
+      "title": "Examen",
+      "description": "Diez preguntas nuevas de toda la constelación, con tiempo. Aprobalo y ganás un descuento para tu próximo curso.",
+      "kind": "exam",
+      "questions": []
+    }
+  ],
+  "bank": [
+    {
+      "slug": "sc-banco-fondo",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "editor",
+      "module": 1,
+      "prompt": "¿Qué cambia un fondo?",
+      "content": {
+        "options": [
+          "El aspecto del escenario",
+          "El aspecto de un personaje",
+          "El volumen",
+          "La velocidad"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los fondos son del escenario; los disfraces, de los personajes."
+    },
+    {
+      "slug": "sc-banco-detener",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "editor",
+      "module": 1,
+      "prompt": "¿Con qué botón se detiene el proyecto?",
+      "content": {
+        "options": [
+          "El botón rojo",
+          "La bandera verde",
+          "El menú Sonidos",
+          "La pestaña Disfraces"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La bandera verde lo inicia y el botón rojo lo detiene."
+    },
+    {
+      "slug": "sc-banco-girar",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "movimiento",
+      "module": 1,
+      "prompt": "¿Qué hace el personaje cada vez que presionás espacio?",
+      "content": {
+        "code": "al presionar la tecla [espacio]\ngirar ↻ (90) grados",
+        "options": [
+          "Gira un cuarto de vuelta hacia la derecha",
+          "Gira hacia la izquierda",
+          "Avanza 90 pasos",
+          "Da una vuelta completa"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El símbolo ↻ gira en sentido de las agujas del reloj. 90 grados son un cuarto de vuelta."
+    },
+    {
+      "slug": "sc-banco-cinco",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "repetir",
+      "module": 1,
+      "prompt": "Completá para que avance 50 pasos en total.",
+      "content": {
+        "code": "repetir (___)\n  mover (10) pasos",
+        "blanks": [
+          [
+            "5",
+            "10",
+            "50"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "Avanza 50 pasos"
+      },
+      "explanation": "5 × 10 = 50. Con 10 serían 100 y con 50, 500."
+    },
+    {
+      "slug": "sc-banco-orden-tambor",
+      "type": "order_lines",
+      "difficulty": "medium",
+      "topic": "sonidos",
+      "module": 1,
+      "prompt": "Ordená para que el personaje toque un tambor dos veces, con una pausa.",
+      "content": {
+        "lines": [
+          "al hacer clic en la bandera verde",
+          "repetir (2)",
+          "iniciar sonido [Tambor]",
+          "esperar (1) segundos"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "Suena el tambor dos veces, con 1 segundo entre cada uno"
+      },
+      "explanation": "El sonido y la espera van adentro del repetir."
+    },
+    {
+      "slug": "sc-banco-eventos",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "eventos",
+      "module": 1,
+      "prompt": "¿De qué color son los bloques de Eventos?",
+      "content": {
+        "options": [
+          "Amarillos",
+          "Azules",
+          "Verdes",
+          "Rosas"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Eventos son amarillos; Movimiento, azules; Apariencia, violetas; Sonido, fucsias."
+    },
+    {
+      "slug": "sc-banco-pensar",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "apariencia",
+      "module": 1,
+      "prompt": "¿En qué se diferencia pensar de decir?",
+      "content": {
+        "options": [
+          "La burbuja es de pensamiento, con nubecitas, en vez de la de diálogo",
+          "Pensar mueve al personaje",
+          "Pensar no se ve en el escenario",
+          "No hay diferencia"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Ambos son de Apariencia: cambia la forma de la burbuja."
+    },
+    {
+      "slug": "sc-banco-espera-dialogo",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "historia",
+      "module": 1,
+      "prompt": "Los dos scripts arrancan con la bandera. ¿Qué pasa?",
+      "content": {
+        "code": "[A]\nal hacer clic en la bandera verde\ndecir [Uno] por (1) segundos\n\n[B]\nal hacer clic en la bandera verde\nesperar (1) segundos\ndecir [Dos] por (1) segundos",
+        "options": [
+          "A dice Uno y luego B dice Dos",
+          "B dice Dos y luego A dice Uno",
+          "Hablan los dos a la vez",
+          "Solo habla B"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El esperar de B coincide con lo que dura el decir de A."
+    },
+    {
+      "slug": "sc-banco-cond",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "condicionales",
+      "module": 2,
+      "prompt": "¿Qué necesita un «si <> entonces» para decidir?",
+      "content": {
+        "options": [
+          "Una condición verdadera o falsa",
+          "Un número",
+          "Un sonido",
+          "Un clon"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La condición es una pregunta, como «¿tocando el borde?»."
+    },
+    {
+      "slug": "sc-banco-vidas",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "variables",
+      "module": 2,
+      "prompt": "¿Cuántas vidas quedan?",
+      "content": {
+        "code": "fijar [vidas] a (3)\nsumar a [vidas] (-1)\nsumar a [vidas] (-1)",
+        "options": [
+          "1",
+          "3",
+          "2",
+          "-1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "3 − 1 − 1 = 1."
+    },
+    {
+      "slug": "sc-banco-tocando",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "sensores",
+      "module": 2,
+      "prompt": "Completá para detectar si toca el borde del escenario.",
+      "content": {
+        "code": "si <¿___ [borde]?> entonces\n  rebotar si toca un borde",
+        "blanks": [
+          [
+            "tocando",
+            "tecla presionada",
+            "respuesta"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "Rebota solo si toca el borde"
+      },
+      "explanation": "«¿tocando?» detecta contacto; los otros sensores miran el teclado o lo que el jugador escribió."
+    },
+    {
+      "slug": "sc-banco-orden-clones",
+      "type": "order_lines",
+      "difficulty": "medium",
+      "topic": "clones",
+      "module": 2,
+      "prompt": "Ordená para que, al empezar, se creen 5 clones.",
+      "content": {
+        "lines": [
+          "al hacer clic en la bandera verde",
+          "repetir (5)",
+          "crear clon de [yo mismo]",
+          "esperar (1) segundos"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "Aparecen 5 clones, uno por segundo"
+      },
+      "explanation": "La creación va adentro del repetir."
+    },
+    {
+      "slug": "sc-banco-clon-borrar",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "clones",
+      "module": 2,
+      "prompt": "¿Qué bloque elimina a un clon?",
+      "content": {
+        "options": [
+          "borrar este clon",
+          "esconder",
+          "detener [todos]",
+          "cambiar fondo a"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Esconder solo lo hace invisible; borrar lo elimina."
+    },
+    {
+      "slug": "sc-banco-mensaje",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "mensajes",
+      "module": 2,
+      "prompt": "¿Para qué sirven los mensajes?",
+      "content": {
+        "options": [
+          "Para que los personajes se avisen que pasó algo",
+          "Para cambiar disfraces",
+          "Para sumar puntaje",
+          "Para guardar el proyecto"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un personaje envía un mensaje y otro lo recibe con «al recibir»."
+    },
+    {
+      "slug": "sc-banco-nivel",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "niveles",
+      "module": 2,
+      "prompt": "El puntaje vale 10. ¿Qué pasa?",
+      "content": {
+        "code": "si <(puntaje) > (10)> entonces\n  enviar [nivel 2] a todos",
+        "options": [
+          "No se envía nada, porque 10 no es mayor que 10",
+          "Se envía nivel 2",
+          "Se detiene el juego",
+          "Se reinicia el puntaje"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "> es «mayor que»: 10 > 10 es falso."
+    },
+    {
+      "slug": "sc-banco-compartir",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "compartir",
+      "module": 2,
+      "prompt": "¿Qué podés hacer con un proyecto compartido de otra persona?",
+      "content": {
+        "options": [
+          "Jugarlo y ver cómo está armado",
+          "Borrarlo",
+          "Cambiar su dueño",
+          "Nada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Al compartir, otros ven el proyecto; también pueden mirar adentro y hacer su propia versión."
+    }
+  ],
+  "challenges": [
+    {
+      "slug": "sc-desafio-escenario-x",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "coordenadas",
+      "prompt": "En el escenario, ¿hacia dónde crece la x?",
+      "content": {
+        "options": [
+          "De izquierda a derecha",
+          "De arriba hacia abajo",
+          "De derecha a izquierda",
+          "No crece"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La x es horizontal y la y, vertical (crece hacia arriba).",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-sprite",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "editor",
+      "prompt": "¿Cómo se llama cada personaje en Scratch?",
+      "content": {
+        "options": [
+          "Sprite (objeto)",
+          "Fondo",
+          "Disfraz",
+          "Bloque"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un sprite es un personaje u objeto que programás.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-paleta",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "editor",
+      "prompt": "¿Dónde están los bloques disponibles para arrastrar?",
+      "content": {
+        "options": [
+          "En la paleta de bloques",
+          "En el escenario",
+          "En la lista de sonidos",
+          "En el menú de la cuenta"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los bloques se agrupan por categorías y de ahí se arrastran al área de código.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-pestana",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "editor",
+      "prompt": "¿Qué pestaña usás para dibujar un disfraz nuevo?",
+      "content": {
+        "options": [
+          "Disfraces",
+          "Sonidos",
+          "Código",
+          "Extensiones"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Disfraces tiene el editor de dibujo.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-grabar",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "sonidos",
+      "prompt": "Querés usar tu propia voz en un personaje. ¿Qué hacés?",
+      "content": {
+        "options": [
+          "En la pestaña Sonidos, grabás un sonido nuevo",
+          "Cambiás el fondo",
+          "Usás el bloque girar",
+          "Creás un clon"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sonidos permite elegir uno de la biblioteca o grabar con el micrófono.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-esconder",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "apariencia",
+      "prompt": "¿Qué hace el bloque «esconder»?",
+      "content": {
+        "options": [
+          "Hace invisible al personaje, pero sigue existiendo",
+          "Borra al personaje",
+          "Lo manda al centro",
+          "Lo hace hablar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un personaje escondido puede volver con «mostrar».",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-tamano",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "apariencia",
+      "prompt": "¿Qué bloque agranda al personaje?",
+      "content": {
+        "options": [
+          "cambiar tamaño en (10)",
+          "girar ↻ (10) grados",
+          "mover (10) pasos",
+          "esperar (10) segundos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El tamaño es de Apariencia. Un valor negativo lo achica.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-ir-a",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "coordenadas",
+      "prompt": "¿Dónde queda el personaje?",
+      "content": {
+        "code": "ir a x: (100) y: (0)",
+        "options": [
+          "A la derecha del centro, a la misma altura",
+          "A la izquierda del centro",
+          "Arriba del centro",
+          "En el centro"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "x positiva es a la derecha; y = 0 es la altura del centro.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-ir-a-neg",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "coordenadas",
+      "prompt": "¿Dónde queda el personaje?",
+      "content": {
+        "code": "ir a x: (-100) y: (80)",
+        "options": [
+          "A la izquierda y arriba del centro",
+          "A la derecha y arriba del centro",
+          "A la izquierda y abajo del centro",
+          "En el centro"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "x negativa es a la izquierda; y positiva, hacia arriba.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-esperar",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "eventos",
+      "prompt": "¿Qué hace el personaje?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\nesperar (3) segundos\ndecir [¡Listo!] por (2) segundos",
+        "options": [
+          "Espera 3 segundos y después dice ¡Listo!",
+          "Dice ¡Listo! y espera",
+          "Dice ¡Listo! 3 segundos",
+          "No hace nada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los bloques se ejecutan en orden; el esperar frena el script.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-fin-giro",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "movimiento",
+      "prompt": "¿Hacia dónde mira al terminar? (mira a la derecha al empezar)",
+      "content": {
+        "code": "al hacer clic en la bandera verde\napuntar en dirección (180)",
+        "options": [
+          "Hacia abajo",
+          "Hacia arriba",
+          "Hacia la izquierda",
+          "Sigue mirando a la derecha"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En Scratch: 90 es derecha, 0 es arriba, 180 abajo y -90 izquierda.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-tecla-arriba",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "eventos",
+      "prompt": "¿Qué hace el personaje al presionar la tecla?",
+      "content": {
+        "code": "al presionar la tecla [flecha arriba]\ncambiar y en (10)",
+        "options": [
+          "Sube 10 unidades",
+          "Baja 10 unidades",
+          "Va 10 pasos a la derecha",
+          "Gira"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cambiar y en suma a la posición vertical: sube.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-repetir-decir",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "repetir",
+      "prompt": "¿Cuántas veces aparece la burbuja?",
+      "content": {
+        "code": "repetir (3)\n  decir [Hola] por (1) segundos",
+        "options": [
+          "3 veces, una tras otra",
+          "Una sola vez",
+          "Sin parar",
+          "3 a la vez"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada vuelta del repetir ejecuta el decir completo.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-siempre-mover",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "repetir",
+      "prompt": "¿Qué hace el personaje?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\npor siempre\n  mover (2) pasos\n  rebotar si toca un borde",
+        "options": [
+          "Camina sin parar y rebota en los bordes",
+          "Camina 2 pasos y se detiene",
+          "Se queda quieto",
+          "Rebota solo una vez"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Por siempre repite hasta que se detenga el proyecto.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-volumen",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "sonidos",
+      "prompt": "¿Cómo suena el tambor?",
+      "content": {
+        "code": "fijar volumen a (20) %\niniciar sonido [Tambor]",
+        "options": [
+          "Bajito",
+          "Muy fuerte",
+          "No suena",
+          "Suena al revés"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El volumen va de 0 a 100: 20 es bajo.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-fantasma",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "efectos",
+      "prompt": "¿Qué pasa con el personaje?",
+      "content": {
+        "code": "fijar efecto [fantasma] a (100)",
+        "options": [
+          "Se vuelve invisible",
+          "Se agranda",
+          "Cambia de color",
+          "Gira"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El efecto fantasma controla la transparencia: 100 es invisible.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-fill-decir",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "apariencia",
+      "prompt": "Completá para que aparezca una burbuja de pensamiento.",
+      "content": {
+        "code": "___ [Hmm...] por (2) segundos",
+        "blanks": [
+          [
+            "pensar",
+            "decir",
+            "mover"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "Aparece una burbuja de pensamiento 2 segundos"
+      },
+      "explanation": "Pensar usa la burbuja de nubecitas; decir, la de diálogo.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-fill-mover",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "movimiento",
+      "prompt": "Completá para que el personaje retroceda 10 pasos.",
+      "content": {
+        "code": "mover (___) pasos",
+        "blanks": [
+          [
+            "-10",
+            "10",
+            "0"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "Retrocede 10 pasos"
+      },
+      "explanation": "Un número negativo lo hace ir hacia atrás.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-orden-bailar",
+      "type": "order_lines",
+      "difficulty": "medium",
+      "topic": "disfraces",
+      "prompt": "Ordená el script para que el personaje alterne de disfraz para siempre, con una pausa.",
+      "content": {
+        "lines": [
+          "al hacer clic en la bandera verde",
+          "por siempre",
+          "siguiente disfraz",
+          "esperar (0.2) segundos"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "El personaje cambia de disfraz sin parar, cada 0,2 segundos"
+      },
+      "explanation": "El esperar evita que cambie tan rápido que no se vea.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-orden-salto",
+      "type": "order_lines",
+      "difficulty": "hard",
+      "topic": "movimiento",
+      "prompt": "Ordená los bloques para que el personaje suba 50 y después baje 50.",
+      "content": {
+        "lines": [
+          "al presionar la tecla [espacio]",
+          "cambiar y en (50)",
+          "esperar (0.5) segundos",
+          "cambiar y en (-50)"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "Sube, espera medio segundo y baja"
+      },
+      "explanation": "Sin el esperar no se vería el salto.",
+      "module": 1
+    },
+    {
+      "slug": "sc-desafio-verdadero",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "condicionales",
+      "prompt": "¿Qué valores puede tener una condición?",
+      "content": {
+        "options": [
+          "Verdadero o falso",
+          "Cualquier número",
+          "Cualquier texto",
+          "Solo cero"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las condiciones son hexágonos, que responden verdadero o falso.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-hexagono",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "sensores",
+      "prompt": "¿Qué forma tienen las condiciones en Scratch?",
+      "content": {
+        "options": [
+          "Hexagonal",
+          "Redonda",
+          "Rectangular",
+          "De nube"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los hexágonos solo encajan en los huecos hexagonales, como el del «si».",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-hasta",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "¿Qué hace «repetir hasta que <>»?",
+      "content": {
+        "options": [
+          "Repite hasta que la condición sea verdadera",
+          "Repite una vez",
+          "Repite mientras sea verdadera",
+          "Espera sin repetir"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Corta apenas la condición se cumple.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-esperar-hasta",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "¿Qué hace «esperar hasta que <>»?",
+      "content": {
+        "options": [
+          "Frena el script hasta que la condición sea verdadera",
+          "Espera 1 segundo",
+          "Repite para siempre",
+          "Detiene todo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sirve para esperar una acción, como tocar a otro personaje.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-azar",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "operadores",
+      "prompt": "¿Qué hace «número aleatorio entre (1) y (10)»?",
+      "content": {
+        "options": [
+          "Da un número al azar entre 1 y 10",
+          "Siempre da 5",
+          "Suma 1 y 10",
+          "Cuenta hasta 10"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sirve para que los enemigos aparezcan en lugares distintos.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-detener",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "pantallas",
+      "prompt": "¿Qué bloque detiene todos los scripts?",
+      "content": {
+        "options": [
+          "detener [todos]",
+          "esconder",
+          "esperar (1) segundos",
+          "pensar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se usa en el Game Over.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-mostrar-var",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "variables",
+      "prompt": "¿Cómo se ve el puntaje en el escenario?",
+      "content": {
+        "options": [
+          "Con el casillero de la variable marcado",
+          "Con el bloque girar",
+          "Creando un clon",
+          "Cambiando de fondo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Marcás la variable en la paleta y aparece en el escenario.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-pregunta",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "sensores",
+      "prompt": "¿Qué hace «preguntar [¿Cómo te llamás?] y esperar»?",
+      "content": {
+        "options": [
+          "Muestra la pregunta y guarda lo que escribe el jugador en «respuesta»",
+          "Hace sonar una pregunta",
+          "Cambia el fondo",
+          "Cuenta los clones"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La respuesta del jugador se lee con el bloque «respuesta».",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-capa",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "pantallas",
+      "prompt": "¿Para qué sirve «pasar a capa del frente»?",
+      "content": {
+        "options": [
+          "Para que el personaje se vea delante de los demás",
+          "Para mover al personaje",
+          "Para sumar puntos",
+          "Para esconderlo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si dos personajes se superponen, la capa define cuál se ve arriba.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-limite-clones",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "clones",
+      "prompt": "¿Qué pasa si creás clones sin parar?",
+      "content": {
+        "options": [
+          "Hay un máximo de clones y el proyecto se pone lento",
+          "Scratch crea clones infinitos sin problema",
+          "Los clones se borran solos al nacer",
+          "Se cierra el editor"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Scratch limita la cantidad de clones: conviene borrarlos cuando ya no hacen falta.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-cond-falso",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "condicionales",
+      "prompt": "El personaje NO toca el borde. ¿Qué dice?",
+      "content": {
+        "code": "si <¿tocando [borde]?> entonces\n  decir [¡Borde!] por (1) segundos\nsino\n  decir [Libre] por (1) segundos",
+        "options": [
+          "Libre",
+          "¡Borde!",
+          "Los dos mensajes",
+          "Nada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si la condición es falsa se ejecuta el sino.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-puntaje-3",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "variables",
+      "prompt": "¿Cuánto vale el puntaje?",
+      "content": {
+        "code": "fijar [puntaje] a (0)\nrepetir (3)\n  sumar a [puntaje] (2)",
+        "options": [
+          "6",
+          "3",
+          "2",
+          "5"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "3 vueltas sumando 2: 3 × 2 = 6.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-menor",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "operadores",
+      "prompt": "El puntaje vale 4. ¿Qué pasa?",
+      "content": {
+        "code": "si <(puntaje) < (5)> entonces\n  decir [Seguí] por (1) segundos",
+        "options": [
+          "Dice Seguí",
+          "No dice nada",
+          "Detiene el juego",
+          "Cambia el fondo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "4 es menor que 5.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-clon-mostrar",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "clones",
+      "prompt": "¿Qué se ve?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\nesconder\ncrear clon de [yo mismo]\n\nal comenzar como clon\nmostrar",
+        "options": [
+          "Solo el clon (el original está escondido)",
+          "El original y el clon",
+          "Nada",
+          "Dos clones"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El clon empieza con «mostrar»; el original sigue escondido.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-mensaje-recibir",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "mensajes",
+      "prompt": "¿Qué pasa al tocar el botón?",
+      "content": {
+        "code": "[Botón]\nal hacer clic en este objeto\nenviar [fin] a todos\n\n[Fondo]\nal recibir [fin]\ncambiar fondo a [Game Over]",
+        "options": [
+          "Se cambia el fondo a Game Over",
+          "El botón se esconde",
+          "Nada, falta una bandera",
+          "Se crea un clon"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El que recibe el mensaje ejecuta su script.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-fill-vidas",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "variables",
+      "prompt": "Completá para empezar con 3 vidas.",
+      "content": {
+        "code": "al hacer clic en la bandera verde\n___ [vidas] a (3)",
+        "blanks": [
+          [
+            "fijar",
+            "sumar a",
+            "mostrar variable"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "Las vidas empiezan en 3"
+      },
+      "explanation": "Fijar le da un valor inicial. Sumar a lo cambiaría a partir del que tenía.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-fill-evento",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "mensajes",
+      "prompt": "Completá para que el Enemigo aparezca al empezar el juego.",
+      "content": {
+        "code": "al ___ [empezar]\nmostrar",
+        "blanks": [
+          [
+            "recibir",
+            "enviar",
+            "presionar"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "El Enemigo aparece cuando llega el mensaje"
+      },
+      "explanation": "El evento «al recibir [mensaje]» arranca el script.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-orden-pelota",
+      "type": "order_lines",
+      "difficulty": "hard",
+      "topic": "juego",
+      "prompt": "Ordená el script del jugador: se mueve a la derecha mientras se mantenga apretada la flecha.",
+      "content": {
+        "lines": [
+          "al hacer clic en la bandera verde",
+          "por siempre",
+          "si <¿tecla [flecha derecha] presionada?> entonces",
+          "cambiar x en (10)"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "Se mueve a la derecha mientras se mantiene la tecla"
+      },
+      "explanation": "Hay que revisar la tecla todo el tiempo, por eso va dentro del por siempre.",
+      "module": 2
+    },
+    {
+      "slug": "sc-desafio-orden-vidas",
+      "type": "order_lines",
+      "difficulty": "hard",
+      "topic": "juego",
+      "prompt": "Ordená para que el jugador pierda una vida al tocar al enemigo y, si llega a 0, termine.",
+      "content": {
+        "lines": [
+          "al hacer clic en la bandera verde",
+          "fijar [vidas] a (3)",
+          "si <¿tocando [Enemigo]?> entonces",
+          "sumar a [vidas] (-1)",
+          "si <(vidas) = (0)> entonces",
+          "detener [todos]"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "output": "Pierde una vida por golpe y el juego termina en 0"
+      },
+      "explanation": "Las vidas se fijan primero; luego se revisa el golpe y al final el fin.",
+      "module": 2
+    }
+  ]
+}
