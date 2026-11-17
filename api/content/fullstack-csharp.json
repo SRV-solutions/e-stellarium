@@ -1,0 +1,5004 @@
+{
+  "course": "fullstack-csharp",
+  "constellation": {
+    "name": "Constelación Fullstack con C#",
+    "description": "El recorrido del Curso Fullstack con C#, estrella por estrella.",
+    "published": true
+  },
+  "modules": [
+    {
+      "number": 1,
+      "title": "Primeros pasos",
+      "classes": "de la guía, págs. 4–6"
+    },
+    {
+      "number": 2,
+      "title": "C# desde cero",
+      "classes": "de la guía, págs. 7–11"
+    },
+    {
+      "number": 3,
+      "title": "Clases, objetos y encapsulamiento",
+      "classes": "de la guía, págs. 12–16"
+    },
+    {
+      "number": 4,
+      "title": "Herencia, abstracción y polimorfismo",
+      "classes": "de la guía, págs. 17–21"
+    },
+    {
+      "number": 5,
+      "title": "Interfaces",
+      "classes": "de la guía, págs. 22–25"
+    },
+    {
+      "number": 6,
+      "title": "Manejo de errores",
+      "classes": "de la guía, págs. 26–29"
+    },
+    {
+      "number": 7,
+      "title": "Tu primera API con .NET",
+      "classes": "de la guía, págs. 30–35"
+    },
+    {
+      "number": 8,
+      "title": "PostgreSQL y SQL",
+      "classes": "de la guía, págs. 36–40"
+    },
+    {
+      "number": 9,
+      "title": "API + PostgreSQL + CORS",
+      "classes": "de la guía, págs. 41–46"
+    },
+    {
+      "number": 10,
+      "title": "React desde cero",
+      "classes": "de la guía, págs. 47–52"
+    },
+    {
+      "number": 11,
+      "title": "Conectar front y back con Axios",
+      "classes": "de la guía, págs. 53–57"
+    },
+    {
+      "number": 12,
+      "title": "Proyecto final: app tipo Instagram",
+      "classes": "de la guía, págs. 58–61"
+    }
+  ],
+  "stars": [
+    {
+      "slug": "fs-primeros-pasos",
+      "module": 1,
+      "title": "Primeros pasos",
+      "description": "Qué es ser fullstack, cómo viaja un pedido, los puertos y las herramientas del curso.",
+      "questions": [
+        {
+          "slug": "fs-pp-tres-partes",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "fullstack",
+          "prompt": "¿Qué tres partes tiene una aplicación fullstack y qué tecnología se usa para cada una en el curso?",
+          "content": {
+            "options": [
+              "Frontend con React, backend con una API en .NET con C# y base de datos con PostgreSQL",
+              "Frontend con PostgreSQL, backend con React y base de datos con C#",
+              "Solo frontend con React y Vite",
+              "Backend con Axios, frontend con .NET y base con HTTP"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El frontend es lo visual, el backend es la lógica y la base de datos guarda la información. HTTP con JSON y Axios las conecta."
+        },
+        {
+          "slug": "fs-pp-react-base",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "fullstack",
+          "prompt": "¿Por qué React no se conecta directo a la base de datos?",
+          "content": {
+            "options": [
+              "Porque todo pasa por la API, que valida quién pide qué; si el front tuviera la contraseña de la base, cualquiera podría verla en el navegador",
+              "Porque React no entiende SQL ni JSON",
+              "Porque PostgreSQL solo acepta conexiones desde .NET",
+              "Porque es más lento y nada más"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La API es el intermediario: ahí se validan los permisos y se protegen las credenciales."
+        },
+        {
+          "slug": "fs-pp-puerto-vite",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "puertos",
+          "prompt": "¿En qué puerto suele correr el front con React (Vite)?",
+          "content": {
+            "options": [
+              "5173",
+              "5000",
+              "5432",
+              "3306"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La API .NET suele usar el 5000 y PostgreSQL, el 5432. Un puerto es como el número de departamento de un edificio."
+        },
+        {
+          "slug": "fs-pp-json",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "fullstack",
+          "prompt": "¿En qué formato viajan los datos entre el front y la API?",
+          "content": {
+            "options": [
+              "JSON, sobre HTTP",
+              "XML sobre FTP",
+              "Código C# compilado",
+              "Hojas de Excel"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En el curso, React usa Axios para pedir los datos y la API responde en JSON."
+        },
+        {
+          "slug": "fs-pp-lts",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "herramientas",
+          "prompt": "¿Por qué se recomienda la versión LTS de Node?",
+          "content": {
+            "options": [
+              "Porque es la estable (Long Term Support)",
+              "Porque es la más nueva y trae funciones experimentales",
+              "Porque es la única compatible con Windows",
+              "Porque incluye .NET"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Conviene instalar siempre la LTS."
+        },
+        {
+          "slug": "fs-pp-orden-pedido",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "fullstack",
+          "prompt": "Ordená el recorrido de un pedido cuando abrís el feed de una red social.",
+          "content": {
+            "lines": [
+              "React muestra la pantalla y pide los posts con GET /posts",
+              "La API .NET recibe el pedido y ejecuta el endpoint",
+              "El endpoint consulta PostgreSQL con SELECT * FROM posts",
+              "La base devuelve las filas y la API las convierte en JSON",
+              "React recibe el JSON, lo guarda en el estado y dibuja los posts"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "output": "El feed aparece dibujado en la pantalla"
+          },
+          "explanation": "El pedido va de React a la API, de la API a la base, y la respuesta vuelve en sentido contrario."
+        }
+      ]
+    },
+    {
+      "slug": "fs-csharp-tipos",
+      "module": 2,
+      "title": "Tipos, interpolación y listas",
+      "description": "Los tipos de datos, string con $, arrays y List, y la diferencia entre Length y Count.",
+      "questions": [
+        {
+          "slug": "fs-cs-decimal-saldo",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "tipos",
+          "prompt": "¿Qué tipo usarías para guardar un saldo bancario y por qué?",
+          "content": {
+            "options": [
+              "decimal, porque es el de máxima precisión para dinero (150.00m)",
+              "double, porque es el más rápido",
+              "int, porque el dinero son números enteros",
+              "string, porque lleva el símbolo $"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con double, 0.1 + 0.2 da 0.30000000000000004."
+        },
+        {
+          "slug": "fs-cs-interpolacion",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "string",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "string nombre = \"Ana\";\nint edad = 17;\nConsole.WriteLine($\"Me llamo {nombre} y tengo {edad} años\");",
+            "options": [
+              "Me llamo Ana y tengo 17 años",
+              "Me llamo {nombre} y tengo {edad} años",
+              "Me llamo nombre y tengo edad años",
+              "$Me llamo Ana y tengo 17 años"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El $ delante de las comillas activa la interpolación: lo que va entre llaves se reemplaza por su valor."
+        },
+        {
+          "slug": "fs-cs-list-add",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "listas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "List<int> lista = [1, 2, 3, 4];\nlista.Add(5);\nlista.RemoveAt(0);\nConsole.WriteLine(lista.Count);",
+            "options": [
+              "4",
+              "5",
+              "3",
+              "6"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Empieza con 4 elementos, Add suma uno (5) y RemoveAt(0) borra la posición 0 (4). La cantidad se pide con Count."
+        },
+        {
+          "slug": "fs-cs-length-count",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "listas",
+          "prompt": "¿Qué diferencia hay entre un array y una List?",
+          "content": {
+            "options": [
+              "El array tiene tamaño fijo y se mide con Length; la List crece y se achica y se mide con Count",
+              "El array crece y la List no",
+              "Los dos usan Length",
+              "La List solo guarda texto"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En la API se usan listas todo el tiempo, por ejemplo List<Usuario>."
+        },
+        {
+          "slug": "fs-cs-decimal-suma",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "tipos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "Console.WriteLine(0.1m + 0.2m == 0.3m);",
+            "options": [
+              "True",
+              "False",
+              "0.3",
+              "0.30000000000000004"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con decimal (sufijo m) la suma es exacta y da True. Con double, 0.1 + 0.2 da 0.30000000000000004 y la comparación daría False."
+        },
+        {
+          "slug": "fs-cs-fill-decimal",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "tipos",
+          "prompt": "Completá el tipo para guardar un saldo en decimal.",
+          "content": {
+            "code": "___ saldo = 500.0m;\nConsole.WriteLine(saldo);",
+            "blanks": [
+              [
+                "decimal",
+                "double",
+                "int"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "500.0"
+          },
+          "explanation": "El literal 500.0m es un decimal: solo cabe en una variable decimal."
+        }
+      ]
+    },
+    {
+      "slug": "fs-csharp-control",
+      "module": 2,
+      "title": "Decisiones, bucles, funciones y LINQ",
+      "description": "Condicionales, ternario, for, while, do...while, funciones y lambdas con LINQ.",
+      "questions": [
+        {
+          "slug": "fs-cs-ternario",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "condicionales",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "int edad = 20;\nstring mensaje = edad >= 18 ? \"Mayor\" : \"Menor\";\nConsole.WriteLine(mensaje);",
+            "options": [
+              "Mayor",
+              "Menor",
+              "True",
+              "20"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El ternario es un if en una línea: condición ? valor si es verdadera : valor si es falsa."
+        },
+        {
+          "slug": "fs-cs-for",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "bucles",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "for (int i = 0; i < 3; i++)\n    Console.Write(i);",
+            "options": [
+              "012",
+              "123",
+              "0123",
+              "3"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "i arranca en 0 y el bucle corre mientras i < 3: imprime 0, 1 y 2."
+        },
+        {
+          "slug": "fs-cs-dowhile",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "bucles",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "int j = 5;\ndo { j--; } while (j > 5);\nConsole.WriteLine(j);",
+            "options": [
+              "4",
+              "5",
+              "6",
+              "0"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "do...while se ejecuta al menos una vez: j baja a 4 y recién ahí se pregunta la condición."
+        },
+        {
+          "slug": "fs-cs-funcion-flecha",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "funciones",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "int Doble(int x) => x * 2;\nConsole.WriteLine(Doble(Doble(3)));",
+            "options": [
+              "12",
+              "6",
+              "9",
+              "Doble(6)"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Primero Doble(3) da 6 y después Doble(6) da 12. La flecha => es un cuerpo de expresión."
+        },
+        {
+          "slug": "fs-cs-linq-where",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "LINQ",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "List<int> edades = [12, 20, 17, 30];\nConsole.WriteLine(edades.Where(e => e >= 18).Count());",
+            "options": [
+              "2",
+              "4",
+              "1",
+              "3"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La lambda e => e >= 18 deja pasar a 20 y 30. Where filtra y Count cuenta."
+        },
+        {
+          "slug": "fs-cs-firstordefault",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "LINQ",
+          "prompt": "¿Qué devuelve FirstOrDefault si no encuentra nada en una lista de objetos?",
+          "content": {
+            "options": [
+              "null",
+              "Una excepción",
+              "0",
+              "Una lista vacía"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Por eso en la API se pregunta si el resultado es null para responder 404."
+        }
+      ]
+    },
+    {
+      "slug": "fs-clases-propiedades",
+      "module": 3,
+      "title": "Clases, objetos y propiedades",
+      "description": "El molde y las instancias, los modificadores de acceso, get/set y el encapsulamiento.",
+      "questions": [
+        {
+          "slug": "fs-cl-clase-objeto",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "POO",
+          "prompt": "¿Qué diferencia hay entre una clase y un objeto?",
+          "content": {
+            "options": [
+              "La clase es el molde; el objeto es algo concreto hecho con ese molde (una instancia)",
+              "La clase es un objeto ya creado",
+              "Son lo mismo",
+              "El objeto es el molde y la clase la copia"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "CuentaBancaria es la clase; la cuenta de Ana es un objeto."
+        },
+        {
+          "slug": "fs-cl-encapsulamiento",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "POO",
+          "prompt": "¿Qué es el encapsulamiento?",
+          "content": {
+            "options": [
+              "Proteger los datos con atributos private y exponer propiedades o métodos que impiden dejar el objeto en un estado inválido",
+              "Heredar de otra clase",
+              "Crear muchas clases",
+              "Usar solo métodos estáticos"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los atributos van private y se accede a ellos con propiedades."
+        },
+        {
+          "slug": "fs-cl-private",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "POO",
+          "prompt": "¿Quién puede ver un miembro private?",
+          "content": {
+            "options": [
+              "Solo la propia clase",
+              "Todo el mundo",
+              "La clase y sus hijas",
+              "Todo el proyecto"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "public: todos. protected: la clase y sus hijas. internal: todo el proyecto."
+        },
+        {
+          "slug": "fs-cl-set-valida",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "propiedades",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "var c = new Cuenta();\nc.Saldo = 100;\nc.Saldo = -50;\nConsole.WriteLine(c.Saldo);\n\nclass Cuenta\n{\n    private decimal saldo;\n    public decimal Saldo\n    {\n        get { return saldo; }\n        set\n        {\n            if (value >= 0) saldo = value;\n            else Console.WriteLine(\"No se pueden asignar montos negativos\");\n        }\n    }\n}",
+            "options": [
+              "No se pueden asignar montos negativos\n100",
+              "100",
+              "-50",
+              "No se pueden asignar montos negativos\n-50"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "value es el valor que intentan asignar: -50 no pasa la validación y el saldo se queda en 100."
+        },
+        {
+          "slug": "fs-cl-value",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "propiedades",
+          "prompt": "¿Qué representa value dentro de un set?",
+          "content": {
+            "options": [
+              "El valor que se intenta asignar a la propiedad",
+              "El valor actual guardado",
+              "El tipo de la propiedad",
+              "El nombre de la propiedad"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con cuenta.Saldo = -50, value vale -50."
+        },
+        {
+          "slug": "fs-cl-likes",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "propiedades",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "var post = new Post();\npost.DarLike();\npost.QuitarLike();\npost.QuitarLike();\nConsole.WriteLine(post.Likes);\n\nclass Post\n{\n    private int likes;\n    public int Likes\n    {\n        get => likes;\n        private set => likes = value < 0 ? 0 : value;\n    }\n    public void DarLike() => Likes++;\n    public void QuitarLike() => Likes--;\n}",
+            "options": [
+              "0",
+              "-1",
+              "1",
+              "-2"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El set es private y nunca deja el valor por debajo de 0: la tercera operación intenta ponerlo en -1 y queda en 0."
+        }
+      ]
+    },
+    {
+      "slug": "fs-clases-constructores",
+      "module": 3,
+      "title": "Constructores y objetos que se comunican",
+      "description": "Constructores, sobrecarga, this, constantes y métodos que reciben otros objetos.",
+      "questions": [
+        {
+          "slug": "fs-co-cuando",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "constructores",
+          "prompt": "¿Cuándo se ejecuta un constructor?",
+          "content": {
+            "options": [
+              "Al hacer new para crear un objeto",
+              "Al compilar el proyecto",
+              "Al destruir el objeto",
+              "Cada vez que se llama a un método"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Tiene el mismo nombre que la clase y no devuelve nada."
+        },
+        {
+          "slug": "fs-co-this-encadenado",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "constructores",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "var v = new Videojuego(\"Zelda\");\nConsole.WriteLine($\"{v.Titulo} {v.Genero} {v.Precio}\");\n\nclass Videojuego\n{\n    public string Titulo, Genero;\n    public int Precio;\n    public Videojuego() : this(\"Sin título\", \"Indie\", 0) { }\n    public Videojuego(string titulo) : this(titulo, \"Acción\", 60) { }\n    public Videojuego(string titulo, string genero, int precio)\n    {\n        Titulo = titulo;\n        Genero = genero;\n        Precio = precio;\n    }\n}",
+            "options": [
+              "Zelda Acción 60",
+              "Zelda Indie 0",
+              "Sin título Indie 0",
+              "Zelda  0"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El constructor de un parámetro llama al más completo con : this(titulo, \"Acción\", 60): así no se repite código."
+        },
+        {
+          "slug": "fs-co-this",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "constructores",
+          "prompt": "¿Qué significa this.titular = titular dentro de un constructor?",
+          "content": {
+            "options": [
+              "Que el atributo del objeto (this.titular) recibe el valor del parámetro titular",
+              "Que el parámetro recibe el atributo",
+              "Que se crea un objeto nuevo",
+              "Que titular es constante"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "this significa «este objeto»."
+        },
+        {
+          "slug": "fs-co-sobrecarga",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "constructores",
+          "prompt": "Una clase tiene un constructor sin parámetros y otro con un string. ¿Cómo se llama eso?",
+          "content": {
+            "options": [
+              "Sobrecarga de constructores",
+              "Herencia",
+              "Encapsulamiento",
+              "Polimorfismo"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Se elige uno u otro según los argumentos con que hagas new."
+        },
+        {
+          "slug": "fs-co-transferir",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "objetos",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "var a = new Cuenta(100);\nvar b = new Cuenta(0);\na.TransferirA(b, 30);\nConsole.WriteLine($\"{a.Saldo} {b.Saldo}\");\n\nclass Cuenta\n{\n    public decimal Saldo { get; private set; }\n    public Cuenta(decimal saldo) => Saldo = saldo;\n    public void Depositar(decimal monto) { if (monto > 0) Saldo += monto; }\n    public void Retirar(decimal monto) { if (monto > 0 && monto <= Saldo) Saldo -= monto; }\n    public void TransferirA(Cuenta destino, decimal monto)\n    {\n        if (Saldo < monto) return;\n        Retirar(monto);\n        destino.Depositar(monto);\n    }\n}",
+            "options": [
+              "70 30",
+              "100 0",
+              "100 30",
+              "70 0"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Un objeto puede recibir a otro como parámetro: retira 30 de su saldo y los deposita en el destino."
+        },
+        {
+          "slug": "fs-co-fill-clamp",
+          "type": "fill_blank",
+          "difficulty": "hard",
+          "topic": "propiedades",
+          "prompt": "Completá para que los likes nunca queden negativos.",
+          "content": {
+            "code": "var p = new Post();\np.QuitarLike();\nConsole.WriteLine(p.Likes);\n\nclass Post\n{\n    private int likes;\n    public int Likes\n    {\n        get => likes;\n        private set => likes = value < 0 ? ___ : value;\n    }\n    public void QuitarLike() => Likes--;\n}",
+            "blanks": [
+              [
+                "0",
+                "-1",
+                "value"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "0"
+          },
+          "explanation": "Si el valor es negativo se guarda 0. Con -1 o con value quedaría negativo."
+        }
+      ]
+    },
+    {
+      "slug": "fs-herencia",
+      "module": 4,
+      "title": "Herencia y abstracción",
+      "description": "Clases padre e hijas, base, clases abstractas, virtual y override.",
+      "questions": [
+        {
+          "slug": "fs-he-base",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "herencia",
+          "prompt": "¿Qué hace : base(...) en el constructor de una clase hija?",
+          "content": {
+            "options": [
+              "Llama al constructor de la clase padre",
+              "Crea una clase nueva",
+              "Hace la clase abstracta",
+              "Borra al padre"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si el padre no tiene constructor vacío, la hija está obligada a usarlo: si no, no compila."
+        },
+        {
+          "slug": "fs-he-una-clase",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "herencia",
+          "prompt": "¿De cuántas clases puede heredar una clase en C#?",
+          "content": {
+            "options": [
+              "De una sola; para sumar contratos usa interfaces",
+              "De dos",
+              "De todas las que quiera",
+              "De ninguna"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Evita el famoso problema del diamante."
+        },
+        {
+          "slug": "fs-he-moto",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "herencia",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "var m = new Moto(\"Honda\", 150);\nConsole.WriteLine($\"{m.Marca} {m.Cilindrada}\");\n\nclass Vehiculo\n{\n    public string Marca;\n    public Vehiculo(string marca) { Marca = marca; }\n}\nclass Moto : Vehiculo\n{\n    public int Cilindrada;\n    public Moto(string marca, int cc) : base(marca) { Cilindrada = cc; }\n}",
+            "options": [
+              "Honda 150",
+              "150 Honda",
+              "Honda 0",
+              "Moto 150"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La hija recibe todo lo del padre (Marca) y agrega lo suyo (Cilindrada)."
+        },
+        {
+          "slug": "fs-he-abstract-virtual",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "abstracción",
+          "prompt": "¿Qué diferencia hay entre un método abstract y uno virtual?",
+          "content": {
+            "options": [
+              "abstract no tiene cuerpo en el padre y la hija debe sobrescribirlo; virtual tiene cuerpo y sobrescribirlo es opcional",
+              "No hay diferencia",
+              "virtual no se puede sobrescribir",
+              "abstract tiene cuerpo y virtual no"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En la hija los dos se sobrescriben con override."
+        },
+        {
+          "slug": "fs-he-override",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "herencia",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "Animal a = new Perro();\nConsole.WriteLine(a.Sonido());\n\nclass Animal { public virtual string Sonido() => \"...\"; }\nclass Perro : Animal { public override string Sonido() => \"Guau\"; }",
+            "options": [
+              "Guau",
+              "...",
+              "Animal",
+              "Perro"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Aunque la variable sea de tipo Animal, el objeto es un Perro y se ejecuta su versión sobrescrita."
+        },
+        {
+          "slug": "fs-he-abstracta-new",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "abstracción",
+          "prompt": "¿Se puede hacer new de una clase abstracta?",
+          "content": {
+            "options": [
+              "No: una clase abstract no se puede instanciar",
+              "Sí, siempre",
+              "Solo si es pública",
+              "Solo con un constructor privado"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Se usa como molde para sus hijas."
+        }
+      ]
+    },
+    {
+      "slug": "fs-polimorfismo",
+      "module": 4,
+      "title": "Polimorfismo y los cuatro pilares",
+      "description": "Listas del tipo padre, override y los cuatro pilares de la POO.",
+      "questions": [
+        {
+          "slug": "fs-po-override-palabra",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "polimorfismo",
+          "prompt": "¿Qué palabra usa la hija para implementar un método abstracto?",
+          "content": {
+            "options": [
+              "override",
+              "virtual",
+              "base",
+              "new"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La palabra es la misma para sobrescribir un método virtual."
+        },
+        {
+          "slug": "fs-po-nomina",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "polimorfismo",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "List<Empleado> nomina =\n[\n    new FullTime { Base = 900, Bono = 100 },\n    new PorHora { Horas = 40, ValorHora = 5 }\n];\nforeach (Empleado e in nomina)\n    Console.WriteLine(e.CalcularSalario());\n\nabstract class Empleado { public abstract decimal CalcularSalario(); }\nclass FullTime : Empleado\n{\n    public decimal Base, Bono;\n    public override decimal CalcularSalario() => Base + Bono;\n}\nclass PorHora : Empleado\n{\n    public int Horas;\n    public decimal ValorHora;\n    public override decimal CalcularSalario() => Horas * ValorHora;\n}",
+            "options": [
+              "1000\n200",
+              "1000\n1000",
+              "200\n1000",
+              "900\n40"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El foreach no sabe si cada elemento es FullTime o PorHora: cada uno calcula a su manera. Eso es polimorfismo."
+        },
+        {
+          "slug": "fs-po-lista-padre",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "polimorfismo",
+          "prompt": "¿Por qué una List<Empleado> puede guardar un EmpleadoPorHora?",
+          "content": {
+            "options": [
+              "Porque EmpleadoPorHora hereda de Empleado: es un Empleado",
+              "Porque List acepta cualquier tipo",
+              "Porque es abstracto",
+              "Porque Empleado es una interfaz"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Una lista del tipo padre guarda hijas distintas."
+        },
+        {
+          "slug": "fs-po-pilares",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "POO",
+          "prompt": "¿Cuál de estos son los cuatro pilares de la POO?",
+          "content": {
+            "options": [
+              "Encapsulamiento, herencia, abstracción y polimorfismo",
+              "Clase, objeto, método y atributo",
+              "Public, private, protected e internal",
+              "Constructor, propiedad, método y evento"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Ocultar datos, reutilizar, definir el «qué» sin el «cómo» y mismo método con distinto comportamiento."
+        },
+        {
+          "slug": "fs-po-encapsulamiento-ejemplo",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "POO",
+          "prompt": "«Ocultar los datos y exponer métodos controlados», como un Saldo con private set. ¿Qué pilar es?",
+          "content": {
+            "options": [
+              "Encapsulamiento",
+              "Herencia",
+              "Abstracción",
+              "Polimorfismo"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Herencia es reutilizar una clase padre; abstracción es definir el qué sin el cómo."
+        },
+        {
+          "slug": "fs-po-orden-feed",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "polimorfismo",
+          "prompt": "Ordená para mostrar el feed con una foto y un reel, en ese orden.",
+          "content": {
+            "lines": [
+              "List<string> feed = [];",
+              "feed.Add(\"[Foto] ana\");",
+              "feed.Add(\"[Reel] bruno\");",
+              "foreach (var p in feed) Console.WriteLine(p);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "[Foto] ana\n[Reel] bruno"
+          },
+          "explanation": "Primero se crea la lista, después se agregan en orden y al final se recorre."
+        }
+      ]
+    },
+    {
+      "slug": "fs-interfaces",
+      "module": 5,
+      "title": "Interfaces",
+      "description": "Contratos que una clase promete cumplir: definirlas, implementarlas y cuándo preferirlas a una clase abstracta.",
+      "questions": [
+        {
+          "slug": "fs-if-que-es",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "interfaces",
+          "prompt": "¿Qué es una interfaz?",
+          "content": {
+            "options": [
+              "Un contrato: dice qué propiedades y métodos tiene que tener una clase, sin implementarlos",
+              "Una clase que se puede instanciar",
+              "Una ventana gráfica",
+              "Un método estático"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Por convención su nombre empieza con I, como IControlable."
+        },
+        {
+          "slug": "fs-if-no-compila",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "interfaces",
+          "prompt": "Una clase dice que implementa una interfaz pero le falta un método. ¿Qué pasa?",
+          "content": {
+            "options": [
+              "El proyecto no compila: el compilador te obliga a cumplir el contrato",
+              "Se ejecuta igual",
+              "Se crea el método vacío solo",
+              "Se lanza una excepción al ejecutar"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es justamente la idea de la interfaz."
+        },
+        {
+          "slug": "fs-if-televisor",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "interfaces",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "IControlable t = new Televisor();\nt.SubirVolumen();\nConsole.WriteLine(t.Volumen);\n\ninterface IControlable\n{\n    int Volumen { get; set; }\n    void SubirVolumen();\n}\nclass Televisor : IControlable\n{\n    public int Volumen { get; set; } = 10;\n    public void SubirVolumen() => Volumen += 5;\n}",
+            "options": [
+              "15",
+              "10",
+              "5",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El televisor cumple el contrato y su SubirVolumen suma 5 al volumen inicial de 10."
+        },
+        {
+          "slug": "fs-if-por-defecto",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "interfaces",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "IAtacante g = new Guerrero();\ng.AtaqueCritico();\n\ninterface IAtacante\n{\n    int DanioBase { get; set; }\n    void Atacar();\n    void AtaqueCritico()\n    {\n        Console.WriteLine($\"¡Crítico! Daño: {DanioBase * 2}\");\n    }\n}\nclass Guerrero : IAtacante\n{\n    public int DanioBase { get; set; } = 25;\n    public void Atacar() => Console.WriteLine(\"Ataca con la espada\");\n}",
+            "options": [
+              "¡Crítico! Daño: 50",
+              "Ataca con la espada",
+              "¡Crítico! Daño: 25",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Desde C# 8 una interfaz puede traer un método con implementación por defecto, que se llama a través de la interfaz."
+        },
+        {
+          "slug": "fs-if-vs-abstracta",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "interfaces",
+          "prompt": "¿Qué diferencia hay entre una interfaz y una clase abstracta?",
+          "content": {
+            "options": [
+              "La interfaz se lee «puede hacer», la implementan muchas y no tiene estado; la abstracta se lee «es un», se hereda una sola y puede tener atributos y constructor",
+              "No hay diferencia",
+              "La interfaz puede tener constructor y la abstracta no",
+              "Una clase hereda de muchas abstractas pero de una sola interfaz"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "IControlable «puede hacer»; Vehiculo «es un»."
+        },
+        {
+          "slug": "fs-if-varias",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "interfaces",
+          "prompt": "¿Cuántas interfaces puede implementar una clase?",
+          "content": {
+            "options": [
+              "Muchas, separadas por comas (después de la clase padre, si hay)",
+              "Solo una",
+              "Ninguna si hereda de otra clase",
+              "Dos como máximo"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Por ejemplo: class UsuarioBanco : Persona, ICuentaBancaria, IComparable<UsuarioBanco>."
+        }
+      ]
+    },
+    {
+      "slug": "fs-errores",
+      "module": 6,
+      "title": "Manejo de errores",
+      "description": "Excepciones, try/catch/finally, throw, excepciones propias y filtros con when.",
+      "questions": [
+        {
+          "slug": "fs-er-finally",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "try/catch",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "try\n{\n    Console.WriteLine(10 / int.Parse(\"0\"));\n}\ncatch (DivideByZeroException)\n{\n    Console.WriteLine(\"No se puede dividir por cero\");\n}\nfinally\n{\n    Console.WriteLine(\"Fin de la operación\");\n}",
+            "options": [
+              "No se puede dividir por cero\nFin de la operación",
+              "Fin de la operación",
+              "No se puede dividir por cero",
+              "Infinity\nFin de la operación"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Dividir un entero por 0 lanza DivideByZeroException. El finally corre siempre."
+        },
+        {
+          "slug": "fs-er-orden-catch",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "try/catch",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "try\n{\n    int.Parse(\"abc\");\n}\ncatch (DivideByZeroException)\n{\n    Console.WriteLine(\"Dividir por cero\");\n}\ncatch (FormatException)\n{\n    Console.WriteLine(\"Eso no es un número\");\n}\ncatch (Exception error)\n{\n    Console.WriteLine(\"Error inesperado\");\n}",
+            "options": [
+              "Eso no es un número",
+              "Dividir por cero",
+              "Error inesperado",
+              "Eso no es un número\nError inesperado"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Gana el primer catch que coincide: int.Parse(\"abc\") lanza FormatException. Los catch van del más específico al más general."
+        },
+        {
+          "slug": "fs-er-fill-format",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "try/catch",
+          "prompt": "Completá con la excepción que lanza int.Parse(\"hola\").",
+          "content": {
+            "code": "try\n{\n    int.Parse(\"hola\");\n}\ncatch (___)\n{\n    Console.WriteLine(\"Eso no es un número\");\n}",
+            "blanks": [
+              [
+                "FormatException",
+                "DivideByZeroException",
+                "OverflowException"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "Eso no es un número"
+          },
+          "explanation": "int.Parse con texto que no es un número lanza FormatException. Las otras no la atrapan y el programa se corta."
+        },
+        {
+          "slug": "fs-er-custom",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "excepciones propias",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "try\n{\n    throw new SalarioInvalidoException(\"Salario negativo\", \"ERR-SAL-001\");\n}\ncatch (SalarioInvalidoException ex)\n{\n    Console.WriteLine($\"{ex.Codigo}: {ex.Message}\");\n}\n\nclass SalarioInvalidoException : Exception\n{\n    public string Codigo { get; }\n    public SalarioInvalidoException(string mensaje, string codigo) : base(mensaje)\n    {\n        Codigo = codigo;\n    }\n}",
+            "options": [
+              "ERR-SAL-001: Salario negativo",
+              "Salario negativo: ERR-SAL-001",
+              "ERR-SAL-001",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": ": base(mensaje) le pasa el texto a Exception y queda disponible en ex.Message."
+        },
+        {
+          "slug": "fs-er-when",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "filtros when",
+          "prompt": "¿Para qué sirve when en un catch?",
+          "content": {
+            "options": [
+              "Para atrapar la excepción solo si se cumple una condición, por ejemplo un código de error",
+              "Para repetir el try",
+              "Para ejecutar siempre",
+              "Para lanzar la excepción"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con when (ex.ErrorCode == 404) se atrapan distintos códigos con catch separados."
+        },
+        {
+          "slug": "fs-er-api-validar",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "errores en la API",
+          "prompt": "¿Por qué no conviene usar excepciones para validar un campo vacío?",
+          "content": {
+            "options": [
+              "Porque las excepciones son para lo inesperado: si podés validar con un if, devolvés BadRequest o NotFound",
+              "Porque las excepciones no existen en la API",
+              "Porque son más baratas",
+              "Porque Thunder Client no las muestra"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En un endpoint, un error no atrapado devuelve un 500 genérico."
+        }
+      ]
+    },
+    {
+      "slug": "fs-api-basico",
+      "module": 7,
+      "title": "Qué es una API y cómo se levanta",
+      "description": "Endpoints, verbos y códigos, la estructura de Program.cs y el puerto.",
+      "questions": [
+        {
+          "slug": "fs-api-endpoint",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "API",
+          "prompt": "¿Qué es un endpoint?",
+          "content": {
+            "options": [
+              "Una ruta más un verbo HTTP, como GET /usuarios",
+              "Un archivo de la base de datos",
+              "Una clase de C#",
+              "Un puerto"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El body son los datos que manda el cliente y el parámetro de ruta, el dato en la URL: /usuarios/{id}."
+        },
+        {
+          "slug": "fs-api-crear-201",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "API",
+          "prompt": "¿Qué verbo y qué código usás para crear un recurso?",
+          "content": {
+            "options": [
+              "POST y 201 Created (Results.Created)",
+              "GET y 200",
+              "PUT y 204",
+              "DELETE y 404"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "GET → Ok 200, PUT → Ok 200, DELETE → NoContent 204."
+        },
+        {
+          "slug": "fs-api-404",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "API",
+          "prompt": "¿Qué significa un 404 y qué método .NET lo devuelve?",
+          "content": {
+            "options": [
+              "Que el recurso no existe; Results.NotFound()",
+              "Que hubo un error del servidor; Results.Problem()",
+              "Que el login es incorrecto; Results.Unauthorized()",
+              "Que salió bien; Results.Ok()"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los 4xx son errores del cliente."
+        },
+        {
+          "slug": "fs-api-puerto-refused",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "API",
+          "prompt": "Cambiaste el puerto de la API y el front muestra ERR_CONNECTION_REFUSED. ¿Qué te faltó?",
+          "content": {
+            "options": [
+              "Cambiar también la baseURL de Axios en el front",
+              "Reiniciar PostgreSQL",
+              "Instalar React de nuevo",
+              "Cambiar el verbo"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es la causa número uno de ese error."
+        },
+        {
+          "slug": "fs-api-id-int",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "API",
+          "prompt": "¿Qué hace {id:int} en una ruta?",
+          "content": {
+            "options": [
+              "Obliga a que el id sea un número (si no, 404 automático)",
+              "Convierte el id en texto",
+              "Hace opcional el id",
+              "Crea el id solo"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es un parámetro de ruta con una restricción de tipo."
+        },
+        {
+          "slug": "fs-api-orden-program",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "API",
+          "prompt": "Ordená la estructura de Program.cs, que siempre sigue el mismo orden.",
+          "content": {
+            "lines": [
+              "var builder = WebApplication.CreateBuilder(args);",
+              "// 1) servicios: base de datos, CORS...",
+              "var app = builder.Build();",
+              "// 2) middlewares: UseCors...",
+              "// 3) endpoints: app.MapGet(...)",
+              "app.Run();"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "output": "La API queda escuchando pedidos"
+          },
+          "explanation": "Primero el builder y los servicios, después Build, los middlewares, los endpoints y al final Run."
+        }
+      ]
+    },
+    {
+      "slug": "fs-api-crud",
+      "module": 7,
+      "title": "Un CRUD en memoria",
+      "description": "Endpoints con lista en memoria: ids nuevos, FirstOrDefault, FindIndex y validaciones.",
+      "questions": [
+        {
+          "slug": "fs-crud-nuevo-id",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "CRUD",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "List<int> ids = [1, 2, 5];\nint nuevoId = ids.Count > 0 ? ids.Max() + 1 : 1;\nConsole.WriteLine(nuevoId);",
+            "options": [
+              "6",
+              "3",
+              "4",
+              "5"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El id nuevo es el mayor más uno; si la lista está vacía, empieza en 1."
+        },
+        {
+          "slug": "fs-crud-notfound",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "CRUD",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "var productos = new List<Producto> { new Producto { Id = 1, Nombre = \"Teclado\" } };\nvar p = productos.FirstOrDefault(x => x.Id == 9);\nConsole.WriteLine(p is not null ? \"200 Ok\" : \"404 NotFound\");\n\nclass Producto\n{\n    public int Id { get; set; }\n    public string Nombre { get; set; } = \"\";\n}",
+            "options": [
+              "404 NotFound",
+              "200 Ok",
+              "null",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "FirstOrDefault devuelve null si no encuentra: ahí el endpoint responde 404."
+        },
+        {
+          "slug": "fs-crud-findindex",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "CRUD",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "List<int> l = [1, 2];\nConsole.WriteLine(l.FindIndex(x => x == 7));",
+            "options": [
+              "-1",
+              "0",
+              "null",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "FindIndex devuelve la posición o -1 si no encuentra al que cumple. En el PUT se usa para saber si existe."
+        },
+        {
+          "slug": "fs-crud-delete",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "CRUD",
+          "prompt": "¿Qué devuelve un DELETE exitoso en la API?",
+          "content": {
+            "options": [
+              "Results.NoContent(), un 204",
+              "Results.Created(), un 201",
+              "Results.NotFound(), un 404",
+              "Results.Problem(), un 500"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "204 significa «salió bien y no hay nada para devolver»."
+        },
+        {
+          "slug": "fs-crud-memoria",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "CRUD",
+          "prompt": "¿Por qué se pierden los datos guardados en una List al reiniciar la API?",
+          "content": {
+            "options": [
+              "Porque viven en la memoria del programa: para guardarlos de verdad hace falta una base de datos",
+              "Porque Thunder Client los borra",
+              "Porque .NET limpia las listas",
+              "Porque el JSON los reemplaza"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Sirve para aprender; después viene PostgreSQL."
+        },
+        {
+          "slug": "fs-crud-fill-400",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "CRUD",
+          "prompt": "Completá con el nombre que haría responder un 400.",
+          "content": {
+            "code": "string nombre = ___;\nConsole.WriteLine(string.IsNullOrWhiteSpace(nombre) ? \"400 BadRequest\" : \"201 Created\");",
+            "blanks": [
+              [
+                "\"   \"",
+                "\"Teclado\"",
+                "\"a\""
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "400 BadRequest"
+          },
+          "explanation": "Un nombre con solo espacios es inválido para IsNullOrWhiteSpace: la API responde 400 BadRequest."
+        }
+      ]
+    },
+    {
+      "slug": "fs-sql",
+      "module": 8,
+      "title": "PostgreSQL y SQL",
+      "description": "psql, tablas y claves, el CRUD en SQL, JOIN y agrupar resultados.",
+      "questions": [
+        {
+          "slug": "fs-sql-dt",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "psql",
+          "prompt": "¿Qué comando de psql lista las tablas de la base actual?",
+          "content": {
+            "options": [
+              "\\dt",
+              "\\l",
+              "\\du",
+              "\\q"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "\\l lista las bases, \\dt las tablas, \\du los usuarios y \\q sale. Los comandos de psql empiezan con \\ y no llevan ;."
+        },
+        {
+          "slug": "fs-sql-count",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "SQL",
+          "prompt": "Tablas: usuarios (1 ana, 2 beto, 3 cami) y posts (playa y montaña, de ana; asado, de beto). ¿Qué devuelve esta consulta?",
+          "content": {
+            "code": "SELECT COUNT(*) FROM posts WHERE usuario_id = 1;",
+            "options": [
+              "2",
+              "3",
+              "1",
+              "0"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "COUNT(*) cuenta las filas que cumplen el WHERE: ana tiene 2 posts."
+        },
+        {
+          "slug": "fs-sql-join",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "JOIN",
+          "prompt": "Tablas: usuarios (1 ana, 2 beto, 3 cami) y posts (playa y montaña, de ana; asado, de beto). Cada post tiene una fecha (playa 1, montaña 3, asado 2). ¿Qué devuelve esta consulta?",
+          "content": {
+            "code": "SELECT u.nombre, p.descripcion\nFROM posts p\nJOIN usuarios u ON u.id = p.usuario_id\nORDER BY p.fecha DESC;",
+            "options": [
+              "ana | montaña\nbeto | asado\nana | playa",
+              "ana | playa\nbeto | asado\nana | montaña",
+              "ana | montaña\nana | playa\nbeto | asado",
+              "ana | playa\nana | montaña\nbeto | asado"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El JOIN une cada post con su autor (ON dice qué columnas unen las tablas). Con la fecha de mayor a menor, primero el más nuevo."
+        },
+        {
+          "slug": "fs-sql-leftjoin-count",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "JOIN",
+          "prompt": "Tablas: usuarios (1 ana, 2 beto, 3 cami) y posts (playa y montaña, de ana; asado, de beto). ¿Qué devuelve esta consulta?",
+          "content": {
+            "code": "SELECT u.nombre, COUNT(p.id) AS cantidad\nFROM usuarios u\nLEFT JOIN posts p ON p.usuario_id = u.id\nGROUP BY u.nombre\nORDER BY cantidad DESC, u.nombre;",
+            "options": [
+              "ana | 2\nbeto | 1\ncami | 0",
+              "ana | 2\nbeto | 1",
+              "cami | 0\nbeto | 1\nana | 2",
+              "ana | 3\nbeto | 3\ncami | 3"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "LEFT JOIN trae todos los usuarios, aunque no tengan posts: cami aparece con 0. Un JOIN común la dejaría afuera."
+        },
+        {
+          "slug": "fs-sql-fill-left",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "JOIN",
+          "prompt": "Completá para traer los usuarios que no tienen ningún post.",
+          "content": {
+            "code": "SELECT u.nombre\nFROM usuarios u\n___ posts p ON p.usuario_id = u.id\nWHERE p.id IS NULL;",
+            "blanks": [
+              [
+                "LEFT JOIN",
+                "JOIN"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "cami"
+          },
+          "explanation": "LEFT JOIN conserva todos los usuarios y deja p.id en NULL cuando no hay pareja. Con JOIN solo quedan los que sí tienen posts, y el filtro no encuentra ninguno."
+        },
+        {
+          "slug": "fs-sql-orden-select",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "SQL",
+          "prompt": "Ordená la consulta para traer los nombres de los usuarios con id mayor a 1, de la Z a la A.",
+          "content": {
+            "lines": [
+              "SELECT nombre",
+              "FROM usuarios",
+              "WHERE id > 1",
+              "ORDER BY nombre DESC;"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "cami\nbeto"
+          },
+          "explanation": "Las cláusulas van en orden: SELECT, FROM, WHERE y ORDER BY."
+        }
+      ]
+    },
+    {
+      "slug": "fs-npgsql",
+      "module": 9,
+      "title": "Conectar la API a PostgreSQL",
+      "description": "Npgsql, parámetros seguros, los tres métodos para ejecutar SQL y la inyección SQL.",
+      "questions": [
+        {
+          "slug": "fs-pg-paquete",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "Npgsql",
+          "prompt": "¿Qué paquete conecta .NET con PostgreSQL?",
+          "content": {
+            "options": [
+              "Npgsql",
+              "Axios",
+              "Express",
+              "Vite"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Se instala con dotnet add package Npgsql.DependencyInjection."
+        },
+        {
+          "slug": "fs-pg-metodos",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Npgsql",
+          "prompt": "¿Qué método usás para un SELECT de varias filas, cuál para un DELETE y cuál para un único valor?",
+          "content": {
+            "options": [
+              "ExecuteReaderAsync, ExecuteNonQueryAsync y ExecuteScalarAsync",
+              "ExecuteScalarAsync, ExecuteReaderAsync y ExecuteNonQueryAsync",
+              "ExecuteNonQueryAsync para los tres",
+              "ExecuteReaderAsync para los tres"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "ExecuteNonQueryAsync devuelve la cantidad de filas afectadas: si es 0, el endpoint responde 404."
+        },
+        {
+          "slug": "fs-pg-inyeccion",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "seguridad",
+          "prompt": "¿Por qué no hay que armar el SQL con interpolación de strings?",
+          "content": {
+            "options": [
+              "Porque es vulnerable a inyección SQL: alguien podría escribir un nombre que borre una tabla; con parámetros ($1, $2) Npgsql lo escapa",
+              "Porque es más lento",
+              "Porque C# no permite $\"\" con SQL",
+              "Porque Postgres no entiende comillas"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es una de las vulnerabilidades más famosas: está en el OWASP Top 10."
+        },
+        {
+          "slug": "fs-pg-returning",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Npgsql",
+          "prompt": "¿Qué hace RETURNING id en un INSERT?",
+          "content": {
+            "options": [
+              "Devuelve el id de la fila recién creada, que se lee con ExecuteScalarAsync",
+              "Retorna al inicio del programa",
+              "Borra el id",
+              "Valida el id"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Así el endpoint puede responder Created con el nuevo id."
+        },
+        {
+          "slug": "fs-pg-orden-params",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "Npgsql",
+          "prompt": "En un INSERT con $1, $2 y $3, ¿qué pasa si agregás los AddWithValue en otro orden?",
+          "content": {
+            "options": [
+              "Los datos se guardan en columnas equivocadas: el email puede terminar en la columna del nombre",
+              "Npgsql los reordena solo",
+              "Da un error de compilación",
+              "No pasa nada"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los parámetros se agregan en el mismo orden que $1, $2, $3."
+        },
+        {
+          "slug": "fs-pg-getint32",
+          "type": "multiple_choice",
+          "difficulty": "hard",
+          "topic": "Npgsql",
+          "prompt": "En reader.GetInt32(0), ¿a qué corresponde el 0?",
+          "content": {
+            "options": [
+              "A la posición de la columna en el SELECT, no en la tabla",
+              "Al id de la fila",
+              "A la fila cero",
+              "Al tipo de dato"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Por eso conviene escribir las columnas en lugar de SELECT *."
+        }
+      ]
+    },
+    {
+      "slug": "fs-cors-dto",
+      "module": 9,
+      "title": "CORS, DTO y el orden de Program.cs",
+      "description": "Por qué el navegador bloquea al front, cómo permitirlo y el orden completo de Program.cs.",
+      "questions": [
+        {
+          "slug": "fs-cors-que-es",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "CORS",
+          "prompt": "¿Qué es CORS y dónde se soluciona?",
+          "content": {
+            "options": [
+              "Una regla de seguridad del navegador: bloquea pedidos a otro origen salvo que la API lo permita; se soluciona en la API",
+              "Un error de la base de datos que se arregla en React",
+              "Una librería de C#",
+              "Un protocolo de la red"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "React corre en localhost:5173 y la API en localhost:5000: para el navegador son orígenes distintos."
+        },
+        {
+          "slug": "fs-cors-orden",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "CORS",
+          "prompt": "¿Dónde va app.UseCors respecto de Build() y los endpoints?",
+          "content": {
+            "options": [
+              "Después de Build() y antes de los endpoints (AddCors va antes de Build)",
+              "Antes de CreateBuilder",
+              "Después de app.Run()",
+              "Dentro de cada endpoint"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El orden completo: builder, AddNpgsqlDataSource, AddCors, Build, UseCors, Map... y Run."
+        },
+        {
+          "slug": "fs-cors-thunder",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "CORS",
+          "prompt": "Un endpoint funciona en Thunder Client pero no en React. ¿Por qué puede ser?",
+          "content": {
+            "options": [
+              "Porque Thunder Client no es un navegador y no aplica CORS",
+              "Porque Thunder usa otro puerto",
+              "Porque React no sabe leer JSON",
+              "Porque falta instalar Npgsql"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es el síntoma típico de un CORS mal configurado."
+        },
+        {
+          "slug": "fs-cors-dto",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "DTO",
+          "prompt": "¿Qué es un DTO?",
+          "content": {
+            "options": [
+              "Una clase que solo transporta datos, como lo que manda el formulario de login",
+              "Una tabla de la base",
+              "Un endpoint",
+              "Un tipo de excepción"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Data Transfer Object. En un proyecto real la contraseña se guarda hasheada (por ejemplo con BCrypt.Net-Next)."
+        },
+        {
+          "slug": "fs-cors-fill-origen",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "CORS",
+          "prompt": "Completá con el origen que debe permitir la API para dejar entrar al front de Vite.",
+          "content": {
+            "code": "string front = \"___\";\nConsole.WriteLine(front == \"http://localhost:5173\" ? \"permitido\" : \"bloqueado\");",
+            "blanks": [
+              [
+                "http://localhost:5173",
+                "http://localhost:5000",
+                "http://localhost:5432"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "permitido"
+          },
+          "explanation": "El origen del front es http://localhost:5173. El 5000 es la API y el 5432, PostgreSQL."
+        },
+        {
+          "slug": "fs-cors-orden-program",
+          "type": "order_lines",
+          "difficulty": "hard",
+          "topic": "Program.cs",
+          "prompt": "Ordená el Program.cs completo de una API con base de datos y CORS.",
+          "content": {
+            "lines": [
+              "using Npgsql;",
+              "var builder = WebApplication.CreateBuilder(args);",
+              "builder.Services.AddNpgsqlDataSource(connectionString);",
+              "builder.Services.AddCors(...);",
+              "var app = builder.Build();",
+              "app.UseCors(\"PermitirFront\");",
+              "app.MapGet(\"/usuarios\", ...);",
+              "app.Run();"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "output": "La API arranca con la base y CORS configurados"
+          },
+          "explanation": "Los servicios se registran antes de Build, y los middlewares y endpoints, después."
+        }
+      ]
+    },
+    {
+      "slug": "fs-react",
+      "module": 10,
+      "title": "React desde cero",
+      "description": "Componentes, props, estado, formularios, useEffect, listas con key y rutas.",
+      "questions": [
+        {
+          "slug": "fs-re-vite",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "React",
+          "prompt": "¿Qué comando crea un proyecto de React con Vite?",
+          "content": {
+            "options": [
+              "npm create vite@latest mi-front -- --template react",
+              "dotnet new react",
+              "npm install react-vite",
+              "npx react start"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Después se hace npm install y npm run dev, que levanta el front en http://localhost:5173."
+        },
+        {
+          "slug": "fs-re-props",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "React",
+          "prompt": "¿Qué son las props?",
+          "content": {
+            "options": [
+              "Los datos que un componente padre le pasa a un hijo; son de solo lectura",
+              "El estado interno de un componente",
+              "Las rutas de la app",
+              "Funciones de la API"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Por ejemplo, <PostCard autor=\"ana\" /> le pasa la prop autor."
+        },
+        {
+          "slug": "fs-re-copia-agregar",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "estado",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const posts = [\"a\", \"b\"];\nconst nuevo = [...posts, \"c\"];\nconsole.log(posts.length, nuevo.length);",
+            "options": [
+              "2 3",
+              "3 3",
+              "2 2",
+              "3 2"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Nunca se modifica el estado directo (posts.push): se crea una copia con el nuevo elemento y se la pasa al setter."
+        },
+        {
+          "slug": "fs-re-filter-borrar",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "estado",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const posts = [{ id: 1 }, { id: 2 }, { id: 3 }];\nconst resto = posts.filter((p) => p.id !== 2);\nconsole.log(resto.map((p) => p.id).join(\",\"));",
+            "options": [
+              "1,3",
+              "2",
+              "1,2,3",
+              "2,3"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "setPosts(posts.filter(p => p.id !== id)) saca de la lista el elemento con ese id."
+        },
+        {
+          "slug": "fs-re-useeffect",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "useEffect",
+          "prompt": "¿Qué pasa si un useEffect que cambia el estado no tiene array de dependencias?",
+          "content": {
+            "options": [
+              "Entra en un bucle infinito: pide datos, actualiza el estado, se redibuja y vuelve a pedir",
+              "Se ejecuta una sola vez",
+              "No se ejecuta nunca",
+              "Da un error de compilación"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con [] corre una sola vez al cargar; con [id], al cargar y cada vez que cambia id."
+        },
+        {
+          "slug": "fs-re-fill-form",
+          "type": "fill_blank",
+          "difficulty": "hard",
+          "topic": "formularios",
+          "prompt": "Completá para actualizar solo el campo cuyo name es «email», como hace un formulario controlado.",
+          "content": {
+            "code": "const form = { email: \"\", contrasena: \"\" };\nconst name = \"email\";\nconst nuevo = { ...form, [___]: \"a@a.com\" };\nconsole.log(nuevo.email);",
+            "blanks": [
+              [
+                "name",
+                "\"name\"",
+                "form"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "a@a.com"
+          },
+          "explanation": "Los corchetes usan el valor de la variable name como clave: es el truco de [e.target.name]: e.target.value."
+        }
+      ]
+    },
+    {
+      "slug": "fs-axios",
+      "module": 11,
+      "title": "Conectar front y back con Axios",
+      "description": "Axios, res.data, GET en useEffect, errores de la API y camelCase.",
+      "questions": [
+        {
+          "slug": "fs-ax-create",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "Axios",
+          "prompt": "¿Para qué sirve axios.create({ baseURL })?",
+          "content": {
+            "options": [
+              "Para configurar la URL de la API una vez y escribir solo la ruta en cada pedido: api.get(\"/posts\")",
+              "Para crear un componente",
+              "Para arrancar el servidor",
+              "Para crear la base de datos"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El baseURL tiene que coincidir con el puerto de la API."
+        },
+        {
+          "slug": "fs-ax-data",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "Axios",
+          "prompt": "En la respuesta de Axios, ¿dónde vienen los datos y dónde el código HTTP?",
+          "content": {
+            "options": [
+              "En res.data y res.status",
+              "En res.body y res.code",
+              "En res.json() y res.error",
+              "En res.text y res.state"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con api.get(\"/posts\").then((res) => setPosts(res.data))."
+        },
+        {
+          "slug": "fs-ax-async",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "useEffect",
+          "prompt": "¿Por qué la función que le pasás a useEffect no puede ser async?",
+          "content": {
+            "options": [
+              "Porque useEffect espera que devuelva una función de limpieza, no una promesa; se crea una función async adentro y se la llama",
+              "Porque async no existe en React",
+              "Porque Axios no lo permite",
+              "Porque solo corre una vez"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Por eso: const cargar = async () => {...}; cargar();"
+        },
+        {
+          "slug": "fs-ax-error",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Axios",
+          "prompt": "¿Cómo leés el mensaje de error que mandó la API, por ejemplo el de Results.BadRequest?",
+          "content": {
+            "options": [
+              "En err.response?.data (y el código en err.response.status)",
+              "En err.message de C#",
+              "En res.data siempre",
+              "En localStorage"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Axios tira error automáticamente con los códigos 4xx y 5xx."
+        },
+        {
+          "slug": "fs-ax-camelcase",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "camelCase",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const res = { data: { imagenUrl: \"x.jpg\" } };\nconsole.log(res.data.imagenUrl, res.data.ImagenUrl);",
+            "options": [
+              "x.jpg undefined",
+              "x.jpg x.jpg",
+              "undefined undefined",
+              "undefined x.jpg"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": ".NET manda las propiedades en camelCase: si en pantalla ves undefined, casi siempre es una mayúscula de más."
+        },
+        {
+          "slug": "fs-ax-borrar",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Axios",
+          "prompt": "¿Por qué después de borrar en la API también se hace setPosts(posts.filter(...))?",
+          "content": {
+            "options": [
+              "Porque React no se entera solo: hay que sacar el post del estado para que desaparezca de la pantalla sin recargar",
+              "Porque la API no borra",
+              "Porque filter borra en la base",
+              "Porque Axios lo exige"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El DELETE actualiza la base; el setPosts, la pantalla."
+        }
+      ]
+    },
+    {
+      "slug": "fs-proyecto",
+      "module": 12,
+      "title": "Proyecto final: app tipo Instagram",
+      "description": "Planificar, levantar la base, la API y el front en orden, y las rutas protegidas.",
+      "questions": [
+        {
+          "slug": "fs-pf-plan",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "proyecto",
+          "prompt": "¿Por qué conviene armar una tabla de pantallas y endpoints antes de programar?",
+          "content": {
+            "options": [
+              "Porque es el «contrato» entre el front y el back y ahorra horas de idas y vueltas",
+              "Porque lo exige Vite",
+              "Para que compile más rápido",
+              "Para no usar la base"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Pantalla, qué hace y qué endpoint necesita."
+        },
+        {
+          "slug": "fs-pf-protegida",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "proyecto",
+          "prompt": "¿Qué hace una ruta protegida?",
+          "content": {
+            "options": [
+              "Manda al login si no hay un usuario guardado",
+              "Encripta la URL",
+              "Bloquea el CORS",
+              "Borra el usuario"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "<Protegida><Feed /></Protegida> con <Navigate to=\"/\" />."
+        },
+        {
+          "slug": "fs-pf-fotos",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "proyecto",
+          "prompt": "Querés varias fotos por post (carrusel). ¿Qué tabla agregarías?",
+          "content": {
+            "options": [
+              "fotos (id, post_id, url, orden)",
+              "likes (usuario_id, post_id)",
+              "usuarios2",
+              "La columna posts.fotos con todas pegadas"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es una relación uno a muchos: un post, varias fotos."
+        },
+        {
+          "slug": "fs-pf-orden-levantar",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "proyecto",
+          "prompt": "Ordená cómo se levanta el proyecto completo.",
+          "content": {
+            "lines": [
+              "Crear la base y las tablas con psql -U postgres -f instagram.sql",
+              "Levantar la API con dotnet run en la terminal 1",
+              "Levantar el front con npm run dev en la terminal 2",
+              "Abrir http://localhost:5173 y entrar con un usuario de prueba"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "La app abierta en el navegador, con el feed"
+          },
+          "explanation": "Primero la base, después el back y por último el front."
+        },
+        {
+          "slug": "fs-pf-carrusel",
+          "type": "output",
+          "difficulty": "hard",
+          "topic": "proyecto",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const fotos = [\"a\", \"b\", \"c\"];\nlet actual = 0;\nactual = (actual - 1 + fotos.length) % fotos.length;\nconsole.log(fotos[actual]);",
+            "options": [
+              "c",
+              "a",
+              "b",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Al retroceder desde la primera foto, el módulo hace que el carrusel dé la vuelta y vaya a la última."
+        },
+        {
+          "slug": "fs-pf-thunder",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "proyecto",
+          "prompt": "¿Por qué probar cada endpoint en Thunder Client antes de tocar el front?",
+          "content": {
+            "options": [
+              "Así, si algo falla en React, ya sabés que la API anda y el problema está del lado del front (o en CORS)",
+              "Porque React no puede hacer pedidos",
+              "Porque lo exige PostgreSQL",
+              "Para evitar escribir código"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Revisá siempre de abajo hacia arriba: base → back → front."
+        }
+      ]
+    },
+    {
+      "slug": "fs-examen",
+      "module": null,
+      "title": "Examen",
+      "description": "Diez preguntas nuevas de toda la constelación, con tiempo. Aprobalo y ganás un descuento para tu próximo curso.",
+      "kind": "exam",
+      "questions": []
+    }
+  ],
+  "bank": [
+    {
+      "slug": "fs-banco-code-punto",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "¿Qué comando abre VS Code en la carpeta actual?",
+      "content": {
+        "options": [
+          "code .",
+          "open .",
+          "vs start",
+          "dotnet code"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Después se usan dos terminales: una para la API y otra para el front."
+    },
+    {
+      "slug": "fs-banco-ctrl-c",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "¿Cómo cortás un programa que está corriendo en la terminal, como la API?",
+      "content": {
+        "options": [
+          "Con Ctrl + C",
+          "Con cls",
+          "Con mkdir",
+          "Con code ."
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "cls o clear solo limpian la pantalla."
+    },
+    {
+      "slug": "fs-banco-hejlsberg",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "C#",
+      "module": 1,
+      "prompt": "¿Quién creó C#?",
+      "content": {
+        "options": [
+          "Anders Hejlsberg, en Microsoft, en el año 2000",
+          "Brendan Eich en Netscape",
+          "Linus Torvalds",
+          "Guido van Rossum"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Hejlsberg también creó TypeScript."
+    },
+    {
+      "slug": "fs-banco-indice",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "listas",
+      "module": 2,
+      "prompt": "¿Cuál es el último índice válido de una lista de 5 elementos?",
+      "content": {
+        "options": [
+          "4",
+          "5",
+          "6",
+          "0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El último índice válido es Count - 1."
+    },
+    {
+      "slug": "fs-banco-void",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "funciones",
+      "module": 2,
+      "prompt": "¿Qué significa void en una función?",
+      "content": {
+        "options": [
+          "Que no devuelve nada",
+          "Que devuelve un entero",
+          "Que es privada",
+          "Que es estática"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las funciones con return devuelven un tipo, como int."
+    },
+    {
+      "slug": "fs-banco-orden-sort",
+      "type": "order_lines",
+      "difficulty": "medium",
+      "topic": "listas",
+      "module": 2,
+      "prompt": "Ordená para que imprima la lista ordenada de menor a mayor.",
+      "content": {
+        "lines": [
+          "List<int> l = [3, 1, 2];",
+          "l.Sort();",
+          "Console.WriteLine(string.Join(\", \", l));"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2
+        ],
+        "output": "1, 2, 3"
+      },
+      "explanation": "Primero se crea la lista, después se ordena y al final se muestra: 1, 2, 3."
+    },
+    {
+      "slug": "fs-banco-protected",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "POO",
+      "module": 3,
+      "prompt": "¿Quién ve un miembro protected?",
+      "content": {
+        "options": [
+          "La clase y sus hijas",
+          "Solo la propia clase",
+          "Todo el mundo",
+          "Solo otro proyecto"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es el punto medio entre private y public."
+    },
+    {
+      "slug": "fs-banco-inicializador",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "objetos",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var post = new Post { Id = 1, Descripcion = \"Mi primer post\" };\nConsole.WriteLine($\"{post.Id}: {post.Descripcion}\");\n\nclass Post\n{\n    public int Id { get; set; }\n    public string Descripcion { get; set; } = \"\";\n}",
+        "options": [
+          "1: Mi primer post",
+          "Mi primer post",
+          "Id: Descripcion",
+          "1: "
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El inicializador de objetos arma el objeto con llaves: se usa mucho en la API."
+    },
+    {
+      "slug": "fs-banco-private-set",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "propiedades",
+      "module": 3,
+      "prompt": "¿Qué hace public int Likes { get; private set; }?",
+      "content": {
+        "options": [
+          "Cualquiera puede leer Likes, pero solo la propia clase puede cambiarlo",
+          "Nadie puede leerlo",
+          "Cualquiera puede cambiarlo",
+          "Es una constante"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Así se cambia solo con métodos como DarLike()."
+    },
+    {
+      "slug": "fs-banco-abstract-cuerpo",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "abstracción",
+      "module": 4,
+      "prompt": "¿Tiene cuerpo un método abstract en la clase padre?",
+      "content": {
+        "options": [
+          "No: cada hija lo implementa con override",
+          "Sí, siempre",
+          "Solo si es público",
+          "Solo si es estático"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una clase abstracta también puede tener métodos normales, con código."
+    },
+    {
+      "slug": "fs-banco-mostrar",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "polimorfismo",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "List<Publicacion> feed = [new PostFoto(\"ana\"), new Reel(\"bruno\")];\nforeach (var p in feed) p.Mostrar();\n\nabstract class Publicacion\n{\n    public string Autor;\n    protected Publicacion(string autor) { Autor = autor; }\n    public abstract void Mostrar();\n}\nclass PostFoto : Publicacion\n{\n    public PostFoto(string a) : base(a) { }\n    public override void Mostrar() => Console.WriteLine($\"[Foto] @{Autor}\");\n}\nclass Reel : Publicacion\n{\n    public Reel(string a) : base(a) { }\n    public override void Mostrar() => Console.WriteLine($\"[Reel] @{Autor}\");\n}",
+        "options": [
+          "[Foto] @ana\n[Reel] @bruno",
+          "[Reel] @bruno\n[Foto] @ana",
+          "@ana\n@bruno",
+          "[Foto] @ana\n[Foto] @bruno"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada publicación se muestra a su manera."
+    },
+    {
+      "slug": "fs-banco-pilar-herencia",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "POO",
+      "module": 4,
+      "prompt": "Moto : Vehiculo es un ejemplo de…",
+      "content": {
+        "options": [
+          "Herencia",
+          "Encapsulamiento",
+          "Abstracción",
+          "Polimorfismo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Reutilizar una clase padre."
+    },
+    {
+      "slug": "fs-banco-interfaz-estado",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "interfaces",
+      "module": 5,
+      "prompt": "¿Una interfaz puede tener atributos con estado?",
+      "content": {
+        "options": [
+          "No",
+          "Sí, siempre",
+          "Solo privados",
+          "Solo si es abstracta"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Para tener estado y constructor se usa una clase abstracta."
+    },
+    {
+      "slug": "fs-banco-comentar",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "interfaces",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var foto = new PostFoto();\nfoto.Comentar(\"¡Qué linda!\");\nfoto.Comentar(\"   \");\nConsole.WriteLine(foto.Comentarios.Count);\n\ninterface IComentable\n{\n    List<string> Comentarios { get; }\n    void Comentar(string texto);\n}\nclass PostFoto : IComentable\n{\n    public List<string> Comentarios { get; } = new();\n    public void Comentar(string texto)\n    {\n        if (string.IsNullOrWhiteSpace(texto)) return;\n        Comentarios.Add(texto);\n    }\n}",
+        "options": [
+          "1",
+          "2",
+          "0",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El comentario en blanco se descarta con IsNullOrWhiteSpace."
+    },
+    {
+      "slug": "fs-banco-i-letra",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "interfaces",
+      "module": 5,
+      "prompt": "¿Con qué letra empiezan por convención los nombres de las interfaces?",
+      "content": {
+        "options": [
+          "I",
+          "A",
+          "C",
+          "X"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "IControlable, IComentable, IParlante."
+    },
+    {
+      "slug": "fs-banco-finally",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "try/catch",
+      "module": 6,
+      "prompt": "¿Cuándo se ejecuta el bloque finally?",
+      "content": {
+        "options": [
+          "Siempre, haya o no un error",
+          "Solo si hay un error",
+          "Solo si no hay errores",
+          "Nunca"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sirve para cerrar o avisar el fin de la operación."
+    },
+    {
+      "slug": "fs-banco-checked",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "excepciones",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "try\n{\n    int n = 300;\n    byte b = checked((byte)n);\n}\ncatch (OverflowException)\n{\n    Console.WriteLine(\"Fuera de rango\");\n}",
+        "options": [
+          "Fuera de rango",
+          "44",
+          "300",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "byte va de 0 a 255: con checked, un número que no entra lanza OverflowException. (Con una constante escrita a mano, el compilador ya lo rechaza antes de ejecutar.)"
+    },
+    {
+      "slug": "fs-banco-orden-try",
+      "type": "order_lines",
+      "difficulty": "medium",
+      "topic": "try/catch",
+      "module": 6,
+      "prompt": "Ordená el bloque para que atrape el error de formato y avise que terminó.",
+      "content": {
+        "lines": [
+          "try { int.Parse(\"x\"); }",
+          "catch (FormatException) { Console.WriteLine(\"formato\"); }",
+          "finally { Console.WriteLine(\"fin\"); }"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2
+        ],
+        "output": "formato\nfin"
+      },
+      "explanation": "Primero el try, después el catch y por último el finally."
+    },
+    {
+      "slug": "fs-banco-rangos",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "API",
+      "module": 7,
+      "prompt": "¿Qué indican los códigos 2xx, 4xx y 5xx?",
+      "content": {
+        "options": [
+          "Éxito, error del cliente y error del servidor",
+          "Error del cliente, éxito y error del servidor",
+          "Redirección, éxito y error",
+          "Informativo, éxito y fallo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "2xx salió bien, 4xx mandaste algo mal, 5xx falló el servidor."
+    },
+    {
+      "slug": "fs-banco-camelcase",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "API",
+      "module": 7,
+      "prompt": "¿En qué formato escribe las propiedades el JSON que devuelve .NET?",
+      "content": {
+        "options": [
+          "camelCase (nombre), aunque en C# sean Nombre",
+          "PascalCase (Nombre)",
+          "snake_case (nombre_completo)",
+          "MAYÚSCULAS"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": ".NET las convierte solo, en las dos direcciones."
+    },
+    {
+      "slug": "fs-banco-any-doctor",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "API",
+      "module": 7,
+      "prompt": "Un paciente solo se da de alta si existe su doctor. ¿Qué usás para comprobarlo y qué respondés si no existe?",
+      "content": {
+        "options": [
+          "doctores.Any(d => d.Id == nuevo.DoctorId) y un 400 BadRequest antes de guardar",
+          "FindIndex y un 500",
+          "Max y un 201",
+          "Remove y un 204"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Any devuelve true si al menos uno cumple la condición."
+    },
+    {
+      "slug": "fs-banco-delete-sin-where",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "¿Qué pasa si ejecutás DELETE FROM posts; sin WHERE?",
+      "content": {
+        "options": [
+          "Borra todas las filas de la tabla",
+          "No borra nada",
+          "Da un error",
+          "Borra solo la primera fila"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Antes de ejecutarlo conviene probar el mismo WHERE con un SELECT. Con UPDATE pasa lo mismo."
+    },
+    {
+      "slug": "fs-banco-fk",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "¿Qué es una clave foránea?",
+      "content": {
+        "options": [
+          "Una columna que referencia a otra tabla (REFERENCES), como posts.usuario_id",
+          "La clave primaria de una tabla",
+          "Una contraseña",
+          "Un índice de texto"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Une una tabla con otra."
+    },
+    {
+      "slug": "fs-banco-ilike",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "Tablas: usuarios (1 ana, 2 beto, 3 cami) y posts (playa y montaña, de ana; asado, de beto). ¿Qué devuelve esta consulta?",
+      "content": {
+        "code": "SELECT nombre FROM usuarios WHERE nombre ILIKE '%AN%';",
+        "options": [
+          "ana",
+          "ana\nbeto",
+          "AN",
+          "cami"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "ILIKE busca sin importar mayúsculas; % significa «cualquier cosa». Solo ana contiene «an»."
+    },
+    {
+      "slug": "fs-banco-appsettings",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Npgsql",
+      "module": 9,
+      "prompt": "¿Por qué conviene poner la cadena de conexión en appsettings.json?",
+      "content": {
+        "options": [
+          "Para que cada uno cambie su contraseña sin tocar el código; en producción se reemplaza por una variable de entorno",
+          "Porque es más rápida",
+          "Porque C# no acepta strings largos",
+          "Porque Postgres lo exige"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Así la contraseña nunca queda subida a GitHub."
+    },
+    {
+      "slug": "fs-banco-await-using",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "Npgsql",
+      "module": 9,
+      "prompt": "¿Para qué sirve await using en un comando de Npgsql?",
+      "content": {
+        "options": [
+          "Para cerrar el comando y liberar la conexión solos al terminar",
+          "Para ejecutar dos consultas a la vez",
+          "Para esperar un click",
+          "Para importar un paquete"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "async/await permite que el servidor atienda otros pedidos mientras la consulta tarda."
+    },
+    {
+      "slug": "fs-banco-filas",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "Npgsql",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "int filas = 0;\nConsole.WriteLine(filas == 0 ? \"404 NotFound\" : \"204 NoContent\");",
+        "options": [
+          "404 NotFound",
+          "204 NoContent",
+          "0",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "ExecuteNonQueryAsync devuelve las filas afectadas: si no tocó ninguna, el recurso no existía."
+    },
+    {
+      "slug": "fs-banco-key",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "React",
+      "module": 10,
+      "prompt": "¿Para qué sirve la prop key en un map?",
+      "content": {
+        "options": [
+          "Para identificar cada elemento de la lista con un valor único (el id)",
+          "Para encriptar",
+          "Para ordenar la lista",
+          "Para pasar datos al hijo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin key, React avisa en la consola."
+    },
+    {
+      "slug": "fs-banco-preventdefault",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "formularios",
+      "module": 10,
+      "prompt": "¿Para qué sirve e.preventDefault() en el onSubmit de un formulario?",
+      "content": {
+        "options": [
+          "Para evitar que la página se recargue",
+          "Para borrar el formulario",
+          "Para validar el email",
+          "Para enviar a la API"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin eso, al enviar la página se recarga y se pierde el estado."
+    },
+    {
+      "slug": "fs-banco-toggle",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "estado",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const tareas = [{ id: 1, hecha: false }, { id: 2, hecha: false }];\nconst nuevo = tareas.map((t) => (t.id === 2 ? { ...t, hecha: !t.hecha } : t));\nconsole.log(nuevo.map((t) => t.hecha).join(\",\"));",
+        "options": [
+          "false,true",
+          "true,true",
+          "true,false",
+          "false,false"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "map devuelve una lista nueva: copia todas las tareas y solo cambia la que tocaste."
+    },
+    {
+      "slug": "fs-banco-refused",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Axios",
+      "module": 11,
+      "prompt": "En el front aparece ERR_CONNECTION_REFUSED. ¿Qué revisás primero?",
+      "content": {
+        "options": [
+          "Que la API esté levantada y que el baseURL tenga el puerto correcto",
+          "El nombre de las props",
+          "Los keys de las listas",
+          "El package.json de la API"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Back apagado o puerto distinto."
+    },
+    {
+      "slug": "fs-banco-axios-fetch",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "Axios",
+      "module": 11,
+      "prompt": "¿Qué ventaja tiene Axios frente a fetch?",
+      "content": {
+        "options": [
+          "Convierte el JSON solo y tira error con los códigos 4xx y 5xx",
+          "Es la única forma de hacer pedidos",
+          "Funciona sin internet",
+          "Hace CORS solo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El navegador ya trae fetch, que hace algo parecido."
+    },
+    {
+      "slug": "fs-banco-orden-respuesta",
+      "type": "order_lines",
+      "difficulty": "medium",
+      "topic": "Axios",
+      "module": 11,
+      "prompt": "Ordená para leer los posts de la respuesta y mostrar cuántos hay.",
+      "content": {
+        "lines": [
+          "const res = { data: [1, 2, 3] };",
+          "const posts = res.data;",
+          "const total = posts.length;",
+          "console.log(total);"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "3"
+      },
+      "explanation": "Los datos vienen en res.data."
+    },
+    {
+      "slug": "fs-banco-password-auth",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "errores comunes",
+      "module": 12,
+      "prompt": "Aparece «password authentication failed for user postgres». ¿Qué revisás?",
+      "content": {
+        "options": [
+          "Username y Password de la cadena de conexión",
+          "El puerto de React",
+          "El baseURL de Axios",
+          "Los keys del map"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La contraseña tiene que ser la que pusiste al instalar PostgreSQL."
+    },
+    {
+      "slug": "fs-banco-relation",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "errores comunes",
+      "module": 12,
+      "prompt": "Aparece «relation usuarios does not exist». ¿Cuál es la causa probable?",
+      "content": {
+        "options": [
+          "La tabla no fue creada o estás conectado a otra base: \\c instagram y \\dt",
+          "Falta el paquete Npgsql",
+          "Falta Node",
+          "CORS"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es un error de la base, no de la API."
+    },
+    {
+      "slug": "fs-banco-415",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "errores comunes",
+      "module": 12,
+      "prompt": "Thunder Client devuelve 415 Unsupported Media Type. ¿Qué falta?",
+      "content": {
+        "options": [
+          "Mandar el body como JSON (pestaña Body, JSON)",
+          "Cambiar el puerto",
+          "Instalar Axios",
+          "Reiniciar PostgreSQL"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El body no es JSON."
+    },
+    {
+      "slug": "fs-banco-fill-length",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "listas",
+      "module": 2,
+      "prompt": "Completá para imprimir la cantidad de elementos del array.",
+      "content": {
+        "code": "int[] numeros = { 1, 2, 3, 4 };\nConsole.WriteLine(numeros.___);",
+        "blanks": [
+          [
+            "Length",
+            "Count"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "4"
+      },
+      "explanation": "Los arrays usan Length; las List usan Count. En un array, .Count no existe y no compila."
+    },
+    {
+      "slug": "fs-banco-fill-tryparse",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "module": 2,
+      "prompt": "Completá para que no se corte el programa si el texto no es un número.",
+      "content": {
+        "code": "bool ok = int.___(\"hola\", out int n);\nConsole.WriteLine(ok);",
+        "blanks": [
+          [
+            "TryParse",
+            "Parse"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "False"
+      },
+      "explanation": "TryParse devuelve false en lugar de lanzar una FormatException. Con Parse no compila (no recibe out)."
+    }
+  ],
+  "challenges": [
+    {
+      "slug": "fs-desafio-thunder",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "herramientas",
+      "module": 1,
+      "prompt": "¿Para qué sirve la extensión Thunder Client?",
+      "content": {
+        "options": [
+          "Para probar la API desde VS Code",
+          "Para escribir CSS",
+          "Para instalar .NET",
+          "Para conectar PostgreSQL"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es una alternativa a Postman dentro del editor."
+    },
+    {
+      "slug": "fs-desafio-dotnet-version",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "herramientas",
+      "module": 1,
+      "prompt": "¿Qué comando verifica que .NET está instalado?",
+      "content": {
+        "options": [
+          "dotnet --version",
+          "node -v",
+          "psql --version",
+          "git --version"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada herramienta tiene su comando de verificación."
+    },
+    {
+      "slug": "fs-desafio-dos-terminales",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "En un proyecto fullstack, ¿por qué tenés dos terminales abiertas?",
+      "content": {
+        "options": [
+          "Una corre la API (dotnet run) y otra el front (npm run dev)",
+          "Una para escribir y otra para leer",
+          "Porque VS Code lo exige",
+          "Una es de Git y otra de Postgres"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada parte del stack es un programa distinto, con su puerto."
+    },
+    {
+      "slug": "fs-desafio-estructura",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "fullstack",
+      "module": 1,
+      "prompt": "En la estructura de carpetas de un proyecto fullstack, ¿dónde va el script.sql con tablas y datos de prueba?",
+      "content": {
+        "options": [
+          "En la carpeta database",
+          "En frontend/src",
+          "En backend/Models",
+          "En la raíz de node_modules"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "backend, frontend y database son las tres carpetas principales."
+    },
+    {
+      "slug": "fs-desafio-cd",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "¿Qué hace cd ..?",
+      "content": {
+        "options": [
+          "Sube un nivel de carpeta",
+          "Entra a una carpeta llamada ..",
+          "Lista los archivos",
+          "Crea una carpeta"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "cd mi-app entra; cd .. sube."
+    },
+    {
+      "slug": "fs-desafio-psql",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "herramientas",
+      "module": 1,
+      "prompt": "Al instalar PostgreSQL, ¿qué conviene anotar?",
+      "content": {
+        "options": [
+          "La contraseña del usuario postgres: la API la necesita para conectarse",
+          "El puerto de React",
+          "La versión de Node",
+          "El nombre de tu compu"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin esa contraseña no se puede conectar la API a la base."
+    },
+    {
+      "slug": "fs-desafio-puerto-5432",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "puertos",
+      "module": 1,
+      "prompt": "¿Qué programa usa el puerto 5432?",
+      "content": {
+        "options": [
+          "PostgreSQL",
+          "React con Vite",
+          "La API .NET",
+          "VS Code"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La base no se abre en el navegador."
+    },
+    {
+      "slug": "fs-desafio-csharp-pron",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "C#",
+      "module": 1,
+      "prompt": "¿Cómo se pronuncia C#?",
+      "content": {
+        "options": [
+          "«Si sharp»",
+          "«Ce numeral»",
+          "«Ce hashtag»",
+          "«Ce punto»"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El símbolo # se puede ver como cuatro signos + juntos."
+    },
+    {
+      "slug": "fs-desafio-compilado",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "C#",
+      "module": 2,
+      "prompt": "C# es un lenguaje compilado. ¿Qué ventaja tiene frente a JavaScript?",
+      "content": {
+        "options": [
+          "Muchos errores aparecen antes de ejecutar, al compilar",
+          "No necesita .NET",
+          "Se ejecuta sin compilador",
+          "No tiene errores"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "dotnet lo traduce a un código intermedio (IL) que corre sobre .NET."
+    },
+    {
+      "slug": "fs-desafio-parse",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "module": 2,
+      "prompt": "¿Qué pasa con int.Parse(\"hola\")?",
+      "content": {
+        "options": [
+          "Rompe el programa con una FormatException",
+          "Devuelve 0",
+          "Devuelve null",
+          "Devuelve false"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "int.TryParse devuelve false en lugar de fallar."
+    },
+    {
+      "slug": "fs-desafio-tipado",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "module": 2,
+      "prompt": "C# es de tipado estático. ¿Qué significa?",
+      "content": {
+        "options": [
+          "Cada variable tiene un tipo fijo que no cambia",
+          "Las variables no se pueden modificar",
+          "No hay tipos",
+          "Los tipos se deciden al ejecutar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "var deja que el compilador deduzca el tipo, pero igual queda fijo."
+    },
+    {
+      "slug": "fs-desafio-foreach",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "bucles",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "List<int> n = [1, 2, 3];\nint suma = 0;\nforeach (int x in n) suma += x;\nConsole.WriteLine(suma);",
+        "options": [
+          "6",
+          "3",
+          "123",
+          "0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "foreach recorre cada elemento de la lista."
+    },
+    {
+      "slug": "fs-desafio-max",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "LINQ",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "List<int> ids = [3, 7, 5];\nConsole.WriteLine(ids.Max());",
+        "options": [
+          "7",
+          "3",
+          "15",
+          "5"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Max devuelve el mayor."
+    },
+    {
+      "slug": "fs-desafio-pares",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "bucles",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "for (int i = 2; i <= 6; i += 2)\n    Console.Write(i);",
+        "options": [
+          "246",
+          "23456",
+          "0246",
+          "24"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Arrancando en 2 y sumando de a 2 nunca se pasa por un impar: no hace falta el %."
+    },
+    {
+      "slug": "fs-desafio-any",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "LINQ",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "List<string> emails = [\"a@a.com\", \"b@b.com\"];\nConsole.WriteLine(emails.Any(e => e == \"b@b.com\"));",
+        "options": [
+          "True",
+          "False",
+          "b@b.com",
+          "1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Any pregunta si existe alguno que cumpla: sirve para evitar emails repetidos."
+    },
+    {
+      "slug": "fs-desafio-default",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "funciones",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "void Saludar(string nombre = \"invitado\")\n{\n    Console.WriteLine($\"Hola {nombre}\");\n}\nSaludar();",
+        "options": [
+          "Hola invitado",
+          "Hola ",
+          "Hola nombre",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El parámetro tiene un valor por defecto: si no pasás argumento, usa «invitado»."
+    },
+    {
+      "slug": "fs-desafio-internal",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "POO",
+      "module": 3,
+      "prompt": "¿Quién ve un miembro internal?",
+      "content": {
+        "options": [
+          "Todo el proyecto",
+          "Todo el mundo",
+          "Solo la clase",
+          "Solo las clases hijas"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es distinto de public: no se ve desde otros proyectos."
+    },
+    {
+      "slug": "fs-desafio-autoprop",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "propiedades",
+      "module": 3,
+      "prompt": "¿Qué es public string Nombre { get; set; } = string.Empty;?",
+      "content": {
+        "options": [
+          "Una auto-propiedad con valor inicial",
+          "Un método",
+          "Una constante",
+          "Un constructor"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es la forma corta de escribir una propiedad."
+    },
+    {
+      "slug": "fs-desafio-const",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "constantes",
+      "module": 3,
+      "prompt": "¿Para qué sirve const en public const int PESO_IDEAL = 0;?",
+      "content": {
+        "options": [
+          "Para definir un valor que no cambia nunca",
+          "Para crear una variable privada",
+          "Para crear una clase",
+          "Para heredar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se escriben en mayúsculas por convención."
+    },
+    {
+      "slug": "fs-desafio-metodo-privado",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "POO",
+      "module": 3,
+      "prompt": "¿Para qué sirve un método private?",
+      "content": {
+        "options": [
+          "Para lógica interna que solo usa la propia clase",
+          "Para que lo llame cualquiera",
+          "Para crear objetos",
+          "Para heredar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Parte del encapsulamiento: ocultar el cómo."
+    },
+    {
+      "slug": "fs-desafio-poo-backend",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "POO",
+      "module": 3,
+      "prompt": "En la API, ¿qué es cada modelo como Usuario o Post?",
+      "content": {
+        "options": [
+          "Una clase",
+          "Una tabla SQL",
+          "Un endpoint",
+          "Un archivo JSON"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cuando el front manda un JSON, .NET crea un objeto de esa clase y lo llena solo."
+    },
+    {
+      "slug": "fs-desafio-depositar",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "objetos",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var c = new Cuenta();\nc.Depositar(50);\nc.Depositar(-10);\nConsole.WriteLine(c.Saldo);\n\nclass Cuenta\n{\n    public decimal Saldo { get; private set; }\n    public void Depositar(decimal monto)\n    {\n        if (monto <= 0) { Console.WriteLine(\"Monto inválido\"); return; }\n        Saldo += monto;\n    }\n}",
+        "options": [
+          "Monto inválido\n50",
+          "40",
+          "50",
+          "Monto inválido\n40"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "No se aceptan montos negativos: el segundo depósito se rechaza."
+    },
+    {
+      "slug": "fs-desafio-instancias",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "objetos",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var a = new Persona { Nombre = \"Ana\" };\nvar b = new Persona { Nombre = \"Bruno\" };\nb.Nombre = \"Beto\";\nConsole.WriteLine(a.Nombre + \" \" + b.Nombre);\n\nclass Persona { public string Nombre { get; set; } = \"\"; }",
+        "options": [
+          "Ana Beto",
+          "Beto Beto",
+          "Ana Bruno",
+          "Ana Ana"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada objeto (instancia) tiene sus propios datos."
+    },
+    {
+      "slug": "fs-desafio-constructor-por-defecto",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "constructores",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var c = new Cuenta();\nConsole.WriteLine(c.Titular);\n\nclass Cuenta\n{\n    public string Titular;\n    public Cuenta() { Titular = \"Usuario sin nombre\"; }\n}",
+        "options": [
+          "Usuario sin nombre",
+          "Cuenta",
+          "null",
+          "Titular"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El constructor por defecto no recibe parámetros y deja valores iniciales."
+    },
+    {
+      "slug": "fs-desafio-diamante",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "herencia",
+      "module": 4,
+      "prompt": "¿Por qué C# solo permite heredar de una clase?",
+      "content": {
+        "options": [
+          "Para evitar el problema del diamante; para varias cosas se usan interfaces",
+          "Porque es más rápido",
+          "Porque Microsoft lo prohíbe en .NET 8",
+          "No es cierto: hereda de todas"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Java tomó la misma decisión."
+    },
+    {
+      "slug": "fs-desafio-abstract-error",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "abstracción",
+      "module": 4,
+      "prompt": "Si una clase hija no implementa un método abstracto del padre, ¿qué pasa?",
+      "content": {
+        "options": [
+          "No compila",
+          "Se ejecuta el del padre",
+          "Devuelve null",
+          "Se ignora"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El método abstracto no tiene cuerpo: la hija está obligada."
+    },
+    {
+      "slug": "fs-desafio-abstraccion",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "POO",
+      "module": 4,
+      "prompt": "«Definir el qué sin el cómo», como abstract void Avanzar(). ¿Qué pilar es?",
+      "content": {
+        "options": [
+          "Abstracción",
+          "Encapsulamiento",
+          "Herencia",
+          "Polimorfismo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El cómo lo implementa cada hija."
+    },
+    {
+      "slug": "fs-desafio-polimorfismo",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "POO",
+      "module": 4,
+      "prompt": "«Mismo método, distinto comportamiento», como CalcularSalario(). ¿Qué pilar es?",
+      "content": {
+        "options": [
+          "Polimorfismo",
+          "Encapsulamiento",
+          "Herencia",
+          "Abstracción"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada clase calcula a su manera."
+    },
+    {
+      "slug": "fs-desafio-virtual-sin-override",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "herencia",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Animal a = new Gato();\nConsole.WriteLine(a.Sonido());\n\nclass Animal { public virtual string Sonido() => \"...\"; }\nclass Gato : Animal { }",
+        "options": [
+          "...",
+          "Miau",
+          "Gato",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "virtual hace opcional el override: si la hija no lo sobrescribe, usa el del padre."
+    },
+    {
+      "slug": "fs-desafio-base-protected",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "herencia",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var e = new Auto();\ne.Encender();\nConsole.WriteLine(e.Encendido);\n\nabstract class Vehiculo\n{\n    public bool Encendido { get; protected set; }\n    public abstract void Encender();\n}\nclass Auto : Vehiculo\n{\n    public override void Encender() { Encendido = true; }\n}",
+        "options": [
+          "True",
+          "False",
+          "Encendido",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "protected set: solo la clase y sus hijas pueden cambiar Encendido."
+    },
+    {
+      "slug": "fs-desafio-hija-agrega",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "herencia",
+      "module": 4,
+      "prompt": "En herencia, ¿qué recibe la clase hija?",
+      "content": {
+        "options": [
+          "Todo lo de la clase padre, y además puede agregar lo suyo",
+          "Solo los métodos privados",
+          "Nada",
+          "Solo las constantes"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Por ejemplo, Moto agrega Cilindrada y HacerWheelie."
+    },
+    {
+      "slug": "fs-desafio-abstract-normales",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "abstracción",
+      "module": 4,
+      "prompt": "¿Puede una clase abstracta tener métodos con código?",
+      "content": {
+        "options": [
+          "Sí, junto con los abstractos",
+          "No, todos son abstractos",
+          "Solo estáticos",
+          "Solo si es privada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Por ejemplo CambiarDireccion en Institucion."
+    },
+    {
+      "slug": "fs-desafio-orden-herencia-interfaces",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "interfaces",
+      "module": 5,
+      "prompt": "En class UsuarioBanco : Persona, ICuentaBancaria, ¿qué va primero?",
+      "content": {
+        "options": [
+          "La clase padre, y después las interfaces",
+          "Las interfaces, y después la clase",
+          "Da igual el orden",
+          "Solo puede haber interfaces"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Persona es la clase padre; ICuentaBancaria es una interfaz."
+    },
+    {
+      "slug": "fs-desafio-ienumerable",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "interfaces",
+      "module": 5,
+      "prompt": "¿Qué interfaces implementa una List<Usuario>?",
+      "content": {
+        "options": [
+          "IEnumerable, ICollection e IList",
+          "Ninguna",
+          "Solo IComparable",
+          "IDisposable"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": ".NET está lleno de interfaces."
+    },
+    {
+      "slug": "fs-desafio-di",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "interfaces",
+      "module": 5,
+      "prompt": "¿Cómo registra servicios la inyección de dependencias de la API?",
+      "content": {
+        "options": [
+          "Por interfaz o por clase",
+          "Solo por clase abstracta",
+          "Solo por JSON",
+          "Con Axios"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Lo vas a ver en el módulo 9."
+    },
+    {
+      "slug": "fs-desafio-interfaz-static",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "interfaces",
+      "module": 5,
+      "prompt": "Desde C# 8, ¿qué más puede tener una interfaz además de miembros sin código?",
+      "content": {
+        "options": [
+          "Métodos con implementación por defecto, miembros estáticos y eventos",
+          "Solo constantes",
+          "Constructores y atributos",
+          "Nada más"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sigue sin tener estado de instancia."
+    },
+    {
+      "slug": "fs-desafio-abstracta-cuando",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "interfaces",
+      "module": 5,
+      "prompt": "¿Cuándo conviene una clase abstracta en lugar de una interfaz?",
+      "content": {
+        "options": [
+          "Cuando hay una relación «es un» y querés compartir atributos o código",
+          "Cuando querés heredar de varias a la vez",
+          "Cuando no hay métodos",
+          "Nunca"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La interfaz sirve para capacidades («puede hacer»)."
+    },
+    {
+      "slug": "fs-desafio-dos-interfaces",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "interfaces",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var c = new Computadora { Volumen = 3, Brillo = 7, Encendido = true };\nIParlante p = c;\nIMonitor m = c;\nConsole.WriteLine(p.Volumen + \" \" + m.Brillo + \" \" + p.Encendido);\n\ninterface IParlante { int Volumen { get; set; } bool Encendido { get; set; } }\ninterface IMonitor { int Brillo { get; set; } bool Encendido { get; set; } }\nclass Computadora : IParlante, IMonitor\n{\n    public int Volumen { get; set; }\n    public int Brillo { get; set; }\n    public bool Encendido { get; set; }\n}",
+        "options": [
+          "3 7 True",
+          "3 7 False",
+          "7 3 True",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con una sola propiedad pública Encendido se cumplen los dos contratos."
+    },
+    {
+      "slug": "fs-desafio-lista-interfaz",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "interfaces",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "List<ISaludable> lista = [new Ana(), new Beto()];\nforeach (var s in lista) Console.WriteLine(s.Saludar());\n\ninterface ISaludable { string Saludar(); }\nclass Ana : ISaludable { public string Saludar() => \"Hola, soy Ana\"; }\nclass Beto : ISaludable { public string Saludar() => \"Hola, soy Beto\"; }",
+        "options": [
+          "Hola, soy Ana\nHola, soy Beto",
+          "Hola, soy Beto\nHola, soy Ana",
+          "ISaludable\nISaludable",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Clases distintas que cumplen el mismo contrato se tratan igual."
+    },
+    {
+      "slug": "fs-desafio-eventos",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "interfaces",
+      "module": 5,
+      "prompt": "¿Qué significa que una interfaz tenga un evento?",
+      "content": {
+        "options": [
+          "Que la clase que la implementa puede dispararlo para avisar que algo pasó",
+          "Que se ejecuta al compilar",
+          "Que es estática",
+          "Que es abstracta"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es parte de lo avanzado desde C# 8."
+    },
+    {
+      "slug": "fs-desafio-indexoutofrange",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "excepciones",
+      "module": 6,
+      "prompt": "¿Cuándo pasa una IndexOutOfRangeException?",
+      "content": {
+        "options": [
+          "Al usar array[5] en un array de 3 elementos",
+          "Al dividir por 0",
+          "Al usar un null",
+          "Al convertir texto"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los índices de un array de 3 van de 0 a 2."
+    },
+    {
+      "slug": "fs-desafio-nullref",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "excepciones",
+      "module": 6,
+      "prompt": "¿Cuándo pasa una NullReferenceException?",
+      "content": {
+        "options": [
+          "Al usar algo que es null",
+          "Al dividir por cero",
+          "Al pasarse de índice",
+          "Al compilar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Por eso FirstOrDefault puede devolver null y hay que preguntar."
+    },
+    {
+      "slug": "fs-desafio-overflow",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "excepciones",
+      "module": 6,
+      "prompt": "¿Cuándo pasa una OverflowException?",
+      "content": {
+        "options": [
+          "Cuando un número no entra en su tipo (con checked)",
+          "Cuando falta memoria",
+          "Cuando un texto es muy largo",
+          "Cuando la API se cae"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un byte va de 0 a 255."
+    },
+    {
+      "slug": "fs-desafio-exception-padre",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "excepciones propias",
+      "module": 6,
+      "prompt": "¿De qué clase hereda una excepción personalizada?",
+      "content": {
+        "options": [
+          "Exception",
+          "Object solamente",
+          "Error",
+          "Console"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Puede tener datos y métodos propios."
+    },
+    {
+      "slug": "fs-desafio-polilla",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "curiosidades",
+      "module": 6,
+      "prompt": "¿Cuál fue el primer «bug» documentado?",
+      "content": {
+        "options": [
+          "Una polilla atrapada en un relé de la Mark II, en 1947, encontrada por el equipo de Grace Hopper",
+          "Un error de Windows 95",
+          "Un virus de los 80",
+          "Un fallo del Apollo 11"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La pegaron en el cuaderno con la nota «primer caso real de bug encontrado»."
+    },
+    {
+      "slug": "fs-desafio-problem-500",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "errores en la API",
+      "module": 6,
+      "prompt": "En un endpoint, ¿qué devolvés si el error es del servidor?",
+      "content": {
+        "options": [
+          "Results.Problem(ex.Message), un 500",
+          "Results.NotFound()",
+          "Results.Ok()",
+          "Results.BadRequest()"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los 5xx son errores del servidor."
+    },
+    {
+      "slug": "fs-desafio-when",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "filtros when",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "try\n{\n    throw new DatabaseException(\"Fallo\", 404);\n}\ncatch (DatabaseException ex) when (ex.ErrorCode == 404)\n{\n    Console.WriteLine(\"No encontrado\");\n}\ncatch (DatabaseException ex) when (ex.ErrorCode == 500)\n{\n    Console.WriteLine(\"Error del servidor\");\n}\n\nclass DatabaseException : Exception\n{\n    public int ErrorCode { get; }\n    public DatabaseException(string msg, int code) : base(msg) => ErrorCode = code;\n}",
+        "options": [
+          "No encontrado",
+          "Error del servidor",
+          "Fallo",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El filtro when elige el catch según el código."
+    },
+    {
+      "slug": "fs-desafio-throw-lanzar",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "excepciones",
+      "module": 6,
+      "prompt": "¿Qué hace la palabra throw?",
+      "content": {
+        "options": [
+          "Lanza una excepción",
+          "La atrapa",
+          "La ignora",
+          "Cierra el programa sin avisar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Por ejemplo, throw new ArgumentOutOfRangeException(...) cuando la edad es menor de 18."
+    },
+    {
+      "slug": "fs-desafio-get-ok",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "API",
+      "module": 7,
+      "prompt": "¿Qué método .NET devuelve un 200 al leer datos?",
+      "content": {
+        "options": [
+          "Results.Ok(x)",
+          "Results.Created()",
+          "Results.NoContent()",
+          "Results.Problem()"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "MapGet es para leer."
+    },
+    {
+      "slug": "fs-desafio-unauthorized",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "API",
+      "module": 7,
+      "prompt": "¿Qué código devolvés si el login es incorrecto?",
+      "content": {
+        "options": [
+          "401, con Results.Unauthorized()",
+          "404",
+          "201",
+          "500"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "No es 404: ese es para algo que no existe."
+    },
+    {
+      "slug": "fs-desafio-watch",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "API",
+      "module": 7,
+      "prompt": "¿Qué hace dotnet watch run?",
+      "content": {
+        "options": [
+          "Levanta la API y la recarga sola al guardar",
+          "Compila sin ejecutar",
+          "Instala paquetes",
+          "Borra la API"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "dotnet run la levanta una vez."
+    },
+    {
+      "slug": "fs-desafio-puertos-formas",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "API",
+      "module": 7,
+      "prompt": "¿Cuál NO es una forma de cambiar el puerto de la API?",
+      "content": {
+        "options": [
+          "Cambiarlo en el package.json del front",
+          "launchSettings.json",
+          "dotnet run --urls \"http://localhost:5000\"",
+          "app.Run(\"http://localhost:5000\") al final de Program.cs"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las otras tres son las que explica la guía."
+    },
+    {
+      "slug": "fs-desafio-thunder-body",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "API",
+      "module": 7,
+      "prompt": "Para probar un POST en Thunder Client, ¿qué completás?",
+      "content": {
+        "options": [
+          "La pestaña Body, en formato JSON",
+          "La pestaña Authorization únicamente",
+          "El campo Version",
+          "El archivo launchSettings.json"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Después tocás Send y mirás el código y la respuesta."
+    },
+    {
+      "slug": "fs-desafio-body-lleno",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "API",
+      "module": 7,
+      "prompt": "En app.MapPost(\"/productos\", (Producto nuevo) => ...), ¿cómo se llena el parámetro nuevo?",
+      "content": {
+        "options": [
+          "Solo, con el JSON del body",
+          "Con un query string obligatorio",
+          "Con un constructor manual",
+          "Con la base de datos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": ".NET crea el objeto de la clase y lo llena."
+    },
+    {
+      "slug": "fs-desafio-region",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "API",
+      "module": 7,
+      "prompt": "¿Para qué sirven #region y #endregion?",
+      "content": {
+        "options": [
+          "Para ordenar el código y poder colapsarlo",
+          "Para crear rutas",
+          "Para validar datos",
+          "Para conectar con la base"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "No cambian lo que hace el programa."
+    },
+    {
+      "slug": "fs-desafio-guid",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "API",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Console.WriteLine(Guid.NewGuid().ToString()[..6].ToUpper().Length);",
+        "options": [
+          "6",
+          "36",
+          "32",
+          "0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se usa para generar un código corto de turno, como A1B2C3."
+    },
+    {
+      "slug": "fs-desafio-serial",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "¿Qué hace SERIAL en una columna?",
+      "content": {
+        "options": [
+          "Es un número que se autoincrementa solo",
+          "Hace la columna obligatoria",
+          "Convierte a texto",
+          "La hace única"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se usa para los ids."
+    },
+    {
+      "slug": "fs-desafio-primary",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "¿Para qué sirve PRIMARY KEY?",
+      "content": {
+        "options": [
+          "Para identificar cada fila: no se repite",
+          "Para encriptar",
+          "Para borrar",
+          "Para ordenar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una clave primaria compuesta evita repetir combinaciones, como un like por usuario y post."
+    },
+    {
+      "slug": "fs-desafio-unique-notnull",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "¿Qué diferencia hay entre UNIQUE y NOT NULL?",
+      "content": {
+        "options": [
+          "UNIQUE impide que el valor se repita; NOT NULL lo hace obligatorio",
+          "Son lo mismo",
+          "UNIQUE lo hace obligatorio",
+          "NOT NULL impide que se repita"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El email de un usuario es UNIQUE NOT NULL."
+    },
+    {
+      "slug": "fs-desafio-cascade",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "¿Qué hace ON DELETE CASCADE en posts.usuario_id?",
+      "content": {
+        "options": [
+          "Si borrás el usuario, se borran también sus posts",
+          "Impide borrar usuarios",
+          "Borra el usuario al borrar un post",
+          "Copia los posts"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin CASCADE, Postgres rechazaría borrar un usuario con posts."
+    },
+    {
+      "slug": "fs-desafio-psql-u",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "psql",
+      "module": 8,
+      "prompt": "¿Qué hace psql -U postgres -d instagram?",
+      "content": {
+        "options": [
+          "Entra directo a la base instagram con el usuario postgres",
+          "Crea la base instagram",
+          "Borra la base instagram",
+          "Ejecuta un archivo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Pide la contraseña que pusiste al instalar."
+    },
+    {
+      "slug": "fs-desafio-numeric",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "¿Qué tipo de PostgreSQL usás para dinero?",
+      "content": {
+        "options": [
+          "NUMERIC(10,2)",
+          "TEXT",
+          "BOOLEAN",
+          "SERIAL"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "TEXT es para texto largo, como URLs."
+    },
+    {
+      "slug": "fs-desafio-berkeley",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "curiosidades",
+      "module": 8,
+      "prompt": "¿Dónde nació PostgreSQL?",
+      "content": {
+        "options": [
+          "En la Universidad de California, Berkeley, en 1986",
+          "En Microsoft en 2000",
+          "En Oracle en 1979",
+          "En Google en 2004"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Era «POSTGRES», sucesor de Ingres."
+    },
+    {
+      "slug": "fs-desafio-update",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "Tablas: usuarios (1 ana, 2 beto, 3 cami) y posts (playa y montaña, de ana; asado, de beto). ¿Qué devuelve el SELECT?",
+      "content": {
+        "code": "UPDATE usuarios SET nombre = 'ana.dev' WHERE id = 1;\nSELECT nombre FROM usuarios ORDER BY id;",
+        "options": [
+          "ana.dev\nbeto\ncami",
+          "ana.dev\nana.dev\nana.dev",
+          "ana\nbeto\ncami",
+          "ana.dev"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El WHERE limita el cambio a una fila. Sin WHERE, todos los usuarios se llamarían ana.dev."
+    },
+    {
+      "slug": "fs-desafio-di-npgsql",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Npgsql",
+      "module": 9,
+      "prompt": "¿Qué es lo que hace que un endpoint reciba NpgsqlDataSource db sin que lo crees vos?",
+      "content": {
+        "options": [
+          "La inyección de dependencias: .NET lo pasa solo",
+          "Axios",
+          "Un middleware de CORS",
+          "El constructor del modelo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se registra con builder.Services.AddNpgsqlDataSource."
+    },
+    {
+      "slug": "fs-desafio-coalesce",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "Npgsql",
+      "module": 9,
+      "prompt": "Una columna puede ser NULL y reader.GetString falla. ¿Qué podés hacer?",
+      "content": {
+        "options": [
+          "Usar reader.IsDBNull o COALESCE(columna, '') en el SQL",
+          "Cambiar a GetInt32",
+          "Usar SELECT *",
+          "Ignorarlo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "COALESCE devuelve el primer valor que no sea NULL."
+    },
+    {
+      "slug": "fs-desafio-23505",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "Npgsql",
+      "module": 9,
+      "prompt": "¿Qué indica el SqlState 23505 en una PostgresException?",
+      "content": {
+        "options": [
+          "Que se violó una restricción UNIQUE, por ejemplo un email repetido (y se responde 400)",
+          "Que la base no existe",
+          "Que falta la contraseña",
+          "Que el servidor se cayó"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se atrapa con catch ... when (ex.SqlState == \"23505\")."
+    },
+    {
+      "slug": "fs-desafio-no-devolver-pass",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "seguridad",
+      "module": 9,
+      "prompt": "Al crear un usuario, ¿qué hacés con la contraseña antes de devolverlo?",
+      "content": {
+        "options": [
+          "La vaciás: nunca se devuelve",
+          "La mostrás completa",
+          "La mandás por query",
+          "La duplicás"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "u.Contrasena = \"\" antes del Results.Created."
+    },
+    {
+      "slug": "fs-desafio-bobby",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "curiosidades",
+      "module": 9,
+      "prompt": "¿Qué es «Little Bobby Tables»?",
+      "content": {
+        "options": [
+          "Un chiste de xkcd sobre una inyección SQL: un hijo llamado Robert'); DROP TABLE Students;--",
+          "Un framework",
+          "Un tipo de JOIN",
+          "Una librería de Npgsql"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Muestra por qué hay que usar parámetros."
+    },
+    {
+      "slug": "fs-desafio-login-401",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "API",
+      "module": 9,
+      "prompt": "En POST /login, ¿qué devolvés si el email y la contraseña no coinciden?",
+      "content": {
+        "options": [
+          "401 Unauthorized",
+          "404 NotFound",
+          "201 Created",
+          "500"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Results.Unauthorized()."
+    },
+    {
+      "slug": "fs-desafio-blocked-cors",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "CORS",
+      "module": 9,
+      "prompt": "En la consola del navegador aparece «blocked by CORS policy». ¿Dónde lo arreglás?",
+      "content": {
+        "options": [
+          "En la API, permitiendo el origen del front",
+          "En React, cambiando el puerto",
+          "En PostgreSQL",
+          "En Thunder Client"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "WithOrigins(\"http://localhost:5173\")."
+    },
+    {
+      "slug": "fs-desafio-post-user-bad",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Npgsql",
+      "module": 9,
+      "prompt": "Al crear un usuario con un email repetido, ¿qué debería responder la API?",
+      "content": {
+        "options": [
+          "400 BadRequest con «Ese email ya está registrado.»",
+          "500 sin explicación",
+          "200 vacío",
+          "404"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se atrapa la PostgresException de UNIQUE."
+    },
+    {
+      "slug": "fs-desafio-useparams",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "React Router",
+      "module": 10,
+      "prompt": "¿Qué hook lee el :id de la URL?",
+      "content": {
+        "options": [
+          "useParams()",
+          "useNavigate()",
+          "useState()",
+          "useEffect()"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "const { id } = useParams()."
+    },
+    {
+      "slug": "fs-desafio-usenavigate",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "React Router",
+      "module": 10,
+      "prompt": "¿Cómo navegás desde código a /feed?",
+      "content": {
+        "options": [
+          "Con navigate(\"/feed\") de useNavigate()",
+          "Con <Link to=\"/feed\"> dentro del JS",
+          "Con window.alert",
+          "Con useParams"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Link es para enlaces en el JSX."
+    },
+    {
+      "slug": "fs-desafio-link",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "React Router",
+      "module": 10,
+      "prompt": "¿Qué ventaja tiene <Link to=\"/feed\"> frente a un <a href>?",
+      "content": {
+        "options": [
+          "Navega sin recargar la página",
+          "Es más lento",
+          "Abre otra pestaña",
+          "Funciona sin Router"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El enrutador solo cambia la pantalla."
+    },
+    {
+      "slug": "fs-desafio-classname",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "JSX",
+      "module": 10,
+      "prompt": "En JSX, ¿cómo se escribe la clase CSS de un elemento?",
+      "content": {
+        "options": [
+          "className",
+          "class",
+          "css",
+          "style-class"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Y las etiquetas sin cierre llevan /, como <img />."
+    },
+    {
+      "slug": "fs-desafio-fragmento",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "JSX",
+      "module": 10,
+      "prompt": "Un componente tiene que devolver dos elementos. ¿Qué usás?",
+      "content": {
+        "options": [
+          "Un fragmento <>...</> como único padre",
+          "Dos return",
+          "Un array vacío",
+          "Nada: no se puede"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "JSX devuelve un solo elemento padre."
+    },
+    {
+      "slug": "fs-desafio-node-modules",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "React",
+      "module": 10,
+      "prompt": "¿Por qué node_modules nunca se sube a GitHub?",
+      "content": {
+        "options": [
+          "Porque pesa cientos de MB y se regenera con npm install a partir del package.json",
+          "Porque tiene contraseñas",
+          "Porque es privado de npm",
+          "Porque lo bloquea Vite"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se sube el package.json, no la carpeta."
+    },
+    {
+      "slug": "fs-desafio-walke",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "curiosidades",
+      "module": 10,
+      "prompt": "¿Quién creó React?",
+      "content": {
+        "options": [
+          "Jordan Walke, en Facebook; se publicó como código abierto en 2013",
+          "Evan You en 2014",
+          "Brendan Eich en 1995",
+          "Anders Hejlsberg en 2012"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Evan You creó Vite (y Vue)."
+    },
+    {
+      "slug": "fs-desafio-orden-localstorage",
+      "type": "order_lines",
+      "difficulty": "medium",
+      "topic": "localStorage",
+      "module": 10,
+      "prompt": "Ordená para guardar un usuario como texto, leerlo y mostrar su nombre.",
+      "content": {
+        "lines": [
+          "const usuario = { nombre: \"ana\" };",
+          "const texto = JSON.stringify(usuario);",
+          "const leido = JSON.parse(texto);",
+          "console.log(leido.nombre);"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "ana"
+      },
+      "explanation": "localStorage solo guarda texto: se usa JSON.stringify para guardar y JSON.parse para leer."
+    },
+    {
+      "slug": "fs-desafio-api-post",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "Axios",
+      "module": 11,
+      "prompt": "¿Qué línea manda los datos de un formulario a POST /usuarios?",
+      "content": {
+        "options": [
+          "await api.post(\"/usuarios\", form)",
+          "api.get(\"/usuarios\", form)",
+          "api.delete(\"/usuarios\")",
+          "api.put(form)"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Corresponde a app.MapPost(\"/usuarios\")."
+    },
+    {
+      "slug": "fs-desafio-status-err",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Axios",
+      "module": 11,
+      "prompt": "¿Dónde está el código 400 o 401 cuando falla un pedido?",
+      "content": {
+        "options": [
+          "En err.response.status",
+          "En err.code de C#",
+          "En res.data",
+          "No se puede saber"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "err.response.data trae el mensaje."
+    },
+    {
+      "slug": "fs-desafio-finally",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Axios",
+      "module": 11,
+      "prompt": "En api.get(...).then(...).catch(...).finally(() => setCargando(false)), ¿cuándo corre el finally?",
+      "content": {
+        "options": [
+          "Siempre, salga bien o mal el pedido",
+          "Solo si sale bien",
+          "Solo si falla",
+          "Nunca"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sirve para apagar el cartel de «Cargando...»."
+    },
+    {
+      "slug": "fs-desafio-id-deps",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "useEffect",
+      "module": 11,
+      "prompt": "En Perfil, useEffect(() => {...}, [id]). ¿Para qué está el [id]?",
+      "content": {
+        "options": [
+          "Para volver a pedir los posts cuando se pasa de un perfil a otro",
+          "Para pedirlos una sola vez",
+          "Para evitar el CORS",
+          "Para borrar el id"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con [] solo cargaría el primer perfil."
+    },
+    {
+      "slug": "fs-desafio-recorrido-cors",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "fullstack",
+      "module": 11,
+      "prompt": "En el recorrido de un login, ¿quién chequea CORS?",
+      "content": {
+        "options": [
+          "El navegador, y la API lo permite con UseCors",
+          "Axios",
+          "PostgreSQL",
+          "Npgsql"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Después .NET convierte el JSON en un LoginDto."
+    },
+    {
+      "slug": "fs-desafio-usuario-estado",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "fullstack",
+      "module": 11,
+      "prompt": "Al hacer login, ¿qué hace React con la respuesta?",
+      "content": {
+        "options": [
+          "Guarda el usuario (por ejemplo en localStorage) y navega al feed",
+          "Se conecta a PostgreSQL",
+          "Reinicia la API",
+          "Cambia el puerto"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "res.data trae el usuario."
+    },
+    {
+      "slug": "fs-desafio-promesa-finally",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "Axios",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Promise.resolve([1, 2])\n  .then((r) => console.log(r.length))\n  .finally(() => console.log(\"fin\"));",
+        "options": [
+          "2\nfin",
+          "fin\n2",
+          "2",
+          "fin"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "then recibe la respuesta; finally corre al final, tanto si salió bien como mal."
+    },
+    {
+      "slug": "fs-desafio-const-data-error",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "Axios",
+      "module": 11,
+      "prompt": "Ves undefined en pantalla al mostrar p.ImagenUrl. ¿Qué probás?",
+      "content": {
+        "options": [
+          "console.log(res.data) y usar p.imagenUrl en camelCase",
+          "Reinstalar Node",
+          "Cambiar el puerto",
+          "Borrar el key"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Casi siempre es una mayúscula de más."
+    },
+    {
+      "slug": "fs-desafio-address-in-use",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "errores comunes",
+      "module": 12,
+      "prompt": "«address already in use» al hacer dotnet run. ¿Qué significa?",
+      "content": {
+        "options": [
+          "Que el puerto está ocupado: cerrá el otro dotnet run o cambiá el puerto",
+          "Que falta Npgsql",
+          "Que falta CORS",
+          "Que la base no existe"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Suele ser otra API corriendo en otra terminal."
+    },
+    {
+      "slug": "fs-desafio-dbnull",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "errores comunes",
+      "module": 12,
+      "prompt": "«Unable to cast object of type DBNull». ¿Qué pasó?",
+      "content": {
+        "options": [
+          "Una columna NULL se leyó con GetString: usar IsDBNull o COALESCE en el SQL",
+          "Falta el paquete",
+          "Hay un bucle infinito",
+          "El CORS está mal"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una columna que puede ser NULL necesita cuidado."
+    },
+    {
+      "slug": "fs-desafio-duplicate-key",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "errores comunes",
+      "module": 12,
+      "prompt": "«duplicate key value violates unique constraint». ¿Cómo lo manejás?",
+      "content": {
+        "options": [
+          "Validando o devolviendo un 400 con un mensaje claro",
+          "Ignorando el error",
+          "Borrando la tabla",
+          "Cambiando el puerto"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Suele ser un email repetido."
+    },
+    {
+      "slug": "fs-desafio-instagram-django",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "curiosidades",
+      "module": 12,
+      "prompt": "Instagram arrancó en 2010 con un backend en…",
+      "content": {
+        "options": [
+          "Python (Django) y PostgreSQL",
+          "C# y SQL Server",
+          "PHP y MySQL",
+          "Java y Oracle"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Facebook lo compró en 2012, cuando tenía solo 13 empleados."
+    },
+    {
+      "slug": "fs-desafio-leerpost",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "proyecto",
+      "module": 12,
+      "prompt": "En la API del proyecto hay una función LeerPost(reader). ¿Para qué sirve?",
+      "content": {
+        "options": [
+          "Para no repetir el armado de un Post en cada endpoint",
+          "Para borrar posts",
+          "Para conectar a la base",
+          "Para generar tokens"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Lee una fila del SELECT y devuelve un Post."
+    },
+    {
+      "slug": "fs-desafio-checklist-params",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "proyecto",
+      "module": 12,
+      "prompt": "Según el checklist, ¿cómo deben hacerse las consultas SQL?",
+      "content": {
+        "options": [
+          "Con parámetros $1, $2, nunca con interpolación",
+          "Con interpolación de strings",
+          "Con SELECT * siempre",
+          "En el front"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Así se evita la inyección SQL."
+    },
+    {
+      "slug": "fs-desafio-bcrypt",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "proyecto",
+      "module": 12,
+      "prompt": "Para guardar contraseñas de verdad en el proyecto, ¿qué se recomienda?",
+      "content": {
+        "options": [
+          "Hashearlas, por ejemplo con BCrypt.Net-Next",
+          "Guardarlas en texto",
+          "Guardarlas en localStorage",
+          "Encriptarlas en React"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es una de las ideas para sumar."
+    },
+    {
+      "slug": "fs-desafio-carrusel-siguiente",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "proyecto",
+      "module": 12,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const fotos = [\"a\", \"b\", \"c\"];\nlet actual = 2;\nactual = (actual + 1) % fotos.length;\nconsole.log(fotos[actual]);",
+        "options": [
+          "a",
+          "c",
+          "b",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Al avanzar desde la última foto, el módulo vuelve a la primera."
+    }
+  ]
+}
