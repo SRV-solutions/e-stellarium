@@ -1,0 +1,3733 @@
+{
+  "course": "backend-avanzado",
+  "constellation": {
+    "name": "Constelación Backend Avanzado",
+    "description": "El recorrido del curso de Backend Avanzado, estrella por estrella.",
+    "published": true
+  },
+  "modules": [
+    {
+      "number": 1,
+      "title": "Node.js, npm y npx",
+      "classes": "1–8"
+    },
+    {
+      "number": 2,
+      "title": "Servidores con Express",
+      "classes": "9–15"
+    },
+    {
+      "number": 3,
+      "title": "Servidores II",
+      "classes": "16–22"
+    },
+    {
+      "number": 4,
+      "title": "Request y response",
+      "classes": "23–32"
+    },
+    {
+      "number": 5,
+      "title": "Middlewares",
+      "classes": "33–40"
+    },
+    {
+      "number": 6,
+      "title": "Protocolos y redes",
+      "classes": "41–51"
+    },
+    {
+      "number": 7,
+      "title": "Sockets",
+      "classes": "52–55"
+    },
+    {
+      "number": 8,
+      "title": "Ejercicios de servidores",
+      "classes": "56–62"
+    },
+    {
+      "number": 9,
+      "title": "Módulo extra",
+      "classes": "63–73"
+    }
+  ],
+  "stars": [
+    {
+      "slug": "ba-terminal-npm",
+      "module": 1,
+      "title": "Terminal, Node y npm",
+      "description": "Los comandos de la terminal, ejecutar archivos con Node, el package.json, los scripts y npx.",
+      "questions": [
+        {
+          "slug": "ba-term-touch-rm",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "terminal",
+          "prompt": "¿Qué hacen los comandos touch y rm?",
+          "content": {
+            "options": [
+              "touch crea un archivo vacío y rm lo elimina",
+              "touch entra a una carpeta y rm la lista",
+              "touch elimina un archivo y rm lo crea",
+              "touch limpia la terminal y rm la cierra"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "touch index.js crea un archivo vacío (acordate de la extensión) y rm index.js lo elimina."
+        },
+        {
+          "slug": "ba-term-npm-init-y",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "npm",
+          "prompt": "¿Qué hace npm init -y?",
+          "content": {
+            "options": [
+              "Crea el package.json con los valores por defecto, sin hacer preguntas",
+              "Instala Express",
+              "Inicia el servidor",
+              "Borra el package.json y lo vuelve a crear con preguntas"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "npm init hace preguntas (nombre, versión, descripción...). Con -y respondés «sí» a todo y usa los valores por defecto."
+        },
+        {
+          "slug": "ba-term-run-dev",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "npm",
+          "prompt": "En tu package.json hay un script llamado dev. ¿Cómo lo ejecutás?",
+          "content": {
+            "options": [
+              "npm run dev",
+              "npm dev",
+              "node dev",
+              "npx dev.js"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "start y test son especiales y no necesitan run (npm start). Cualquier otro script lleva la palabra run."
+        },
+        {
+          "slug": "ba-term-script-start",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "npm",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const pkg = { scripts: { start: \"node index.js\", dev: \"node --watch index.js\" } };\nconsole.log(pkg.scripts.start);",
+            "options": [
+              "node index.js",
+              "node --watch index.js",
+              "start",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El package.json es un objeto JSON, y scripts es un objeto dentro de él. npm start ejecuta justo el comando guardado en la clave start."
+        },
+        {
+          "slug": "ba-term-rm-rf",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "terminal",
+          "prompt": "¿Qué diferencia hay entre rmdir y rm -rf?",
+          "content": {
+            "options": [
+              "rmdir elimina solo carpetas vacías; rm -rf elimina una carpeta con todo su contenido, sin preguntar",
+              "Son lo mismo",
+              "rmdir borra archivos y rm -rf borra carpetas vacías",
+              "rm -rf manda todo a la papelera"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "rm -rf no pasa por la papelera ni pregunta: antes de usarlo conviene revisar con ls que estás en la carpeta correcta."
+        },
+        {
+          "slug": "ba-term-orden-crear",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "terminal",
+          "prompt": "Ordená los comandos para crear una carpeta, entrar, crear un archivo y listar su contenido.",
+          "content": {
+            "lines": [
+              "mkdir servicios",
+              "cd servicios",
+              "touch index.js",
+              "ls"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "index.js"
+          },
+          "explanation": "Primero se crea la carpeta, se entra, se crea el archivo adentro y recién ahí ls lo muestra."
+        }
+      ]
+    },
+    {
+      "slug": "ba-web-service",
+      "module": 2,
+      "title": "Web services, REST y CRUD",
+      "description": "Qué es un servicio web, una API REST, los métodos HTTP y el CRUD.",
+      "questions": [
+        {
+          "slug": "ba-ws-que-es",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "web service",
+          "prompt": "¿Qué es un web service?",
+          "content": {
+            "options": [
+              "Un programa que ofrece información o funcionalidades a otros programas a través de la red",
+              "Una página web con muchas imágenes",
+              "Un programa que solo funciona sin internet",
+              "Una base de datos"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Usa protocolos estándar como HTTP y responde en formatos como JSON o XML. La API de Rick and Morty es un ejemplo."
+        },
+        {
+          "slug": "ba-ws-rest",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "REST",
+          "prompt": "En una API REST, ¿cómo se organiza el trabajo?",
+          "content": {
+            "options": [
+              "Cada recurso tiene su URL y se opera sobre él con los métodos HTTP",
+              "Todo se hace en una sola URL con un método",
+              "Cada operación es un archivo HTML",
+              "Solo se usan peticiones GET"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Usuarios, productos y pedidos son recursos; con GET, POST, PUT, PATCH o DELETE se lee, crea, modifica o elimina."
+        },
+        {
+          "slug": "ba-ws-crud",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "CRUD",
+          "prompt": "¿Qué método HTTP usás para crear un recurso nuevo?",
+          "content": {
+            "options": [
+              "POST",
+              "GET",
+              "DELETE",
+              "PUT"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Create → POST, Read → GET, Update → PUT o PATCH, Delete → DELETE."
+        },
+        {
+          "slug": "ba-ws-put-patch",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "métodos HTTP",
+          "prompt": "¿Qué diferencia hay entre PUT y PATCH?",
+          "content": {
+            "options": [
+              "PUT actualiza el recurso completo; PATCH actualiza solo una parte",
+              "PUT lee y PATCH elimina",
+              "PUT crea y PATCH lee",
+              "No hay diferencia"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Para cambiar solo el nombre de un usuario conviene PATCH."
+        },
+        {
+          "slug": "ba-ws-get-modifica",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "métodos HTTP",
+          "prompt": "En el video se usa un GET para cambiar un nombre, solo para mostrar rápido cómo se reciben datos. ¿Por qué no se hace en una API real?",
+          "content": {
+            "options": [
+              "Porque un GET nunca debe modificar datos: para eso están PUT, PATCH y DELETE",
+              "Porque GET no puede recibir datos",
+              "Porque GET es más lento",
+              "Porque Express no lo permite"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Respetar el método correcto es parte de hacer una API REST de verdad."
+        },
+        {
+          "slug": "ba-ws-fill-leer",
+          "type": "fill_blank",
+          "difficulty": "easy",
+          "topic": "CRUD",
+          "prompt": "Completá para que imprima el método que se usa para leer datos.",
+          "content": {
+            "code": "const metodos = { Create: \"POST\", Read: \"GET\", Update: \"PUT\", Delete: \"DELETE\" };\nconsole.log(metodos.___);",
+            "blanks": [
+              [
+                "Read",
+                "Create",
+                "Delete"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "GET"
+          },
+          "explanation": "Read se hace con GET. Create daría POST y Delete, DELETE."
+        }
+      ]
+    },
+    {
+      "slug": "ba-express",
+      "module": 2,
+      "title": "Tu primer servidor con Express",
+      "description": "express(), app.get, app.listen, probar con Postman y reiniciar con --watch.",
+      "questions": [
+        {
+          "slug": "ba-ex-listen",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "Express",
+          "prompt": "¿Qué hace app.listen(3000, ...)?",
+          "content": {
+            "options": [
+              "Pone el servidor a escuchar peticiones en el puerto 3000",
+              "Crea una ruta llamada 3000",
+              "Instala Express",
+              "Envía 3000 peticiones"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "La función que recibe se ejecuta cuando el servidor arranca: suele mostrar un console.log."
+        },
+        {
+          "slug": "ba-ex-req-res",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "Express",
+          "prompt": "En app.get('/users', (req, res) => { ... }), ¿qué son req y res?",
+          "content": {
+            "options": [
+              "req es la petición del cliente y res es lo que respondemos",
+              "req es la respuesta y res la petición",
+              "Son dos rutas",
+              "Son dos puertos"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Pensalo como una función: req son los parámetros de entrada y res es el return."
+        },
+        {
+          "slug": "ba-ex-cannot-put",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Express",
+          "prompt": "Definiste app.get('/') y app.post('/'). En Postman hacés un PUT a '/'. ¿Qué ves?",
+          "content": {
+            "options": [
+              "Cannot PUT /",
+              "Hola mundo",
+              "Un 200 OK vacío",
+              "El servidor se cae"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "No existe un endpoint para ese método, aunque la ruta sí exista con otros métodos."
+        },
+        {
+          "slug": "ba-ex-watch",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "Node",
+          "prompt": "¿Para qué sirve node --watch index.js?",
+          "content": {
+            "options": [
+              "Para que el servidor se reinicie solo cada vez que cambiás el código",
+              "Para ver el código en pantalla",
+              "Para ejecutar los tests",
+              "Para instalar paquetes"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Conviene ponerlo en el script start del package.json."
+        },
+        {
+          "slug": "ba-ex-rutas",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "Express",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const rutas = { \"GET /\": \"Hola mundo GET\", \"POST /\": \"Hola mundo POST\" };\nconst pedido = \"PUT /\";\nconsole.log(rutas[pedido] ?? \"Cannot \" + pedido);",
+            "options": [
+              "Cannot PUT /",
+              "Hola mundo GET",
+              "Hola mundo POST",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Simula cómo Express elige el endpoint por método y ruta. Si no hay coincidencia, responde Cannot <método> <ruta>."
+        },
+        {
+          "slug": "ba-ex-postman",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Postman",
+          "prompt": "¿Por qué no alcanza con el navegador para probar una API?",
+          "content": {
+            "options": [
+              "Porque desde la barra de direcciones solo hace peticiones GET",
+              "Porque el navegador no entiende JSON",
+              "Porque Postman es más rápido",
+              "Porque el navegador bloquea localhost"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Postman permite probar POST, PUT, PATCH y DELETE, y enviar datos."
+        }
+      ]
+    },
+    {
+      "slug": "ba-servidores-2",
+      "module": 3,
+      "title": "Middlewares, callbacks y status codes",
+      "description": "app.use y next, funciones callback, request y response, y los códigos de estado.",
+      "questions": [
+        {
+          "slug": "ba-s2-use",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "app.use",
+          "prompt": "¿En qué peticiones se ejecuta una función registrada con app.use()?",
+          "content": {
+            "options": [
+              "En todas las que recibe el servidor, antes de llegar al endpoint",
+              "Solo en las GET",
+              "Solo en las que fallan",
+              "Solo en la primera"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Funciona como un intermediario: a eso se le llama middleware."
+        },
+        {
+          "slug": "ba-s2-next",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "app.use",
+          "prompt": "Un middleware no llama a next() ni responde. ¿Qué pasa?",
+          "content": {
+            "options": [
+              "La petición queda colgada: el cliente espera una respuesta que nunca llega",
+              "Express responde 200 solo",
+              "Se reinicia el servidor",
+              "Se ejecuta dos veces"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "next() le dice a Express «seguí con lo que venga después»."
+        },
+        {
+          "slug": "ba-s2-callback",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "callbacks",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "function saludar(nombre, callback) {\n  console.log(\"Hola \" + nombre);\n  callback(nombre);\n}\nfunction adios(nombre) {\n  console.log(\"Adiós \" + nombre);\n}\nsaludar(\"Marcos\", adios);",
+            "options": [
+              "Hola Marcos\nAdiós Marcos",
+              "Adiós Marcos\nHola Marcos",
+              "Hola Marcos",
+              "Hola Marcos\nundefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Se pasa adios sin paréntesis: la función, no su resultado. saludar la ejecuta con callback(nombre)."
+        },
+        {
+          "slug": "ba-s2-401-403",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "status codes",
+          "prompt": "¿Qué diferencia hay entre un 401 y un 403?",
+          "content": {
+            "options": [
+              "401: no se identificó; 403: está identificado pero no tiene permiso",
+              "401: no existe; 403: error del servidor",
+              "Son lo mismo",
+              "401: éxito; 403: redirección"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Un 404 es para algo que no existe."
+        },
+        {
+          "slug": "ba-s2-fill-404",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "status codes",
+          "prompt": "Completá con el código que significa «no existe» para que imprima error del cliente.",
+          "content": {
+            "code": "const codigo = ___;\nconsole.log(codigo >= 400 && codigo < 500 ? \"error del cliente\" : \"otro\");",
+            "blanks": [
+              [
+                "404",
+                "200",
+                "500"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "error del cliente"
+          },
+          "explanation": "Los 4xx son errores del cliente. 200 es éxito y 500, error del servidor."
+        },
+        {
+          "slug": "ba-s2-orden-grupo",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "status codes",
+          "prompt": "Ordená para que imprima el grupo del código (4xx).",
+          "content": {
+            "lines": [
+              "const codigo = 404;",
+              "const grupo = Math.floor(codigo / 100);",
+              "console.log(grupo + \"xx\");"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2
+            ],
+            "output": "4xx"
+          },
+          "explanation": "Los códigos se agrupan por centenas: 404 / 100 = 4,04 y Math.floor deja el 4."
+        }
+      ]
+    },
+    {
+      "slug": "ba-req-datos",
+      "module": 4,
+      "title": "Params, query y body",
+      "description": "Las tres formas de recibir datos del cliente y cuándo usar cada una.",
+      "questions": [
+        {
+          "slug": "ba-rd-params-ruta",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "req.params",
+          "prompt": "¿Cómo se declara un param en la ruta de un endpoint?",
+          "content": {
+            "options": [
+              "Con dos puntos delante del nombre: /users/:id",
+              "Con un signo de pregunta: /users?id",
+              "Con llaves: /users/{id}",
+              "Con un numeral: /users/#id"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Un GET a /users/5 deja req.params como { id: \"5\" }."
+        },
+        {
+          "slug": "ba-rd-desestructurar",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "req.params",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const req = { params: { name: \"Marcos\", surname: \"Costa\", age: \"24\" } };\nconst { name, age } = req.params;\nconsole.log(name, age);",
+            "options": [
+              "Marcos 24",
+              "Marcos Costa 24",
+              "name age",
+              "undefined undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Desestructurar saca cada propiedad en una variable, en vez de escribir req.params.name cada vez."
+        },
+        {
+          "slug": "ba-rd-params-query",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "req.query",
+          "prompt": "¿Qué conviene usar para un ID obligatorio y qué para filtros opcionales?",
+          "content": {
+            "options": [
+              "Params para el ID y query para los filtros",
+              "Query para el ID y params para los filtros",
+              "Body para los dos",
+              "Params para los dos"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con los params el orden importa y son para pocos datos obligatorios. Con query, el cliente decide los nombres y el orden no importa."
+        },
+        {
+          "slug": "ba-rd-query-valor",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "req.query",
+          "prompt": "En la URL /productos?categoria=remeras&page=2, ¿qué contiene req.query?",
+          "content": {
+            "options": [
+              "{ categoria: \"remeras\", page: \"2\" }",
+              "{ categoria: \"remeras\", page: 2 }",
+              "[\"remeras\", 2]",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Todo lo que llega por query llega como texto, incluso los números."
+        },
+        {
+          "slug": "ba-rd-body-json",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "req.body",
+          "prompt": "¿Qué hace falta para que req.body no sea undefined al recibir JSON?",
+          "content": {
+            "options": [
+              "Registrar app.use(express.json())",
+              "Usar solo peticiones GET",
+              "Escribir el JSON en la URL",
+              "Instalar Postman"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Sin ese middleware, Express no sabe interpretar el JSON que le llega: es uno de los errores más comunes."
+        },
+        {
+          "slug": "ba-rd-tipos",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "req.body",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const query = { page: \"4\" };\nconst body = { page: 4 };\nconsole.log(typeof query.page, typeof body.page);",
+            "options": [
+              "string number",
+              "number number",
+              "string string",
+              "number string"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Params y query siempre llegan como texto. El body en JSON respeta los tipos."
+        }
+      ]
+    },
+    {
+      "slug": "ba-parseo-respuestas",
+      "module": 4,
+      "title": "Parseo y respuestas",
+      "description": "Pasar texto a número, body-parser y la diferencia entre res.send, res.json y res.sendStatus.",
+      "questions": [
+        {
+          "slug": "ba-pr-number-parseint",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "parseo",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(Number(\"12.5\"), parseInt(\"12.5\"));",
+            "options": [
+              "12.5 12",
+              "12 12",
+              "12.5 12.5",
+              "NaN 12"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Number convierte el texto completo; parseInt se queda con la parte entera."
+        },
+        {
+          "slug": "ba-pr-nan",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "parseo",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(Number(\"hola\"));",
+            "options": [
+              "NaN",
+              "0",
+              "hola",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si el texto no es un número válido, Number da NaN (Not a Number)."
+        },
+        {
+          "slug": "ba-pr-spread",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "parseo",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const params = { name: \"Marcos\", age: \"24\" };\nconst nuevo = { ...params, age: Number(params.age) };\nconsole.log(typeof nuevo.age, nuevo.name);",
+            "options": [
+              "number Marcos",
+              "string Marcos",
+              "number undefined",
+              "string 24"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los tres puntos copian todas las propiedades; después age se pisa con su versión numérica."
+        },
+        {
+          "slug": "ba-pr-fill-parse",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "parseo",
+          "prompt": "Completá para que imprima 24.",
+          "content": {
+            "code": "console.log(___(\"24.7\"));",
+            "blanks": [
+              [
+                "parseInt",
+                "parseFloat",
+                "String"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "24"
+          },
+          "explanation": "parseInt corta los decimales y da 24. parseFloat daría 24.7 y String, el texto."
+        },
+        {
+          "slug": "ba-pr-status-sendstatus",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "response",
+          "prompt": "¿Qué diferencia hay entre res.status(404) y res.sendStatus(404)?",
+          "content": {
+            "options": [
+              "status solo prepara el código y hay que encadenar una respuesta; sendStatus lo envía directamente",
+              "Son idénticos",
+              "sendStatus solo se usa con 200",
+              "status envía el JSON y sendStatus no"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si no encadenás res.status(202) con .send() o .json(), la petición queda esperando."
+        },
+        {
+          "slug": "ba-pr-json",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "response",
+          "prompt": "Para responder un objeto o un array, ¿qué método conviene?",
+          "content": {
+            "options": [
+              "res.json()",
+              "res.sendStatus()",
+              "res.listen()",
+              "res.use()"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "res.json ajusta el encabezado Content-Type: application/json."
+        }
+      ]
+    },
+    {
+      "slug": "ba-rutas-controladores",
+      "module": 5,
+      "title": "Rutas y controladores",
+      "description": "Separar responsabilidades: routers, controladores, un JSON como base de datos y find.",
+      "questions": [
+        {
+          "slug": "ba-rc-responsabilidad",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "rutas",
+          "prompt": "¿Qué responsabilidad tienen las rutas y cuál los controladores?",
+          "content": {
+            "options": [
+              "Las rutas definen las URLs y qué función atiende cada una; los controladores tienen la lógica de qué se hace y qué se responde",
+              "Las rutas guardan datos y los controladores los muestran",
+              "Son lo mismo",
+              "Los controladores definen las URLs y las rutas responden"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Así cada archivo tiene una sola responsabilidad y la API se puede ampliar sin desorden."
+        },
+        {
+          "slug": "ba-rc-montar",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "rutas",
+          "prompt": "Montás un router con app.use(\"/api/users\", router). ¿En qué URL responde router.get(\"/:id\")?",
+          "content": {
+            "options": [
+              "En /api/users/:id",
+              "En /:id",
+              "En /users/:id",
+              "En /api/:id"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El prefijo se suma a la ruta que define el router."
+        },
+        {
+          "slug": "ba-rc-find",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "find",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const users = [{ id: 1, name: \"Marcos\" }, { id: 2, name: \"Agus\" }];\nconst user = users.find((u) => u.id === Number(\"2\"));\nconsole.log(user.name);",
+            "options": [
+              "Agus",
+              "Marcos",
+              "2",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "find devuelve el primer elemento que cumple la condición. El id de los params llega como texto, por eso se convierte con Number."
+        },
+        {
+          "slug": "ba-rc-find-undefined",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "find",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const users = [{ id: 1, name: \"Marcos\" }];\nconsole.log(users.find((u) => u.id === 9));",
+            "options": [
+              "undefined",
+              "null",
+              "-1",
+              "Error"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si ningún elemento cumple, find devuelve undefined: ahí se responde un 404."
+        },
+        {
+          "slug": "ba-rc-number-id",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "find",
+          "prompt": "¿Por qué se usa Number(id) antes de comparar con ===?",
+          "content": {
+            "options": [
+              "Porque el id de los params llega como texto y === no considera igual \"1\" y 1",
+              "Porque Number acelera el servidor",
+              "Porque find exige números",
+              "Porque los ids son decimales"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "=== compara también el tipo: \"1\" === 1 da false."
+        },
+        {
+          "slug": "ba-rc-orden-find",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "find",
+          "prompt": "Ordená para que imprima el nombre del usuario con id 1.",
+          "content": {
+            "lines": [
+              "const users = [{ id: 1, name: \"Ana\" }];",
+              "const user = users.find((u) => u.id === 1);",
+              "console.log(user.name);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2
+            ],
+            "output": "Ana"
+          },
+          "explanation": "Primero existe el array, después se busca y al final se usa el resultado."
+        }
+      ]
+    },
+    {
+      "slug": "ba-middlewares-auth",
+      "module": 5,
+      "title": "Middlewares, permisos y webhooks",
+      "description": "Middlewares en una ruta, isAdmin, isAuth con tokens y webhooks.",
+      "questions": [
+        {
+          "slug": "ba-ma-ruta",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "middlewares",
+          "prompt": "¿Cómo aplicás un middleware solo a una ruta?",
+          "content": {
+            "options": [
+              "Pasándolo antes del controlador: router.get(\"/ruta\", middleware, controlador)",
+              "Con app.listen",
+              "Escribiéndolo dentro del package.json",
+              "No se puede"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Podés encadenar todos los que quieras: cada next() pasa a la siguiente función de la fila."
+        },
+        {
+          "slug": "ba-ma-bearer",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "isAuth",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const authHeader = \"Bearer abc123\";\nconst token = authHeader.split(\" \")[1];\nconsole.log(token);",
+            "options": [
+              "abc123",
+              "Bearer",
+              "Bearer abc123",
+              "undefined"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "split(\" \") separa el texto por los espacios: la posición 0 es Bearer y la 1, el token."
+        },
+        {
+          "slug": "ba-ma-401-403",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "isAuth",
+          "prompt": "En isAuth, ¿qué código devolvés si falta el token y cuál si es incorrecto?",
+          "content": {
+            "options": [
+              "401 si falta; 403 si es incorrecto",
+              "403 si falta; 401 si es incorrecto",
+              "404 los dos",
+              "200 los dos"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Si no hay token no se identificó (401); si el token no es válido, está prohibido (403)."
+        },
+        {
+          "slug": "ba-ma-env",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "isAuth",
+          "prompt": "¿Por qué no se escribe un token directamente en el código?",
+          "content": {
+            "options": [
+              "Porque si lo subís a GitHub cualquiera lo puede ver: va en una variable de entorno (.env) que no se sube",
+              "Porque ocupa mucho espacio",
+              "Porque Express lo prohíbe",
+              "Porque se vence"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Se lee con process.env.API_TOKEN."
+        },
+        {
+          "slug": "ba-ma-fill-admin",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "isAdmin",
+          "prompt": "Completá para que el usuario administrador pase.",
+          "content": {
+            "code": "const user = { id: 3, isAdmin: true };\nconsole.log(user && user.isAdmin === ___ ? \"pasa\" : \"403\");",
+            "blanks": [
+              [
+                "true",
+                "false"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "pasa"
+          },
+          "explanation": "isAdmin deja pasar con next() solo si es true; si no, responde 403 y el controlador nunca se ejecuta."
+        },
+        {
+          "slug": "ba-ma-webhook",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "webhooks",
+          "prompt": "¿Qué es un webhook y qué ventaja tiene?",
+          "content": {
+            "options": [
+              "Un endpoint que recibe avisos de otra aplicación cuando pasa algo; tu servidor no tiene que preguntar todo el tiempo",
+              "Un tipo de base de datos",
+              "Un middleware de Express",
+              "Un token"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Técnicamente es un endpoint como cualquier otro (casi siempre un POST): la diferencia está en quién lo llama y cuándo."
+        }
+      ]
+    },
+    {
+      "slug": "ba-protocolos",
+      "module": 6,
+      "title": "Protocolos y redes",
+      "description": "HTTP y HTTPS, TCP y UDP, paquetes, los modelos OSI y TCP/IP, la IP y el DNS.",
+      "questions": [
+        {
+          "slug": "ba-pr6-https",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "HTTP",
+          "prompt": "¿Qué diferencia hay entre HTTP y HTTPS?",
+          "content": {
+            "options": [
+              "HTTPS es HTTP seguro: la información viaja cifrada gracias a un certificado SSL/TLS",
+              "HTTPS es más lento y no sirve",
+              "HTTP es el que cifra",
+              "No hay diferencia"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Tu servidor local usa http://localhost porque no tiene certificado, y para desarrollar está bien."
+        },
+        {
+          "slug": "ba-pr6-tcp-udp",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "TCP y UDP",
+          "prompt": "¿Qué protocolo de transporte usarías para un chat de texto y cuál para una videollamada?",
+          "content": {
+            "options": [
+              "TCP para el chat, porque los mensajes tienen que llegar completos; UDP para la videollamada, porque importa más la velocidad",
+              "UDP para los dos",
+              "TCP para la videollamada y UDP para el chat",
+              "TCP para los dos"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "TCP confirma la entrega y respeta el orden; UDP envía y sigue, sin confirmar."
+        },
+        {
+          "slug": "ba-pr6-osi",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "modelos",
+          "prompt": "¿Cuántas capas tiene el modelo OSI y cuántas el TCP/IP? ¿Cuál se usa en internet?",
+          "content": {
+            "options": [
+              "OSI tiene 7 y TCP/IP tiene 4; en internet se usa TCP/IP",
+              "OSI tiene 4 y TCP/IP tiene 7; se usa OSI",
+              "Los dos tienen 7; se usa OSI",
+              "OSI tiene 3 y TCP/IP tiene 5; se usa OSI"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "OSI es un modelo teórico de referencia; TCP/IP es el que se usa de verdad."
+        },
+        {
+          "slug": "ba-pr6-ipv4",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "IP",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "console.log(\"192.168.0.10\".split(\".\").length);",
+            "options": [
+              "4",
+              "3",
+              "10",
+              "192"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Una dirección IPv4 son cuatro números del 0 al 255 separados por puntos."
+        },
+        {
+          "slug": "ba-pr6-orden-paquetes",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "paquetes",
+          "prompt": "Ordená para que los paquetes se vuelvan a juntar en orden y formen el mensaje.",
+          "content": {
+            "lines": [
+              "const partes = [\"Ho\", \"la\"];",
+              "const mensaje = partes.join(\"\");",
+              "console.log(mensaje);"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2
+            ],
+            "output": "Hola"
+          },
+          "explanation": "La información viaja en paquetes y, al llegar, se juntan de nuevo en orden."
+        },
+        {
+          "slug": "ba-pr6-dns",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "DNS",
+          "prompt": "¿Qué hace el DNS?",
+          "content": {
+            "options": [
+              "Traduce un nombre de dominio, como google.com, a la dirección IP del servidor",
+              "Cifra los datos",
+              "Divide la información en paquetes",
+              "Guarda las contraseñas"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es como la agenda de contactos de internet."
+        }
+      ]
+    },
+    {
+      "slug": "ba-sockets",
+      "module": 7,
+      "title": "Tiempo real con Socket.IO",
+      "description": "Sockets, io.emit, socket.on, servir archivos estáticos y la diferencia con WebSocket.",
+      "questions": [
+        {
+          "slug": "ba-so-http-chat",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "sockets",
+          "prompt": "¿Por qué HTTP solo no alcanza para un chat en tiempo real?",
+          "content": {
+            "options": [
+              "Porque el servidor solo responde cuando el cliente pregunta, y en un chat tiene que enviar mensajes sin que se los pidan",
+              "Porque HTTP no envía texto",
+              "Porque HTTP es muy seguro",
+              "Porque no existe en Node"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los sockets abren un canal permanente y en los dos sentidos."
+        },
+        {
+          "slug": "ba-so-emit",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "Socket.IO",
+          "prompt": "¿Qué hace io.emit(\"message\", data)?",
+          "content": {
+            "options": [
+              "Envía el evento a todos los clientes conectados",
+              "Escucha un evento de un cliente",
+              "Cierra la conexión",
+              "Crea una ruta"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "En el chat, reenvía cada mensaje a todos."
+        },
+        {
+          "slug": "ba-so-on-emit",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Socket.IO",
+          "prompt": "¿Qué diferencia hay entre socket.on() e io.emit()?",
+          "content": {
+            "options": [
+              "socket.on escucha un evento que envía un cliente; io.emit envía un evento a todos",
+              "Son lo mismo",
+              "socket.on envía y io.emit escucha",
+              "socket.on solo funciona al desconectarse"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Cada conexión es un socket con su propio id."
+        },
+        {
+          "slug": "ba-so-static",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Express",
+          "prompt": "¿Para qué sirve app.use(express.static(\"public\"))?",
+          "content": {
+            "options": [
+              "Para servir los archivos de la carpeta public, como el HTML del chat",
+              "Para proteger rutas",
+              "Para leer el body",
+              "Para reiniciar el servidor"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El HTML del chat es frontend: se sirve como archivo estático."
+        },
+        {
+          "slug": "ba-so-tcp",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Socket.IO",
+          "prompt": "¿Socket.IO funciona sobre UDP o sobre TCP?",
+          "content": {
+            "options": [
+              "Sobre TCP, porque usa WebSocket por detrás",
+              "Sobre UDP",
+              "Sobre los dos a la vez",
+              "Sobre ninguno"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los mensajes llegan completos y en orden. Lo que comparte con el streaming es el tiempo real."
+        },
+        {
+          "slug": "ba-so-broadcast",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "Socket.IO",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const clientes = [\"ana\", \"luis\", \"marta\"];\nconst recibidos = [];\nclientes.forEach((c) => recibidos.push(c + \": hola\"));\nconsole.log(recibidos.length);",
+            "options": [
+              "3",
+              "1",
+              "0",
+              "hola"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "io.emit envía a todos los conectados: acá, un mensaje por cada cliente."
+        }
+      ]
+    },
+    {
+      "slug": "ba-ejercicios",
+      "module": 8,
+      "title": "Planificar y construir APIs",
+      "description": "Diseñar una API antes de programar, guardar en JSON, contraseñas con hash y comentarios anidados.",
+      "questions": [
+        {
+          "slug": "ba-ej-planificar",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "diseño",
+          "prompt": "¿Qué conviene definir antes de empezar a programar una API?",
+          "content": {
+            "options": [
+              "Los recursos, los endpoints (método y ruta), qué datos recibe cada uno y qué responde",
+              "El color de la interfaz",
+              "El nombre del repositorio",
+              "El puerto de Postman"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Por ejemplo: GET /tasks → lista de tareas; POST /tasks → recibe { title } y responde con un 201."
+        },
+        {
+          "slug": "ba-ej-fs",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "JSON",
+          "prompt": "¿Qué funciones de fs usás para que los cambios en un JSON no se pierdan?",
+          "content": {
+            "options": [
+              "fs.readFileSync() para leerlo y fs.writeFileSync() para guardar",
+              "fs.unlinkSync() y fs.readdirSync()",
+              "Solo require",
+              "fs.download()"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con require, los cambios quedan en memoria y se pierden al reiniciar."
+        },
+        {
+          "slug": "ba-ej-hash",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "seguridad",
+          "prompt": "¿Por qué nunca hay que guardar las contraseñas tal cual las escribe el usuario?",
+          "content": {
+            "options": [
+              "Porque si alguien accede a la base de datos las vería todas: se guardan con un hash, que no se puede revertir",
+              "Porque ocupan mucho espacio",
+              "Porque Express no las acepta",
+              "Porque cambian solas"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Al iniciar sesión se aplica el mismo hash a lo que escribió y se compara con el guardado."
+        },
+        {
+          "slug": "ba-ej-201",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "status codes",
+          "prompt": "¿Qué código corresponde al crear una tarea con éxito?",
+          "content": {
+            "options": [
+              "201 Created",
+              "200 OK",
+              "204 No Content",
+              "404 Not Found"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es el que se usa al crear un recurso nuevo."
+        },
+        {
+          "slug": "ba-ej-parentid",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "diseño",
+          "prompt": "¿Cómo se representa que un comentario es la respuesta a otro?",
+          "content": {
+            "options": [
+              "Con un campo parentId que guarda el id del comentario al que responde (o null si es principal)",
+              "Con otro endpoint",
+              "Con un token",
+              "Con un status code"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Así se arma un solo nivel de respuestas, como en Instagram o YouTube."
+        },
+        {
+          "slug": "ba-ej-filtrar-principales",
+          "type": "output",
+          "difficulty": "medium",
+          "topic": "diseño",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const comentarios = [\n  { id: 1, parentId: null },\n  { id: 2, parentId: 1 },\n  { id: 3, parentId: 1 },\n  { id: 4, parentId: null },\n];\nconsole.log(comentarios.filter((c) => c.parentId === null).length);",
+            "options": [
+              "2",
+              "4",
+              "3",
+              "1"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Los comentarios principales son los que tienen parentId null; a cada uno se le buscan sus respuestas."
+        }
+      ]
+    },
+    {
+      "slug": "ba-pilas-colas",
+      "module": 9,
+      "title": "Pilas y colas",
+      "description": "LIFO y FIFO, push, pop y shift, y el encolador de tareas.",
+      "questions": [
+        {
+          "slug": "ba-pc-lifo-fifo",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "pilas y colas",
+          "prompt": "¿Qué diferencia hay entre una pila y una cola?",
+          "content": {
+            "options": [
+              "En la pila el último que entra es el primero que sale (LIFO); en la cola, el primero que entra es el primero que sale (FIFO)",
+              "Son iguales",
+              "La pila es FIFO y la cola LIFO",
+              "La pila no permite agregar"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Una pila de platos y la fila del supermercado."
+        },
+        {
+          "slug": "ba-pc-pop",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "pilas y colas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const pila = [];\npila.push(1);\npila.push(2);\nconsole.log(pila.pop());",
+            "options": [
+              "2",
+              "1",
+              "undefined",
+              "[1, 2]"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "pop saca el último que entró."
+        },
+        {
+          "slug": "ba-pc-shift",
+          "type": "output",
+          "difficulty": "easy",
+          "topic": "pilas y colas",
+          "prompt": "¿Qué imprime este código?",
+          "content": {
+            "code": "const cola = [\"a\", \"b\"];\nconsole.log(cola.shift());",
+            "options": [
+              "a",
+              "b",
+              "undefined",
+              "ab"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "shift saca el primero: la cola respeta el orden de llegada."
+        },
+        {
+          "slug": "ba-pc-metodo",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "pilas y colas",
+          "prompt": "¿Qué método de arrays usarías para sacar el próximo elemento de una cola?",
+          "content": {
+            "options": [
+              "shift()",
+              "pop()",
+              "push()",
+              "slice()"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "push agrega al final y shift saca del principio."
+        },
+        {
+          "slug": "ba-pc-fill-shift",
+          "type": "fill_blank",
+          "difficulty": "medium",
+          "topic": "pilas y colas",
+          "prompt": "Completá para que se procese primero la tarea que llegó antes.",
+          "content": {
+            "code": "const cola = [\"tarea1\", \"tarea2\"];\nconsole.log(cola.___());",
+            "blanks": [
+              [
+                "shift",
+                "pop"
+              ]
+            ]
+          },
+          "answer": {
+            "correct": [
+              0
+            ],
+            "output": "tarea1"
+          },
+          "explanation": "shift saca la primera; pop sacaría la última."
+        },
+        {
+          "slug": "ba-pc-orden-cola",
+          "type": "order_lines",
+          "difficulty": "medium",
+          "topic": "pilas y colas",
+          "prompt": "Ordená para que se procesen A y B en el orden en que llegaron.",
+          "content": {
+            "lines": [
+              "const cola = [];",
+              "cola.push(\"A\");",
+              "cola.push(\"B\");",
+              "console.log(cola.shift() + cola.shift());"
+            ]
+          },
+          "answer": {
+            "order": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "output": "AB"
+          },
+          "explanation": "Se encolan en el orden de llegada y shift saca siempre la primera."
+        }
+      ]
+    },
+    {
+      "slug": "ba-extras-produccion",
+      "module": 9,
+      "title": "Archivos, límites, tests y Docker",
+      "description": "Multer, rate limit, borrado lógico, tests de estrés, coverage y contenedores.",
+      "questions": [
+        {
+          "slug": "ba-ex9-multer",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Multer",
+          "prompt": "¿En qué propiedad del req queda el archivo que recibe Multer?",
+          "content": {
+            "options": [
+              "En req.file",
+              "En req.body",
+              "En req.params",
+              "En req.query"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Con upload.single(\"pdfFile\") el archivo tiene que llegar con esa clave."
+        },
+        {
+          "slug": "ba-ex9-mime",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Multer",
+          "prompt": "¿Cuál es el tipo MIME de un PDF y cuál el de una imagen PNG?",
+          "content": {
+            "options": [
+              "application/pdf e image/png",
+              "application/pdf y application/png",
+              "file/pdf y file/png",
+              "text/pdf e image/pdf"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Las imágenes no son application/png: su tipo MIME empieza con image/."
+        },
+        {
+          "slug": "ba-ex9-ratelimit",
+          "type": "multiple_choice",
+          "difficulty": "easy",
+          "topic": "rate limit",
+          "prompt": "¿Para qué sirve un rate limit?",
+          "content": {
+            "options": [
+              "Para limitar cuántas peticiones puede hacer alguien en un tiempo; protege de ataques de fuerza bruta y de denegación de servicio",
+              "Para acelerar el servidor",
+              "Para cifrar los datos",
+              "Para guardar logs"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Es lo que pasa cuando te dicen «Demasiados intentos, probá más tarde»."
+        },
+        {
+          "slug": "ba-ex9-borrado-logico",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "CRUD",
+          "prompt": "¿Qué es un borrado lógico y por qué se usa?",
+          "content": {
+            "options": [
+              "Marcar un registro como inactivo en vez de borrarlo, para no perder información",
+              "Borrar el archivo del disco",
+              "Borrar la base de datos",
+              "Un DELETE que devuelve 404"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "El usuario deja de aparecer, pero sus datos siguen por si hace falta recuperarlos o auditarlos."
+        },
+        {
+          "slug": "ba-ex9-estres",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "testing",
+          "prompt": "¿Qué mide un test de estrés y qué el coverage?",
+          "content": {
+            "options": [
+              "El de estrés, cuánta carga aguanta el servidor; el coverage, qué porcentaje del código recorren los tests",
+              "El de estrés, el tamaño del código; el coverage, la velocidad",
+              "Los dos miden la velocidad",
+              "Los dos miden el tamaño"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "Una herramienta de estrés muy usada es Artillery."
+        },
+        {
+          "slug": "ba-ex9-docker",
+          "type": "multiple_choice",
+          "difficulty": "medium",
+          "topic": "Docker",
+          "prompt": "¿Qué diferencia hay entre una imagen y un contenedor de Docker?",
+          "content": {
+            "options": [
+              "La imagen es la receta preparada; el contenedor es esa imagen ejecutándose",
+              "Son lo mismo",
+              "El contenedor es la receta y la imagen el programa corriendo",
+              "La imagen es una máquina virtual"
+            ]
+          },
+          "answer": {
+            "correct": 0
+          },
+          "explanation": "docker build crea la imagen y docker run la ejecuta."
+        }
+      ]
+    },
+    {
+      "slug": "ba-examen",
+      "module": null,
+      "title": "Examen",
+      "description": "Diez preguntas nuevas de toda la constelación, con tiempo. Aprobalo y ganás un descuento para tu próximo curso.",
+      "kind": "exam",
+      "questions": []
+    }
+  ],
+  "bank": [
+    {
+      "slug": "ba-banco-start-sin-run",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "npm",
+      "module": 1,
+      "prompt": "¿Por qué npm start funciona sin la palabra run?",
+      "content": {
+        "options": [
+          "Porque start y test son scripts especiales que npm reconoce directamente",
+          "Porque start es un comando de Linux",
+          "Porque npm lo ejecuta dos veces",
+          "Porque el package.json lo exige"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El resto de los scripts necesita npm run <nombre>."
+    },
+    {
+      "slug": "ba-banco-npx",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "npx",
+      "module": 1,
+      "prompt": "¿Qué diferencia hay entre npm y npx?",
+      "content": {
+        "options": [
+          "npm instala y gestiona paquetes; npx ejecuta un paquete sin instalarlo de forma permanente",
+          "npx es la versión vieja de npm",
+          "npm ejecuta y npx borra",
+          "No hay diferencia"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "npx sirve para herramientas que usás una sola vez, como los creadores de proyectos."
+    },
+    {
+      "slug": "ba-banco-scripts",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "npm",
+      "module": 1,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const scripts = { start: \"node index.js\", test: \"jest\" };\nconsole.log(Object.keys(scripts).join(\", \"));",
+        "options": [
+          "start, test",
+          "node index.js, jest",
+          "scripts",
+          "start"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Object.keys devuelve las claves del objeto: los nombres de los scripts."
+    },
+    {
+      "slug": "ba-banco-put-patch",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "métodos HTTP",
+      "module": 2,
+      "prompt": "Querés cambiar solo el email de un usuario. ¿Qué método corresponde más?",
+      "content": {
+        "options": [
+          "PATCH",
+          "POST",
+          "GET",
+          "DELETE"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "PATCH modifica una parte; PUT reemplaza el recurso completo."
+    },
+    {
+      "slug": "ba-banco-fill-crud",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "CRUD",
+      "module": 2,
+      "prompt": "Completá para que imprima el método HTTP de la baja de un recurso.",
+      "content": {
+        "code": "const metodos = { Alta: \"POST\", Lectura: \"GET\", Modificación: \"PUT\", Baja: \"DELETE\" };\nconsole.log(metodos.___);",
+        "blanks": [
+          [
+            "Baja",
+            "Alta",
+            "Lectura"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "DELETE"
+      },
+      "explanation": "ABM significa alta, baja y modificación. La baja se hace con DELETE."
+    },
+    {
+      "slug": "ba-banco-listen-callback",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Express",
+      "module": 2,
+      "prompt": "¿Cuándo se ejecuta la función que le pasás a app.listen?",
+      "content": {
+        "options": [
+          "Cuando el servidor arranca",
+          "En cada petición",
+          "Cuando se cae el servidor",
+          "Nunca"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es un callback: Express lo ejecuta cuando corresponde."
+    },
+    {
+      "slug": "ba-banco-401-403",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "status codes",
+      "module": 3,
+      "prompt": "Falta el token en una petición. ¿Qué código corresponde?",
+      "content": {
+        "options": [
+          "401",
+          "403",
+          "404",
+          "201"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin token no se identificó: 401. Con un token incorrecto: 403."
+    },
+    {
+      "slug": "ba-banco-callback-map",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "callbacks",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const dobles = [1, 2, 3].map((n) => n * 2);\nconsole.log(dobles.join(\"-\"));",
+        "options": [
+          "2-4-6",
+          "1-2-3",
+          "6",
+          "2-4-6-"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La función que se pasa a map es un callback: se ejecuta una vez por elemento."
+    },
+    {
+      "slug": "ba-banco-orden-pasos",
+      "type": "order_lines",
+      "difficulty": "medium",
+      "topic": "app.use",
+      "module": 3,
+      "prompt": "Ordená para que el middleware de log corra antes que el endpoint.",
+      "content": {
+        "lines": [
+          "const pasos = [];",
+          "pasos.push(\"log\");",
+          "pasos.push(\"endpoint\");",
+          "console.log(pasos.join(\" > \"));"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "log > endpoint"
+      },
+      "explanation": "Los middlewares se ejecutan en el orden en que se registran, antes del endpoint."
+    },
+    {
+      "slug": "ba-banco-sin-json",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "req.body",
+      "module": 4,
+      "prompt": "Olvidaste app.use(express.json()). ¿Qué vale req.body?",
+      "content": {
+        "options": [
+          "undefined",
+          "{}",
+          "null",
+          "Un string vacío"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Express no interpreta el JSON si no se lo pedís."
+    },
+    {
+      "slug": "ba-banco-tilde",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "parseo",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(~~\"24.7\");",
+        "options": [
+          "24",
+          "24.7",
+          "NaN",
+          "-24"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "~~ es un truco con operadores de bits: convierte el texto y corta los decimales. Para el día a día, mejor Number, parseInt o parseFloat."
+    },
+    {
+      "slug": "ba-banco-orden-params",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "req.params",
+      "module": 4,
+      "prompt": "El endpoint es /users/:name/:surname/:age. Mandás /users/Costa/Marcos/24. ¿Qué vale name?",
+      "content": {
+        "options": [
+          "\"Costa\"",
+          "\"Marcos\"",
+          "\"24\"",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada valor ocupa el lugar que el endpoint tiene preconfigurado: el orden importa."
+    },
+    {
+      "slug": "ba-banco-return-isauth",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "isAuth",
+      "module": 5,
+      "prompt": "En isAuth, ¿para qué sirve el return antes de res.status(401)?",
+      "content": {
+        "options": [
+          "Corta la función en ese momento, para que no siga ejecutándose el resto",
+          "Devuelve el token",
+          "Reinicia el servidor",
+          "Evita escribir el status"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin return, después de responder seguiría ejecutándose el resto y podría llamar a next()."
+    },
+    {
+      "slug": "ba-banco-findindex",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "find",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const lista = [{ id: 1 }, { id: 2 }];\nconsole.log(lista.findIndex((u) => u.id === 5));",
+        "options": [
+          "-1",
+          "undefined",
+          "0",
+          "null"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "findIndex devuelve la posición, o -1 si no encuentra el elemento."
+    },
+    {
+      "slug": "ba-banco-webhook-ejemplo",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "webhooks",
+      "module": 5,
+      "prompt": "¿Cuál es un ejemplo de webhook?",
+      "content": {
+        "options": [
+          "Mercado Pago avisa a tu servidor cuando se aprueba un pago",
+          "Tu servidor consulta la API de Rick and Morty",
+          "Postman envía un GET",
+          "Node reinicia el servidor"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En vez de preguntar cada rato, la otra aplicación te avisa."
+    },
+    {
+      "slug": "ba-banco-puerto-ip",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "IP",
+      "module": 6,
+      "prompt": "Si la IP es la dirección de un edificio, ¿qué es el puerto?",
+      "content": {
+        "options": [
+          "El número de departamento: cada programa escucha en su propio puerto",
+          "La calle",
+          "El cable",
+          "El nombre del dominio"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "HTTP usa por defecto el 80 y HTTPS, el 443."
+    },
+    {
+      "slug": "ba-banco-fill-https",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "HTTP",
+      "module": 6,
+      "prompt": "Completá para imprimir el puerto por defecto de HTTPS.",
+      "content": {
+        "code": "const puertos = { http: 80, https: 443 };\nconsole.log(puertos.___);",
+        "blanks": [
+          [
+            "https",
+            "http"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "443"
+      },
+      "explanation": "HTTP usa el 80 y HTTPS, el 443."
+    },
+    {
+      "slug": "ba-banco-transporte",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "modelos",
+      "module": 6,
+      "prompt": "¿En qué capa trabajan TCP y UDP?",
+      "content": {
+        "options": [
+          "En la capa de transporte",
+          "En la capa física",
+          "En la de aplicación",
+          "En la de presentación"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Deciden cómo se entregan los paquetes."
+    },
+    {
+      "slug": "ba-banco-ws-socketio",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "sockets",
+      "module": 7,
+      "prompt": "¿Cuál es la diferencia entre WebSocket y Socket.IO?",
+      "content": {
+        "options": [
+          "WebSocket es un protocolo estándar; Socket.IO es una librería que lo usa por detrás y agrega reconexión, salas y más",
+          "Son lo mismo",
+          "WebSocket es una librería y Socket.IO un protocolo",
+          "Socket.IO usa UDP"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La relación es parecida a la de HTTP y Express."
+    },
+    {
+      "slug": "ba-banco-polling",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "sockets",
+      "module": 7,
+      "prompt": "Antes de WebSocket se simulaba el tiempo real con polling. ¿Qué era?",
+      "content": {
+        "options": [
+          "Preguntarle al servidor cada pocos segundos si había mensajes nuevos",
+          "Enviar mensajes por UDP",
+          "Cifrar los mensajes",
+          "Reiniciar el servidor"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Era como preguntar «¿ya llegamos?» en un viaje: funcionaba, pero desperdiciaba recursos."
+    },
+    {
+      "slug": "ba-banco-connection",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "Socket.IO",
+      "module": 7,
+      "prompt": "¿Cuándo se ejecuta io.on(\"connection\", ...)?",
+      "content": {
+        "options": [
+          "Cada vez que alguien se conecta",
+          "Solo la primera vez",
+          "Cuando se cae el servidor",
+          "En cada mensaje"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada conexión es un socket con su id."
+    },
+    {
+      "slug": "ba-banco-bcrypt",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "seguridad",
+      "module": 8,
+      "prompt": "¿Qué librería conviene investigar para guardar contraseñas encriptadas?",
+      "content": {
+        "options": [
+          "bcrypt",
+          "morgan",
+          "multer",
+          "artillery"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Nunca se guarda la contraseña tal cual."
+    },
+    {
+      "slug": "ba-banco-id-mas-alto",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "diseño",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const tareas = [{ id: 1 }, { id: 4 }, { id: 2 }];\nconst nuevoId = Math.max(...tareas.map((t) => t.id)) + 1;\nconsole.log(nuevoId);",
+        "options": [
+          "5",
+          "4",
+          "3",
+          "7"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El ID de una tarea nueva se genera a partir del ID más alto."
+    },
+    {
+      "slug": "ba-banco-io-to",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "Socket.IO",
+      "module": 8,
+      "prompt": "Querés que un mensaje privado llegue a un solo usuario. ¿Qué usás?",
+      "content": {
+        "options": [
+          "io.to(socketId).emit()",
+          "io.emit()",
+          "app.post()",
+          "res.sendStatus()"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "io.emit envía a todos; io.to apunta a un destinatario."
+    },
+    {
+      "slug": "ba-banco-activos",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "CRUD",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const users = [{ n: \"Ana\", isActive: true }, { n: \"Luis\", isActive: false }];\nconsole.log(users.filter((u) => u.isActive).map((u) => u.n).join(\",\"));",
+        "options": [
+          "Ana",
+          "Luis",
+          "Ana,Luis",
+          "true"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con el borrado lógico, los inactivos dejan de aparecer pero siguen en los datos."
+    },
+    {
+      "slug": "ba-banco-docker-puertos",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "Docker",
+      "module": 9,
+      "prompt": "En docker run -p 3000:3000 mi-api, ¿qué significa cada 3000?",
+      "content": {
+        "options": [
+          "El primero es el puerto de tu computadora y el segundo, el del contenedor",
+          "Los dos son del contenedor",
+          "El primero es la imagen",
+          "Son dos réplicas"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Así entrás a la app desde tu navegador."
+    },
+    {
+      "slug": "ba-banco-multer-filtro",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "Multer",
+      "module": 9,
+      "prompt": "Tu filtro de Multer solo deja pasar application/pdf. Subís una imagen PNG. ¿Qué pasa?",
+      "content": {
+        "options": [
+          "Se rechaza con el error «Solo se permiten archivos PDF»",
+          "Se guarda igual",
+          "Se convierte a PDF",
+          "El servidor se reinicia"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "fileFilter decide con cb(null, true) o con un error."
+    }
+  ],
+  "challenges": [
+    {
+      "slug": "ba-desafio-ls",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "¿Qué hace el comando ls?",
+      "content": {
+        "options": [
+          "Lista el contenido de la carpeta actual",
+          "Crea una carpeta",
+          "Elimina un archivo",
+          "Entra a una carpeta"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las carpetas suelen verse en azul y los archivos en blanco."
+    },
+    {
+      "slug": "ba-desafio-cd-punto-punto",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "¿Qué hace cd ..?",
+      "content": {
+        "options": [
+          "Vuelve a la carpeta anterior",
+          "Entra a una carpeta llamada ..",
+          "Lista todo",
+          "Crea una carpeta oculta"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los dos puntos significan «la carpeta de arriba»."
+    },
+    {
+      "slug": "ba-desafio-ctrl-c",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "Un servidor quedó corriendo en la terminal y querés frenarlo. ¿Qué hacés?",
+      "content": {
+        "options": [
+          "Presionás Ctrl + C",
+          "Escribís clear",
+          "Cerrás VS Code sin más",
+          "Escribís npm init"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si no responde, volvés a presionar Ctrl + C."
+    },
+    {
+      "slug": "ba-desafio-npx-servidor",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "npx",
+      "module": 1,
+      "prompt": "¿Para qué sirve npx http-server?",
+      "content": {
+        "options": [
+          "Para levantar un servidor local que muestre archivos estáticos",
+          "Para instalar Express",
+          "Para crear el package.json",
+          "Para borrar node_modules"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es un ejemplo de herramienta que se usa sin instalarla."
+    },
+    {
+      "slug": "ba-desafio-package-json",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "npm",
+      "module": 1,
+      "prompt": "¿Qué es el package.json?",
+      "content": {
+        "options": [
+          "Un archivo JSON con la información del proyecto y sus scripts",
+          "El archivo que guarda las contraseñas",
+          "El servidor",
+          "Una carpeta con paquetes"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "npm init lo crea y ahí se anotan los scripts y las dependencias."
+    },
+    {
+      "slug": "ba-desafio-rmdir-lleno",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "Intentás borrar con rmdir una carpeta que tiene archivos adentro. ¿Qué pasa?",
+      "content": {
+        "options": [
+          "No la borra: rmdir solo elimina carpetas vacías",
+          "La borra con todo",
+          "La mueve a la papelera",
+          "Borra solo los archivos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Para borrar una carpeta llena hace falta rm -rf, con mucho cuidado."
+    },
+    {
+      "slug": "ba-desafio-script-dev",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "npm",
+      "module": 1,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const scripts = { start: \"node index.js\", dev: \"node --watch index.js\" };\nconsole.log(scripts.dev);",
+        "options": [
+          "node --watch index.js",
+          "node index.js",
+          "dev",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El nombre del script es la clave y el comando, su valor."
+    },
+    {
+      "slug": "ba-desafio-extension",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "node",
+      "module": 1,
+      "prompt": "Para ejecutar tu archivo con Node escribís node index.js. ¿Qué olvido es común?",
+      "content": {
+        "options": [
+          "Escribir node index sin la extensión .js",
+          "Escribir node en minúscula",
+          "Usar la terminal",
+          "Tener el archivo en una carpeta"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "No te olvides de la extensión del archivo."
+    },
+    {
+      "slug": "ba-desafio-get-leer",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "métodos HTTP",
+      "module": 2,
+      "prompt": "¿Para qué se usa GET?",
+      "content": {
+        "options": [
+          "Leer u obtener datos",
+          "Crear un recurso",
+          "Eliminar un recurso",
+          "Actualizar un recurso"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es el único que no modifica el servidor."
+    },
+    {
+      "slug": "ba-desafio-delete",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "CRUD",
+      "module": 2,
+      "prompt": "¿Qué método HTTP corresponde a la baja de un recurso?",
+      "content": {
+        "options": [
+          "DELETE",
+          "GET",
+          "POST",
+          "PATCH"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Baja = Delete."
+    },
+    {
+      "slug": "ba-desafio-abm",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "CRUD",
+      "module": 2,
+      "prompt": "¿Qué significa ABM?",
+      "content": {
+        "options": [
+          "Alta, baja y modificación",
+          "Aplicación básica móvil",
+          "Acceso, backup y migración",
+          "Autenticación, base y middleware"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es el CRUD en español."
+    },
+    {
+      "slug": "ba-desafio-localhost",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "Express",
+      "module": 2,
+      "prompt": "En http://localhost:3000, ¿qué es 3000?",
+      "content": {
+        "options": [
+          "El puerto",
+          "La IP",
+          "El método",
+          "El usuario"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "localhost es tu propia computadora."
+    },
+    {
+      "slug": "ba-desafio-fielding",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "REST",
+      "module": 2,
+      "prompt": "¿Quién definió REST?",
+      "content": {
+        "options": [
+          "Roy Fielding, en su tesis de doctorado del año 2000",
+          "Linus Torvalds en 1991",
+          "Tim Berners-Lee en 1989",
+          "Brendan Eich en 1995"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Fielding también fue autor de la especificación de HTTP."
+    },
+    {
+      "slug": "ba-desafio-post-body",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Postman",
+      "module": 2,
+      "prompt": "Querés enviar datos en JSON con un POST desde Postman. ¿Qué hacés?",
+      "content": {
+        "options": [
+          "Pestaña Body, raw y después JSON",
+          "Pestaña Params, tipo File",
+          "Pestaña Authorization",
+          "Pestaña Headers vacía"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "form-data se usa para archivos."
+    },
+    {
+      "slug": "ba-desafio-abm-array",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "CRUD",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const abm = \"Alta, Baja, Modificación\".split(\", \");\nconsole.log(abm[1]);",
+        "options": [
+          "Baja",
+          "Alta",
+          "Modificación",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los arrays empiezan en la posición 0: la 1 es el segundo elemento."
+    },
+    {
+      "slug": "ba-desafio-fill-patch",
+      "type": "fill_blank",
+      "difficulty": "medium",
+      "topic": "métodos HTTP",
+      "module": 2,
+      "prompt": "Completá para que imprima «parte», que es lo que modifica el método.",
+      "content": {
+        "code": "const metodo = \"___\";\nconsole.log(metodo === \"PATCH\" ? \"parte\" : \"completo\");",
+        "blanks": [
+          [
+            "PATCH",
+            "PUT"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "parte"
+      },
+      "explanation": "PATCH actualiza una parte; PUT, el recurso completo."
+    },
+    {
+      "slug": "ba-desafio-req-ip",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "request",
+      "module": 3,
+      "prompt": "¿De dónde sacás la IP del cliente en Express?",
+      "content": {
+        "options": [
+          "De req.ip",
+          "De res.ip",
+          "De app.ip",
+          "De next.ip"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "También hay req.method y req.headers."
+    },
+    {
+      "slug": "ba-desafio-morgan",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "app.use",
+      "module": 3,
+      "prompt": "¿Qué hace la librería Morgan?",
+      "content": {
+        "options": [
+          "Muestra en la consola cada petición con su método, ruta y código de estado",
+          "Encripta contraseñas",
+          "Reinicia el servidor",
+          "Crea la base de datos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es un middleware de registro (log)."
+    },
+    {
+      "slug": "ba-desafio-201",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "status codes",
+      "module": 3,
+      "prompt": "Creás un recurso con éxito. ¿Qué código devolvés?",
+      "content": {
+        "options": [
+          "201 Created",
+          "200 OK",
+          "404",
+          "500"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los 2xx son éxito."
+    },
+    {
+      "slug": "ba-desafio-siempre-200",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "status codes",
+      "module": 3,
+      "prompt": "¿Qué problema tiene responder siempre 200, aunque algo haya fallado?",
+      "content": {
+        "options": [
+          "Confunde a quien usa tu API: no sabe si salió bien",
+          "Ninguno",
+          "El servidor se cae",
+          "Express lo prohíbe"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los códigos son un estándar y hay que usarlos con coherencia."
+    },
+    {
+      "slug": "ba-desafio-status-json",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "response",
+      "module": 3,
+      "prompt": "¿Cómo respondés un 200 con un JSON?",
+      "content": {
+        "options": [
+          "res.status(200).json(users)",
+          "res.json(200).status(users)",
+          "res.send(200, users)",
+          "res.listen(users)"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Primero elegís el código con res.status y encadenás la respuesta."
+    },
+    {
+      "slug": "ba-desafio-5xx",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "status codes",
+      "module": 3,
+      "prompt": "¿Qué indican los códigos 5xx?",
+      "content": {
+        "options": [
+          "Errores del servidor",
+          "Errores del cliente",
+          "Éxito",
+          "Redirecciones"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "500 Internal Server Error es el más común."
+    },
+    {
+      "slug": "ba-desafio-callback-simple",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "callbacks",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "function ejecutar(fn) {\n  fn();\n}\nejecutar(() => console.log(\"listo\"));",
+        "options": [
+          "listo",
+          "undefined",
+          "fn",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se le pasa una función a ejecutar, y ejecutar la llama."
+    },
+    {
+      "slug": "ba-desafio-httpcat",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "status codes",
+      "module": 3,
+      "prompt": "¿Qué muestra la página http.cat?",
+      "content": {
+        "options": [
+          "Cada código de estado con la foto de un gato",
+          "Un ranking de APIs",
+          "Gatos en servidores",
+          "El código de Express"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "También existe http.dog."
+    },
+    {
+      "slug": "ba-desafio-query-opcional",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "req.query",
+      "module": 4,
+      "prompt": "Querés buscar y paginar resultados. ¿Qué usás?",
+      "content": {
+        "options": [
+          "Query params, como ?q=zapatillas&page=4",
+          "Solo params obligatorios",
+          "Un archivo",
+          "Un webhook"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Son ideales para datos opcionales: filtros, búsquedas y paginado."
+    },
+    {
+      "slug": "ba-desafio-body-metodos",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "req.body",
+      "module": 4,
+      "prompt": "¿Con qué métodos se usa sobre todo el body?",
+      "content": {
+        "options": [
+          "POST, PUT y PATCH",
+          "Solo GET",
+          "Solo DELETE",
+          "Con ninguno"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El body no se ve en la URL, así que sirve para datos grandes o complejos."
+    },
+    {
+      "slug": "ba-desafio-body-parser",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "req.body",
+      "module": 4,
+      "prompt": "¿Qué es body-parser?",
+      "content": {
+        "options": [
+          "La librería que se usaba antes de Express 4.16 para leer el body; hoy express.json() hace lo mismo",
+          "Un test",
+          "Un middleware de Docker",
+          "Una base de datos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Te lo vas a cruzar en proyectos y tutoriales viejos."
+    },
+    {
+      "slug": "ba-desafio-json-comillas",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "req.body",
+      "module": 4,
+      "prompt": "En un JSON del body, ¿cómo se escriben las claves?",
+      "content": {
+        "options": [
+          "Entre comillas dobles",
+          "Sin comillas",
+          "Con comillas simples",
+          "Con dos puntos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los números y booleanos van sin comillas, y la última propiedad no lleva coma."
+    },
+    {
+      "slug": "ba-desafio-mas-unario",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "parseo",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(+\"24\" + 1);",
+        "options": [
+          "25",
+          "241",
+          "NaN",
+          "24"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El + unario convierte el texto en número, y después se suma."
+    },
+    {
+      "slug": "ba-desafio-math-floor",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "parseo",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(Math.floor(\"24.7\"));",
+        "options": [
+          "24",
+          "25",
+          "24.7",
+          "NaN"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Math.floor redondea hacia abajo (y de paso convierte el texto)."
+    },
+    {
+      "slug": "ba-desafio-typeof-number",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "parseo",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(typeof Number(\"5\"));",
+        "options": [
+          "number",
+          "string",
+          "NaN",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Number convierte el texto a número."
+    },
+    {
+      "slug": "ba-desafio-semver",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "librerías",
+      "module": 4,
+      "prompt": "En la versión 4.18.2 de una librería, ¿qué indica el primer número?",
+      "content": {
+        "options": [
+          "El número mayor: cambia cuando hay cambios que pueden romper tu código",
+          "Las funciones nuevas",
+          "Las correcciones",
+          "El día de publicación"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Versionado semántico: mayor.menor.parche. El menor trae funciones nuevas y el parche, correcciones."
+    },
+    {
+      "slug": "ba-desafio-sube-carpeta",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "rutas",
+      "module": 5,
+      "prompt": "Desde routes/, ¿qué significa require(\"../controllers/userController\")?",
+      "content": {
+        "options": [
+          "Subir una carpeta para llegar a controllers/",
+          "Entrar a una carpeta oculta",
+          "Importar un paquete de npm",
+          "Borrar la carpeta"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "../ significa «subir una carpeta»."
+    },
+    {
+      "slug": "ba-desafio-require-memoria",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "JSON",
+      "module": 5,
+      "prompt": "Importás un JSON con require y agregás un usuario. ¿Qué pasa al reiniciar el servidor?",
+      "content": {
+        "options": [
+          "Se pierde: require lo carga en memoria y no escribe el archivo",
+          "Queda guardado en el JSON",
+          "El servidor no arranca",
+          "Se duplica"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Para guardar hay que escribir el archivo con fs.writeFileSync, y en un proyecto real, usar una base de datos."
+    },
+    {
+      "slug": "ba-desafio-writefile",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "JSON",
+      "module": 5,
+      "prompt": "¿Qué función de fs usás para guardar los cambios en un JSON?",
+      "content": {
+        "options": [
+          "fs.writeFileSync()",
+          "fs.readFileSync()",
+          "fs.unlinkSync()",
+          "fs.readdirSync()"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "readFileSync lee; writeFileSync escribe."
+    },
+    {
+      "slug": "ba-desafio-jwt",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "isAuth",
+      "module": 5,
+      "prompt": "¿Qué es un JWT?",
+      "content": {
+        "options": [
+          "Un token con tres partes que lleva información del usuario firmada por el servidor",
+          "Una base de datos",
+          "Un método HTTP",
+          "Un middleware de log"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El servidor puede verificar que nadie lo modificó."
+    },
+    {
+      "slug": "ba-desafio-isadmin-403",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "isAdmin",
+      "module": 5,
+      "prompt": "En isAdmin, el usuario no es administrador. ¿Qué pasa?",
+      "content": {
+        "options": [
+          "Responde 403 y el controlador nunca se ejecuta",
+          "Llama a next()",
+          "Se borra el usuario",
+          "Responde 201"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un middleware puede cortar el camino si no se cumple una condición."
+    },
+    {
+      "slug": "ba-desafio-find-nombre",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "find",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const users = [{ id: 1, name: \"Mili\", isAdmin: true }, { id: 2, name: \"Fabio\", isAdmin: false }];\nconst user = users.find((u) => u.isAdmin === false);\nconsole.log(user.name);",
+        "options": [
+          "Fabio",
+          "Mili",
+          "false",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "find devuelve el primero que cumple la condición."
+    },
+    {
+      "slug": "ba-desafio-cadena-middlewares",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "middlewares",
+      "module": 5,
+      "prompt": "Si encadenás middleware1, middleware2 y el controlador, ¿cómo pasa la petición de uno al otro?",
+      "content": {
+        "options": [
+          "Cada uno llama a next() para pasarle la posta al siguiente",
+          "Con res.send",
+          "Con app.listen",
+          "Solos, sin llamar nada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si alguno responde sin llamar a next, la cadena se corta."
+    },
+    {
+      "slug": "ba-desafio-bearer",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "isAuth",
+      "module": 5,
+      "prompt": "¿Con qué formato se envía normalmente el token en el encabezado Authorization?",
+      "content": {
+        "options": [
+          "Bearer <token>",
+          "Token=<token>",
+          "<token>.Bearer",
+          "Basic <usuario>"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En Postman se carga en Authorization → Bearer Token."
+    },
+    {
+      "slug": "ba-desafio-candadito",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "HTTP",
+      "module": 6,
+      "prompt": "¿Qué indica el candadito junto a la URL en el navegador?",
+      "content": {
+        "options": [
+          "Que el sitio usa HTTPS",
+          "Que el sitio es gratis",
+          "Que está caído",
+          "Que usa UDP"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Nunca ingreses contraseñas ni datos de tarjetas en un sitio sin HTTPS."
+    },
+    {
+      "slug": "ba-desafio-udp-streaming",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "TCP y UDP",
+      "module": 6,
+      "prompt": "Mirás un stream en vivo y por un instante se pixela la imagen. ¿Qué pasó?",
+      "content": {
+        "options": [
+          "Se perdieron paquetes UDP: en vivo importa más la velocidad que reenviarlos",
+          "Se rompió el servidor",
+          "Falló el DNS",
+          "El navegador usó HTTPS"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "No tiene sentido reenviar un fotograma que ya pasó."
+    },
+    {
+      "slug": "ba-desafio-tcp-whatsapp",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "TCP y UDP",
+      "module": 6,
+      "prompt": "Mandás una imagen por WhatsApp y tiene que llegar completa. ¿Qué protocolo garantiza eso?",
+      "content": {
+        "options": [
+          "TCP",
+          "UDP",
+          "DNS",
+          "FTP"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "TCP confirma que cada paquete llegó y reenvía los perdidos."
+    },
+    {
+      "slug": "ba-desafio-ipv6",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "IP",
+      "module": 6,
+      "prompt": "¿Por qué se creó IPv6?",
+      "content": {
+        "options": [
+          "Porque las direcciones de IPv4 no alcanzan para todos los dispositivos del mundo",
+          "Porque IPv4 era inseguro",
+          "Porque IPv4 no usaba números",
+          "Porque DNS dejó de funcionar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "IPv4 permite unos 4.300 millones de direcciones."
+    },
+    {
+      "slug": "ba-desafio-ipv4-cantidad",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "IP",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(2 ** 32);",
+        "options": [
+          "4294967296",
+          "65536",
+          "4300",
+          "340"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "IPv4 usa 32 bits: 2³² son unos 4.300 millones de direcciones."
+    },
+    {
+      "slug": "ba-desafio-paquete-etiqueta",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "paquetes",
+      "module": 6,
+      "prompt": "Además de un pedacito de los datos, ¿qué lleva cada paquete?",
+      "content": {
+        "options": [
+          "Una etiqueta con el origen, el destino y datos de control",
+          "Una contraseña",
+          "El código del servidor",
+          "Una copia de todo el mensaje"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es como una caja de correo con la dirección de destino y el remitente."
+    },
+    {
+      "slug": "ba-desafio-tcpip-aplicacion",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "modelos",
+      "module": 6,
+      "prompt": "La capa de aplicación del modelo TCP/IP agrupa las capas de OSI…",
+      "content": {
+        "options": [
+          "5, 6 y 7",
+          "1 y 2",
+          "3 y 4",
+          "Solo la 7"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Y su capa de enlace agrupa la 1 y la 2."
+    },
+    {
+      "slug": "ba-desafio-dominio-dns",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "DNS",
+      "module": 6,
+      "prompt": "Comprás un dominio para tu proyecto. ¿Qué configurás para que apunte a tu servidor?",
+      "content": {
+        "options": [
+          "El DNS",
+          "El rate limit",
+          "El middleware",
+          "El package.json"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Hacés que el nombre apunte a la IP de tu servidor."
+    },
+    {
+      "slug": "ba-desafio-disconnect",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "Socket.IO",
+      "module": 7,
+      "prompt": "¿Qué evento se dispara cuando alguien se desconecta?",
+      "content": {
+        "options": [
+          "disconnect",
+          "close",
+          "leave",
+          "exit"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se escucha con socket.on(\"disconnect\", ...)."
+    },
+    {
+      "slug": "ba-desafio-createserver",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Socket.IO",
+      "module": 7,
+      "prompt": "¿Para qué se usa http.createServer(app) con Socket.IO?",
+      "content": {
+        "options": [
+          "Para crear un servidor HTTP con Express adentro, al que se engancha Socket.IO",
+          "Para leer el body",
+          "Para crear rutas",
+          "Para instalar paquetes"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Después se escucha con server.listen, no con app.listen."
+    },
+    {
+      "slug": "ba-desafio-privado",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Socket.IO",
+      "module": 7,
+      "prompt": "¿Cómo enviás un mensaje a un solo destinatario?",
+      "content": {
+        "options": [
+          "io.to(socketId).emit()",
+          "io.emit() a todos",
+          "app.get()",
+          "socket.close()"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sirve para mensajes privados que no aparecen en el chat general."
+    },
+    {
+      "slug": "ba-desafio-base64",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Socket.IO",
+      "module": 7,
+      "prompt": "En el chat con imágenes, ¿cómo se puede enviar una imagen como un mensaje más?",
+      "content": {
+        "options": [
+          "Convirtiéndola a texto (base64) en el navegador",
+          "Enviándola por UDP",
+          "Con un GET",
+          "No se puede"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Después el cliente que la recibe la vuelve a mostrar."
+    },
+    {
+      "slug": "ba-desafio-socket-id",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "Socket.IO",
+      "module": 7,
+      "prompt": "¿Qué identifica a cada conexión en Socket.IO?",
+      "content": {
+        "options": [
+          "Su id",
+          "Su puerto",
+          "Su DNS",
+          "Su token"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "socket.id sirve, por ejemplo, para mensajes privados."
+    },
+    {
+      "slug": "ba-desafio-admin-endpoint",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "Socket.IO",
+      "module": 7,
+      "prompt": "En el chat hay un endpoint POST /admin/message para que el administrador escriba desde Postman. ¿Cómo llega el texto a los clientes?",
+      "content": {
+        "options": [
+          "El endpoint llama a io.emit y se envía a todos los conectados",
+          "Se guarda en un JSON",
+          "Se reenvía por email",
+          "No llega"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un mismo servidor puede mezclar endpoints HTTP y eventos de Socket.IO."
+    },
+    {
+      "slug": "ba-desafio-ws-ws",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "sockets",
+      "module": 7,
+      "prompt": "En Node, ¿qué librería se suele usar para WebSocket sin Socket.IO?",
+      "content": {
+        "options": [
+          "ws",
+          "morgan",
+          "multer",
+          "artillery"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los navegadores ya lo soportan sin instalar nada."
+    },
+    {
+      "slug": "ba-desafio-install",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "Socket.IO",
+      "module": 7,
+      "prompt": "¿Cómo se instala Socket.IO?",
+      "content": {
+        "options": [
+          "npm install socket.io",
+          "npx socket.io",
+          "node socket.io",
+          "npm start socket.io"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "WebSocket, en cambio, no hay que instalarlo en el navegador."
+    },
+    {
+      "slug": "ba-desafio-multer-clase",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "archivos",
+      "module": 8,
+      "prompt": "¿Qué librería usás para subir archivos a una API en Express?",
+      "content": {
+        "options": [
+          "Multer",
+          "Morgan",
+          "Artillery",
+          "Nodemon"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es un middleware para recibir archivos."
+    },
+    {
+      "slug": "ba-desafio-download",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "archivos",
+      "module": 8,
+      "prompt": "¿Qué método de res usás para que el cliente descargue un archivo?",
+      "content": {
+        "options": [
+          "res.download()",
+          "res.sendStatus()",
+          "res.status()",
+          "res.listen()"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Para listar archivos se usa fs.readdirSync()."
+    },
+    {
+      "slug": "ba-desafio-unlink",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "archivos",
+      "module": 8,
+      "prompt": "¿Qué función de fs elimina un archivo?",
+      "content": {
+        "options": [
+          "fs.unlinkSync()",
+          "fs.readdirSync()",
+          "fs.readFileSync()",
+          "fs.writeFileSync()"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es la que se usa en el gestor de archivos para eliminar."
+    },
+    {
+      "slug": "ba-desafio-jwt-lib",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "seguridad",
+      "module": 8,
+      "prompt": "Para el login, ¿qué librería sirve para generar el token?",
+      "content": {
+        "options": [
+          "jsonwebtoken",
+          "morgan",
+          "multer",
+          "express-rate-limit"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El cliente envía ese token en el header Authorization en cada petición."
+    },
+    {
+      "slug": "ba-desafio-hash-revertir",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "seguridad",
+      "module": 8,
+      "prompt": "¿Se puede revertir un hash para recuperar la contraseña original?",
+      "content": {
+        "options": [
+          "No: es una transformación que no se puede revertir",
+          "Sí, con la clave del servidor",
+          "Sí, con Postman",
+          "Solo en HTTPS"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Ni el dueño del servidor puede ver las contraseñas originales."
+    },
+    {
+      "slug": "ba-desafio-get-tasks",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "diseño",
+      "module": 8,
+      "prompt": "En el diseño de la API de tareas, ¿qué hace GET /tasks?",
+      "content": {
+        "options": [
+          "Devuelve la lista de tareas",
+          "Crea una tarea",
+          "Elimina una tarea",
+          "Modifica una tarea"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "POST /tasks recibe { title } en el body."
+    },
+    {
+      "slug": "ba-desafio-respuestas",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "diseño",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const comentarios = [{ id: 1, parentId: null }, { id: 2, parentId: 1 }, { id: 3, parentId: 1 }];\nconsole.log(comentarios.filter((c) => c.parentId === 1).map((c) => c.id).join(\",\"));",
+        "options": [
+          "2,3",
+          "1",
+          "1,2,3",
+          "3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las respuestas de un comentario son las que tienen su id en parentId."
+    },
+    {
+      "slug": "ba-desafio-probar-endpoint",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "diseño",
+      "module": 8,
+      "prompt": "¿Cuándo conviene probar cada endpoint en Postman?",
+      "content": {
+        "options": [
+          "A medida que lo terminás, no todo junto al final",
+          "Solo al final",
+          "Nunca",
+          "Antes de planificarlo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "También sirve resolver de nuevo el ejercicio de otra forma."
+    },
+    {
+      "slug": "ba-desafio-ctrlz",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "pilas y colas",
+      "module": 9,
+      "prompt": "El botón «deshacer» (Ctrl + Z) funciona como…",
+      "content": {
+        "options": [
+          "Una pila: deshace primero la última acción",
+          "Una cola",
+          "Un rate limit",
+          "Un middleware"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "También el botón «atrás» del navegador."
+    },
+    {
+      "slug": "ba-desafio-cola-recital",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "pilas y colas",
+      "module": 9,
+      "prompt": "En la venta de entradas de un recital, te ponen en una fila virtual. ¿Qué estructura es?",
+      "content": {
+        "options": [
+          "Una cola",
+          "Una pila",
+          "Un token",
+          "Un contenedor"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se procesa de a uno, en orden de llegada, sin saturar el servidor."
+    },
+    {
+      "slug": "ba-desafio-gateway",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "rate limit",
+      "module": 9,
+      "prompt": "En proyectos grandes, ¿dónde suele ponerse el rate limit?",
+      "content": {
+        "options": [
+          "En un API Gateway, el «portero» de todas las APIs",
+          "En cada controlador",
+          "En el package.json",
+          "En el navegador"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Controla tráfico, permisos y límites antes de llegar a cada servidor."
+    },
+    {
+      "slug": "ba-desafio-no-vm",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Docker",
+      "module": 9,
+      "prompt": "¿En qué se diferencia un contenedor de una máquina virtual?",
+      "content": {
+        "options": [
+          "El contenedor comparte el núcleo del sistema y solo empaqueta lo que la app necesita: es mucho más liviano",
+          "Es una computadora entera simulada",
+          "Son lo mismo",
+          "El contenedor trae su propio sistema operativo completo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Por eso arrancan en segundos."
+    },
+    {
+      "slug": "ba-desafio-from",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Docker",
+      "module": 9,
+      "prompt": "En un Dockerfile, ¿qué indica la línea FROM node:20-alpine?",
+      "content": {
+        "options": [
+          "La imagen base: un Linux liviano con Node 20",
+          "El puerto de la app",
+          "El comando de arranque",
+          "La carpeta de trabajo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "WORKDIR define la carpeta de trabajo y CMD, el comando para arrancar."
+    },
+    {
+      "slug": "ba-desafio-yaml",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "testing",
+      "module": 9,
+      "prompt": "¿Con qué tipo de archivo se configura Artillery?",
+      "content": {
+        "options": [
+          "YAML",
+          "HTML",
+          "CSS",
+          "Un .exe"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "YAML también se usa en Docker Compose y GitHub Actions."
+    },
+    {
+      "slug": "ba-desafio-put-merge",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "CRUD",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const viejo = { id: 7, name: \"Ana\", age: 20 };\nconst cuerpo = { age: 21 };\nconst nuevo = { ...viejo, ...cuerpo, id: viejo.id };\nconsole.log(nuevo.age, nuevo.id);",
+        "options": [
+          "21 7",
+          "20 7",
+          "21 undefined",
+          "20 21"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Lo que llega en el body pisa lo anterior, y al final se vuelve a poner el id original para que nadie lo cambie."
+    },
+    {
+      "slug": "ba-desafio-coverage",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "testing",
+      "module": 9,
+      "prompt": "Una función tiene un if con dos caminos. ¿Qué tienen que hacer los tests para un buen coverage?",
+      "content": {
+        "options": [
+          "Probar los dos caminos",
+          "Probar solo el primero",
+          "Ejecutarla mil veces",
+          "No probarla"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Lo habitual es apuntar a un 70 u 80 % e ir subiendo."
+    }
+  ]
+}
