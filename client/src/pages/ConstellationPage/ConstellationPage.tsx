@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
+import { CourseMenu } from "./CourseMenu/CourseMenu";
 import { Link, NavLink, useParams } from "react-router";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { StarMap } from "../../components/StarMap/StarMap";
@@ -94,11 +95,27 @@ function ConstellationView({
   );
   const selected = constellation.stars[selectedIndex];
 
+  // ¿La barra de cursos entra en el ancho disponible? Si no, se usa el menú desplegable. Se vuelve a medir
+  // cada vez que cambia el ancho de la fila (rotar el celular, achicar la ventana)
+  const trail = useRef<HTMLDivElement>(null);
+  const bar = useRef<HTMLElement>(null);
+  const [compact, setCompact] = useState(false);
+  useLayoutEffect(() => {
+    const row = trail.current;
+    const pills = bar.current;
+    if (!row || !pills) return;
+    const measure = () => setCompact(pills.offsetWidth > row.clientWidth);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(row);
+    return () => observer.disconnect();
+  }, [all.length]);
+
   return (
     <>
       <section className={styles.sky} aria-labelledby="constellation-title">
         <div className={styles.container}>
-                    <div className={styles.trail}>
+                    <div ref={trail} className={styles.trail}>
             <Link to="/" className={styles.back}>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M15 6l-6 6 6 6" />
@@ -107,20 +124,25 @@ function ConstellationView({
             </Link>
 
             {all.length > 1 && (
-              <nav className={styles.switch} aria-label="Tus constelaciones">
-                {all.map((c) => (
-                  <NavLink
-                    key={c.id}
-                    to={`/constellations/${c.course.key}`}
-                    className={({ isActive }) => `${styles.switchItem} ${isActive ? styles.switchActive : ""}`}
-                  >
-                    <span className={styles.switchName}>{c.course.name}</span>
-                    <small>
-                      {c.completedStars}/{c.totalStars}
-                    </small>
-                  </NavLink>
-                ))}
-              </nav>
+              <>
+                {/* Si la barra con todos los cursos entra en el ancho, se muestra; si no, la reemplaza un menú desplegable.
+                    La barra queda siempre en la página (escondida) para medir cuánto ocuparía */}
+                <nav ref={bar} className={`${styles.switch} ${compact ? styles.switchHidden : ""}`} aria-label="Tus constelaciones">
+                  {all.map((c) => (
+                    <NavLink
+                      key={c.id}
+                      to={`/constellations/${c.course.key}`}
+                      className={({ isActive }) => `${styles.switchItem} ${isActive ? styles.switchActive : ""}`}
+                    >
+                      <span className={styles.switchName}>{c.course.name}</span>
+                      <small>
+                        {c.completedStars}/{c.totalStars}
+                      </small>
+                    </NavLink>
+                  ))}
+                </nav>
+                {compact && <CourseMenu current={constellation} all={all} />}
+              </>
             )}
           </div>
           <div className={styles.head}>

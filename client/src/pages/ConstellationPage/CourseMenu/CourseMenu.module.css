@@ -1,0 +1,106 @@
+/* Ocupa lo que sobra al lado de «Inicio»; el menú se abre justo debajo del botón */
+.root {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 340px; /* en pantallas anchas no hace falta que ocupe toda la fila */
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(5, 13, 36, 0.55);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.button:hover {
+  border-color: var(--line-hover);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.button small,
+.item small {
+  flex: none;
+  margin-left: auto;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.button svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: rotate 0.2s;
+}
+
+.button[aria-expanded="true"] svg {
+  rotate: 180deg;
+}
+
+.name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.list {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  border: 1px solid var(--line-hover);
+  border-radius: 12px;
+  background: var(--night-2);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.item:hover {
+  color: var(--text);
+  background: rgba(23, 42, 90, 0.6);
+}
+
+.active {
+  color: var(--text);
+  background: var(--night-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button svg {
+    transition: none;
+  }
+}

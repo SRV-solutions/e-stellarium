@@ -162,11 +162,21 @@
 
 .switch {
   display: flex;
+  flex: none;
   gap: 6px;
   padding: 4px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: rgba(5, 13, 36, 0.55);
+}
+
+/* Cuando los cursos no entran en una fila, la barra se esconde (pero sigue ahí para medirla) y aparece
+   un menú desplegable (CourseMenu). El ancho se deja en el natural para saber cuánto ocuparía */
+.switchHidden {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  width: max-content;
 }
 
 .switchItem {
@@ -204,25 +214,6 @@
   }
   .sky {
     padding-top: 24px;
-  }
-  /* El selector ocupa todo el ancho y cada constelación, una parte igual. Si el nombre no entra,
-     se corta con "…", pero la cuenta (0/1) se ve siempre */
-  .trail {
-    flex-wrap: wrap;
-  }
-  .switch {
-    width: 100%;
-  }
-  .switchItem {
-    flex: 1 1 0;
-    min-width: 0;
-    justify-content: space-between;
-    padding: 6px 10px;
-    font-size: 13px;
-  }
-  .switchName {
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
   /* El título arriba y la cuenta debajo, en una línea, en vez de uno al lado del otro */
   .head {
