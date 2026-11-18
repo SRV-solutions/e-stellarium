@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { Link, NavLink } from "react-router";
+import { Fragment, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { Link, NavLink, useLocation } from "react-router";
 import { useAuth } from "../../auth/useAuth";
 import logo from "../../assets/logo-srv.png";
 import { useCourses } from "../../hooks/useCourses";
@@ -89,6 +89,7 @@ export function AppHeader() {
   const [drawerTop, setDrawerTop] = useState(68);
   const barRef = useRef<HTMLElement>(null);
   const { state: courses } = useCourses();
+  const inPanel = useLocation().pathname.startsWith("/admin");
 
   // El menú del celular se cierra con Escape
   useEffect(() => {
@@ -212,19 +213,35 @@ export function AppHeader() {
           )}
         </Link>
         {links.map((link, i) => (
-          <NavLink
-            key={link.to}
-            to={link.to}
-            end={link.end}
-            className={drawerClass}
-            style={{ "--i": i + 1 } as CSSProperties}
-            onClick={() => setMenuOpen(false)}
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              {link.icon}
-            </svg>
-            {link.label}
-          </NavLink>
+          <Fragment key={link.to}>
+            <NavLink
+              to={link.to}
+              end={link.end}
+              className={drawerClass}
+              style={{ "--i": i + 1 } as CSSProperties}
+              onClick={() => setMenuOpen(false)}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                {link.icon}
+              </svg>
+              {link.label}
+            </NavLink>
+            {/* Dentro del panel, sus secciones cuelgan de «Panel» (en el celular no hay índice a la izquierda) */}
+            {link === PANEL_LINK && inPanel && (
+              <div className={styles.subLinks} style={{ "--i": i + 1 } as CSSProperties}>
+                {adminSectionsFor(user).map((section) => (
+                  <NavLink
+                    key={section.to}
+                    to={section.to}
+                    className={({ isActive }) => `${styles.subLink} ${isActive ? styles.subActive : ""}`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {section.label}
+                  </NavLink>
+                ))}
+              </div>
+            )}
+          </Fragment>
         ))}
         <div className={styles.drawerOut} style={{ "--i": links.length + 1 } as CSSProperties}>
           <button

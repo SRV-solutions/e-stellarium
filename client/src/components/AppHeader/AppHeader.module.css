@@ -379,6 +379,37 @@
   }
 }
 
+/* Las secciones del panel, colgando de «Panel» con una línea a la izquierda */
+.subLinks {
+  display: flex;
+  flex-direction: column;
+  margin: 4px 0 8px 11px;
+  padding-left: 20px;
+  border-left: 1px solid rgba(36, 55, 107, 0.8);
+}
+
+.subLink {
+  padding: 10px 4px;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--muted);
+}
+
+.subActive {
+  color: var(--text);
+}
+
+.subActive::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin: 0 10px 1px -4px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+
 .drawerOut {
   margin-top: auto;
   padding-top: 24px;
