@@ -1,0 +1,164 @@
+/* El título de la sección a la izquierda y, si hay muchos cursos, el buscador a la derecha */
+.top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.search {
+  position: relative;
+  width: 260px;
+}
+
+.search svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--placeholder);
+  stroke-width: 2;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.search input {
+  width: 100%;
+  padding: 9px 34px 9px 36px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--night-2);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.search input::placeholder {
+  color: var(--placeholder);
+}
+
+.search input:hover {
+  border-color: var(--line-hover);
+}
+
+.search input:focus-visible {
+  border-color: var(--blue);
+  outline: 2px solid rgba(0, 123, 255, 0.35);
+  outline-offset: 1px;
+}
+
+/* Se saca la cruz que pone el navegador: usamos la nuestra */
+.search input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.clear {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  translate: 0 -50%;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 7px;
+  border-radius: 6px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.clear:hover {
+  color: var(--text);
+}
+
+.courses {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+}
+
+.status {
+  margin: 28px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* El botón que despliega el resto: ancho completo y en azul, y adelanta cuáles son los cursos escondidos */
+.more {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: -6px;
+  padding: 14px 18px;
+  border: 1px solid var(--blue);
+  border-radius: 10px;
+  background: rgba(0, 123, 255, 0.1);
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.more:hover {
+  background: rgba(0, 123, 255, 0.2);
+}
+
+.more:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.more svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: #5aa9ff;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: rotate 0.2s;
+}
+
+.more[aria-expanded="true"] svg {
+  rotate: 180deg;
+}
+
+.names {
+  margin-left: auto;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .search {
+    width: 100%;
+  }
+
+  .more {
+    flex-wrap: wrap;
+  }
+
+  .names {
+    margin-left: 28px;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .more,
+  .more svg,
+  .search input {
+    transition: none;
+  }
+}

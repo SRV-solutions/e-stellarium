@@ -11,7 +11,7 @@ import { BrandGauge } from "../../components/BrandGauge/BrandGauge";
 import { Cosmos } from "../../components/Cosmos/Cosmos";
 import { Eyepiece } from "../../components/Eyepiece/Eyepiece";
 import { NextStar, type Sighting } from "./NextStar/NextStar";
-import { CourseLine } from "./CourseLine/CourseLine";
+import { CourseList } from "./CourseList/CourseList";
 import { Coupons } from "./Coupons/Coupons";
 import { Daily } from "./Daily/Daily";
 import type { Constellation } from "../../types";
@@ -78,6 +78,12 @@ export function HomePage() {
   const level = levelFor(user.totalXp);
   const constellations = sky.state.status === "ready" ? sky.state.constellations : [];
   const telescope = sky.state.status === "ready" ? aimTelescope(constellations) : null;
+  const courseHeading = (
+    <>
+      <h2 id="courses-title" className={styles.blockTitle}>Mis cursos</h2>
+      <p className={styles.blockLead}>Cada curso es una constelación. Tocá una para verla entera.</p>
+    </>
+  );
 
   return (
     <>
@@ -152,8 +158,8 @@ export function HomePage() {
 
         <section className={styles.block} aria-labelledby="courses-title">
           <div className={styles.container}>
-            <h2 id="courses-title" className={styles.blockTitle}>Mis cursos</h2>
-            <p className={styles.blockLead}>Cada curso es una constelación. Tocá una para verla entera.</p>
+            {/* Con cursos, el título lo dibuja la lista (el buscador va a su derecha); en los demás casos, acá */}
+            {(state.status !== "ready" || state.courses.length === 0) && courseHeading}
 
             {state.status === "loading" && <p className={styles.muted} role="status">Cargando tus cursos...</p>}
 
@@ -172,15 +178,7 @@ export function HomePage() {
             )}
 
             {state.status === "ready" && state.courses.length > 0 && (
-              <ul className={styles.courses}>
-                {state.courses.map((course) => (
-                  <CourseLine
-                    key={course.key}
-                    course={course}
-                    constellation={constellations.find((c) => c.course.key === course.key)}
-                  />
-                ))}
-              </ul>
+              <CourseList heading={courseHeading} courses={state.courses} constellations={constellations} />
             )}
           </div>
         </section>

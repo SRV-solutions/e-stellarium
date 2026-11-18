@@ -74,6 +74,9 @@ describe("GET /constellations", () => {
     expect(res.body.constellations).toHaveLength(1);
     const [python] = res.body.constellations;
     expect(python).toMatchObject({ course: { key: "python" }, completedStars: 1, totalStars: 3 });
+    // La fecha de la última estrella encendida (la única que tiene) llega como texto ISO
+    const completion = await StarCompletion.findOne({ where: { userId: user!.id, starId: star.id } });
+    expect(python.lastCompletedAt).toBe(completion!.createdAt.toISOString());
     expect(python.stars.map((s: { title: string; completed: boolean; unlocked: boolean }) => [s.title, s.completed, s.unlocked]))
       .toEqual([
         ["Variables", true, true],
@@ -81,6 +84,22 @@ describe("GET /constellations", () => {
         ["Bucles", false, false],
       ]);
     expect(second.id).toBe(python.stars[1].id);
+  });
+
+  it("trae cuándo encendió su última estrella, o null si no encendió ninguna", async () => {
+    const { constellation, star } = await createPythonStar();
+    const second = await Star.create({ constellationId: constellation.id, position: 2, title: "Condicionales" });
+    const agent = await enrolledStudent();
+    const user = await User.findOne({ where: { email: "alumno@test.com" } });
+
+    const before = (await agent.get("/constellations")).body.constellations[0];
+    expect(before.lastCompletedAt).toBeNull();
+
+    await StarCompletion.create({ userId: user!.id, starId: star.id });
+    const last = await StarCompletion.create({ userId: user!.id, starId: second.id });
+
+    const after = (await agent.get("/constellations")).body.constellations[0];
+    expect(after.lastCompletedAt).toBe(last.createdAt.toISOString());
   });
 
   it("trae los módulos y la letra y el módulo de cada estrella", async () => {

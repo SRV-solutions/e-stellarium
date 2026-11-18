@@ -79,6 +79,7 @@ export type Constellation = {
   course: { key: string; name: string };
   modules: { number: number; title: string }[]; // los módulos de la guía
   completedStars: number;
+  lastCompletedAt: string | null; // cuándo encendió su última estrella de este curso (null si ninguna)
   totalStars: number;
   stars: StarSummary[];
 };

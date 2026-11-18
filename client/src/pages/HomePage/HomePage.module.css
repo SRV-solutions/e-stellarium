@@ -122,13 +122,6 @@
   color: var(--error);
 }
 
-/* Cursos: sin líneas divisorias, flotando en el cosmos */
-.courses {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
 .secondary {
   display: inline-flex;
   align-items: center;

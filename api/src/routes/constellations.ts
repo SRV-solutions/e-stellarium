@@ -12,6 +12,16 @@ import { practiceWhere } from "../games/practice.js";
 
 export const constellationsRouter = Router();
 
+// La fecha más reciente en que el alumno completó una estrella de esta lista, o null si no completó ninguna
+function lastCompletedAt(stars: Star[], completedAt: Map<string, Date>): Date | null {
+  let last: Date | null = null;
+  for (const star of stars) {
+    const at = completedAt.get(star.id);
+    if (at && (!last || at > last)) last = at;
+  }
+  return last;
+}
+
 constellationsRouter.get("/constellations", requireAuth, requirePlayer, async (req, res) => {
   const userId = req.user!.id;
 
@@ -84,6 +94,9 @@ constellationsRouter.get("/constellations", requireAuth, requirePlayer, async (r
         modules: constellation.modules.map((m) => ({ number: m.number, title: m.title })),
         course: { key: constellation.Product!.key, name: constellation.Product!.name },
         completedStars: stars.filter((s) => completedAt.has(s.id)).length,
+        // Cuándo encendió su última estrella de este curso (null si todavía no encendió ninguna): el inicio
+        // lo usa para poner arriba el curso en el que viene jugando
+        lastCompletedAt: lastCompletedAt(stars, completedAt),
         totalStars: stars.length,
         stars: stars.map((star) => ({
           id: star.id,
