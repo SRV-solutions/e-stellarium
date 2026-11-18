@@ -7,6 +7,7 @@ import { can } from "../../lib/permissions";
 import type { StudentRow, StudentsPage as StudentsPageData } from "../../types";
 import { initials } from "./auditText";
 import { lastPlayed, shortName } from "./people";
+import { CourseFilter } from "./CourseFilter/CourseFilter";
 import { EnrollDialog } from "./EnrollDialog";
 import { StudentCard } from "./StudentCard";
 import { Toast } from "./Toast";
@@ -133,17 +134,15 @@ export function StudentsPage() {
           />
         </label>
         {page && page.courses.length > 1 && (
-          <div className={common.kinds} role="group" aria-label="Curso">
-            <button type="button" aria-pressed={course === null} onClick={() => setCourse(null)}>
-              Todos<b>{page.total}</b>
-            </button>
-            {page.courses.map((c) => (
-              <button key={c.key} type="button" aria-pressed={course === c.key} onClick={() => setCourse(c.key)}>
-                {shortName(c.name)}
-                <b>{c.count}</b>
-              </button>
-            ))}
-          </div>
+          <CourseFilter
+            label="Curso"
+            value={course}
+            onChange={setCourse}
+            options={[
+              { key: null, label: "Todos", count: page.total },
+              ...page.courses.map((c) => ({ key: c.key, label: shortName(c.name), count: c.count })),
+            ]}
+          />
         )}
       </div>
 
