@@ -13,6 +13,8 @@ import { ExamAttempt } from "./ExamAttempt.js";
 import { ExamAttemptQuestion } from "./ExamAttemptQuestion.js";
 import { Coupon } from "./Coupon.js";
 import { CouponVoid } from "./CouponVoid.js";
+import { Season } from "./Season.js";
+import { SeasonSnapshot } from "./SeasonSnapshot.js";
 import { DemoLead } from "./DemoLead.js";
 import { DailyActivity } from "./DailyActivity.js";
 import { DailyReview } from "./DailyReview.js";
@@ -166,4 +168,4 @@ Question.afterCreate(async (question, options) => {
   if (published) await question.update({ version: 1 }, { transaction: options.transaction, hooks: false });
 });
 
-export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, CouponVoid, DemoLead, DailyActivity, DailyReview, DailyReviewQuestion, Challenge, ChallengeAttempt, ChallengeAttemptQuestion, GlintEvent, StreakBadge, UserCosmetic, Role, RolePermission, AuditLog, Setting, ShopItem, QuestionVersion, QuestionReview, TeacherProduct, Notification };
+export { User, PasswordToken, Product, Enrollment, ProcessedPayment, Constellation, Star, Question, Answer, StarCompletion, XpEvent, ExamAttempt, ExamAttemptQuestion, Coupon, CouponVoid, DemoLead, DailyActivity, DailyReview, DailyReviewQuestion, Challenge, ChallengeAttempt, ChallengeAttemptQuestion, GlintEvent, StreakBadge, UserCosmetic, Role, RolePermission, AuditLog, Setting, ShopItem, QuestionVersion, QuestionReview, TeacherProduct, Notification, Season, SeasonSnapshot };

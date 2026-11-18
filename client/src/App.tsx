@@ -27,6 +27,7 @@ import { CouponsPage } from "./pages/AdminPage/CouponsPage";
 import { AdminChallengesPage } from "./pages/AdminPage/ChallengesPage";
 import { ContentPage } from "./pages/AdminPage/ContentPage";
 import { QuestionPage } from "./pages/AdminPage/QuestionPage";
+import { StaffRankingPage } from "./pages/AdminPage/StaffRankingPage";
 import { ADMIN_SECTIONS } from "./lib/permissions";
 
 export default function App() {
@@ -150,6 +151,14 @@ export default function App() {
               element={
                 <ProtectedRoute anyOf={["roles:manage"]}>
                   <RolesPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="ranking"
+              element={
+                <ProtectedRoute anyOf={["ranking:view"]}>
+                  <StaffRankingPage />
                 </ProtectedRoute>
               }
             />

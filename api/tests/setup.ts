@@ -19,7 +19,13 @@ beforeEach(async () => {
     INSERT INTO role_permissions (role_id, permission_key) VALUES
       (2, 'content:edit'), (2, 'students:view'),
       (3, 'content:edit'), (3, 'content:approve'), (3, 'students:view'), (3, 'challenges:manage'),
-      (3, 'economy:edit'), (3, 'users:manage'), (3, 'coupons:manage');
+      (3, 'economy:edit'), (3, 'users:manage'), (3, 'coupons:manage'),
+      (3, 'ranking:view'), (3, 'ranking:award');
+  `);
+  // La temporada vuelve a la primera (el TRUNCATE de users vacía seasons por la clave foránea)
+  await sequelize.query(`
+    DELETE FROM seasons;
+    INSERT INTO seasons (name, started_at) VALUES ('Temporada 1', '2026-01-01T03:00:00Z');
   `);
   // La economía vuelve a los valores de la migración, por si un test la cambió. Lo comprado ya se
   // vació con users (CASCADE), así que la tienda se puede rearmar entera

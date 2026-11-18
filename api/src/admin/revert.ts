@@ -27,6 +27,7 @@ import {
 } from "./content.js";
 import { activeCourses, setStudentCourses } from "./enrollments.js";
 import { couponVoided, unvoidCoupon, voidCoupon } from "./coupons.js";
+import { currentPrizeGlints, undoPrizeGlints } from "./ranking.js";
 
 // Dar y sacar cursos se revierten igual: el alumno vuelve a tener los cursos que tenía antes
 const coursesReverter = (): Reverter => ({
@@ -70,6 +71,12 @@ const REVERTERS: Record<string, Reverter> = {
     current: (t, log) => couponVoided(t, log.targetId!),
     compared: (log) => ({ before: log.before, after: { voided: (log.after as Values).voided } }),
     undo: (t, ctx, log) => unvoidCoupon(t, ctx, log.targetId!, log.id),
+  },
+  // Un premio de destellos se saca si el alumno todavía los tiene (si ya gastó, 409)
+  "ranking.glints_award": {
+    current: (t, log) => currentPrizeGlints(t, log.targetId!, (log.after as Values).requestId as string),
+    compared: (log) => ({ before: log.before, after: { glints: (log.after as Values).glints } }),
+    undo: (t, ctx, log) => undoPrizeGlints(t, ctx, log.targetId!, (log.after as Values).requestId as string, log.id),
   },
   "user.role_update": {
     current: async (t, log) => {

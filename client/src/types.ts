@@ -12,7 +12,10 @@ export type Permission =
   | "audit:view"
   | "audit:revert"
   | "integrity:view"
-  | "roles:manage";
+  | "roles:manage"
+  | "ranking:view"
+  | "ranking:award"
+  | "ranking:reset";
 
 export type User = {
   id: string;
@@ -304,9 +307,13 @@ export type ChallengeVerdict = {
 // GET /ranking?board=...&period=...
 export type RankingBoardId = "xp" | "best_streak" | "streak" | "stars" | "challenges" | "glints";
 
+// week: la semana argentina (solo experiencia); season: desde que arrancó la temporada; all: desde siempre
+export type RankingPeriod = "week" | "season" | "all";
+
 export type Ranking = {
   board: RankingBoardId;
-  period: "week" | "all"; // solo cambia algo en la tabla de experiencia
+  period: RankingPeriod; // el que se usó de verdad: las rachas no lo usan (siempre "all")
+  season: { id: string; name: string; startedAt: string };
   startsAt: string | null;
   endsAt: string | null;
   // frame: el marco que lleva puesto; title: su título, ya con la forma que eligió;
@@ -647,4 +654,36 @@ export type ChallengesOverview = {
   upcoming: string[];
   past: ({ publishedAt: string } & ChallengeNumbers)[];
   bank: { key: string; name: string; easy: number; medium: number; hard: number }[];
+};
+
+// El ranking en el panel de staff: con id, nombre y email, y los destellos de premio de esta temporada
+export type StaffRanking = {
+  board: RankingBoardId;
+  period: RankingPeriod;
+  season: { id: string; name: string; startedAt: string };
+  startsAt: string | null;
+  endsAt: string | null;
+  students: number;
+  top: {
+    userId: string;
+    position: number;
+    name: string;
+    email: string;
+    alias: string;
+    value: number;
+    badge: number | null;
+    prizeGlints: number;
+  }[];
+};
+
+export type SeasonHistory = {
+  current: { id: string; name: string; startedAt: string };
+  past: {
+    id: string;
+    name: string;
+    startedAt: string;
+    endedAt: string;
+    closedBy: string | null;
+    boards: Record<RankingBoardId, { position: number; alias: string; name: string; value: number }[]>;
+  }[];
 };

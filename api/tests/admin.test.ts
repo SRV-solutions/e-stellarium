@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { sequelize } from "../src/db.js";
 import { verifyAuditChain } from "../src/lib/audit.js";
-import { can } from "../src/lib/permissions.js";
+import { can, PERMISSIONS } from "../src/lib/permissions.js";
 import { changeUserRole, deleteUser } from "../src/admin/users.js";
 import { AuditLog, User } from "../src/models/index.js";
 import type { RoleKey } from "../src/models/Role.js";
@@ -26,7 +26,7 @@ describe("GET /admin/roles", () => {
     expect(body.roles.map((r: { key: string }) => r.key)).toEqual(["student", "teacher", "admin", "super_admin"]);
     const superRole = body.roles.find((r: { key: string }) => r.key === "super_admin");
     expect(superRole.editable).toBe(false);
-    expect(superRole.permissions).toHaveLength(11);
+    expect(superRole.permissions).toHaveLength(PERMISSIONS.length);
     expect(body.roles[0].permissions).toEqual([]);
   });
 });

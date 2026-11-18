@@ -14,6 +14,7 @@ export const ADMIN_SECTIONS: { to: string; label: string; permissions: Permissio
   { to: "/admin/students", label: "Alumnos", permissions: ["students:view"] },
   { to: "/admin/coupons", label: "Cupones", permissions: ["coupons:manage"] },
   { to: "/admin/challenges", label: "Desafíos", permissions: ["challenges:manage"] },
+  { to: "/admin/ranking", label: "Ranking", permissions: ["ranking:view"] },
 ];
 
 export const adminSectionsFor = (user: User | null) =>
@@ -51,6 +52,14 @@ export const PERMISSION_GROUPS: { name: string; items: { key: Permission; detail
     ],
   },
   {
+    name: "Ranking",
+    items: [
+      { key: "ranking:view", detail: "Ver las tablas con nombres y emails" },
+      { key: "ranking:award", detail: "Premiar con destellos o cupones" },
+      { key: "ranking:reset", detail: "Cerrar la temporada" },
+    ],
+  },
+  {
     name: "Control",
     items: [
       { key: "audit:view", detail: "Todo lo que cambió el staff" },
@@ -73,4 +82,7 @@ export const PERMISSION_NAMES: Record<Permission, string> = {
   "audit:revert": "Revertir",
   "integrity:view": "Integridad",
   "roles:manage": "Roles y bajas",
+  "ranking:view": "Ver el ranking",
+  "ranking:award": "Premiar en el ranking",
+  "ranking:reset": "Cerrar temporada",
 };

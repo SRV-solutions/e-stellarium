@@ -132,6 +132,16 @@ describe("las otras tablas del ranking", () => {
     expect(res.body.me).toEqual({ position: null, value: 0 });
   });
 
+  it("la insignia de la fila es la más alta que alcanzó con esos días, no la mejor que ganó alguna vez", async () => {
+    const hoy = argentinaDay();
+    const ana = await person("ana@test.com", "ana");
+    await ana.update({ streak: 13, bestStreak: 40, lastActiveOn: hoy });
+    for (const days of [7, 30]) await StreakBadge.create({ userId: ana.id, days });
+    const agent = await loginAs("ana@test.com");
+    expect((await agent.get("/ranking?board=streak")).body.top[0]).toMatchObject({ value: 13, badge: 7 });
+    expect((await agent.get("/ranking?board=best_streak")).body.top[0]).toMatchObject({ value: 40, badge: 30 });
+  });
+
   it("racha vigente: la que se cortó no cuenta; la que sigue viva sí, aunque hoy no haya jugado", async () => {
     const hoy = argentinaDay();
     const ayer = addDays(hoy, -1);

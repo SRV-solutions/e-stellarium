@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { RankingBoardId } from "../../types";
+import type { RankingBoardId, RankingPeriod } from "../../types";
 
 // Las seis tablas: su nombre, para qué sirve, su dibujo y la unidad de cada valor.
 // Los dibujos son los mismos que usa el resto de la app (la estrella, la insignia, el cometa, la mira, el destello).
@@ -12,11 +12,13 @@ export type BoardInfo = {
   one?: string; // la unidad en singular (1 día)
   icon: ReactNode;
   empty: string; // cuando todavía no hay nadie
+  periods: RankingPeriod[]; // los períodos que acepta (el primero es el de entrada); vacío = no depende del período
 };
 
 export const BOARDS: BoardInfo[] = [
   {
     id: "xp",
+    periods: ["week", "season", "all"],
     name: "Experiencia",
     desc: "Todo lo que sumaste jugando",
     sub: "Suma todo lo que jugás: estrellas, repaso y desafíos.",
@@ -32,6 +34,7 @@ export const BOARDS: BoardInfo[] = [
   },
   {
     id: "best_streak",
+    periods: [],
     name: "Mejor racha",
     desc: "La más larga de siempre",
     sub: "Los días seguidos más largos que logró cada uno, siga o no en racha.",
@@ -50,6 +53,7 @@ export const BOARDS: BoardInfo[] = [
   },
   {
     id: "streak",
+    periods: [],
     name: "Racha vigente",
     desc: "Los que vienen en llamas",
     sub: "Quiénes llevan hoy más días seguidos. Si se corta, vuelve a empezar.",
@@ -67,6 +71,7 @@ export const BOARDS: BoardInfo[] = [
   },
   {
     id: "stars",
+    periods: ["season", "all"],
     name: "Estrellas",
     desc: "Lecciones encendidas",
     sub: "Cuántas estrellas encendió cada uno en todos sus cursos.",
@@ -84,6 +89,7 @@ export const BOARDS: BoardInfo[] = [
   },
   {
     id: "challenges",
+    periods: ["season", "all"],
     name: "Desafíos",
     desc: "Los que salieron sin errores",
     sub: "Desafíos completados con las 10 preguntas bien.",
@@ -100,6 +106,7 @@ export const BOARDS: BoardInfo[] = [
   },
   {
     id: "glints",
+    periods: ["season", "all"],
     name: "Destellos",
     desc: "Los que más juntaron",
     sub: "Todos los destellos que consiguió cada uno, aunque ya los haya gastado en la tienda.",

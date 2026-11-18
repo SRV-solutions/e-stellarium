@@ -14,6 +14,7 @@ export const NOTIFICATION_KINDS = [
   "coupon_expiring", // un cupón vence en 2 días o menos
   "streak_risk", // tiene racha y hoy no jugó (desde las 18)
   "badge", // ganó una insignia
+  "prize", // el staff le regaló destellos por el ranking
   "challenge", // salió un desafío
   "content_review", // staff: una pregunta espera revisión
   "content_approved", // docente: aprobaron su pregunta

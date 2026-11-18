@@ -5,7 +5,7 @@ import { Avatar } from "../../components/Avatar/Avatar";
 import { Cosmos } from "../../components/Cosmos/Cosmos";
 import { Glint } from "../../components/Glint/Glint";
 import { api } from "../../lib/api";
-import type { Ranking, RankingBoardId } from "../../types";
+import type { Ranking, RankingBoardId, RankingPeriod } from "../../types";
 import { Magnitude, xp as format } from "../ChallengesPage/RankingBoard";
 import { BOARDS } from "./boards";
 import { RankBadge } from "./RankBadge";
@@ -17,7 +17,7 @@ const unitOf = (unit: string, one: string | undefined, n: number) => (n === 1 &&
 export function RankingPage() {
   const { user } = useAuth();
   const [board, setBoard] = useState<RankingBoardId>("xp");
-  const [period, setPeriod] = useState<Ranking["period"]>("week");
+  const [period, setPeriod] = useState<RankingPeriod>("week");
   const [ranking, setRanking] = useState<Ranking | null>(null);
   const [failed, setFailed] = useState(false);
   const indexRef = useRef<HTMLUListElement>(null);
@@ -34,7 +34,7 @@ export function RankingPage() {
   }, [board, period]);
 
   // Al cambiar de tabla o de período se borra lo anterior: mientras llega lo nuevo se ve "Cargando"
-  function show(nextBoard: RankingBoardId, nextPeriod: Ranking["period"]) {
+  function show(nextBoard: RankingBoardId, nextPeriod: RankingPeriod) {
     setRanking(null);
     setFailed(false);
     setBoard(nextBoard);
@@ -42,7 +42,9 @@ export function RankingPage() {
   }
 
   function choose(id: RankingBoardId, button: HTMLButtonElement) {
-    show(id, period);
+    // Cada tabla acepta unos períodos: si el de ahora no sirve, se usa el primero de la tabla
+    const periods = BOARDS.find((b) => b.id === id)!.periods;
+    show(id, periods.includes(period) ? period : (periods[0] ?? "all"));
     // En el celular el índice se desliza: la elegida queda a la vista
     button.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
   }
@@ -51,11 +53,17 @@ export function RankingPage() {
   const me = ranking?.me ?? null;
   const outside = me && me.position !== null && me.position > top.length;
   const withBadge = board === "best_streak" || board === "streak";
-  const sub = board === "xp" && period === "week"
-    ? "Suma todo lo que jugás en la semana: estrellas, repaso y desafíos. Se reinicia el lunes a las 00:00."
-    : board === "xp"
-      ? "Toda la experiencia desde que empezaste."
-      : info.sub;
+  const seasonName = ranking?.season.name ?? "la temporada";
+  const sub =
+    board === "xp" && period === "week"
+      ? "Suma todo lo que jugás en la semana: estrellas, repaso y desafíos. Se reinicia el lunes a las 00:00."
+      : board === "xp" && period === "all"
+        ? "Toda la experiencia desde que empezaste."
+        : info.periods.length > 0 && period === "all"
+          ? `${info.sub} Desde siempre, sin importar la temporada.`
+          : info.periods.length > 0
+            ? `${info.sub} Cuenta desde que empezó ${seasonName}.`
+            : info.sub;
 
   // Lo que te falta para subir
   let chase = null;
@@ -110,14 +118,13 @@ export function RankingPage() {
           <section className={styles.rank} aria-labelledby="rank-title" aria-live="polite">
             <h2 id="rank-title">{info.name}</h2>
             <p className={styles.sub}>{sub}</p>
-            {board === "xp" && (
+            {info.periods.length > 0 && (
               <div className={styles.seg} role="group" aria-label="Período">
-                <button type="button" aria-pressed={period === "week"} onClick={() => show(board, "week")}>
-                  Esta semana
-                </button>
-                <button type="button" aria-pressed={period === "all"} onClick={() => show(board, "all")}>
-                  Desde siempre
-                </button>
+                {info.periods.map((p) => (
+                  <button key={p} type="button" aria-pressed={period === p} onClick={() => show(board, p)}>
+                    {p === "week" ? "Esta semana" : p === "season" ? (ranking?.season.name ?? "Temporada") : "Desde siempre"}
+                  </button>
+                ))}
               </div>
             )}
 

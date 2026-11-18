@@ -1,0 +1,398 @@
+/* Lo propio del Ranking del panel; lo compartido (título, selector, error) está en PeoplePage.module.css
+   y los diálogos en CouponsPage.module.css */
+.season {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin: 22px 0 0;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(10, 23, 53, 0.7);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.season b {
+  font-size: 16px;
+  color: var(--text);
+}
+
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mint);
+}
+
+.push {
+  margin-left: auto;
+}
+
+.sm {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  margin-top: 22px;
+}
+
+.index {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.index button {
+  display: grid;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.index button:hover {
+  background: rgba(17, 33, 74, 0.5);
+}
+
+.index button[aria-pressed="true"] {
+  border-color: var(--line);
+  background: var(--night-3);
+}
+
+.index b {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.index small {
+  font-size: 12px;
+  color: var(--placeholder);
+}
+
+.rank h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.sub {
+  margin: 4px 0 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+.quick {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.none {
+  padding: 26px 12px;
+  color: var(--muted);
+}
+
+.board {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.board li {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+.board.withBox li {
+  grid-template-columns: 22px 30px minmax(0, 1fr) auto;
+}
+
+.board li + li {
+  border-top: 1px solid rgba(36, 55, 107, 0.45);
+}
+
+.board li:hover {
+  background: rgba(17, 33, 74, 0.45);
+}
+
+.board li.on {
+  background: rgba(255, 153, 0, 0.07);
+}
+
+.board input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--orange);
+}
+
+.pos {
+  font-family: var(--mono);
+  font-size: 15px;
+  text-align: right;
+  color: var(--muted);
+}
+
+.board li:nth-child(-n + 3) .pos {
+  color: var(--orange);
+}
+
+.who {
+  min-width: 0;
+}
+
+.who b,
+.who small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.who b {
+  font-weight: 600;
+}
+
+.who small {
+  font-size: 13px;
+  color: var(--placeholder);
+}
+
+.who em {
+  font-style: normal;
+  color: var(--muted);
+}
+
+.prized {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  padding: 1px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.val {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.val small {
+  margin-left: 3px;
+  font-weight: 400;
+  color: var(--placeholder);
+}
+
+.glintVal {
+  color: var(--glint);
+}
+
+/* ---------- Temporadas anteriores ---------- */
+.history {
+  margin-top: 44px;
+}
+
+.history h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.history > p {
+  max-width: 620px;
+  margin: 4px 0 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.past {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.past li {
+  border-top: 1px solid rgba(36, 55, 107, 0.45);
+}
+
+.past summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border-radius: 12px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.past summary:hover {
+  background: rgba(17, 33, 74, 0.45);
+}
+
+.past summary b {
+  font-size: 16px;
+}
+
+.past summary span {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.podium {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px;
+  padding: 4px 12px 16px;
+}
+
+.podium > div {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(10, 23, 53, 0.6);
+  font-size: 14px;
+}
+
+.podium h3 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--placeholder);
+}
+
+.podium p {
+  margin: 0;
+  color: var(--placeholder);
+}
+
+.podium ol {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+}
+
+.podium b {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* La barra que aparece al elegir gente */
+.dock {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(760px, calc(100% - 32px));
+  padding: 12px 12px 12px 20px;
+  border: 1px solid var(--line-hover);
+  border-radius: 18px;
+  background: var(--night-2);
+  transform: translateX(-50%);
+  animation: dockIn 0.3s both;
+}
+
+.dock p {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 14px;
+}
+
+@keyframes dockIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 16px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock {
+    animation: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .index {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .index li {
+    flex: 0 0 auto;
+  }
+
+  .index small {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .board li {
+    gap: 10px;
+  }
+
+  .quick {
+    margin-left: 0;
+  }
+
+  .dock {
+    flex-wrap: wrap;
+  }
+
+  .dock p {
+    flex-basis: 100%;
+  }
+}

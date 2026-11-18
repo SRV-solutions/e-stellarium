@@ -26,6 +26,8 @@ export type AuditAction =
   | "challenge.update" // el horario y la receta de los desafíos (settings challenge.*)
   | "coupon.issue" // un cupón de regalo emitido a mano
   | "coupon.void" // un cupón anulado
+  | "ranking.glints_award" // destellos de regalo a alguien del ranking
+  | "ranking.season_close" // cierra la temporada y arranca otra (no reversible)
   | "audit.revert"
   | "integrity.fail";
 

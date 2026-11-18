@@ -352,6 +352,41 @@ li.row:hover {
   color: var(--text);
 }
 
+/* Un premio del ranking (destellos, cupón): una caja con su casilla */
+.opt {
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(5, 13, 36, 0.45);
+}
+
+.opt .check {
+  font-weight: 600;
+}
+
+.opt .field {
+  margin: 12px 0 0;
+}
+
+.opt .pair {
+  margin-top: 12px;
+}
+
+.opt .pair .field {
+  margin: 0;
+}
+
+/* Un aviso fuerte dentro de un diálogo (cerrar la temporada) */
+.alert {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 122, 107, 0.4);
+  border-radius: 12px;
+  font-size: 14px;
+  color: var(--coral);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;

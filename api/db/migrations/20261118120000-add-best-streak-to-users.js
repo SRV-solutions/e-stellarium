@@ -28,9 +28,11 @@ module.exports = {
          ), best AS (
            SELECT user_id, max(len) AS len FROM runs GROUP BY user_id
          )
-         UPDATE users u SET best_streak = GREATEST(u.streak, COALESCE(b.len, 0))
-           FROM (SELECT id FROM users) x LEFT JOIN best b ON b.user_id = x.id
-          WHERE u.id = x.id`,
+         UPDATE users u SET best_streak = GREATEST(
+                  u.streak,
+                  COALESCE((SELECT b.len FROM best b WHERE b.user_id = u.id), 0),
+                  -- una insignia ganada prueba que llegó a esos días (los protectores no se ven en daily_activity)
+                  COALESCE((SELECT max(sb.days) FROM streak_badges sb WHERE sb.user_id = u.id), 0))`,
         { transaction }
       );
       await queryInterface.addConstraint("users", {

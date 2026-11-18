@@ -27,6 +27,8 @@ export const ACTION_FILTERS: { value: string; label: string }[] = [
   { value: "coupon.issue", label: "Cupones emitidos" },
   { value: "coupon.void", label: "Cupones anulados" },
   { value: "challenge.update", label: "Cambios en los desafíos" },
+  { value: "ranking.glints_award", label: "Premios del ranking" },
+  { value: "ranking.season_close", label: "Temporadas cerradas" },
   { value: "audit.revert", label: "Reversiones" },
   { value: "auth.login", label: "Inicios de sesión" },
   { value: "integrity.fail", label: "Fallas de integridad" },
@@ -117,6 +119,10 @@ export function sentence(entry: AuditEntry, target: ReactNode): ReactNode {
       );
     case "coupon.void":
       return <>anuló el cupón {target}</>;
+    case "ranking.glints_award":
+      return <>le regaló {String(entry.after?.glints)} destellos del ranking a {target}</>;
+    case "ranking.season_close":
+      return <>cerró la {String(entry.after?.closed)} y abrió la {String(entry.after?.next)}</>;
     case "user.create":
       return <>dio de alta a {target}</>;
     case "enrollment.grant":
@@ -187,6 +193,15 @@ export function changeOf(entry: AuditEntry): Change {
       rows: [
         { label: "Descuento", was: null, now: `${String(entry.after.percent)} %` },
         { label: "Vence", was: null, now: new Date(String(entry.after.expiresAt)).toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" }) },
+        { label: "Motivo", was: null, now: String(entry.after.reason ?? "") },
+      ],
+    };
+  }
+  if (entry.action === "ranking.glints_award" && entry.after) {
+    return {
+      kind: "values",
+      rows: [
+        { label: "Destellos", was: null, now: String(entry.after.glints) },
         { label: "Motivo", was: null, now: String(entry.after.reason ?? "") },
       ],
     };
@@ -290,6 +305,9 @@ export function revertOutcome(entry: AuditEntry): string {
   }
   if (entry.action === "coupon.issue") return `El cupón ${name} se anula. No se puede si ya se usó.`;
   if (entry.action === "coupon.void") return `El cupón ${name} vuelve a servir.`;
+  if (entry.action === "ranking.glints_award") {
+    return `A ${name} se le sacan los ${String(entry.after?.glints)} destellos. No se puede si ya gastó parte.`;
+  }
   if (entry.action === "shop.create") return `${name} se retira de la tienda (quien lo compró lo sigue teniendo).`;
   if (entry.action === "shop.update") return `${name} vuelve a como estaba: ${describeValue(entry.before)}.`;
   if (entry.action === "teacher.courses_update") return `${name} vuelve a dar: ${describeValue(entry.before)}.`;

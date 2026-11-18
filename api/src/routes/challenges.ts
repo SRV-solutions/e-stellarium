@@ -31,12 +31,15 @@ challengesRouter.post("/challenges/:id/answer", requireAuth, requirePlayer, asyn
   res.json(await answerChallenge(req.user!.id, id, position, req.body?.response));
 });
 
-// El ranking: `board` elige la tabla (por defecto la de experiencia) y `period` (semana o de siempre)
-// solo cambia algo en la de experiencia
+// El ranking: `board` elige la tabla (por defecto la de experiencia) y `period` (week, season o all).
+// La experiencia acepta los tres (por defecto, la semana); estrellas, desafíos y destellos, season o all
+// (por defecto, la temporada); las rachas no lo usan
 challengesRouter.get("/ranking", requireAuth, requirePlayer, async (req, res) => {
   const board = (req.query.board ?? "xp") as string;
   if (!(BOARDS as readonly string[]).includes(board)) throw new HttpError(400, `La tabla tiene que ser una de: ${BOARDS.join(", ")}.`);
-  const period = (req.query.period ?? "week") as string;
-  if (period !== "week" && period !== "all") throw new HttpError(400, "El período tiene que ser week o all.");
-  res.json(await getRanking(req.user!.id, board as Board, period as RankingPeriod));
+  const period = req.query.period as string | undefined;
+  if (period !== undefined && period !== "week" && period !== "season" && period !== "all") {
+    throw new HttpError(400, "El período tiene que ser week, season o all.");
+  }
+  res.json(await getRanking(req.user!.id, board as Board, period as RankingPeriod | undefined));
 });

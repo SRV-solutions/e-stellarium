@@ -14,7 +14,9 @@ export type GlintReason =
   | "streak_badge"
   | "coupon_purchase" // gastados en la tienda
   | "freeze_purchase"
-  | "cosmetic_purchase";
+  | "cosmetic_purchase"
+  | "ranking_prize" // regalados por el staff al top del ranking (no cuentan en la tabla de destellos)
+  | "ranking_prize_undo"; // los saca una reversión desde la bitácora
 
 // Un movimiento de destellos: positivo si los ganó, negativo si los gastó
 export class GlintEvent extends Model<InferAttributes<GlintEvent>, InferCreationAttributes<GlintEvent>> {

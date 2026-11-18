@@ -202,6 +202,21 @@ export function giftCouponEmail(name: string, code: string, percent: number, exp
   };
 }
 
+// Destellos de regalo por el ranking. El motivo lo escribe el staff y se muestra tal cual
+export function prizeEmail(name: string, glints: number, reason: string) {
+  return {
+    subject: `Ganaste ${glints} destellos en el ranking`,
+    html: layout({
+      preheader: `${glints} destellos de regalo.`,
+      body:
+        heading(`¡Hola ${escapeHtml(name)}!`, "Un premio") +
+        paragraph(`Te regalamos <strong>${glints} destellos</strong>: ${escapeHtml(reason)}.`) +
+        small("Ya están en tu saldo. Los gastás en la tienda de E-Stellarium."),
+      footer: ACCOUNT_FOOTER,
+    }),
+  };
+}
+
 export function integrityFailEmail(problems: { kind: string; table: string; rowId?: string }[]) {
   const KIND: Record<string, string> = {
     row: "una fila no coincide con su dígito verificador",

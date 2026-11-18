@@ -56,6 +56,8 @@ import {
 import { can } from "../lib/permissions.js";
 import { issueCoupon, listCoupons, lookupCouponOwner, parseCouponFilters, parseNewCoupon, parseReason, voidCoupon } from "../admin/coupons.js";
 import { challengesOverview } from "../admin/challenges.js";
+import { awardPrizes, closeSeason, listSeasons, parseNewPrize, parseRankingQuery, parseSeasonClose } from "../admin/ranking.js";
+import { getStaffRanking } from "../games/ranking.js";
 import { sendMail } from "../lib/mailer.js";
 import { giftCouponEmail, newCoursesEmail, resetPasswordEmail, welcomeEmail } from "../lib/email.js";
 import { config } from "../config.js";
@@ -391,4 +393,42 @@ adminRouter.patch("/admin/challenges", requireAuth, requirePermission("challenge
   const values = parseSettingValues(req.body?.values, "challenge");
   await sequelize.transaction((t) => updateSettings(t, auditContext(req), values));
   res.json(await challengesOverview());
+});
+
+// ---------- Ranking (ranking:view, ranking:award, ranking:reset) ----------
+
+// Una tabla con nombres y emails: ?board=xp|best_streak|streak|stars|challenges|glints y ?period=week|season|all
+adminRouter.get("/admin/ranking", requireAuth, requirePermission("ranking:view"), async (req, res) => {
+  const { board, period } = parseRankingQuery(req.query);
+  res.json(await getStaffRanking(board, period));
+});
+
+// La temporada abierta y las cerradas con su foto
+adminRouter.get("/admin/ranking/seasons", requireAuth, requirePermission("ranking:view"), async (_req, res) => {
+  res.json(await listSeasons());
+});
+
+// Premia a los alumnos elegidos: { requestId, board, userIds, glints?, coupon?: { percent, validDays }, reason, notify }.
+// Los mails salen después del commit
+adminRouter.post("/admin/ranking/prizes", requireAuth, requirePermission("ranking:award"), async (req, res) => {
+  const input = parseNewPrize(req.body);
+  const given = await sequelize.transaction((t) => awardPrizes(t, auditContext(req), input));
+  if (input.notify) {
+    for (const g of given) {
+      if (g.mail) await trySend(g.email, g.mail);
+      if (g.coupon) await trySend(g.email, giftCouponEmail(g.name, g.coupon.code, g.coupon.percent, g.coupon.expiresAt));
+    }
+  }
+  res.status(201).json({
+    awarded: given.length,
+    glints: input.glints,
+    coupons: given.filter((g) => g.coupon).map((g) => ({ name: g.name, code: g.coupon!.code })),
+  });
+});
+
+// Cierra la temporada y arranca otra: { seasonId, name }. Solo ranking:reset (el super admin). No borra nada
+adminRouter.post("/admin/ranking/seasons/close", requireAuth, requirePermission("ranking:reset"), async (req, res) => {
+  const input = parseSeasonClose(req.body);
+  const { closed, next } = await sequelize.transaction((t) => closeSeason(t, auditContext(req), input));
+  res.status(201).json({ closed: { id: closed.id, name: closed.name }, next: { id: next.id, name: next.name, startedAt: next.startedAt } });
 });
