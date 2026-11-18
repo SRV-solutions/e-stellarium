@@ -7,6 +7,7 @@ import type { RankingBoardId, RankingPeriod, SeasonHistory, StaffRanking } from 
 import { BOARDS } from "../RankingPage/boards";
 import { PrizeDialog } from "./PrizeDialog";
 import { CloseSeasonDialog } from "./CloseSeasonDialog";
+import { initials } from "./auditText";
 import { dayMonth, firstName } from "./people";
 import { Toast } from "./Toast";
 import common from "./PeoplePage.module.css";
@@ -171,7 +172,11 @@ export function StaffRankingPage() {
           {top.length > 0 && (
             <ol className={`${styles.board} ${canAward ? styles.withBox : ""}`}>
               {top.map((p) => (
-                <li key={p.userId} className={selected.includes(p.userId) ? styles.on : ""}>
+                <li
+                  key={p.userId}
+                  className={`${selected.includes(p.userId) ? styles.on : ""} ${p.position <= 3 ? styles.podiumRow : ""}`}
+                  style={{ "--w": `${Math.max(4, Math.round((p.value / top[0].value) * 100))}%` } as React.CSSProperties}
+                >
                   {canAward && (
                     <input
                       type="checkbox"
@@ -181,6 +186,9 @@ export function StaffRankingPage() {
                     />
                   )}
                   <span className={styles.pos}>{p.position}</span>
+                  <span className={styles.av} aria-hidden="true">
+                    {initials(p.name)}
+                  </span>
                   <span className={styles.who}>
                     <b>
                       {p.name}
