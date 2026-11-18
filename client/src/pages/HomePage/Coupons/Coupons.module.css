@@ -316,46 +316,320 @@
   stroke-width: 2.4;
 }
 
-/* Usado o vencido: el cupón se apaga y lleva un sello de goma encima */
-.spent {
-  --edge: var(--line);
-  background: #0f1a38;
+/* ---------- Pila: varios cupones iguales en un solo ticket ---------- */
+.pile {
+  position: relative;
+  margin-bottom: 14px;
 }
 
-.spent .pct,
-.spent .off {
-  color: var(--dim);
-}
-
-.spent .stub svg {
-  opacity: 0.35;
-  filter: grayscale(1);
-}
-
-.spent code {
-  color: var(--dim);
-}
-
-.stamp {
+/* Dos hojas asomando detrás: se ve que hay más de uno */
+.pile::before,
+.pile::after {
+  content: "";
   position: absolute;
-  right: 22px;
-  top: 50%;
-  margin: 0;
-  padding: 4px 14px 5px;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: var(--muted);
-  border: 3px solid currentColor;
-  border-radius: 10px;
-  opacity: 0.8;
-  transform: translateY(-50%) rotate(-9deg);
-  /* La tinta del sello no carga pareja */
-  -webkit-mask: repeating-linear-gradient(80deg, #000 0 7px, rgba(0, 0, 0, 0.75) 7px 9px);
-  mask: repeating-linear-gradient(80deg, #000 0 7px, rgba(0, 0, 0, 0.75) 7px 9px);
+  height: 100%;
+  border-radius: 14px;
+  background: #141c38;
+  box-shadow: inset 0 0 0 1.5px rgba(255, 153, 0, 0.3);
 }
 
-.expired .stamp {
+.pile::before {
+  top: 7px;
+  left: 10px;
+  right: 10px;
+}
+
+.pile::after {
+  top: 13px;
+  left: 20px;
+  right: 20px;
+  opacity: 0.6;
+}
+
+.pile .ticket {
+  position: relative;
+  z-index: 1;
+}
+
+.times {
+  margin-top: 4px;
+  padding: 1px 9px 2px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #1a1205;
+  background: var(--orange);
+  border-radius: 999px;
+  font-variant-numeric: tabular-nums;
+}
+
+.range {
+  margin: 0;
+  font-size: 15px;
+}
+
+.range b {
+  font-weight: 700;
+}
+
+.soon .range b {
+  color: var(--coral);
+}
+
+.more {
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--orange);
+  background: none;
+  border: 1.5px solid var(--orange);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.more:hover {
+  background: rgba(255, 153, 0, 0.12);
+}
+
+/* ---------- El modal: elegir cuál de los cupones usar ---------- */
+.dialog {
+  width: min(580px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  padding: 0;
+  color: var(--text);
+  background: var(--night-2);
+  border: 1px solid var(--line-hover);
+  border-radius: 18px;
+  overflow: auto;
+}
+
+.dialog[open] {
+  animation: pop 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+
+.dialog::backdrop {
+  background: rgba(3, 8, 23, 0.7);
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+}
+
+.dialogHead {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 22px 18px;
+  background: radial-gradient(60% 140% at 0% 50%, rgba(255, 153, 0, 0.14), transparent 70%);
+  border-bottom: 1px solid var(--line);
+}
+
+.big {
+  display: grid;
+  flex: none;
+  justify-items: center;
+  width: 72px;
+}
+
+.big svg {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 4px;
+}
+
+.big .pct {
+  font-size: 32px;
+}
+
+.big .pct small {
+  font-size: 18px;
+}
+
+.dialogHead h2 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.dialogHead p {
+  margin: 3px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.close {
+  flex: none;
+  align-self: flex-start;
+  width: 32px;
+  height: 32px;
+  margin-left: auto;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--muted);
+  background: none;
+  border: 1.5px solid var(--line);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: var(--text);
+  border-color: var(--muted);
+}
+
+.rows {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 18px 22px 22px;
+  list-style: none;
+}
+
+/* Cada fila es un cupón chiquito, con su troquel */
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0 14px;
+  padding: 12px 14px 12px 0;
+  border-radius: 12px;
+  background: #1a2240;
+  box-shadow: inset 0 0 0 1.5px rgba(255, 153, 0, 0.32);
+}
+
+.row::before {
+  content: "";
+  position: absolute;
+  left: 92px;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  margin-left: -2px;
+  background: radial-gradient(circle, var(--night-2) 1.4px, transparent 1.8px) center top / 4px 8px repeat-y;
+}
+
+.date {
+  display: grid;
+  justify-items: center;
+  line-height: 1.1;
+}
+
+.date small,
+.date span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.date b {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.rowCode {
+  height: 40px;
+}
+
+.rowCode code {
+  font-size: 15px;
+}
+
+.row .use {
+  padding: 9px 15px;
+}
+
+.row.soon {
+  box-shadow: inset 0 0 0 1.5px rgba(255, 122, 107, 0.5);
+}
+
+.row.soon .date b,
+.row.soon .date small {
+  color: var(--coral);
+}
+
+/* ---------- Los que ya no sirven: una línea cada uno, plegados ---------- */
+.spentBox {
+  margin-top: 26px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.spentBox > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.spentBox > button svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.2s;
+}
+
+.spentBox > button[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.spentList {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.spentList li {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: var(--muted);
+  border-radius: 9px;
+  background: rgba(36, 55, 107, 0.25);
+}
+
+.spentList b {
+  font-size: 16px;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.spentList code {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--dim);
+}
+
+.spentList em {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  text-transform: none;
+}
+
+.expiredTag {
   color: var(--coral);
 }
 
@@ -453,14 +727,61 @@
   .foot {
     flex-wrap: wrap;
   }
-  .use {
+  .use,
+  .more {
     width: 100%;
     justify-content: center;
+  }
+  .dialogHead {
+    gap: 12px;
+    padding: 18px 16px 14px;
+  }
+  .big {
+    width: 58px;
+  }
+  .rows {
+    padding: 14px 14px 16px;
+  }
+  .row {
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 10px;
+    padding: 12px 12px 12px 0;
+  }
+  .row::before {
+    left: 64px;
+    bottom: auto;
+    height: 44px;
+  }
+  .row .use {
+    grid-column: 1 / -1;
+    width: auto;
+    margin-left: 12px;
+  }
+  /* En el celular, el código necesita el lugar: "Copiar" queda solo con el ícono */
+  .rowCode .copyLabel {
+    display: none;
+  }
+  .rowCode .copy {
+    padding: 6px 8px;
+  }
+  .rowCode code {
+    font-size: 14px;
+    letter-spacing: 0.04em;
+  }
+  .date b {
+    font-size: 22px;
+  }
+  .spentList li {
+    grid-template-columns: 44px 1fr;
+  }
+  .spentList em {
+    grid-column: 2;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ticket {
+  .ticket,
+  .dialog[open] {
     animation: none;
   }
   .scratch {

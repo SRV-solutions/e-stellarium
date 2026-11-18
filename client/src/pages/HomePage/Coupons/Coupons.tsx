@@ -1,4 +1,4 @@
-import { useCallback, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import { useCoupons } from "../../../hooks/useCoupons";
 import type { CouponSummary } from "../../../types";
 import { Scratch } from "./Scratch";
@@ -40,13 +40,24 @@ function dayMonth(iso: string) {
   return new Date(iso).toLocaleDateString("es-AR", { day: "numeric", month: "long" });
 }
 
-// Los que se pueden usar primero (el que vence antes, arriba); después los usados y vencidos
-function sorted(coupons: CouponSummary[], now: number) {
-  const active = coupons
-    .filter((c) => stateOf(c, now) === "active")
-    .sort((a, b) => a.expiresAt.localeCompare(b.expiresAt));
-  const spent = coupons.filter((c) => stateOf(c, now) !== "active");
-  return [...active, ...spent];
+type Group = { key: string; coupons: CouponSummary[] };
+
+// Los cupones que se pueden usar, juntando los iguales (mismo porcentaje y mismo origen).
+// Adentro de cada grupo, el que vence antes va primero; los grupos, de más descuento a menos
+function groupActive(coupons: CouponSummary[], now: number): Group[] {
+  const map = new Map<string, CouponSummary[]>();
+  for (const c of coupons.filter((c) => stateOf(c, now) === "active").sort((a, b) => a.expiresAt.localeCompare(b.expiresAt))) {
+    const key = `${c.percent}|${c.course?.key ?? "tienda"}`;
+    map.set(key, [...(map.get(key) ?? []), c]);
+  }
+  return [...map].map(([key, list]) => ({ key, coupons: list })).sort(
+    (a, b) => b.coupons[0]!.percent - a.coupons[0]!.percent || a.coupons[0]!.expiresAt.localeCompare(b.coupons[0]!.expiresAt),
+  );
+}
+
+// Los usados, vencidos y anulados, lo último que pasó primero
+function spentOf(coupons: CouponSummary[], now: number) {
+  return coupons.filter((c) => stateOf(c, now) !== "active").sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
 // La estrella de examen, la misma del mapa: encendida en los cupones, apagada en el lugar vacío
@@ -85,23 +96,31 @@ const COPY = "M8 8h12v12H8zM16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 
 const CHECK = "M5 12l5 5 9-10";
 const ARROW = "M7 17L17 7M9 7h8v8";
 const LOCK = "M5 11h14v10H5zM8 11V8a4 4 0 0 1 8 0v3";
+const CHEVRON = "M6 9l6 6 6-6";
 
-type TicketProps = {
-  coupon: CouponSummary;
-  state: State;
-  now: number;
-  index: number;
-  scratched: boolean;
-  onScratched: (code: string) => void;
-};
+function daysLeftOf(coupon: CouponSummary, now: number) {
+  return Math.max(0, Math.ceil((new Date(coupon.expiresAt).getTime() - now) / DAY_MS));
+}
 
-function Ticket({ coupon, state, now, index, scratched, onScratched }: TicketProps) {
+function fromText(coupon: CouponSummary, plural: boolean) {
+  // Los de la tienda no vienen de un curso
+  return coupon.course ? (
+    <>
+      Por aprobar el examen de <b>{coupon.course.name}</b>
+    </>
+  ) : (
+    <>
+      {plural ? "Canjeados" : "Canjeado"} en la <b>tienda</b>
+    </>
+  );
+}
+
+type CodeProps = { coupon: CouponSummary; scratched: boolean; onScratched: (code: string) => void; className?: string };
+
+// El código, con su botón de copiar y la raspadita encima (hasta que se raspa)
+function CodeBox({ coupon, scratched, onScratched, className }: CodeProps) {
   const [copied, setCopied] = useState(false);
   const reveal = useCallback(() => onScratched(coupon.code), [onScratched, coupon.code]);
-
-  const active = state === "active";
-  const daysLeft = Math.max(0, Math.ceil((new Date(coupon.expiresAt).getTime() - now) / DAY_MS));
-  const soon = active && daysLeft <= SOON_DAYS;
 
   async function copy() {
     try {
@@ -113,89 +132,236 @@ function Ticket({ coupon, state, now, index, scratched, onScratched }: TicketPro
   }
 
   return (
-    <li
-      className={`${styles.ticket} ${active ? "" : styles.spent} ${state === "expired" ? styles.expired : ""} ${soon ? styles.soon : ""}`}
-      style={{ "--i": index } as CSSProperties}
-    >
-      <span className={styles.perf} aria-hidden="true" />
-      <div className={styles.stub}>
-        <ExamStar lit />
-        <span className={styles.pct}>
-          {coupon.percent}
-          <small> %</small>
-        </span>
-        <span className={styles.off}>de descuento</span>
-      </div>
+    <div className={`${styles.code} ${className ?? ""}`}>
+      <code>{coupon.code}</code>
+      <button
+        type="button"
+        className={`${styles.copy} ${copied ? styles.copied : ""}`}
+        onClick={copy}
+        aria-label={copied ? "Código copiado" : "Copiar el código"}
+      >
+        <Icon d={copied ? CHECK : COPY} />
+        <span className={styles.copyLabel}>{copied ? "Copiado" : "Copiar"}</span>
+      </button>
+      {!scratched && <Scratch onReveal={reveal} />}
+    </div>
+  );
+}
 
-      <div className={styles.body}>
-        <p className={styles.from}>
-          {/* Los de la tienda no vienen de un curso */}
-          {coupon.course ? (
-            <>
-              Por aprobar el examen de <b>{coupon.course.name}</b>
-            </>
-          ) : (
-            <>
-              Canjeado en la <b>tienda</b>
-            </>
-          )}
-        </p>
+type TicketProps = {
+  // Un cupón suelto, o varios iguales que se juntan en una pila
+  coupons: CouponSummary[];
+  now: number;
+  index: number;
+  scratched: string[];
+  onScratched: (code: string) => void;
+  onChoose: () => void;
+};
 
-        <div className={styles.code}>
-          <code>{coupon.code}</code>
-          {active && (
-            <button type="button" className={`${styles.copy} ${copied ? styles.copied : ""}`} onClick={copy}>
-              <Icon d={copied ? CHECK : COPY} />
-              {copied ? "Copiado" : "Copiar"}
-            </button>
-          )}
-          {active && !scratched && <Scratch onReveal={reveal} />}
+function Ticket({ coupons, now, index, scratched, onScratched, onChoose }: TicketProps) {
+  const first = coupons[0]!;
+  const last = coupons[coupons.length - 1]!;
+  const pile = coupons.length > 1;
+  const daysLeft = daysLeftOf(first, now);
+  const soon = daysLeft <= SOON_DAYS;
+  const days = daysLeft === 1 ? "1 día" : `${daysLeft} días`;
+
+  return (
+    <li className={`${pile ? styles.pile : ""}`}>
+      <div className={`${styles.ticket} ${soon ? styles.soon : ""}`} style={{ "--i": index } as CSSProperties}>
+        <span className={styles.perf} aria-hidden="true" />
+        <div className={styles.stub}>
+          <ExamStar lit />
+          <span className={styles.pct}>
+            {first.percent}
+            <small> %</small>
+          </span>
+          {pile ? <span className={styles.times}>× {coupons.length}</span> : <span className={styles.off}>de descuento</span>}
         </div>
 
-        <div className={styles.foot}>
-          <div className={styles.life}>
-            {state === "active" && (
-              <>
+        <div className={styles.body}>
+          <p className={styles.from}>{fromText(first, pile)}</p>
+
+          {pile ? (
+            <p className={styles.range}>
+              Para {coupons.length} compras distintas. El primero vence{" "}
+              {soon ? (
+                <>
+                  en <b>{days}</b>
+                </>
+              ) : (
+                <>
+                  el <b>{dayMonth(first.expiresAt)}</b>
+                </>
+              )}
+              {last.expiresAt !== first.expiresAt && <>, el último el {dayMonth(last.expiresAt)}</>}.
+            </p>
+          ) : (
+            <CodeBox coupon={first} scratched={scratched.includes(first.code)} onScratched={onScratched} />
+          )}
+
+          <div className={styles.foot}>
+            <div className={styles.life}>
+              {!pile && (
                 <p>
                   {soon ? (
                     <>
-                      Vence en <b>{daysLeft === 1 ? "1 día" : `${daysLeft} días`}</b>, el {dayMonth(coupon.expiresAt)}
+                      Vence en <b>{days}</b>, el {dayMonth(first.expiresAt)}
                     </>
                   ) : (
                     <>
-                      Vence el <b>{dayMonth(coupon.expiresAt)}</b>
+                      Vence el <b>{dayMonth(first.expiresAt)}</b>
                     </>
                   )}
                 </p>
-                <div className={styles.bar} aria-hidden="true">
-                  <i style={{ width: `${Math.min(100, (daysLeft / VALID_DAYS) * 100)}%` }} />
-                </div>
-              </>
+              )}
+              <div className={styles.bar} aria-hidden="true">
+                <i style={{ width: `${Math.min(100, (daysLeft / VALID_DAYS) * 100)}%` }} />
+              </div>
+            </div>
+            {pile ? (
+              <button type="button" className={styles.more} onClick={onChoose}>
+                Elegir cuál usar
+              </button>
+            ) : (
+              <a className={styles.use} href={SHOP_HREF} target="_blank" rel="noreferrer">
+                Usarlo
+                <Icon d={ARROW} />
+              </a>
             )}
-            {state === "used" && <p>Lo usaste el {dayMonth(coupon.usedAt!)}</p>}
-            {state === "expired" && <p>Venció el {dayMonth(coupon.expiresAt)}</p>}
-            {state === "voided" && <p>Lo anulamos: ya no sirve</p>}
           </div>
-          {active && (
-            <a className={styles.use} href={SHOP_HREF} target="_blank" rel="noreferrer">
-              Usarlo
-              <Icon d={ARROW} />
-            </a>
-          )}
         </div>
-
-        {!active && <p className={styles.stamp}>{state === "used" ? "Usado" : state === "voided" ? "Anulado" : "Vencido"}</p>}
       </div>
     </li>
   );
 }
 
-// "Mis cupones" del inicio: un cupón por cada examen aprobado
+type DialogProps = {
+  group: Group | null;
+  now: number;
+  scratched: string[];
+  onScratched: (code: string) => void;
+  onClose: () => void;
+};
+
+// El modal de una pila: cada cupón, individual, con su raspadita y su "Usarlo".
+// Usa <dialog> con showModal(), como ConfirmDialog: fondo oscuro, foco adentro y Escape
+function ChooseDialog({ group, now, scratched, onScratched, onClose }: DialogProps) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const titleId = useId();
+  // El contenido se monta recién con el modal abierto: la raspadita mide su franja al pintarse,
+  // y dentro de un <dialog> cerrado mediría cero
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = dialog.current;
+    if (!el) return;
+    if (group && !el.open) el.showModal();
+    if (!group && el.open) el.close();
+    setVisible(group !== null);
+  }, [group]);
+
+  const g = visible ? group : null;
+  const first = g?.coupons[0];
+  return (
+    <dialog
+      ref={dialog}
+      className={styles.dialog}
+      aria-labelledby={titleId}
+      onCancel={onClose}
+      onClick={(e) => e.target === dialog.current && onClose()}
+    >
+      {g && first && (
+        <>
+          <header className={styles.dialogHead}>
+            <div className={styles.big}>
+              <ExamStar lit />
+              <span className={styles.pct}>
+                {first.percent}
+                <small> %</small>
+              </span>
+            </div>
+            <div>
+              <h2 id={titleId}>
+                {g.coupons.length} cupones del {first.percent} %
+              </h2>
+              <p>
+                {first.course ? `Por aprobar el examen de ${first.course.name}` : "Canjeados en la tienda"}. Elegí cuál usar: cada uno
+                sirve para una sola compra.
+              </p>
+            </div>
+            <button type="button" className={styles.close} onClick={onClose} aria-label="Cerrar" autoFocus>
+              ×
+            </button>
+          </header>
+          <ul className={styles.rows}>
+            {g.coupons.map((c) => {
+              const daysLeft = daysLeftOf(c, now);
+              const soon = daysLeft <= SOON_DAYS;
+              const date = new Date(c.expiresAt);
+              return (
+                <li key={c.code} className={`${styles.row} ${soon ? styles.soon : ""}`}>
+                  <div className={styles.date}>
+                    <small>{soon ? (daysLeft === 1 ? "En 1 día" : `En ${daysLeft} días`) : "Vence"}</small>
+                    <b>{date.getDate()}</b>
+                    <span>{date.toLocaleDateString("es-AR", { month: "short" }).replace(".", "")}</span>
+                  </div>
+                  <CodeBox coupon={c} scratched={scratched.includes(c.code)} onScratched={onScratched} className={styles.rowCode} />
+                  <a className={styles.use} href={SHOP_HREF} target="_blank" rel="noreferrer">
+                    Usarlo
+                    <Icon d={ARROW} />
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      )}
+    </dialog>
+  );
+}
+
+// Los que ya no sirven, plegados en una línea cada uno
+function Spent({ coupons, now }: { coupons: CouponSummary[]; now: number }) {
+  const [open, setOpen] = useState(false);
+  const listId = useId();
+  const LABEL = { used: "Usado", expired: "Vencido", voided: "Anulado", active: "" };
+  return (
+    <div className={styles.spentBox}>
+      <button type="button" aria-expanded={open} aria-controls={listId} onClick={() => setOpen(!open)}>
+        Ya usados o vencidos ({coupons.length})
+        <Icon d={CHEVRON} />
+      </button>
+      {open && (
+        <ul id={listId} className={styles.spentList}>
+          {coupons.map((c) => {
+            const st = stateOf(c, now);
+            return (
+              <li key={c.code}>
+                <b>{c.percent} %</b>
+                <span>
+                  {st === "used" && `Lo usaste el ${dayMonth(c.usedAt!)}`}
+                  {st === "expired" && `Venció el ${dayMonth(c.expiresAt)}`}
+                  {st === "voided" && "Lo anulamos: ya no sirve"} · <code>{c.code}</code>
+                </span>
+                <em className={st === "expired" ? styles.expiredTag : ""}>{LABEL[st]}</em>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+// "Mis cupones" del inicio: los activos juntando los iguales, y los gastados plegados
 export function Coupons() {
   const state = useCoupons();
   const [scratched, setScratched] = useState(readScratched);
   // La hora con la que se calcula qué venció: la de cuando se abrió la página
   const [now] = useState(() => Date.now());
+  // La pila abierta en el modal (su clave), si hay alguna
+  const [chosen, setChosen] = useState<string | null>(null);
 
   const onScratched = useCallback((code: string) => {
     saveScratched(code);
@@ -231,8 +397,9 @@ export function Coupons() {
     );
   }
 
-  const coupons = sorted(state.coupons, now);
-  const usable = coupons.filter((c) => stateOf(c, now) === "active").length;
+  const groups = groupActive(state.coupons, now);
+  const spent = spentOf(state.coupons, now);
+  const usable = groups.reduce((n, g) => n + g.coupons.length, 0);
 
   return (
     <>
@@ -250,19 +417,29 @@ export function Coupons() {
           </radialGradient>
         </defs>
       </svg>
-      <ul className={styles.list}>
-        {coupons.map((coupon, i) => (
-          <Ticket
-            key={coupon.code}
-            coupon={coupon}
-            state={stateOf(coupon, now)}
-            now={now}
-            index={i}
-            scratched={scratched.includes(coupon.code)}
-            onScratched={onScratched}
-          />
-        ))}
-      </ul>
+      {groups.length > 0 && (
+        <ul className={styles.list}>
+          {groups.map((g, i) => (
+            <Ticket
+              key={g.key}
+              coupons={g.coupons}
+              now={now}
+              index={i}
+              scratched={scratched}
+              onScratched={onScratched}
+              onChoose={() => setChosen(g.key)}
+            />
+          ))}
+        </ul>
+      )}
+      {spent.length > 0 && <Spent coupons={spent} now={now} />}
+      <ChooseDialog
+        group={groups.find((g) => g.key === chosen) ?? null}
+        now={now}
+        scratched={scratched}
+        onScratched={onScratched}
+        onClose={() => setChosen(null)}
+      />
       <p className={styles.warn}>
         <Icon d={LOCK} />
         <span>
