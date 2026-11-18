@@ -4,6 +4,7 @@ import { Avatar } from "../../components/Avatar/Avatar";
 import { Drawing } from "../../components/Avatar/drawings";
 import { DRAWINGS } from "../../components/Avatar/drawingNames";
 import { Cosmos } from "../../components/Cosmos/Cosmos";
+import { Inventory } from "../../components/Inventory/Inventory";
 import { useAuth } from "../../auth/useAuth";
 import { api, ApiError } from "../../lib/api";
 import type { User } from "../../types";
@@ -36,6 +37,7 @@ export function ProfilePage() {
         </div>
         <AliasSection user={user} />
         <DrawingSection user={user} />
+        <Inventory />
         <NoticesSection user={user} />
       </main>
     </>
