@@ -1,0 +1,405 @@
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 44px 24px 40px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.head h1 {
+  margin: 6px 0 0;
+  font-size: clamp(34px, 4.4vw, 52px);
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.lead {
+  margin: 12px 0 0;
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 0 64px;
+  padding-top: 34px;
+  align-items: start;
+}
+
+/* El índice: seis cielos para mirar; el elegido, apuntado con la mira (sin cards) */
+.index {
+  position: sticky;
+  top: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.index li + li {
+  margin-top: 2px;
+}
+
+.index button {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 0 10px;
+  align-items: center;
+  width: 100%;
+  padding: 9px 8px;
+  text-align: left;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.index button:hover {
+  background: rgba(23, 42, 90, 0.5);
+}
+
+.gl {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+}
+
+.gl svg {
+  width: 24px;
+  height: 24px;
+  overflow: visible;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.index small {
+  grid-column: 2;
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--dim);
+}
+
+.index button[aria-pressed="true"] {
+  color: var(--text);
+  background: var(--night-3);
+}
+
+.index button[aria-pressed="true"] small {
+  color: var(--muted);
+}
+
+.index button[aria-pressed="true"] .gl {
+  color: var(--orange);
+}
+
+.index button[aria-pressed="true"] .gl::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1.4px dashed var(--orange);
+  border-radius: 50%;
+  animation: spin 10s linear infinite;
+}
+
+/* El tablero */
+.rank h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.sub {
+  margin: 4px 0 0;
+  max-width: 52ch;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.seg {
+  display: inline-flex;
+  margin: 16px 0 0;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(5, 13, 36, 0.6);
+}
+
+.seg button {
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.seg button[aria-pressed="true"] {
+  color: var(--text);
+  background: var(--night-3);
+}
+
+.board {
+  max-width: 640px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.board li {
+  display: grid;
+  grid-template-columns: 30px 44px 34px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.board li + li {
+  border-top: 1px solid rgba(36, 55, 107, 0.35);
+}
+
+.withBadge li {
+  grid-template-columns: 30px 44px 34px minmax(0, 1fr) 34px auto;
+}
+
+.pos {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: right;
+}
+
+.board li:nth-child(1) .pos {
+  color: #ffc94a;
+}
+
+.board li:nth-child(2) .pos {
+  color: #cfd9ea;
+}
+
+.board li:nth-child(3) .pos {
+  color: #d98b4f;
+}
+
+.mag {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 36px;
+}
+
+.mag svg {
+  overflow: visible;
+}
+
+.who {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.alias {
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.title {
+  overflow: hidden;
+  font-size: 13px;
+  color: var(--muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge {
+  display: flex;
+  justify-content: center;
+}
+
+.val {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+  font-size: 17px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.val small {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.glintVal {
+  color: var(--glint);
+}
+
+.mine .alias {
+  color: #fff;
+}
+
+.mine .mag::after {
+  content: "";
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border: 1.4px dashed var(--orange);
+  border-radius: 50%;
+  animation: spin 10s linear infinite;
+}
+
+.board li.gap {
+  display: block;
+  padding: 2px 0 2px 40px;
+  border-top: 0;
+  font-size: 15px;
+  letter-spacing: 0.3em;
+  color: var(--dim);
+}
+
+.chase,
+.empty {
+  max-width: 52ch;
+  margin: 16px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.chase b {
+  color: var(--text);
+}
+
+.tie {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--dim);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Celular: el índice pasa a una tira de pastillas que se desliza */
+@media (max-width: 860px) {
+  .page {
+    padding: 28px 16px 32px;
+  }
+
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 22px;
+  }
+
+  .index {
+    position: static;
+    display: flex;
+    gap: 6px;
+    margin: 0 -16px;
+    padding: 0 16px 10px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .index::-webkit-scrollbar {
+    display: none;
+  }
+
+  .index li {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  .index li + li {
+    margin: 0;
+  }
+
+  .index button {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: auto;
+    padding: 7px 14px 7px 8px;
+    white-space: nowrap;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+  }
+
+  .gl {
+    width: 26px;
+    height: 26px;
+  }
+
+  .gl svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .index small {
+    display: none;
+  }
+
+  .name {
+    font-size: 14px;
+  }
+
+  .rank {
+    margin-top: 18px;
+  }
+
+  .rank h2 {
+    font-size: 24px;
+  }
+
+  .board li {
+    grid-template-columns: 24px 36px 34px minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  .withBadge li {
+    grid-template-columns: 24px 36px 34px minmax(0, 1fr) 28px auto;
+    gap: 6px;
+  }
+
+  .badge svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .mag {
+    width: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .index button[aria-pressed="true"] .gl::after,
+  .mine .mag::after {
+    animation: none;
+  }
+}

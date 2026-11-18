@@ -58,7 +58,7 @@ export function ChallengesPage() {
     let cancelled = false;
     api<Ranking>(`/ranking?period=${period}`)
       .then((r) => !cancelled && setRanking(r))
-      .catch(() => !cancelled && setRanking({ period, startsAt: null, endsAt: null, top: [], me: null }));
+      .catch(() => !cancelled && setRanking({ board: "xp", period, startsAt: null, endsAt: null, top: [], me: null }));
     return () => {
       cancelled = true;
     };

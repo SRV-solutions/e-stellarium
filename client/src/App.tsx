@@ -14,6 +14,7 @@ import { ReviewPage } from "./pages/ReviewPage/ReviewPage";
 import { PracticePage } from "./pages/PracticePage/PracticePage";
 import { DemoPage } from "./pages/DemoPage/DemoPage";
 import { ChallengesPage } from "./pages/ChallengesPage/ChallengesPage";
+import { RankingPage } from "./pages/RankingPage/RankingPage";
 import { ShopPage } from "./pages/ShopPage/ShopPage";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 import { AdminLayout } from "./pages/AdminPage/AdminLayout";
@@ -91,6 +92,14 @@ export default function App() {
             element={
               <PlayerRoute>
                 <ChallengesPage />
+              </PlayerRoute>
+            }
+          />
+          <Route
+            path="/ranking"
+            element={
+              <PlayerRoute>
+                <RankingPage />
               </PlayerRoute>
             }
           />

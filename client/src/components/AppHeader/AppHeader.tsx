@@ -41,6 +41,19 @@ const LINKS: { to: string; label: string; end?: boolean; icon: ReactNode }[] = [
     ),
   },
   {
+    to: "/ranking",
+    label: "Ranking",
+    // Tres barras como un podio
+    icon: (
+      <>
+        <path d="M3.5 20.5h17" />
+        <rect x="9.5" y="5" width="5" height="15.5" rx="1" />
+        <rect x="3.5" y="11" width="5" height="9.5" rx="1" />
+        <rect x="15.5" y="14" width="5" height="6.5" rx="1" />
+      </>
+    ),
+  },
+  {
     to: "/shop",
     label: "Tienda",
     // Una bolsa

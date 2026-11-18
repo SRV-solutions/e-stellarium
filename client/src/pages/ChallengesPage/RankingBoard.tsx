@@ -17,7 +17,7 @@ const PODIUM: Record<number, [string, string, string]> = {
 };
 
 // La estrella de cada puesto: del podio con halo, del 4 al 10 blanca, y un puntito después
-function Magnitude({ position }: { position: number }) {
+export function Magnitude({ position }: { position: number }) {
   if (position > 10) {
     return (
       <svg width="40" height="36" viewBox="-20 -18 40 36" aria-hidden="true">
@@ -49,7 +49,7 @@ function Magnitude({ position }: { position: number }) {
   );
 }
 
-const xp = (n: number) => n.toLocaleString("es-AR");
+export const xp = (n: number) => n.toLocaleString("es-AR");
 
 // Las más brillantes: el ranking de la semana o de siempre, con tu fila apuntada con la mira
 export function RankingBoard({ ranking, period, onPeriod }: Props) {
@@ -71,14 +71,14 @@ export function RankingBoard({ ranking, period, onPeriod }: Props) {
   } else if (me && outside && top.length > 0) {
     chase = (
       <p className={styles.chase}>
-        Te faltan <b>{xp(top.at(-1)!.xp - me.xp + 1)} XP</b> para entrar entre las {top.length} más brillantes.
+        Te faltan <b>{xp(top.at(-1)!.value - me.value + 1)} XP</b> para entrar entre las {top.length} más brillantes.
       </p>
     );
   } else if (me && me.position !== null && me.position > 1) {
     const above = top[me.position - 2]!;
     chase = (
       <p className={styles.chase}>
-        Con <b>{xp(above.xp - me.xp + 1)} XP</b> más pasás a <b>{above.alias}</b>.
+        Con <b>{xp(above.value - me.value + 1)} XP</b> más pasás a <b>{above.alias}</b>.
       </p>
     );
   }
@@ -118,7 +118,7 @@ export function RankingBoard({ ranking, period, onPeriod }: Props) {
                 {e.title && <small className={styles.title}>{e.title}</small>}
               </span>
               <span className={styles.xp}>
-                {xp(e.xp)} <small>XP</small>
+                {xp(e.value)} <small>XP</small>
               </span>
             </li>
           ))}
@@ -137,7 +137,7 @@ export function RankingBoard({ ranking, period, onPeriod }: Props) {
                   <span className={styles.alias}>Vos</span>
                 </span>
                 <span className={styles.xp}>
-                  {xp(me.xp)} <small>XP</small>
+                  {xp(me.value)} <small>XP</small>
                 </span>
               </li>
             </>

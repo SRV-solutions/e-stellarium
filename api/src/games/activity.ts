@@ -17,6 +17,7 @@ export async function recordActivity(user: User, now: Date, t: Transaction) {
   await user.update(
     {
       streak: next.streak,
+      bestStreak: Math.max(user.bestStreak, next.streak),
       lastActiveOn: next.lastActiveOn,
       streakFreezes: next.streakFreezes,
       boughtFreezes: next.boughtFreezes,

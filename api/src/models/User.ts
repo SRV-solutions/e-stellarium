@@ -18,6 +18,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare roleId: CreationOptional<number>; // ver roles: 1 es student
   declare totalXp: CreationOptional<number>;
   declare streak: CreationOptional<number>;
+  declare bestStreak: CreationOptional<number>; // la racha más larga que tuvo, vigente o no
   declare lastActiveOn: CreationOptional<string | null>; // "2026-11-10", en hora de Argentina
   declare streakFreezes: CreationOptional<number>;
   declare boughtFreezes: CreationOptional<number>; // los protectores comprados en la tienda
@@ -75,6 +76,11 @@ User.init(
       defaultValue: 0,
     },
     streak: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    bestStreak: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,

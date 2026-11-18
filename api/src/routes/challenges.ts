@@ -4,7 +4,7 @@ import { requirePlayer } from "../middlewares/requirePlayer.js";
 import { HttpError } from "../lib/errors.js";
 import { isUuid } from "../lib/uuid.js";
 import { answerChallenge, getCurrentChallenge, startChallenge } from "../games/challengeFlow.js";
-import { getRanking, type RankingPeriod } from "../games/ranking.js";
+import { BOARDS, getRanking, type Board, type RankingPeriod } from "../games/ranking.js";
 
 export const challengesRouter = Router();
 
@@ -31,9 +31,12 @@ challengesRouter.post("/challenges/:id/answer", requireAuth, requirePlayer, asyn
   res.json(await answerChallenge(req.user!.id, id, position, req.body?.response));
 });
 
-// El ranking de la semana (por defecto) o de siempre
+// El ranking: `board` elige la tabla (por defecto la de experiencia) y `period` (semana o de siempre)
+// solo cambia algo en la de experiencia
 challengesRouter.get("/ranking", requireAuth, requirePlayer, async (req, res) => {
+  const board = (req.query.board ?? "xp") as string;
+  if (!(BOARDS as readonly string[]).includes(board)) throw new HttpError(400, `La tabla tiene que ser una de: ${BOARDS.join(", ")}.`);
   const period = (req.query.period ?? "week") as string;
   if (period !== "week" && period !== "all") throw new HttpError(400, "El período tiene que ser week o all.");
-  res.json(await getRanking(req.user!.id, period as RankingPeriod));
+  res.json(await getRanking(req.user!.id, board as Board, period as RankingPeriod));
 });

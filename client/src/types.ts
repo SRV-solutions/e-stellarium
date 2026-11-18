@@ -301,14 +301,27 @@ export type ChallengeVerdict = {
   result: ChallengeResult | null;
 };
 
-// GET /ranking
+// GET /ranking?board=...&period=...
+export type RankingBoardId = "xp" | "best_streak" | "streak" | "stars" | "challenges" | "glints";
+
 export type Ranking = {
-  period: "week" | "all";
+  board: RankingBoardId;
+  period: "week" | "all"; // solo cambia algo en la tabla de experiencia
   startsAt: string | null;
   endsAt: string | null;
-  // frame: el marco que lleva puesto; title: su título, ya con la forma que eligió
-  top: { position: number; alias: string; xp: number; me: boolean; frame: string | null; avatar: string | null; title: string | null }[];
-  me: { position: number | null; xp: number } | null;
+  // frame: el marco que lleva puesto; title: su título, ya con la forma que eligió;
+  // badge: en las tablas de racha, los días de la mejor insignia que ganó (7, 30 o 100)
+  top: {
+    position: number;
+    alias: string;
+    value: number;
+    me: boolean;
+    frame: string | null;
+    avatar: string | null;
+    title: string | null;
+    badge: number | null;
+  }[];
+  me: { position: number | null; value: number } | null;
 };
 
 // ---------- La tienda ----------
