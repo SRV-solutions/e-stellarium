@@ -147,7 +147,7 @@ export function StudentsPage() {
         )}
       </div>
 
-      <div className={`${common.people} ${styles.people} ${openId ? styles.withCard : common.closed}`}>
+      <div className={`${common.people} ${openId ? styles.withCard : common.closed}`}>
         <div>
           {error && (
             <p className={common.error} role="alert">

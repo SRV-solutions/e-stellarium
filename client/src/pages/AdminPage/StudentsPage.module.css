@@ -56,7 +56,8 @@
   stroke-linecap: round;
 }
 
-.people {
+/* La ficha (420px) solo ocupa lugar cuando hay un alumno elegido; sin elegir, la lista va a todo el ancho */
+.withCard {
   grid-template-columns: minmax(0, 1fr) 420px;
 }
 
@@ -138,7 +139,7 @@
 }
 
 @media (max-width: 1060px) {
-  .people {
+  .withCard {
     grid-template-columns: minmax(0, 1fr);
   }
 }
