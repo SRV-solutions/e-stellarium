@@ -6336,6 +6336,926 @@
         "correct": 0
       },
       "explanation": "Las celdas pueden traer texto: hay que convertir con Number antes de operar."
+    },
+    {
+      "slug": "sg-d2-hoisting",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "hoisting",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(typeof f, typeof g, typeof v);\nfunction f() {}\nvar g = function () {};\nvar v = 1;",
+        "options": [
+          "function undefined undefined",
+          "function function number",
+          "undefined undefined undefined",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las declaraciones de función se elevan completas; con var solo se eleva el nombre (con valor undefined) y la asignación queda en su lugar."
+    },
+    {
+      "slug": "sg-d2-tdz",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "variables",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(x);\nvar x = 1;\ntry {\n  console.log(y);\n} catch (e) {\n  console.log(e.name);\n}\nlet y = 2;",
+        "options": [
+          "undefined\nReferenceError",
+          "undefined\nundefined",
+          "ReferenceError\nReferenceError",
+          "1\n2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "var se eleva con undefined; let y const existen pero no se pueden usar antes de su declaración (zona muerta temporal)."
+    },
+    {
+      "slug": "sg-d2-igualdad-laxa",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "comparación",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(null == undefined, null == 0, '' == 0, '0' == false, [] == false, NaN == NaN);",
+        "options": [
+          "true false true true true false",
+          "true true true true true false",
+          "false false true true true false",
+          "true false false true true true"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "== convierte tipos con reglas raras: null solo es igual a undefined, y NaN no es igual ni a sí mismo. Usá === casi siempre."
+    },
+    {
+      "slug": "sg-d2-coercion",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(JSON.stringify([1 + '2' - 1, '3' * '4', [] + [], [] + {}, +'']));",
+        "options": [
+          "[11,12,\"\",\"[object Object]\",0]",
+          "[2,12,\"\",\"[object Object]\",0]",
+          "[11,12,0,\"[object Object]\",0]",
+          "[\"12\",12,\"\",\"[object Object]\",\"\"]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El + con un string concatena (1 + '2' es '12'), pero el - convierte a número. Los arrays y objetos se pasan a texto antes de sumar."
+    },
+    {
+      "slug": "sg-d2-flujo-switch",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "switch",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "function f(n) {\n  let r = '';\n  switch (n) {\n    case 1: r += 'a';\n    case 2: r += 'b'; break;\n    case 3: r += 'c';\n    default: r += 'd';\n  }\n  return r;\n}\nconsole.log(f(1), f(2), f(3), f(9));",
+        "options": [
+          "ab b cd d",
+          "a b c d",
+          "ab b c d",
+          "ab b cd cd"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin break el switch «cae» al siguiente caso y sigue ejecutando hasta encontrar un break."
+    },
+    {
+      "slug": "sg-d2-falsy-cuenta",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "comparación",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log([0, '', null, undefined, NaN, [], {}, '0', 'false'].filter(Boolean).length);",
+        "options": [
+          "4",
+          "2",
+          "5",
+          "0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Son falsy: 0, '', null, undefined y NaN. Los arrays y objetos vacíos y los textos '0' y 'false' son verdaderos."
+    },
+    {
+      "slug": "sg-d2-comparar-encadenado",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "comparación",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(1 < 2 < 3, 3 > 2 > 1);",
+        "options": [
+          "true false",
+          "true true",
+          "false false",
+          "false true"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se evalúa de izquierda a derecha: 3 > 2 da true, y true > 1 es 1 > 1, que es false."
+    },
+    {
+      "slug": "sg-d2-var-let-timeout",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "bucles",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "for (var i = 0; i < 3; i++) setTimeout(() => console.log(i), 0);\nfor (let j = 0; j < 3; j++) setTimeout(() => console.log(j), 0);",
+        "options": [
+          "3\n3\n3\n0\n1\n2",
+          "0\n1\n2\n0\n1\n2",
+          "3\n3\n3\n3\n3\n3",
+          "0\n1\n2\n3\n3\n3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "var tiene una sola variable para todo el bucle: cuando corren los timers ya vale 3. let crea una variable nueva en cada vuelta."
+    },
+    {
+      "slug": "sg-d2-this-flecha",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "funciones flecha",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const o = {\n  n: 'o',\n  f() { return this.n; },\n  g() { return [1].map(() => this.n)[0]; },\n  h() { return [1].map(function () { return this && this.n; })[0]; },\n};\nconsole.log(o.f(), o.g(), o.h());",
+        "options": [
+          "o o undefined",
+          "o o o",
+          "o undefined undefined",
+          "undefined o o"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La flecha toma el this del lugar donde se definió (el método g, o sea o); una función común dentro de map tiene su propio this, que no es el objeto."
+    },
+    {
+      "slug": "sg-d2-metodos-array",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "arrays",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const a = [1, 2, 3];\nconsole.log(a.push(4), a.pop(), a.shift(), a.unshift(0), a.splice(1, 1), a);",
+        "options": [
+          "4 4 1 3 [ 2 ] [ 0, 3 ]",
+          "[ 1, 2, 3, 4 ] 4 1 [ 0, 2, 3 ] [ 2 ] [ 0, 3 ]",
+          "4 3 1 3 [ 2 ] [ 0, 3 ]",
+          "4 4 1 2 [ 2 ] [ 0, 3 ]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "push y unshift devuelven el nuevo largo; pop y shift devuelven el elemento sacado; splice devuelve lo que borró."
+    },
+    {
+      "slug": "sg-d2-sort-numeros",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "arrays",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log([10, 9, 1, 100].sort().join(), [10, 9, 1, 100].sort((a, b) => a - b).join());",
+        "options": [
+          "1,10,100,9 1,9,10,100",
+          "1,9,10,100 1,9,10,100",
+          "100,10,9,1 1,9,10,100",
+          "1,10,100,9 100,10,9,1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin función de comparación, sort ordena como texto: '10' va antes que '9'."
+    },
+    {
+      "slug": "sg-d2-slice-splice",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "arrays",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const a = [1, 2, 3, 4, 5];\nconsole.log(a.slice(-2).join(), a.slice(1, -1).join(), a.splice(1, 2).join(), a.join());",
+        "options": [
+          "4,5 2,3,4 2,3 1,4,5",
+          "4,5 2,3,4 2,3 1,2,3,4,5",
+          "5 2,3,4 2,3 1,4,5",
+          "4,5 2,3 2,3 1,4,5"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "slice copia sin tocar el original; splice borra de verdad. Los índices negativos cuentan desde el final."
+    },
+    {
+      "slug": "sg-d2-reduce-vacio",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "arrays",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log([].reduce((a, b) => a + b, 0));\ntry { [].reduce((a, b) => a + b); } catch (e) { console.log(e.name); }\nconsole.log([5].reduce((a, b) => a + b));",
+        "options": [
+          "0\nTypeError\n5",
+          "0\n0\n5",
+          "undefined\nTypeError\n5",
+          "0\nTypeError\nundefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "reduce sin valor inicial sobre un array vacío falla; con un solo elemento devuelve ese elemento sin llamar a la función."
+    },
+    {
+      "slug": "sg-d2-copia-superficial",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "objetos",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const a = { x: 1, n: { y: 1 } };\nconst b = { ...a };\nb.n.y = 2;\nb.x = 2;\nconsole.log(a.x, a.n.y, structuredClone(a) === a);",
+        "options": [
+          "1 2 false",
+          "1 1 false",
+          "2 2 false",
+          "1 2 true"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El spread copia solo el primer nivel: los objetos anidados se comparten. structuredClone hace una copia profunda."
+    },
+    {
+      "slug": "sg-d2-desestructurar",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "arrays",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const [a, , b = 5, ...r] = [1, 2, undefined, 4, 5];\nconsole.log(a, b, r);",
+        "options": [
+          "1 5 [ 4, 5 ]",
+          "1 undefined [ 4, 5 ]",
+          "1 2 [ 4, 5 ]",
+          "1 5 [ 5 ]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La coma vacía se salta un elemento, el valor por defecto se usa con undefined y ...r junta el resto."
+    },
+    {
+      "slug": "sg-d2-clase-privado",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "clases",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class A {\n  static n = 0;\n  #id;\n  constructor() { this.#id = ++A.n; }\n  get id() { return this.#id; }\n}\nconst a = new A(), b = new A();\nconsole.log(a.id, b.id, A.n, a.n);\na.id = 99;\nconsole.log(a.id);",
+        "options": [
+          "1 2 2 undefined\n1",
+          "1 2 2 undefined\n99",
+          "1 1 2 2\n1",
+          "1 2 2 0\n99"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "static pertenece a la clase (a.n no existe). Una propiedad con solo getter ignora la asignación (sin error, en modo normal)."
+    },
+    {
+      "slug": "sg-d2-campos-super",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "herencia",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class A {\n  constructor() { console.log('A', this.name); }\n}\nclass B extends A {\n  name = 'b';\n  constructor() { super(); console.log('B', this.name); }\n}\nnew B();",
+        "options": [
+          "A undefined\nB b",
+          "A b\nB b",
+          "B b\nA b",
+          "A undefined\nB undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los campos de la clase hija se inicializan después de que termina super(): mientras corre el constructor del padre todavía no existen."
+    },
+    {
+      "slug": "sg-d2-async-orden",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "async/await",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "async function a() {\n  console.log(1);\n  await b();\n  console.log(2);\n}\nasync function b() {\n  console.log(3);\n}\na();\nconsole.log(4);",
+        "options": [
+          "1\n3\n4\n2",
+          "1\n2\n3\n4",
+          "1\n3\n2\n4",
+          "1\n4\n3\n2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La función corre sincrónica hasta el primer await; lo que sigue al await se agenda como microtarea y espera a que termine el código actual."
+    },
+    {
+      "slug": "sg-d2-promesa-cadena",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "promesas",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Promise.resolve(1)\n  .then((x) => x + 1)\n  .then((x) => { throw x; })\n  .catch((x) => x * 10)\n  .then(console.log);",
+        "options": [
+          "20",
+          "2",
+          "10",
+          "undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El throw salta al catch con el 2, que devuelve 20 y deja la cadena «recuperada» para el siguiente then."
+    },
+    {
+      "slug": "sg-d2-micro-macro",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "asincronía",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "setTimeout(() => console.log('t'), 0);\nPromise.resolve().then(() => console.log('p'));\nqueueMicrotask(() => console.log('m'));\nconsole.log('s');",
+        "options": [
+          "s\np\nm\nt",
+          "s\nt\np\nm",
+          "t\ns\np\nm",
+          "s\np\nt\nm"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Primero lo sincrónico, después las microtareas (promesas) y recién ahí los timers, aunque sean de 0 ms."
+    },
+    {
+      "slug": "sg-d2-date-mes",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "Date",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const d = new Date(2024, 0, 31);\nd.setMonth(1);\nconsole.log(d.getMonth(), d.getDate());",
+        "options": [
+          "2 2",
+          "1 31",
+          "1 29",
+          "2 31"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los meses empiezan en 0. Febrero de 2024 solo tiene 29 días, así que «31 de febrero» se desborda al 2 de marzo."
+    },
+    {
+      "slug": "sg-d2-numeros-flotantes",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "operadores",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(0.1 + 0.2, (0.1 + 0.2).toFixed(2), 2 ** 53 + 1 === 2 ** 53);",
+        "options": [
+          "0.30000000000000004 0.30 true",
+          "0.3 0.30 false",
+          "0.30000000000000004 0.3 false",
+          "0.3 0.3 true"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los números de JavaScript son decimales binarios de 64 bits: tienen error de redondeo y pierden precisión por encima de 2⁵³."
+    },
+    {
+      "slug": "sg-d2-py-default-mutable",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "funciones",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "def f(x, acc=[]):\n    acc.append(x)\n    return acc\nprint(f(1), f(2), f(3, []))",
+        "options": [
+          "[1, 2] [1, 2] [3]",
+          "[1] [2] [3]",
+          "[1] [1, 2] [3]",
+          "[1, 2] [2] [3]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El valor por defecto se crea una sola vez, al definir la función: todas las llamadas sin pasar acc comparten la misma lista."
+    },
+    {
+      "slug": "sg-d2-py-lambda-tardia",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "lambda",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "fs = [lambda: i for i in range(3)]\ngs = [lambda i=i: i for i in range(3)]\nprint([f() for f in fs], [g() for g in gs])",
+        "options": [
+          "[2, 2, 2] [0, 1, 2]",
+          "[0, 1, 2] [0, 1, 2]",
+          "[2, 2, 2] [2, 2, 2]",
+          "[0, 1, 2] [2, 2, 2]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La lambda busca i cuando se ejecuta, no cuando se crea. Con i=i el valor se fija en el momento de crearla."
+    },
+    {
+      "slug": "sg-d2-py-lista-por-n",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "listas",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "a = [[0]] * 3\na[0].append(1)\nb = [[0] for _ in range(3)]\nb[0].append(1)\nprint(a, b)",
+        "options": [
+          "[[0, 1], [0, 1], [0, 1]] [[0, 1], [0], [0]]",
+          "[[0, 1], [0], [0]] [[0, 1], [0], [0]]",
+          "[[0, 1], [0, 1], [0, 1]] [[0, 1], [0, 1], [0, 1]]",
+          "[[0, 1], [0], [0]] [[0, 1], [0, 1], [0, 1]]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "[[0]] * 3 repite la misma lista tres veces; la comprensión crea una lista nueva en cada vuelta."
+    },
+    {
+      "slug": "sg-d2-py-division",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "operadores",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(7 // 2, -7 // 2, 7 % -3, round(2.5), round(3.5), round(-0.5))",
+        "options": [
+          "3 -4 -2 2 4 0",
+          "3 -3 1 3 4 0",
+          "3 -4 1 3 4 -1",
+          "3.5 -3.5 -2 2 4 0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "// redondea hacia abajo (−3.5 baja a −4), el resto lleva el signo del divisor y round() redondea los .5 al par más cercano."
+    },
+    {
+      "slug": "sg-d2-py-dict-iterar",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "diccionarios",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "d = {'a': 1, 'b': 2}\ntry:\n    for k in d:\n        if d[k] == 1:\n            d['c'] = 3\nexcept RuntimeError as e:\n    print('RuntimeError')\nprint(len(d))",
+        "options": [
+          "RuntimeError\n3",
+          "3",
+          "RuntimeError\n2",
+          "2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Agregar o borrar claves mientras recorrés un diccionario lanza RuntimeError. La clave nueva sí quedó agregada."
+    },
+    {
+      "slug": "sg-d2-py-generador",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "listas",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "g = (x * 2 for x in range(3))\nprint(list(g), list(g))",
+        "options": [
+          "[0, 2, 4] []",
+          "[0, 2, 4] [0, 2, 4]",
+          "[0, 2, 4] [0, 2]",
+          "[] []"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un generador se agota: una vez recorrido, no tiene más elementos."
+    },
+    {
+      "slug": "sg-d2-py-finally-return",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "errores",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "def f():\n    try:\n        return 1\n    finally:\n        return 2\nprint(f())",
+        "options": [
+          "2",
+          "1",
+          "1\n2",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un return dentro del finally pisa al return del try (y hasta se traga las excepciones). Conviene evitarlo."
+    },
+    {
+      "slug": "sg-d2-py-else-finally",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "errores",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "def f(x):\n    try:\n        return 10 / x\n    except ZeroDivisionError:\n        return 'zero'\n    except Exception:\n        return 'other'\n    else:\n        return 'else'\n    finally:\n        print('fin', end=' ')\nprint(f(2), f(0), f('a'))",
+        "options": [
+          "fin fin fin 5.0 zero other",
+          "fin 5.0 fin zero fin other",
+          "5.0 zero other",
+          "fin fin fin else zero other"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Como el try ya devolvió, el else no se ejecuta; el finally corre siempre. print evalúa primero las tres llamadas, por eso los «fin» salen juntos."
+    },
+    {
+      "slug": "sg-d2-py-sorted-key",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "listas",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "words = ['bb', 'a', 'cc', 'd']\nprint(sorted(words, key=len), sorted(words, key=lambda w: (-len(w), w)))",
+        "options": [
+          "['a', 'd', 'bb', 'cc'] ['bb', 'cc', 'a', 'd']",
+          "['a', 'd', 'bb', 'cc'] ['a', 'd', 'bb', 'cc']",
+          "['d', 'a', 'cc', 'bb'] ['bb', 'cc', 'a', 'd']",
+          "['bb', 'cc', 'a', 'd'] ['a', 'd', 'bb', 'cc']"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "sorted es estable (los empates conservan el orden). Con una tupla se ordena por varios criterios, y el signo menos invierte uno."
+    },
+    {
+      "slug": "sg-d2-py-atributo-clase",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "clases",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class A:\n    items = []\n    def add(self, x):\n        self.items.append(x)\nclass B:\n    n = 0\na, b = A(), A()\na.add(1)\nb.add(2)\nprint(a.items, b.items)\nb1 = B()\nb1.n += 1\nprint(B.n, b1.n)",
+        "options": [
+          "[1, 2] [1, 2]\n0 1",
+          "[1] [2]\n0 1",
+          "[1, 2] [1, 2]\n1 1",
+          "[1] [2]\n1 1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un atributo de clase mutable se comparte entre todas las instancias. Con += sobre un número se crea un atributo propio de la instancia y el de la clase no cambia."
+    },
+    {
+      "slug": "sg-d2-py-archivo-modos",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "archivos",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "with open('x.txt', 'w') as f:\n    f.write('uno\\n')\nwith open('x.txt', 'a') as f:\n    f.write('dos\\n')\nwith open('x.txt', 'w') as f:\n    f.write('tres\\n')\nwith open('x.txt', 'a') as f:\n    f.write('cuatro\\n')\nwith open('x.txt') as f:\n    print(f.readline().strip(), f.readlines())",
+        "options": [
+          "tres ['cuatro\\n']",
+          "uno ['dos\\n', 'tres\\n', 'cuatro\\n']",
+          "tres ['tres\\n', 'cuatro\\n']",
+          "cuatro []"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El modo 'w' borra el contenido anterior y 'a' agrega al final. readline lee una línea (con su salto) y readlines devuelve las que quedan."
+    },
+    {
+      "slug": "sg-d2-py-csv-strings",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "CSV",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "import csv, io\nrows = list(csv.DictReader(io.StringIO('n,age\\nana,30\\nbeto,5\\n')))\nprint(rows[0]['age'] + rows[1]['age'], int(rows[0]['age']) + int(rows[1]['age']))",
+        "options": [
+          "305 35",
+          "35 35",
+          "305 305",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "csv lee todo como texto: «30» + «5» concatena. Hay que convertir con int() antes de sumar."
+    },
+    {
+      "slug": "sg-d2-py-map-agotado",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "funciones",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "m = map(lambda x: x * 2, [1, 2])\nprint(list(m), list(m))",
+        "options": [
+          "[2, 4] []",
+          "[2, 4] [2, 4]",
+          "<map object> <map object>",
+          "[1, 2] [2, 4]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "map devuelve un iterador perezoso, que se agota igual que un generador. Si lo necesitás dos veces, guardalo con list()."
+    },
+    {
+      "slug": "sg-d2-css-especificidad",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "CSS",
+      "module": 11,
+      "prompt": "Tenés <p class=\"a\">Hola</p> y estas reglas: p { color: red; } .a { color: blue; } p.a { color: green; }. ¿De qué color se ve el texto?",
+      "content": {
+        "options": [
+          "Verde: p.a es la más específica (una clase y una etiqueta)",
+          "Rojo: es la primera",
+          "Azul: las clases ganan",
+          "Verde, porque es la última, aunque el orden no importa"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La especificidad se calcula antes que el orden: id > clase > etiqueta. Si dos reglas empatan, gana la que viene después."
+    },
+    {
+      "slug": "sg-d2-discord-intents",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "Discord",
+      "module": 12,
+      "prompt": "Tu bot de Discord arranca sin errores y responde a los comandos con prefijo, pero message.content llega vacío. ¿Qué suele faltar?",
+      "content": {
+        "options": [
+          "Activar el intent de contenido de mensajes (message_content) en el código y en el portal de desarrolladores",
+          "Reinstalar discord.py",
+          "Cambiar el token",
+          "Usar await en el print"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin ese intent privilegiado, Discord no le entrega el texto de los mensajes al bot."
+    },
+    {
+      "slug": "sg-d2-as-trigger-simple",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "Apps Script",
+      "module": 14,
+      "prompt": "Tu función onEdit(e) intenta mandar un mail con GmailApp.sendEmail y falla por falta de permisos. ¿Por qué?",
+      "content": {
+        "options": [
+          "Los triggers simples (onEdit, onOpen) no pueden usar servicios que requieren autorización; hace falta un trigger instalable",
+          "GmailApp no existe en Sheets",
+          "Porque la hoja está en modo lectura",
+          "Porque el mail no tiene asunto"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un trigger instalable (creado desde el editor de triggers) corre con tus permisos y sí puede enviar mails."
+    },
+    {
+      "slug": "sg-d2-py-is-igual",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "operadores",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "a = [1]\nb = a\nc = list(a)\nprint(a is b, a is c, a == c)",
+        "options": [
+          "True False True",
+          "True True True",
+          "False False True",
+          "True False False"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "is pregunta si es el mismo objeto; == pregunta si tienen el mismo contenido."
+    },
+    {
+      "slug": "sg-d2-py-operadores-tipos",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(True + True, 'a' * 3, '5' * 2, [1] * 2, bool('False'), bool([]))",
+        "options": [
+          "2 aaa 55 [1, 1] True False",
+          "True aaa 10 [2] False False",
+          "2 aaa 10 [1, 1] True False",
+          "2 a3 55 [1, 1] False False"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "True vale 1; * repite textos y listas; y un texto no vacío siempre es verdadero, aunque diga «False»."
+    },
+    {
+      "slug": "sg-d2-py-setdefault",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "diccionarios",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "d = {}\nd.setdefault('a', []).append(1)\nd.setdefault('a', []).append(2)\nprint(d, d.get('b'), d.get('b', 0), len(d))",
+        "options": [
+          "{'a': [1, 2]} None 0 1",
+          "{'a': [2]} None 0 1",
+          "{'a': [1, 2]} 0 0 1",
+          "{'a': [1, 2]} None None 2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "setdefault crea la clave solo si no existe y devuelve el valor; get no lanza error si falta."
+    },
+    {
+      "slug": "sg-d2-py-zip-enumerate",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "listas",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(list(zip('ab', [1, 2, 3])), dict(zip('ab', [1, 2])), list(enumerate('ab', start=1)))",
+        "options": [
+          "[('a', 1), ('b', 2)] {'a': 1, 'b': 2} [(1, 'a'), (2, 'b')]",
+          "[('a', 1), ('b', 2), (None, 3)] {'a': 1, 'b': 2} [(0, 'a'), (1, 'b')]",
+          "[('a', 1), ('b', 2)] {'a': 1, 'b': 2} [(0, 'a'), (1, 'b')]",
+          "[('a', 1)] {'a': 1} [(1, 'a')]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "zip corta en la lista más corta; enumerate puede empezar desde el número que quieras."
+    },
+    {
+      "slug": "sg-d2-closure-contador",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "funciones",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "function counter() {\n  let n = 0;\n  return { inc: () => ++n, get: () => n };\n}\nconst a = counter(), b = counter();\na.inc();\na.inc();\nb.inc();\nconsole.log(a.get(), b.get());",
+        "options": [
+          "2 1",
+          "3 3",
+          "2 2",
+          "1 1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada llamada a counter() crea su propia variable n, que las funciones internas «recuerdan» (closure)."
+    },
+    {
+      "slug": "sg-d2-dom-viva",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "DOM",
+      "module": 11,
+      "prompt": "¿Qué diferencia hay entre getElementsByClassName y querySelectorAll?",
+      "content": {
+        "options": [
+          "getElementsByClassName devuelve una colección «viva» que se actualiza con el DOM; querySelectorAll devuelve una lista estática",
+          "Son idénticos",
+          "querySelectorAll solo acepta ids",
+          "getElementsByClassName devuelve un solo elemento"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si agregás un elemento con esa clase después, la colección viva lo incluye y la estática no."
     }
   ]
 }

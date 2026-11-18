@@ -4999,6 +4999,1154 @@
         "correct": 0
       },
       "explanation": "Al avanzar desde la última foto, el módulo vuelve a la primera."
+    },
+    {
+      "slug": "fs-d2-struct-clase",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "POO",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var p1 = new P { X = 1 };\nvar p2 = p1;\np2.X = 5;\nConsole.WriteLine(p1.X);\nvar s1 = new S { X = 1 };\nvar s2 = s1;\ns2.X = 5;\nConsole.WriteLine(s1.X);\nclass P { public int X; }\nstruct S { public int X; }",
+        "options": [
+          "5\n1",
+          "1\n1",
+          "5\n5",
+          "1\n5"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una clase es de referencia: p1 y p2 son el mismo objeto. Un struct es de valor: al asignarlo se copia."
+    },
+    {
+      "slug": "fs-d2-orden-constructores",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "constructores",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "new C();\nclass A {\n  public A() { Console.WriteLine(\"A\"); Init(); }\n  public virtual void Init() { Console.WriteLine(\"A.Init\"); }\n}\nclass C : A {\n  int n = 5;\n  public C() { Console.WriteLine(\"C\"); }\n  public override void Init() { Console.WriteLine(\"C.Init \" + n); }\n}",
+        "options": [
+          "A\nC.Init 5\nC",
+          "A\nA.Init\nC",
+          "C\nA\nC.Init 5",
+          "A\nC.Init 0\nC"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los inicializadores de campos de la hija corren antes que el constructor del padre, y el override ya se ejecuta aunque el constructor de C todavía no empezó."
+    },
+    {
+      "slug": "fs-d2-static-ctor",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "POO",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Console.WriteLine(\"main\");\nvar x = new T();\nvar y = new T();\nConsole.WriteLine(T.Count);\nclass T {\n  public static int Count;\n  static T() { Console.WriteLine(\"static\"); }\n  public T() { Count++; Console.WriteLine(\"inst\"); }\n}",
+        "options": [
+          "main\nstatic\ninst\ninst\n2",
+          "static\nmain\ninst\ninst\n2",
+          "main\ninst\nstatic\ninst\n2",
+          "main\nstatic\ninst\nstatic\ninst\n2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El constructor estático corre una sola vez, justo antes de usar la clase por primera vez."
+    },
+    {
+      "slug": "fs-d2-new-oculta",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "herencia",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "A a = new B();\na.Hi();\na.Yo();\n((B)a).Yo();\nclass A {\n  public virtual void Hi() => Console.WriteLine(\"A.Hi\");\n  public void Yo() => Console.WriteLine(\"A.Yo\");\n}\nclass B : A {\n  public override void Hi() => Console.WriteLine(\"B.Hi\");\n  public new void Yo() => Console.WriteLine(\"B.Yo\");\n}",
+        "options": [
+          "B.Hi\nA.Yo\nB.Yo",
+          "B.Hi\nB.Yo\nB.Yo",
+          "A.Hi\nA.Yo\nB.Yo",
+          "B.Hi\nA.Yo\nA.Yo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "override cambia el método según el objeto real; new solo lo oculta, y se usa el de la clase del tipo con que se declaró la variable."
+    },
+    {
+      "slug": "fs-d2-equals-boxing",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "tipos",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "object a = 1;\nobject b = 1;\nConsole.WriteLine(a == b);\nConsole.WriteLine(a.Equals(b));\nstring s1 = \"a\";\nstring s2 = new string('a', 1);\nConsole.WriteLine((object)s1 == (object)s2);",
+        "options": [
+          "False\nTrue\nFalse",
+          "True\nTrue\nTrue",
+          "False\nFalse\nFalse",
+          "True\nTrue\nFalse"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con object, == compara referencias (cada boxing crea un objeto), mientras que Equals compara el valor."
+    },
+    {
+      "slug": "fs-d2-linq-diferido",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "LINQ",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var list = new List<int> { 1, 2, 3 };\nvar q = list.Where(x => x > 1);\nlist.Add(4);\nConsole.WriteLine(string.Join(\",\", q));\nvar snap = list.Where(x => x > 1).ToList();\nlist.Add(5);\nConsole.WriteLine(snap.Count);",
+        "options": [
+          "2,3,4\n3",
+          "2,3\n3",
+          "2,3,4\n4",
+          "2,3\n4"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Where no ejecuta nada hasta que se recorre (ejecución diferida); ToList sí «saca una foto» en ese momento."
+    },
+    {
+      "slug": "fs-d2-closure-for",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "lambdas",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var fs = new List<Action>();\nfor (int i = 0; i < 3; i++) fs.Add(() => Console.Write(i));\nforeach (var f in fs) f();\nConsole.WriteLine();\nvar gs = new List<Action>();\nforeach (var j in new[] { 0, 1, 2 }) gs.Add(() => Console.Write(j));\nforeach (var g in gs) g();",
+        "options": [
+          "333\n012",
+          "012\n012",
+          "333\n333",
+          "012\n333"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En un for hay una sola variable i que todas las lambdas comparten; en un foreach cada vuelta tiene su propia variable."
+    },
+    {
+      "slug": "fs-d2-finally-return",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "excepciones",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Console.WriteLine(F());\nint F() {\n  int x = 1;\n  try { return x; }\n  finally { x = 2; }\n}",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "Error de compilación"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El valor a devolver se guarda antes de ejecutar el finally, así que cambiar x después no afecta lo que se devuelve."
+    },
+    {
+      "slug": "fs-d2-filtro-when",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "excepciones",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "try {\n  try { throw new InvalidOperationException(\"a\"); }\n  finally { Console.WriteLine(\"f1\"); }\n} catch (Exception e) when (Log(e)) {\n  Console.WriteLine(\"caught\");\n}\nbool Log(Exception e) { Console.WriteLine(\"filter\"); return true; }",
+        "options": [
+          "filter\nf1\ncaught",
+          "f1\nfilter\ncaught",
+          "f1\ncaught",
+          "filter\ncaught\nf1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los filtros when se evalúan en una primera pasada, antes de que se ejecuten los finally de los bloques internos."
+    },
+    {
+      "slug": "fs-d2-async-orden",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "async",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "await Main2();\nasync Task Main2() {\n  Console.WriteLine(\"1\");\n  var t = Work();\n  Console.WriteLine(\"3\");\n  await t;\n  Console.WriteLine(\"5\");\n}\nasync Task Work() {\n  Console.WriteLine(\"2\");\n  await Task.Delay(10);\n  Console.WriteLine(\"4\");\n}",
+        "options": [
+          "1\n2\n3\n4\n5",
+          "1\n3\n2\n4\n5",
+          "1\n2\n4\n3\n5",
+          "2\n1\n3\n4\n5"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un método async corre de forma sincrónica hasta el primer await que no está completo; ahí vuelve al que lo llamó."
+    },
+    {
+      "slug": "fs-d2-foreach-modificar",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "colecciones",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var l = new List<int> { 1, 2, 3 };\ntry {\n  foreach (var x in l) if (x == 2) l.Remove(x);\n} catch (InvalidOperationException) { Console.WriteLine(\"modificada\"); }\nConsole.WriteLine(l.Count);",
+        "options": [
+          "modificada\n2",
+          "2",
+          "modificada\n3",
+          "1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Modificar una lista mientras la recorrés con foreach lanza InvalidOperationException; el Remove sí se había hecho."
+    },
+    {
+      "slug": "fs-d2-ref-params",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "métodos",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "void Inc(int x) { x++; }\nvoid IncRef(ref int x) { x++; }\nint n = 1;\nInc(n);\nConsole.WriteLine(n);\nIncRef(ref n);\nConsole.WriteLine(n);\nvoid Reset(List<int> l) { l = new List<int>(); l.Add(9); }\nvoid Add(List<int> l) { l.Add(9); }\nvar li = new List<int>();\nReset(li);\nConsole.WriteLine(li.Count);\nAdd(li);\nConsole.WriteLine(li.Count);",
+        "options": [
+          "1\n2\n0\n1",
+          "2\n2\n1\n1",
+          "1\n2\n1\n1",
+          "1\n1\n0\n1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los int se pasan por valor; con ref se modifica el original. Una lista se pasa por referencia, pero reasignar el parámetro no cambia la variable de afuera."
+    },
+    {
+      "slug": "fs-d2-interfaz-explicita",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "interfaces",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "IA a = new X();\na.Hi();\n((X)a).Hi();\ninterface IA { void Hi(); }\nclass X : IA {\n  void IA.Hi() => Console.WriteLine(\"explicit\");\n  public void Hi() => Console.WriteLine(\"public\");\n}",
+        "options": [
+          "explicit\npublic",
+          "public\npublic",
+          "explicit\nexplicit",
+          "public\nexplicit"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una implementación explícita solo se ve a través de la interfaz; con el tipo de la clase se usa el método público."
+    },
+    {
+      "slug": "fs-d2-hashset-record",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "records",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var s = new HashSet<P> { new P(1) };\nConsole.WriteLine(s.Contains(new P(1)));\nvar r = new HashSet<R> { new R(1) };\nConsole.WriteLine(r.Contains(new R(1)));\nclass P { public int Id; public P(int i) => Id = i; }\nrecord R(int Id);",
+        "options": [
+          "False\nTrue",
+          "True\nTrue",
+          "False\nFalse",
+          "True\nFalse"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las clases se comparan por referencia; los records comparan por valor, así que dos R(1) son iguales."
+    },
+    {
+      "slug": "fs-d2-record-with",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "records",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var a = new R(\"a\", 1);\nvar b = a with { N = 2 };\nConsole.WriteLine(a);\nConsole.WriteLine(b == a);\nConsole.WriteLine(a == new R(\"a\", 1));\nrecord R(string S, int N);",
+        "options": [
+          "R { S = a, N = 1 }\nFalse\nTrue",
+          "R { S = a, N = 2 }\nFalse\nTrue",
+          "R { S = a, N = 1 }\nTrue\nTrue",
+          "R\nFalse\nFalse"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "with crea una copia modificada sin tocar el original, y == compara los valores de las propiedades."
+    },
+    {
+      "slug": "fs-d2-yield",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "LINQ",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "IEnumerable<int> Gen() {\n  Console.WriteLine(\"start\");\n  yield return 1;\n  Console.WriteLine(\"mid\");\n  yield return 2;\n}\nvar g = Gen();\nConsole.WriteLine(\"created\");\nforeach (var x in g) { Console.WriteLine(x); break; }",
+        "options": [
+          "created\nstart\n1",
+          "start\ncreated\n1",
+          "created\nstart\n1\nmid",
+          "start\n1\ncreated"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un método con yield no ejecuta nada hasta que alguien lo recorre, y se detiene en cada yield."
+    },
+    {
+      "slug": "fs-d2-using",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "excepciones",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "using (var a = new D(\"a\"))\nusing (var b = new D(\"b\")) {\n  Console.WriteLine(\"body\");\n}\nclass D : IDisposable {\n  string n;\n  public D(string n) { this.n = n; }\n  public void Dispose() => Console.WriteLine(\"dispose \" + n);\n}",
+        "options": [
+          "body\ndispose b\ndispose a",
+          "body\ndispose a\ndispose b",
+          "dispose a\ndispose b\nbody",
+          "body"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los recursos se liberan en orden inverso a como se abrieron, como una pila."
+    },
+    {
+      "slug": "fs-d2-sobrecarga",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "polimorfismo",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "object o = \"hi\";\nH.Print(o);\nH.Print(\"hi\");\nclass H {\n  public static void Print(object x) => Console.WriteLine(\"object\");\n  public static void Print(string x) => Console.WriteLine(\"string\");\n}",
+        "options": [
+          "object\nstring",
+          "string\nstring",
+          "object\nobject",
+          "string\nobject"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La sobrecarga se elige al compilar según el tipo declarado de la variable, no el del objeto real (a diferencia de override)."
+    },
+    {
+      "slug": "fs-d2-remove-for",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "colecciones",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var l = new List<int> { 2, 4, 6, 7 };\nfor (int i = 0; i < l.Count; i++)\n  if (l[i] % 2 == 0) l.RemoveAt(i);\nConsole.WriteLine(string.Join(\",\", l));",
+        "options": [
+          "4,7",
+          "7",
+          "2,4,6,7",
+          "4,6,7"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Al borrar, los elementos se corren a la izquierda y el for salta al siguiente sin mirar el que ocupó el lugar. Recorré de atrás para adelante o usá RemoveAll."
+    },
+    {
+      "slug": "fs-d2-overflow",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "tipos",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "int x = int.MaxValue;\nx++;\nConsole.WriteLine(x);\ntry { checked { int y = int.MaxValue; y++; } }\ncatch (OverflowException) { Console.WriteLine(\"overflow\"); }",
+        "options": [
+          "-2147483648\noverflow",
+          "2147483648\noverflow",
+          "-2147483648",
+          "overflow\noverflow"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Por defecto C# no avisa cuando un int se desborda: da la vuelta al mínimo. Dentro de checked, lanza OverflowException."
+    },
+    {
+      "slug": "fs-d2-orderby-then",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "LINQ",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var r = new[] { \"bb\", \"a\", \"cc\", \"d\" }.OrderBy(s => s.Length).ThenByDescending(s => s);\nConsole.WriteLine(string.Join(\",\", r));",
+        "options": [
+          "d,a,cc,bb",
+          "a,d,bb,cc",
+          "a,d,cc,bb",
+          "bb,cc,a,d"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "OrderBy ordena por largo (1 antes que 2) y ThenByDescending desempata en orden inverso."
+    },
+    {
+      "slug": "fs-d2-double-decimal",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "tipos",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Console.WriteLine(0.1 + 0.2 == 0.3);\nConsole.WriteLine(0.1m + 0.2m == 0.3m);\nConsole.WriteLine((0.1 + 0.2).ToString(\"F2\"));",
+        "options": [
+          "False\nTrue\n0.30",
+          "True\nTrue\n0.30",
+          "False\nFalse\n0.30",
+          "False\nTrue\n0.3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "double guarda aproximaciones binarias; decimal es exacto, por eso se usa para dinero."
+    },
+    {
+      "slug": "fs-d2-switch-patron",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "pattern matching",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "string F(object o) => o switch {\n  int n when n > 10 => \"big\",\n  int => \"int\",\n  string s => \"str \" + s.Length,\n  null => \"null\",\n  _ => \"other\"\n};\nConsole.WriteLine(string.Join(\",\", new object[] { 50, 5, \"hola\", null, 2.5 }.Select(F)));",
+        "options": [
+          "big,int,str 4,null,other",
+          "int,int,str 4,null,other",
+          "big,int,str 4,other,other",
+          "big,int,hola,null,2.5"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los casos se evalúan en orden y gana el primero que coincide; when agrega una condición extra al patrón."
+    },
+    {
+      "slug": "fs-d2-excepcion-interna",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "excepciones",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "try {\n  try { throw new ArgumentException(\"a\"); }\n  catch (Exception e) { throw new InvalidOperationException(\"b\", e); }\n} catch (Exception e) {\n  Console.WriteLine(e.Message + \" <- \" + e.InnerException.Message + \" \" + e.GetType().Name);\n}",
+        "options": [
+          "b <- a InvalidOperationException",
+          "a <- b ArgumentException",
+          "b <- a ArgumentException",
+          "b InvalidOperationException"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Pasar la excepción original como segundo argumento la conserva en InnerException: así no se pierde la causa."
+    },
+    {
+      "slug": "fs-d2-sql-count-star",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "JOIN",
+      "module": 8,
+      "prompt": "Tablas: usuarios (1 ana, 2 beto, 3 cami) y posts (playa y montaña, de ana; asado, de beto). ¿Qué devuelve esta consulta?",
+      "content": {
+        "code": "SELECT u.nombre, COUNT(*) AS cantidad\nFROM usuarios u\nLEFT JOIN posts p ON p.usuario_id = u.id\nGROUP BY u.nombre\nORDER BY u.nombre;",
+        "options": [
+          "ana | 2\nbeto | 1\ncami | 1",
+          "ana | 2\nbeto | 1\ncami | 0",
+          "ana | 2\nbeto | 1",
+          "ana | 3\nbeto | 3\ncami | 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con LEFT JOIN, cami tiene una fila (con el post en NULL) y COUNT(*) la cuenta. Para contar posts de verdad usá COUNT(p.id), que ignora los NULL."
+    },
+    {
+      "slug": "fs-d2-sql-where-on",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "JOIN",
+      "module": 8,
+      "prompt": "Tablas: usuarios (1 ana, 2 beto, 3 cami) y posts (playa y montaña, de ana; asado, de beto). Los posts tienen fecha 1 (playa), 3 (montaña) y 2 (asado). ¿Qué devuelve?",
+      "content": {
+        "code": "SELECT u.nombre\nFROM usuarios u\nLEFT JOIN posts p ON p.usuario_id = u.id\nWHERE p.fecha > 1\nORDER BY u.nombre;",
+        "options": [
+          "ana\nbeto",
+          "ana\nbeto\ncami",
+          "ana",
+          "ana\nana\nbeto"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El WHERE se aplica después del JOIN: la fila de cami tiene fecha NULL y NULL > 1 no es verdadero, así que se descarta y el LEFT JOIN queda como un JOIN. Para conservarla, la condición va en el ON."
+    },
+    {
+      "slug": "fs-d2-sql-serial-hueco",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "Tablas: usuarios (1 ana, 2 beto, 3 cami) y posts (playa y montaña, de ana; asado, de beto). ¿Qué devuelve el SELECT?",
+      "content": {
+        "code": "INSERT INTO usuarios (nombre, email) VALUES ('x', 'ana@mail.com') ON CONFLICT DO NOTHING;\nINSERT INTO usuarios (nombre, email) VALUES ('dani', 'dani@mail.com');\nSELECT id FROM usuarios WHERE nombre = 'dani';",
+        "options": [
+          "5",
+          "4",
+          "3",
+          "2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El primer INSERT choca con el email repetido y no inserta nada, pero igual consumió un número de la secuencia SERIAL. Los ids pueden tener huecos."
+    },
+    {
+      "slug": "fs-d2-sql-not-in-null",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "Tablas: usuarios (1 ana, 2 beto, 3 cami) y posts (playa y montaña, de ana; asado, de beto). ¿Qué devuelve esta consulta?",
+      "content": {
+        "code": "SELECT\n  (SELECT COUNT(*) FROM usuarios WHERE id NOT IN (SELECT usuario_id FROM posts)) AS a,\n  (SELECT COUNT(*) FROM usuarios WHERE id NOT IN (SELECT usuario_id FROM posts UNION ALL SELECT NULL)) AS b;",
+        "options": [
+          "1 | 0",
+          "1 | 1",
+          "0 | 0",
+          "2 | 1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si la lista de un NOT IN contiene un NULL, la comparación nunca es verdadera y no devuelve ninguna fila. Con NOT EXISTS no pasa eso."
+    },
+    {
+      "slug": "fs-d2-sql-null-orden",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "¿Qué devuelve esta consulta de PostgreSQL?",
+      "content": {
+        "code": "SELECT COALESCE(x::text, 'NULL')\nFROM (VALUES (1), (NULL), (3)) AS t(x)\nORDER BY x DESC;",
+        "options": [
+          "NULL\n3\n1",
+          "3\n1\nNULL",
+          "3\nNULL\n1",
+          "1\n3\nNULL"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En PostgreSQL los NULL se consideran el valor más grande: con DESC aparecen primero. Se cambia con NULLS LAST."
+    },
+    {
+      "slug": "fs-d2-react-estado-viejo",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "estado",
+      "module": 10,
+      "prompt": "¿Qué imprime este código, que imita el estado de React?",
+      "content": {
+        "code": "let state = 0;\nconst setState = (f) => { state = typeof f === 'function' ? f(state) : f; };\nconst handler = () => {\n  const count = state;\n  setState(count + 1);\n  setState(count + 1);\n  setState(count + 1);\n};\nhandler();\nconsole.log(state);\nstate = 0;\nconst handler2 = () => {\n  setState((c) => c + 1);\n  setState((c) => c + 1);\n  setState((c) => c + 1);\n};\nhandler2();\nconsole.log(state);",
+        "options": [
+          "1\n3",
+          "3\n3",
+          "1\n1",
+          "3\n1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con setCount(count + 1) las tres llamadas usan el mismo count viejo. La forma funcional setCount(c => c + 1) usa el valor más reciente."
+    },
+    {
+      "slug": "fs-d2-react-object-is",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "useEffect",
+      "module": 10,
+      "prompt": "¿Qué imprime este código? React usa Object.is para comparar el estado y las dependencias.",
+      "content": {
+        "code": "console.log(Object.is({}, {}), Object.is(NaN, NaN), Object.is(0, -0), Object.is('a', 'a'));",
+        "options": [
+          "false true false true",
+          "true true true true",
+          "false false false true",
+          "false true true true"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "React compara las dependencias con Object.is: un objeto o array nuevo en cada render siempre es «distinto» y vuelve a disparar el efecto."
+    },
+    {
+      "slug": "fs-d2-react-mutar",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "estado",
+      "module": 10,
+      "prompt": "¿Qué imprime este código? Pensá si React notaría el cambio.",
+      "content": {
+        "code": "const a = [1, 2];\nconst b = a;\nb.push(3);\nconsole.log(Object.is(a, b), a.length);\nconst c = [...a, 4];\nconsole.log(Object.is(a, c));",
+        "options": [
+          "true 3\nfalse",
+          "false 3\nfalse",
+          "true 2\ntrue",
+          "true 3\ntrue"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si hacés push sobre el array del estado, sigue siendo el mismo objeto y React no detecta cambios. Con una copia nueva sí."
+    },
+    {
+      "slug": "fs-d2-react-sort",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "estado",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const a = [3, 1, 2];\nconst b = a.sort();\nconsole.log(a === b, a.join());\nconst c = [...a].reverse();\nconsole.log(a.join(), c.join());",
+        "options": [
+          "true 1,2,3\n1,2,3 3,2,1",
+          "false 1,2,3\n1,2,3 3,2,1",
+          "true 3,1,2\n3,1,2 2,1,3",
+          "false 3,1,2\n1,2,3 3,2,1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "sort y reverse modifican el array original: dentro de un componente, ordená siempre una copia ([...lista].sort())."
+    },
+    {
+      "slug": "fs-d2-axios-catch-then",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "Axios",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Promise.reject(new Error('boom'))\n  .catch((e) => { console.log('catch', e.message); })\n  .then((v) => console.log('then', v))\n  .finally(() => console.log('finally'));",
+        "options": [
+          "catch boom\nthen undefined\nfinally",
+          "catch boom\nfinally",
+          "catch boom\nthen boom\nfinally",
+          "then undefined\ncatch boom\nfinally"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un catch que no vuelve a lanzar «recupera» la cadena: el siguiente then se ejecuta con lo que devolvió (nada, o sea undefined)."
+    },
+    {
+      "slug": "fs-d2-localstorage-json",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "localStorage",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const saved = JSON.stringify({ n: 5, d: new Date(0), u: undefined });\nconst back = JSON.parse(saved);\nconsole.log(typeof back.d, back.u, back.n + 1);",
+        "options": [
+          "string undefined 6",
+          "object undefined 6",
+          "string null 6",
+          "string undefined 51"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Ida y vuelta por JSON: las fechas quedan como texto y las propiedades undefined desaparecen; los números sí se conservan."
+    },
+    {
+      "slug": "fs-d2-react-strictmode",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "React",
+      "module": 10,
+      "prompt": "En desarrollo, con <React.StrictMode>, tu useEffect(() => { pedirDatos() }, []) hace dos pedidos al montar el componente. ¿Por qué?",
+      "content": {
+        "options": [
+          "React monta, desmonta y vuelve a montar el componente a propósito para detectar efectos sin limpieza; en producción pasa una sola vez",
+          "Hay un bug en tu componente",
+          "Porque el array de dependencias está vacío",
+          "Porque Vite recarga la página"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "StrictMode está solo en desarrollo: por eso conviene que los efectos tengan una función de limpieza (por ejemplo, cancelar el pedido)."
+    },
+    {
+      "slug": "fs-d2-react-key-indice",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "listas",
+      "module": 10,
+      "prompt": "Renderizás una lista con key={indice} y permitís borrar elementos del medio. ¿Qué problema puede aparecer?",
+      "content": {
+        "options": [
+          "Los estados internos (como el texto de un input) quedan asociados al elemento equivocado, porque la key cambia de dueño",
+          "Ninguno: el índice es la mejor key",
+          "React deja de renderizar la lista",
+          "La lista se ordena sola"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La key tiene que identificar al elemento (por ejemplo, su id). Con el índice, al borrar uno, los de abajo «heredan» la key del anterior."
+    },
+    {
+      "slug": "fs-d2-preflight",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "CORS",
+      "module": 9,
+      "prompt": "Tu front en localhost:5173 manda un POST con JSON a localhost:5000. Antes del POST, el navegador manda otra petición automática. ¿Cuál?",
+      "content": {
+        "options": [
+          "Un OPTIONS (preflight) para preguntarle al servidor si acepta el origen, el método y los encabezados",
+          "Un GET a la raíz",
+          "Un HEAD para medir el tamaño",
+          "Un POST vacío de prueba"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si el servidor no responde el preflight con los permisos de CORS correctos, el navegador ni siquiera envía el POST real."
+    },
+    {
+      "slug": "fs-d2-di-cautiva",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "inyección de dependencias",
+      "module": 7,
+      "prompt": "Registrás un servicio AddSingleton que recibe por constructor otro registrado con AddScoped (por ejemplo, uno que usa la conexión de una petición). ¿Qué problema tenés?",
+      "content": {
+        "options": [
+          "El singleton «captura» una instancia scoped y la usa para siempre, aunque debería renovarse en cada petición",
+          "Ninguno: .NET lo adapta solo",
+          "El singleton se crea una vez por petición",
+          "El scoped se convierte en transient"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un servicio no debería depender de otro con vida más corta que la suya: .NET lo detecta en desarrollo y falla al arrancar."
+    },
+    {
+      "slug": "fs-d2-division-cast",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "tipos",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Console.WriteLine(7 / 2);\nConsole.WriteLine(-7 / 2);\nConsole.WriteLine(-7 % 3);\nConsole.WriteLine((double)7 / 2 == 3.5);\nConsole.WriteLine((int)3.9);",
+        "options": [
+          "3\n-3\n-1\nTrue\n3",
+          "3\n-4\n2\nTrue\n4",
+          "3.5\n-3.5\n-1\nTrue\n3",
+          "3\n-3\n1\nFalse\n3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La división entre enteros trunca hacia cero, el resto lleva el signo del primero y (int) corta los decimales sin redondear."
+    },
+    {
+      "slug": "fs-d2-cortocircuito",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "bool A() { Console.Write(\"A\"); return false; }\nbool B() { Console.Write(\"B\"); return true; }\nif (A() && B()) { }\nConsole.WriteLine();\nif (A() & B()) { }\nConsole.WriteLine();\nif (B() || A()) { }\nConsole.WriteLine();\nif (B() | A()) { }",
+        "options": [
+          "A\nAB\nB\nBA",
+          "A\nA\nB\nB",
+          "AB\nAB\nBA\nBA",
+          "A\nAB\nBA\nBA"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "&& y || cortan apenas conocen el resultado; & y | evalúan siempre los dos lados."
+    },
+    {
+      "slug": "fs-d2-skip-take",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "LINQ",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var page = Enumerable.Range(1, 10).Skip(8).Take(5);\nvar empty = Enumerable.Range(1, 10).Skip(20).Take(5);\nConsole.WriteLine(string.Join(\",\", page) + \" \" + empty.Count());",
+        "options": [
+          "9,10 0",
+          "9,10,11,12,13 0",
+          "9,10 5",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Skip y Take no fallan si no hay elementos: devuelven lo que haya. Son la base de la paginación."
+    },
+    {
+      "slug": "fs-d2-nulable",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "nulos",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "string s = null;\nConsole.WriteLine(s?.Length ?? -1);\nint? n = null;\nConsole.WriteLine(n + 1 == null);\nConsole.WriteLine((n ?? 0) + 1);",
+        "options": [
+          "-1\nTrue\n1",
+          "0\nFalse\n1",
+          "-1\nFalse\n1",
+          "-1\nTrue\n0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cualquier operación con un nullable en null da null; ?. corta la cadena y ?? da el valor de reemplazo."
+    },
+    {
+      "slug": "fs-d2-interpolacion",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "strings",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Console.WriteLine($\"{5,4}|{5,-4}|{3.14159:F2}|{255:X}\");",
+        "options": [
+          "   5|5   |3.14|FF",
+          "5|5|3.14|255",
+          "   5|   5|3.14|FF",
+          "5   |   5|3.14|ff"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Después de la coma va el ancho (negativo = alineado a la izquierda) y después de los dos puntos, el formato."
+    },
+    {
+      "slug": "fs-d2-indices",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "strings",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var s = \"hola\";\nConsole.WriteLine(s[^1] + \" \" + s[1..3]);",
+        "options": [
+          "a ol",
+          "a ho",
+          "o ola",
+          "a hol"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "^1 es el último elemento y 1..3 toma desde el índice 1 hasta el 3 sin incluir este."
+    },
+    {
+      "slug": "fs-d2-dotnet-web",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "herramientas",
+      "module": 1,
+      "prompt": "¿Qué hace el comando dotnet new web?",
+      "content": {
+        "options": [
+          "Crea un proyecto web mínimo de ASP.NET Core",
+          "Abre el navegador",
+          "Instala .NET",
+          "Crea una base de datos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Después se corre con dotnet run."
+    },
+    {
+      "slug": "fs-d2-nuget",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "herramientas",
+      "module": 1,
+      "prompt": "¿Qué es NuGet?",
+      "content": {
+        "options": [
+          "El gestor de paquetes de .NET, como npm en JavaScript",
+          "Un editor de código",
+          "Un navegador",
+          "Una base de datos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con dotnet add package instalás librerías como Npgsql."
+    },
+    {
+      "slug": "fs-d2-npm-dev",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "React",
+      "module": 1,
+      "prompt": "En un proyecto de React con Vite, ¿qué hace npm run dev?",
+      "content": {
+        "options": [
+          "Levanta el servidor de desarrollo del front",
+          "Compila la API de C#",
+          "Instala las dependencias",
+          "Sube el proyecto a GitHub"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Por defecto queda en http://localhost:5173."
+    },
+    {
+      "slug": "fs-d2-longitud",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "strings",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Console.WriteLine(\"Hola \" + \"Mundo\".Length);",
+        "options": [
+          "Hola 5",
+          "Hola Mundo",
+          "Hola 4",
+          "5"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Length cuenta los caracteres: «Mundo» tiene 5."
+    },
+    {
+      "slug": "fs-d2-compuestos",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "int x = 5;\nx += 3;\nx *= 2;\nConsole.WriteLine(x);",
+        "options": [
+          "16",
+          "13",
+          "10",
+          "8"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "x += 3 deja 8 y x *= 2 lo duplica."
+    },
+    {
+      "slug": "fs-d2-lista-count",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "colecciones",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "var l = new List<string> { \"a\", \"b\" };\nl.Add(\"c\");\nConsole.WriteLine(l.Count);",
+        "options": [
+          "3",
+          "2",
+          "4",
+          "c"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Count es la cantidad de elementos actuales; Add agrega al final."
+    },
+    {
+      "slug": "fs-d2-coalesce",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "nulos",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "string s = null;\nConsole.WriteLine(s ?? \"vacío\");",
+        "options": [
+          "vacío",
+          "null",
+          "Error",
+          "(nada)"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "?? da el valor de la derecha cuando el de la izquierda es null."
+    },
+    {
+      "slug": "fs-d2-resto",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Console.WriteLine(10 % 3);",
+        "options": [
+          "1",
+          "3",
+          "0",
+          "3.33"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "% devuelve el resto de la división: 10 = 3×3 + 1."
+    },
+    {
+      "slug": "fs-d2-sql-total",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "Tablas: usuarios (1 ana, 2 beto, 3 cami) y posts (playa y montaña, de ana; asado, de beto). ¿Qué devuelve esta consulta?",
+      "content": {
+        "code": "SELECT COUNT(*) FROM usuarios;",
+        "options": [
+          "3",
+          "1",
+          "2",
+          "0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "COUNT(*) cuenta las filas de la tabla."
+    },
+    {
+      "slug": "fs-d2-sql-id2",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "SQL",
+      "module": 8,
+      "prompt": "Tablas: usuarios (1 ana, 2 beto, 3 cami) y posts (playa y montaña, de ana; asado, de beto). ¿Qué devuelve esta consulta?",
+      "content": {
+        "code": "SELECT nombre FROM usuarios WHERE id = 2;",
+        "options": [
+          "beto",
+          "ana",
+          "cami",
+          "2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El WHERE filtra por el id."
     }
   ]
 }

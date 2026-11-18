@@ -2283,6 +2283,769 @@
       },
       "explanation": "Las vidas se fijan primero; luego se revisa el golpe y al final el fin.",
       "module": 2
+    },
+    {
+      "slug": "sc-d2-acumulado",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "variables",
+      "module": 2,
+      "prompt": "¿Cuánto vale total cuando termina el script?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\nfijar [total] a (0)\nrepetir (4) veces\n  sumar a [total] (3)\n  si <(total) > (6)> entonces\n    sumar a [total] (-1)",
+        "options": [
+          "10",
+          "12",
+          "9",
+          "11"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Va 3, 6, 9→8 y 11→10: solo resta 1 cuando el total ya pasó de 6."
+    },
+    {
+      "slug": "sc-d2-duplicar",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "variables",
+      "module": 2,
+      "prompt": "¿Cuánto vale n al terminar?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\nfijar [n] a (1)\nrepetir hasta que <(n) > (20)>\n  fijar [n] a ((n) * (2))",
+        "options": [
+          "32",
+          "16",
+          "20",
+          "64"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "n vale 1, 2, 4, 8, 16 y 32: el bucle se repite hasta que n supera 20, y el último valor ya es 32."
+    },
+    {
+      "slug": "sc-d2-si-no",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "condicionales",
+      "module": 2,
+      "prompt": "¿Qué dice el personaje y cuánto vale x?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\nfijar [x] a (7)\nsi <(x) > (5)> entonces\n  cambiar [x] por (-3)\nsi no\n  cambiar [x] por (10)\nsi <(x) > (5)> entonces\n  decir [grande]\nsi no\n  decir [chico]",
+        "options": [
+          "Dice «chico» y x vale 4",
+          "Dice «grande» y x vale 4",
+          "Dice «grande» y x vale 17",
+          "Dice «chico» y x vale 17"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El primer si/si no se ejecuta una sola vez y elige un camino (x queda en 4). Después, el segundo si evalúa el valor nuevo: 4 no es mayor que 5."
+    },
+    {
+      "slug": "sc-d2-nunca-termina",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "condicionales",
+      "module": 2,
+      "prompt": "¿Qué pasa con este script?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\nfijar [x] a (0)\nrepetir hasta que <(x) = (10)>\n  cambiar [x] por (3)",
+        "options": [
+          "Nunca termina: x pasa de 9 a 12 y nunca vale exactamente 10",
+          "Termina cuando x llega a 10",
+          "Termina cuando x llega a 12",
+          "Se repite 10 veces"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La condición pide que x sea exactamente 10, pero x va 3, 6, 9, 12... Para evitarlo se usa «mayor que» en vez de «igual»."
+    },
+    {
+      "slug": "sc-d2-y-logico",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "Se prueba la condición con x = 3, 5, 8 y 10. ¿Para cuáles es verdadera?",
+      "content": {
+        "code": "<<(x) > (3)> y <(x) < (8)>>",
+        "options": [
+          "Solo para 5",
+          "Para 5 y 8",
+          "Para 3, 5 y 8",
+          "Para todos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con «y» tienen que cumplirse las dos partes: más de 3 y menos de 8. Ni 3 ni 8 cumplen, porque la comparación es estricta."
+    },
+    {
+      "slug": "sc-d2-mod-negativo",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "¿Qué dice el personaje?",
+      "content": {
+        "code": "decir ((-7) mod (3))",
+        "options": [
+          "2",
+          "-1",
+          "1",
+          "-2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En Scratch, el resto (mod) toma el signo del divisor: −7 = 3×(−3) + 2, así que da 2 (en otros lenguajes puede dar −1)."
+    },
+    {
+      "slug": "sc-d2-azar-juntar",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "¿Qué dice el personaje?",
+      "content": {
+        "code": "decir (juntar [1] ((1) + (2)))",
+        "options": [
+          "13",
+          "4",
+          "3",
+          "1 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Primero se calcula 1 + 2 = 3 y después juntar pega los textos «1» y «3» sin espacio: queda 13."
+    },
+    {
+      "slug": "sc-d2-esperar-hasta",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "condicionales",
+      "module": 2,
+      "prompt": "El jugador presiona espacio solo 2 veces. ¿Qué pasa?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\nfijar [puntos] a (0)\nesperar hasta <(puntos) > (2)>\ndecir [¡Ganaste!]\n\nal presionar la tecla [espacio]\ncambiar [puntos] por (1)",
+        "options": [
+          "No dice nada: con 2 puntos todavía no se cumple «mayor que 2»",
+          "Dice ¡Ganaste!",
+          "Dice ¡Ganaste! después de 2 segundos",
+          "Se detiene el programa con un error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Hace falta una tercera presión: «mayor que 2» recién se cumple con 3 puntos."
+    },
+    {
+      "slug": "sc-d2-clones-contador",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "clones",
+      "module": 2,
+      "prompt": "¿Cuánto vale contador al final?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\nfijar [contador] a (0)\nrepetir (3) veces\n  crear clon de [mí mismo]\n  esperar (0.1) segundos\n\nal comenzar como clon\nsumar a [contador] (1)\neliminar este clon",
+        "options": [
+          "3",
+          "1",
+          "0",
+          "6"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada clon ejecuta su propio «al comenzar como clon» una sola vez: 3 clones suman 3. El original no corre ese script."
+    },
+    {
+      "slug": "sc-d2-direccion",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "movimiento",
+      "module": 1,
+      "prompt": "¿Hacia dónde mira al final?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\napuntar en dirección (90)\ngirar ↻ (45) grados\ngirar ↺ (90) grados",
+        "options": [
+          "En dirección 45: arriba a la derecha",
+          "En dirección 135: abajo a la derecha",
+          "En dirección 225: abajo a la izquierda",
+          "En dirección 0: hacia arriba"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Girar ↻ suma grados y ↺ resta: 90 + 45 − 90 = 45."
+    },
+    {
+      "slug": "sc-d2-posicion",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "coordenadas",
+      "module": 1,
+      "prompt": "¿Dónde queda el personaje al final?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\nir a x: (0) y: (0)\ncambiar x en (50)\ncambiar y en (-30)\nfijar x a (10)",
+        "options": [
+          "x: 10 e y: -30",
+          "x: 60 e y: -30",
+          "x: 10 e y: 30",
+          "x: 50 e y: -30"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cambiar suma a la posición actual, pero fijar la reemplaza: el 50 de la x se pierde."
+    },
+    {
+      "slug": "sc-d2-disfraz-vueltas",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "disfraces",
+      "module": 1,
+      "prompt": "El personaje tiene 4 disfraces y empieza con el disfraz 1. ¿Con cuál queda al terminar?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\nrepetir (6) veces\n  siguiente disfraz\n  esperar (0.2) segundos",
+        "options": [
+          "Disfraz 3",
+          "Disfraz 2",
+          "Disfraz 4",
+          "Disfraz 1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Después del 4 vuelve al 1: 1→2→3→4→1→2→3. Son 6 cambios."
+    },
+    {
+      "slug": "sc-d2-tamano",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "apariencia",
+      "module": 1,
+      "prompt": "El personaje empieza con tamaño 100. ¿Cuál es su tamaño al final?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\ncambiar tamaño por (50)\ncambiar tamaño por (-30)\nfijar tamaño al ((tamaño) * (2)) %",
+        "options": [
+          "240 %",
+          "120 %",
+          "200 %",
+          "160 %"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "100 + 50 − 30 = 120 y después se duplica: 240."
+    },
+    {
+      "slug": "sc-d2-enviar-esperar",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "mensajes",
+      "module": 2,
+      "prompt": "Un script dice «1», envía el mensaje «seguir» y después dice «3». Otro script, al recibir «seguir», dice «2». ¿Qué diferencia hay entre «enviar a todos» y «enviar a todos y esperar»?",
+      "content": {
+        "options": [
+          "Con «y esperar», el primer script no sigue (no dice «3») hasta que terminan los scripts que reciben el mensaje; con «enviar» a secas sigue enseguida",
+          "Ninguna: hacen lo mismo",
+          "«y esperar» detiene el programa para siempre",
+          "«enviar» a secas solo le llega a un personaje"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con «y esperar» el orden es 1, 2, 3. Con «enviar» a secas, los dos scripts avanzan a la vez y el orden puede mezclarse."
+    },
+    {
+      "slug": "sc-d2-variable-objeto",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "variables",
+      "module": 2,
+      "prompt": "El Gato y el Perro tienen cada uno una variable [vidas] creada «para este objeto solamente». El Gato pierde una vida. ¿Qué pasa con las vidas del Perro?",
+      "content": {
+        "options": [
+          "No cambian: cada personaje tiene su propia variable",
+          "También bajan una",
+          "Se reinician a 0",
+          "Las dos se fusionan en una sola"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una variable «para todos los objetos» es compartida; la «para este objeto solamente» es privada de cada personaje (y de cada clon)."
+    },
+    {
+      "slug": "sc-d2-variable-clon",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "clones",
+      "module": 2,
+      "prompt": "Una variable «para este objeto solamente» vale 5 en el original. Un clon cambia su copia a 8. ¿Cuánto vale la del original?",
+      "content": {
+        "options": [
+          "5: cada clon tiene su propia copia",
+          "8",
+          "13",
+          "0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cuando se crea un clon, copia el valor de las variables locales, pero desde ahí son independientes."
+    },
+    {
+      "slug": "sc-d2-orden-cuenta-regresiva",
+      "type": "order_lines",
+      "difficulty": "hard",
+      "topic": "repetir",
+      "module": 2,
+      "prompt": "Ordená para que cuente 2, 1, 0 (un número por segundo) y por último diga ¡Despegue!",
+      "content": {
+        "lines": [
+          "al hacer clic en la bandera verde",
+          "fijar [tiempo] a (3)",
+          "repetir hasta que <(tiempo) = (0)>",
+          "cambiar [tiempo] por (-1)",
+          "decir (tiempo) por (1) segundos",
+          "decir [¡Despegue!]"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "output": "Dice 2, 1, 0 y después ¡Despegue!"
+      },
+      "explanation": "El cambiar va antes del decir para que muestre el valor ya restado; y el aviso final va fuera del bucle."
+    },
+    {
+      "slug": "sc-d2-orden-pregunta",
+      "type": "order_lines",
+      "difficulty": "hard",
+      "topic": "sensores",
+      "module": 2,
+      "prompt": "Ordená para que pregunte cómo te llamás, guarde la respuesta en nombre y te salude con tu nombre.",
+      "content": {
+        "lines": [
+          "al hacer clic en la bandera verde",
+          "preguntar [¿Cómo te llamás?] y esperar",
+          "fijar [nombre] a (respuesta)",
+          "decir (juntar [Hola ] (nombre)) por (2) segundos"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "Pregunta, guarda lo que escribiste y saluda con tu nombre"
+      },
+      "explanation": "La respuesta solo existe después de preguntar, y hay que guardarla antes de usarla."
+    },
+    {
+      "slug": "sc-d2-orden-disparo",
+      "type": "order_lines",
+      "difficulty": "hard",
+      "topic": "clones",
+      "module": 2,
+      "prompt": "Ordená los dos scripts del disparo: al apretar espacio se crea un clon de la bala, que sale del jugador y avanza hasta tocar el borde.",
+      "content": {
+        "lines": [
+          "al presionar la tecla [espacio]",
+          "crear clon de [Bala]",
+          "al comenzar como clon",
+          "ir a [Jugador]",
+          "repetir hasta que <¿tocando [borde]?>",
+          "mover (10) pasos",
+          "eliminar este clon"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "output": "Se crea una bala que avanza hasta el borde y desaparece"
+      },
+      "explanation": "Primero el script que crea el clon; después el del clon, que tiene que borrarse al final para no acumularse."
+    },
+    {
+      "slug": "sc-d2-orden-salto-gravedad",
+      "type": "order_lines",
+      "difficulty": "hard",
+      "topic": "movimiento",
+      "module": 2,
+      "prompt": "Ordená el salto: al apretar espacio sube de a 10 durante 5 vueltas y después baja de a 5 durante 10 vueltas.",
+      "content": {
+        "lines": [
+          "al presionar la tecla [espacio]",
+          "repetir (5) veces",
+          "cambiar y en (10)",
+          "repetir (10) veces",
+          "cambiar y en (-5)"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "output": "Sube 50 en 5 pasos y baja 50 en 10 pasos"
+      },
+      "explanation": "Cada bucle va con su cambio de y justo debajo; primero sube y recién después baja."
+    },
+    {
+      "slug": "sc-d2-redondear",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "¿Qué dice el personaje?",
+      "content": {
+        "code": "decir (redondear ((7) / (2)))",
+        "options": [
+          "4",
+          "3",
+          "3.5",
+          "2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "7 / 2 da 3.5 y redondear lleva al entero más cercano (los .5 suben): 4."
+    },
+    {
+      "slug": "sc-d2-azar-rango",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "Con el bloque «número aleatorio entre (1) y (6)», ¿qué números pueden salir?",
+      "content": {
+        "options": [
+          "Solo enteros del 1 al 6, ambos incluidos",
+          "Del 1 al 5",
+          "Del 0 al 6",
+          "Cualquier decimal entre 1 y 6"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si los dos extremos son enteros, el resultado es un entero entre ellos, incluidos los extremos; sirve para simular un dado."
+    },
+    {
+      "slug": "sc-d2-orden-game-over",
+      "type": "order_lines",
+      "difficulty": "medium",
+      "topic": "juego",
+      "module": 2,
+      "prompt": "Ordená para que, al recibir «perdiste», cambie el fondo, diga el mensaje y por último detenga todo.",
+      "content": {
+        "lines": [
+          "al recibir [perdiste]",
+          "cambiar fondo a [Game Over]",
+          "decir [¡Fin del juego!] por (2) segundos",
+          "detener [todos]"
+        ]
+      },
+      "answer": {
+        "order": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "output": "Muestra Game Over, avisa y detiene el juego"
+      },
+      "explanation": "Si detenés todo antes, los otros bloques nunca se ejecutan."
+    },
+    {
+      "slug": "sc-d2-orden-bloques-clon",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "clones",
+      "module": 2,
+      "prompt": "¿Para qué sirve «eliminar este clon» al final del script de un clon?",
+      "content": {
+        "options": [
+          "Para que el clon desaparezca cuando ya no hace falta y no se acumulen (hay un máximo de clones)",
+          "Para borrar al personaje original",
+          "Para borrar el escenario",
+          "Para detener todos los scripts"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un clon que no se elimina sigue existiendo y ocupando lugar; con muchos, el proyecto se pone lento."
+    },
+    {
+      "slug": "sc-d2-por-siempre",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "repetir",
+      "module": 1,
+      "prompt": "¿Qué bloque usás para que algo se repita sin parar?",
+      "content": {
+        "options": [
+          "por siempre",
+          "esperar (1) segundos",
+          "detener [todos]",
+          "al hacer clic en la bandera verde"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El bloque por siempre repite lo que tiene adentro hasta que apretás el botón de detener."
+    },
+    {
+      "slug": "sc-d2-disfraces-pestana",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "disfraces",
+      "module": 1,
+      "prompt": "¿En qué pestaña cambiás el dibujo de un personaje?",
+      "content": {
+        "options": [
+          "Disfraces",
+          "Sonidos",
+          "Código",
+          "Escenario"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En Disfraces dibujás, editás o elegís cada aspecto del personaje."
+    },
+    {
+      "slug": "sc-d2-fondo",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "editor",
+      "module": 1,
+      "prompt": "¿Qué es un fondo en Scratch?",
+      "content": {
+        "options": [
+          "La imagen de atrás del escenario",
+          "Un personaje que se mueve",
+          "Un sonido de ambiente",
+          "Un bloque de movimiento"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El escenario tiene sus propios fondos, y se pueden cambiar durante el juego."
+    },
+    {
+      "slug": "sc-d2-decir-hola",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "apariencia",
+      "module": 1,
+      "prompt": "¿Qué hace el personaje?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\ndecir [Hola]",
+        "options": [
+          "Muestra una burbuja con «Hola»",
+          "Dice «Hola» en voz alta",
+          "Se mueve hacia la derecha",
+          "No hace nada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Decir muestra el texto en una burbuja; para que suene se usan los bloques de sonido."
+    },
+    {
+      "slug": "sc-d2-fill-disfraz",
+      "type": "fill_blank",
+      "difficulty": "easy",
+      "topic": "disfraces",
+      "module": 1,
+      "prompt": "Completá para que el personaje pase al disfraz que sigue.",
+      "content": {
+        "code": "al hacer clic en la bandera verde\n___",
+        "blanks": [
+          [
+            "siguiente disfraz",
+            "mover (10) pasos",
+            "decir [Hola]"
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "Cambia al disfraz siguiente"
+      },
+      "explanation": "Con «siguiente disfraz» recorrés los disfraces en orden."
+    },
+    {
+      "slug": "sc-d2-variable-que-es",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "variables",
+      "module": 2,
+      "prompt": "¿Qué es una variable?",
+      "content": {
+        "options": [
+          "Un lugar con nombre donde se guarda un valor que puede cambiar",
+          "Un tipo de personaje",
+          "Un sonido",
+          "Un fondo nuevo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Por ejemplo, puntaje o vidas: guardan un número que cambia durante el juego."
+    },
+    {
+      "slug": "sc-d2-cambiar-puntos",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "variables",
+      "module": 2,
+      "prompt": "Si puntos vale 0 al empezar, ¿cuánto vale al terminar?",
+      "content": {
+        "code": "al hacer clic en la bandera verde\ncambiar [puntos] por (1)\ncambiar [puntos] por (1)",
+        "options": [
+          "2",
+          "1",
+          "0",
+          "11"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada bloque suma 1 al valor actual."
+    },
+    {
+      "slug": "sc-d2-detener",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "pantallas",
+      "module": 2,
+      "prompt": "¿Para qué sirve el botón rojo arriba del escenario?",
+      "content": {
+        "options": [
+          "Para detener el programa",
+          "Para borrar el proyecto",
+          "Para grabar un sonido",
+          "Para compartir"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El botón verde empieza y el rojo detiene todos los scripts."
+    },
+    {
+      "slug": "sc-d2-rebotar",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "movimiento",
+      "module": 1,
+      "prompt": "¿Qué hace el bloque «rebotar si toca un borde»?",
+      "content": {
+        "options": [
+          "Hace que el personaje cambie de dirección cuando llega al borde",
+          "Lo hace desaparecer",
+          "Lo lleva al centro",
+          "Cambia el fondo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se usa junto con mover dentro de un por siempre para que no se salga de la pantalla."
+    },
+    {
+      "slug": "sc-d2-guardar",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "editor",
+      "module": 1,
+      "prompt": "¿Cómo guardás tu proyecto en tu cuenta de Scratch?",
+      "content": {
+        "options": [
+          "Con Archivo > Guardar ahora (estando con la sesión iniciada)",
+          "Cerrando el navegador",
+          "Sacando una captura de pantalla",
+          "No se puede guardar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Scratch también guarda solo cada tanto cuando tenés la sesión iniciada."
+    },
+    {
+      "slug": "sc-d2-colores",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "eventos",
+      "module": 1,
+      "prompt": "¿De qué color son los bloques de Movimiento?",
+      "content": {
+        "options": [
+          "Azules",
+          "Amarillos",
+          "Rojos",
+          "Violetas"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada categoría tiene su color: Movimiento azul, Apariencia violeta, Sonido fucsia y Eventos amarillo."
     }
   ]
 }

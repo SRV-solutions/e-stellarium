@@ -3728,6 +3728,1680 @@
         "correct": 0
       },
       "explanation": "Lo habitual es apuntar a un 70 u 80 % e ir subiendo."
+    },
+    {
+      "slug": "ba-d2-mw-vuelta",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "middlewares",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const mw = [];\nconst use = (fn) => mw.push(fn);\nconst handle = () => {\n  let i = 0;\n  const next = () => {\n    const fn = mw[i++];\n    if (fn) fn(next);\n  };\n  next();\n};\nuse((next) => {\n  console.log(\"A1\");\n  next();\n  console.log(\"A2\");\n});\nuse((next) => {\n  console.log(\"B1\");\n  next();\n  console.log(\"B2\");\n});\nuse(() => console.log(\"handler\"));\nhandle();",
+        "options": [
+          "A1\nB1\nhandler\nB2\nA2",
+          "A1\nA2\nB1\nB2\nhandler",
+          "A1\nB1\nB2\nhandler\nA2",
+          "handler\nB2\nA2\nA1\nB1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Lo que está después de next() corre cuando los de más adentro ya terminaron: los middlewares se apilan como llamadas a funciones."
+    },
+    {
+      "slug": "ba-d2-mw-async",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "middlewares",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const mw = [];\nconst use = (fn) => mw.push(fn);\nconst handle = () => {\n  let i = 0;\n  const next = () => {\n    const fn = mw[i++];\n    if (fn) fn(next);\n  };\n  next();\n};\nuse((next) => {\n  console.log(\"A\");\n  setTimeout(next, 0);\n  console.log(\"A fin\");\n});\nuse((next) => {\n  console.log(\"B\");\n  next();\n});\nuse(() => console.log(\"C\"));\nhandle();\nconsole.log(\"sync fin\");",
+        "options": [
+          "A\nA fin\nsync fin\nB\nC",
+          "A\nB\nC\nA fin\nsync fin",
+          "A\nA fin\nB\nC\nsync fin",
+          "sync fin\nA\nA fin\nB\nC"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si el middleware llama a next() dentro de un setTimeout, la cadena se pausa: el resto del código sincrónico sigue y el siguiente middleware corre después."
+    },
+    {
+      "slug": "ba-d2-mw-error",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "middlewares",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const stack = [\n  { fn: (next) => { console.log(\"1\"); next(new Error(\"boom\")); } },\n  { fn: (next) => { console.log(\"2\"); next(); } },\n  { err: (e, next) => { console.log(\"error:\", e.message); next(); } },\n  { fn: (next) => { console.log(\"3\"); next(); } },\n];\nlet i = 0;\nconst next = (err) => {\n  const layer = stack[i++];\n  if (!layer) return;\n  if (err) layer.err ? layer.err(err, next) : next(err);\n  else layer.fn ? layer.fn(next) : next();\n};\nnext();",
+        "options": [
+          "1\nerror: boom\n3",
+          "1\n2\nerror: boom\n3",
+          "1\nerror: boom",
+          "1\n2\n3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con next(err) se saltean los middlewares normales hasta el de errores. Si ese llama a next() sin error, la cadena sigue normal."
+    },
+    {
+      "slug": "ba-d2-mw-sin-return",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "middlewares",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const res = {\n  sent: false,\n  send(body) {\n    if (this.sent) throw new Error(\"headers already sent\");\n    this.sent = true;\n    console.log(\"res:\", body);\n  },\n};\nfunction isAuth(token) {\n  if (!token) {\n    res.send(\"401\");\n  }\n  res.send(\"ok\");\n}\ntry {\n  isAuth(undefined);\n} catch (e) {\n  console.log(e.message);\n}",
+        "options": [
+          "res: 401\nheaders already sent",
+          "res: 401",
+          "res: ok",
+          "res: 401\nres: ok"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Falta el return después de responder el 401: el código sigue y intenta responder de nuevo. Es el famoso «Cannot set headers after they are sent»."
+    },
+    {
+      "slug": "ba-d2-mw-orden-rutas",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "middlewares",
+      "module": 5,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const routes = [[\"/users/:id\", \"id\"], [\"/users/me\", \"me\"]];\nconst match = (path) => routes.find(([p]) => {\n  const a = p.split(\"/\");\n  const b = path.split(\"/\");\n  return a.length === b.length && a.every((s, i) => s.startsWith(\":\") || s === b[i]);\n})?.[1];\nconsole.log(match(\"/users/me\"), match(\"/users/7\"), match(\"/users\"));",
+        "options": [
+          "id id undefined",
+          "me id undefined",
+          "me id me",
+          "id id id"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Gana la primera ruta que coincide. Si declarás /users/:id antes que /users/me, el /me nunca se alcanza: va primero la específica."
+    },
+    {
+      "slug": "ba-d2-mw-use-tarde",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "middlewares",
+      "module": 5,
+      "prompt": "Registrás app.get('/ping', handler) y DESPUÉS app.use(logger). ¿Se ejecuta el logger cuando alguien pide /ping?",
+      "content": {
+        "options": [
+          "No: el handler responde y la cadena termina antes de llegar al logger",
+          "Sí, siempre: app.use corre en todas las peticiones sin importar el orden",
+          "Sí, pero después de enviar la respuesta",
+          "Solo si el handler llama a res.end()"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Express recorre lo registrado en orden. Los middlewares globales tienen que declararse antes de las rutas que querés que alcancen."
+    },
+    {
+      "slug": "ba-d2-mw-errores-4",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "middlewares",
+      "module": 5,
+      "prompt": "¿Cómo reconoce Express que un middleware es de manejo de errores?",
+      "content": {
+        "options": [
+          "Porque la función recibe cuatro parámetros: (err, req, res, next)",
+          "Porque se llama errorHandler",
+          "Porque se registra con app.error()",
+          "Porque devuelve un status 500"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Express mira la cantidad de parámetros de la función. Si le sacás el next para «limpiar», deja de ser un middleware de errores."
+    },
+    {
+      "slug": "ba-d2-par-this",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "controladores",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const ctrl = {\n  name: \"users\",\n  list() {\n    return this.name;\n  },\n};\nconst { list } = ctrl;\nconsole.log(list());\nconsole.log(ctrl.list.bind(ctrl)());",
+        "options": [
+          "undefined\nusers",
+          "users\nusers",
+          "undefined\nundefined",
+          "TypeError"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Al sacar el método del objeto (como cuando hacés app.get('/', ctrl.list)) se pierde el this. Con bind queda atado al controlador."
+    },
+    {
+      "slug": "ba-d2-par-defecto-null",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "req.query",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const { page = 1, limit = 10 } = { page: null, limit: undefined };\nconsole.log(page, limit);",
+        "options": [
+          "null 10",
+          "1 10",
+          "null undefined",
+          "1 undefined"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los valores por defecto de la desestructuración solo se usan con undefined, no con null."
+    },
+    {
+      "slug": "ba-d2-par-numero-string",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "req.query",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const page = \"2\";\nconst limit = 3;\nconsole.log(page - 1, page + 1, page * limit);",
+        "options": [
+          "1 21 6",
+          "1 3 6",
+          "1 21 23",
+          "NaN NaN 6"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "req.query siempre trae strings: el + concatena y el resto de los operadores convierte. Convertí con Number() al principio."
+    },
+    {
+      "slug": "ba-d2-par-paginar",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "req.query",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const items = [...Array(10).keys()];\nconst page = (p, l) => items.slice((p - 1) * l, p * l);\nconsole.log(JSON.stringify(page(4, 3)), page(5, 3).length, JSON.stringify(page(0, 3)));",
+        "options": [
+          "[9] 0 []",
+          "[9] 0 [0,1,2]",
+          "[9,10,11] 3 []",
+          "[9] 3 [0,1,2]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "slice(9, 12) devuelve solo el 9, la página 5 queda vacía y con page=0 se pide slice(-3, 0), que da []. Hay que validar que page sea ≥ 1."
+    },
+    {
+      "slug": "ba-d2-par-query-repetido",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "req.query",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const q = new URLSearchParams(\"tag=a&tag=b&page=2\");\nconsole.log(q.get(\"tag\"), q.getAll(\"tag\").length, typeof q.get(\"page\"));",
+        "options": [
+          "a 2 string",
+          "b 2 string",
+          "a 2 number",
+          "a,b 1 string"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un parámetro repetido puede venir como lista: get devuelve el primero y getAll todos. Y los valores siempre son string."
+    },
+    {
+      "slug": "ba-d2-par-numeros",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "parseo",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(Number(\"\"), Number(\" 12 \"), parseInt(\"12px\"), Number(\"12px\"), Number(null), Number(undefined));",
+        "options": [
+          "0 12 12 NaN 0 NaN",
+          "NaN 12 12 NaN NaN NaN",
+          "0 NaN 12 NaN 0 0",
+          "0 12 NaN NaN 0 NaN"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Number('') es 0 y Number(null) también; parseInt corta en el primer carácter no numérico, mientras que Number falla con todo el texto."
+    },
+    {
+      "slug": "ba-d2-par-map-parseint",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "parseo",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log([\"1\", \"2\", \"3\"].map(parseInt));",
+        "options": [
+          "[ 1, NaN, NaN ]",
+          "[ 1, 2, 3 ]",
+          "[ '1', '2', '3' ]",
+          "[ 1, 2, NaN ]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "map le pasa (valor, índice) y parseInt usa el segundo argumento como base: parseInt('2', 1) y parseInt('3', 2) dan NaN. Usá map(Number)."
+    },
+    {
+      "slug": "ba-d2-par-id-comparar",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "find",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const users = [{ id: 1 }, { id: 2 }];\nconst id = \"1\";\nconsole.log(users.find((u) => u.id == id)?.id, users.find((u) => u.id === id));",
+        "options": [
+          "1 undefined",
+          "1 { id: 1 }",
+          "undefined undefined",
+          "undefined { id: 1 }"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "== convierte el string a número y encuentra al usuario; === no. Es mejor === con Number(id) que depender de la coerción."
+    },
+    {
+      "slug": "ba-d2-par-falsy",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "req.body",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const body = { count: 0, name: \"\", active: false };\nconsole.log(JSON.stringify([body.count || \"n/a\", body.name ?? \"n/a\", body.active && \"x\", body.missing ?? \"n/a\"]));",
+        "options": [
+          "[\"n/a\",\"\",false,\"n/a\"]",
+          "[\"n/a\",\"n/a\",\"x\",\"n/a\"]",
+          "[0,\"\",false,\"n/a\"]",
+          "[\"n/a\",\"\",\"x\",\"n/a\"]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "|| reemplaza todo lo falsy (incluido el 0), mientras que ?? solo reemplaza null y undefined."
+    },
+    {
+      "slug": "ba-d2-par-validar-precio",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "req.body",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const validate = (b) => (!b.price ? \"falta\" : \"ok\");\nconsole.log(validate({ price: 0 }), validate({ price: \"0\" }), validate({}), validate({ price: null }));",
+        "options": [
+          "falta ok falta falta",
+          "ok ok falta falta",
+          "falta falta falta falta",
+          "ok ok falta ok"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "!0 es true, así que un precio 0 se rechaza como si faltara; el string '0' pasa porque es verdadero. Validá con typeof y Number.isFinite."
+    },
+    {
+      "slug": "ba-d2-par-fill-limite",
+      "type": "fill_blank",
+      "difficulty": "hard",
+      "topic": "req.query",
+      "module": 4,
+      "prompt": "Completá para que, si llega limit=0, el límite quede en 0 y solo se use 10 cuando no llega nada.",
+      "content": {
+        "code": "const query = { limit: 0 };\nconst limit = query.limit ___ 10;\nconsole.log(limit);",
+        "blanks": [
+          [
+            "??",
+            "||",
+            "-",
+            "==="
+          ]
+        ]
+      },
+      "answer": {
+        "correct": [
+          0
+        ],
+        "output": "0"
+      },
+      "explanation": "Con ?? el 0 se conserva; con || se pisaría por 10."
+    },
+    {
+      "slug": "ba-d2-ws-stringify",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "JSON",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(JSON.stringify({ a: undefined, b: null, c: NaN, d: () => 1, e: new Date(0), f: [undefined] }));",
+        "options": [
+          "{\"b\":null,\"c\":null,\"e\":\"1970-01-01T00:00:00.000Z\",\"f\":[null]}",
+          "{\"a\":null,\"b\":null,\"c\":null,\"e\":\"1970-01-01T00:00:00.000Z\"}",
+          "{\"b\":null,\"e\":\"1970-01-01T00:00:00.000Z\",\"f\":[]}",
+          "{\"b\":null,\"c\":NaN,\"d\":null,\"e\":0,\"f\":[null]}"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "JSON.stringify omite undefined y funciones en objetos, pasa NaN a null, serializa Date como texto ISO y deja null dentro de los arrays."
+    },
+    {
+      "slug": "ba-d2-ws-merge-superficial",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "métodos HTTP",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const user = { id: 1, name: \"Ana\", address: { city: \"Salta\", zip: 4400 } };\nconst patch = { address: { city: \"Jujuy\" } };\nconsole.log(JSON.stringify({ ...user, ...patch }));",
+        "options": [
+          "{\"id\":1,\"name\":\"Ana\",\"address\":{\"city\":\"Jujuy\"}}",
+          "{\"id\":1,\"name\":\"Ana\",\"address\":{\"city\":\"Jujuy\",\"zip\":4400}}",
+          "{\"id\":1,\"name\":\"Ana\",\"address\":{\"city\":\"Salta\",\"zip\":4400}}",
+          "{\"address\":{\"city\":\"Jujuy\"}}"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El spread es una copia superficial: el objeto address se reemplaza entero y el zip se pierde. Un PATCH de verdad tiene que mezclar los niveles anidados."
+    },
+    {
+      "slug": "ba-d2-ws-referencia",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "CRUD",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const db = [{ id: 1, name: \"A\" }];\nconst u = db.find((x) => x.id === 1);\nconst copy = { ...u };\ncopy.name = \"B\";\nconsole.log(db[0].name);\nu.name = \"C\";\nconsole.log(db[0].name);",
+        "options": [
+          "A\nC",
+          "B\nC",
+          "A\nA",
+          "B\nB"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "find devuelve la referencia al objeto de la base: modificarla cambia los datos. Modificar una copia no."
+    },
+    {
+      "slug": "ba-d2-ws-delete-hueco",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "CRUD",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const a = [{ id: 1 }, { id: 2 }, { id: 3 }];\ndelete a[1];\nconsole.log(a.length, a.filter(Boolean).length, a.findIndex((x) => x === undefined));",
+        "options": [
+          "3 2 1",
+          "2 2 -1",
+          "3 3 -1",
+          "2 2 1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "delete deja un hueco y no cambia el largo del array. Para borrar un elemento usá splice o filter."
+    },
+    {
+      "slug": "ba-d2-ws-splice-menos1",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "CRUD",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const a = [1, 2, 3];\nconst i = a.findIndex((x) => x === 9);\na.splice(i, 1);\nconsole.log(a.join());",
+        "options": [
+          "1,2",
+          "1,2,3",
+          "2,3",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "findIndex devuelve -1 si no encuentra, y splice(-1, 1) borra el último elemento. Siempre hay que chequear el -1 antes de borrar."
+    },
+    {
+      "slug": "ba-d2-ws-pila",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "pilas y colas",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const stack = [\"a\"];\nconst out = [];\nwhile (stack.length) {\n  const x = stack.pop();\n  out.push(x);\n  if (x.length < 3) stack.push(x + \"b\", x + \"c\");\n}\nconsole.log(out.join(\" \"));",
+        "options": [
+          "a ac acc acb ab abc abb",
+          "a ab ac abb abc acb acc",
+          "a ab abb abc ac acb acc",
+          "a ac ab acc acb abc abb"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "pop saca siempre el último que entró (LIFO): primero se recorre todo lo de «ac» antes de volver a «ab»."
+    },
+    {
+      "slug": "ba-d2-ws-cola",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "pilas y colas",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const q = [\"a\"];\nconst done = [];\nwhile (q.length) {\n  const x = q.shift();\n  done.push(x);\n  if (x.length < 3) q.push(x + \"b\", x + \"c\");\n}\nconsole.log(done.join(\" \"));",
+        "options": [
+          "a ab ac abb abc acb acc",
+          "a ac acc acb ab abc abb",
+          "a ab abb abc ac acb acc",
+          "a ab ac abb acb abc acc"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con shift (FIFO) se procesa por niveles: todo lo que entró antes sale antes."
+    },
+    {
+      "slug": "ba-d2-ws-conflicto",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "status codes",
+      "module": 2,
+      "prompt": "Un cliente intenta registrar un usuario con un email que ya existe. ¿Qué código de estado es el más preciso?",
+      "content": {
+        "options": [
+          "409 Conflict",
+          "404 Not Found",
+          "500 Internal Server Error",
+          "401 Unauthorized"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "409 indica que la petición choca con el estado actual del recurso. Un 500 diría que falló el servidor, y acá el error es del pedido."
+    },
+    {
+      "slug": "ba-d2-ws-idempotente",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "métodos HTTP",
+      "module": 2,
+      "prompt": "¿Cuál de estos métodos NO es idempotente?",
+      "content": {
+        "options": [
+          "POST: repetirlo crea un recurso nuevo cada vez",
+          "PUT: repetirlo deja el recurso igual",
+          "DELETE: repetirlo deja el recurso eliminado",
+          "GET: repetirlo no cambia nada"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Idempotente significa que repetir la misma petición deja el mismo estado final. POST suele crear recursos nuevos en cada llamada."
+    },
+    {
+      "slug": "ba-d2-asy-eventloop",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "async",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(\"1\");\nsetTimeout(() => console.log(\"2\"), 0);\nPromise.resolve().then(() => console.log(\"3\"));\nprocess.nextTick(() => console.log(\"4\"));\n(async () => {\n  console.log(\"5\");\n  await null;\n  console.log(\"6\");\n})();\nconsole.log(\"7\");",
+        "options": [
+          "1\n5\n7\n4\n3\n6\n2",
+          "1\n5\n7\n2\n3\n4\n6",
+          "1\n2\n3\n4\n5\n6\n7",
+          "1\n5\n7\n3\n6\n4\n2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Primero todo el código sincrónico, después nextTick, después las promesas (microtareas) y por último los timers."
+    },
+    {
+      "slug": "ba-d2-asy-return-sin-await",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "async",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const fetchUser = async () => {\n  throw new Error(\"db\");\n};\nasync function handler() {\n  try {\n    return fetchUser();\n  } catch (e) {\n    console.log(\"caught\");\n  }\n}\nhandler().catch((e) => console.log(\"outer\", e.message));",
+        "options": [
+          "outer db",
+          "caught",
+          "caught\nouter db",
+          "Nada: queda sin manejar"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Sin await, la promesa rechazada se devuelve sin pasar por el try: el catch interno no la atrapa. Con return await sí."
+    },
+    {
+      "slug": "ba-d2-asy-finally",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "async",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const fetchUser = async () => {\n  throw new Error(\"db\");\n};\nasync function handler() {\n  try {\n    return await fetchUser();\n  } catch (e) {\n    console.log(\"caught\");\n  } finally {\n    console.log(\"finally\");\n  }\n}\nhandler().then((v) => console.log(\"then\", v));",
+        "options": [
+          "caught\nfinally\nthen undefined",
+          "caught\nthen undefined\nfinally",
+          "finally\ncaught\nthen undefined",
+          "caught\nfinally"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El catch atrapa el error, el finally siempre corre y, como nadie devuelve nada, el handler resuelve con undefined."
+    },
+    {
+      "slug": "ba-d2-asy-timeout-throw",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "async",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "try {\n  setTimeout(() => {\n    throw new Error(\"late\");\n  }, 0);\n  console.log(\"try ok\");\n} catch (e) {\n  console.log(\"catch\");\n}\nprocess.on(\"uncaughtException\", (e) => console.log(\"uncaught:\", e.message));",
+        "options": [
+          "try ok\nuncaught: late",
+          "try ok\ncatch",
+          "catch",
+          "try ok"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un error lanzado dentro de un callback asincrónico ocurre cuando el try ya terminó: no lo atrapa y, sin manejo, tira abajo el servidor."
+    },
+    {
+      "slug": "ba-d2-asy-secuencia",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "async",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const wait = (ms, v) => new Promise((r) => setTimeout(() => { console.log(v); r(v); }, ms));\n(async () => {\n  const a = wait(30, \"a\");\n  const b = wait(10, \"b\");\n  console.log(\"start\");\n  const r = [await a, await b];\n  console.log(r.join());\n})();",
+        "options": [
+          "start\nb\na\na,b",
+          "start\na\nb\na,b",
+          "start\nb\na\nb,a",
+          "a\nb\nstart\na,b"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las dos esperas arrancan juntas (no hay await antes de crearlas) y cada una imprime cuando termina; los resultados se juntan en el orden en que los pediste."
+    },
+    {
+      "slug": "ba-d2-asy-all-rechazo",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "async",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const ok = (v, ms) => new Promise((r) => setTimeout(() => r(v), ms));\nconst bad = (ms) => new Promise((_, j) => setTimeout(() => j(new Error(\"x\")), ms));\nPromise.all([ok(1, 20), bad(5)]).then(console.log).catch((e) => console.log(\"fail\", e.message));\nPromise.allSettled([ok(1, 20), bad(5)]).then((r) => console.log(r.map((x) => x.status).join()));",
+        "options": [
+          "fail x\nfulfilled,rejected",
+          "fulfilled,rejected\nfail x",
+          "fail x\nrejected,fulfilled",
+          "[ 1 ]\nfulfilled,rejected"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Promise.all falla apenas una se rechaza; allSettled espera a todas y informa el estado de cada una."
+    },
+    {
+      "slug": "ba-d2-asy-emitter",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "eventos",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const { EventEmitter } = require(\"node:events\");\nconst io = new EventEmitter();\nio.on(\"msg\", (t) => console.log(\"A\", t));\nio.once(\"msg\", (t) => console.log(\"B\", t));\nio.emit(\"msg\", 1);\nio.emit(\"msg\", 2);\nio.on(\"msg\", (t) => console.log(\"C\", t));\nio.emit(\"msg\", 3);",
+        "options": [
+          "A 1\nB 1\nA 2\nA 3\nC 3",
+          "A 1\nB 1\nA 2\nB 2\nA 3\nB 3\nC 3",
+          "A 1\nA 2\nA 3\nB 1\nC 3",
+          "B 1\nA 1\nA 2\nA 3\nC 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "once se ejecuta una sola vez y se descarta; on queda para siempre. Los listeners corren en el orden en que se registraron."
+    },
+    {
+      "slug": "ba-d2-asy-bloqueo",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "Node",
+      "module": 9,
+      "prompt": "Un endpoint hace un for de 5000 millones de vueltas, todo sincrónico. Mientras corre, ¿qué pasa con las demás peticiones?",
+      "content": {
+        "options": [
+          "Esperan: Node ejecuta el JavaScript en un solo hilo y no atiende nada hasta que termina",
+          "Se atienden en paralelo con otro hilo de Node",
+          "Express las rechaza con un 503",
+          "Se atienden, pero más lento"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El event loop está ocupado: ni los timers ni las peticiones nuevas avanzan hasta que el bucle libera el hilo."
+    },
+    {
+      "slug": "ba-d2-asy-cache-require",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "módulos",
+      "module": 9,
+      "prompt": "Dos archivos hacen require('./counter'), y counter.js hace console.log('cargado') al principio. ¿Cuántas veces se imprime «cargado»?",
+      "content": {
+        "options": [
+          "Una: require guarda el módulo en caché después de la primera carga",
+          "Dos: una por cada require",
+          "Ninguna: se imprime solo con node counter.js",
+          "Depende del orden de los require"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El primer require ejecuta el archivo y guarda su resultado; los siguientes devuelven el mismo objeto. Por eso un módulo sirve de estado compartido."
+    },
+    {
+      "slug": "ba-d2-ej-rate-limit",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "rate limit",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const hits = {};\nconst limit = (ip, max) => {\n  hits[ip] = (hits[ip] ?? 0) + 1;\n  return hits[ip] > max ? 429 : 200;\n};\nconst r = [limit(\"a\", 2), limit(\"a\", 2), limit(\"b\", 2), limit(\"a\", 2), limit(\"b\", 2)];\nconsole.log(r.join(\" \"));",
+        "options": [
+          "200 200 200 429 200",
+          "200 200 429 429 429",
+          "200 200 200 429 429",
+          "200 429 200 429 200"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El contador es por IP: la tercera petición de «a» recibe un 429 pero «b» tiene su propio contador."
+    },
+    {
+      "slug": "ba-d2-ej-ventana",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "rate limit",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const log = {};\nconst allow = (ip, t) => {\n  log[ip] = (log[ip] || []).filter((x) => t - x < 10);\n  if (log[ip].length >= 2) return false;\n  log[ip].push(t);\n  return true;\n};\nconsole.log([[\"a\", 0], [\"a\", 5], [\"a\", 9], [\"a\", 10], [\"a\", 11]].map(([ip, t]) => allow(ip, t)).join());",
+        "options": [
+          "true,true,false,true,false",
+          "true,true,false,false,true",
+          "true,true,false,true,true",
+          "true,true,false,false,false"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Ventana deslizante: en t=10 el pedido de t=0 ya salió de la ventana, así que hay lugar; en t=11 siguen los de 5 y 10 y se bloquea."
+    },
+    {
+      "slug": "ba-d2-ej-jwt-payload",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "seguridad",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const payload = Buffer.from(JSON.stringify({ sub: 7, role: \"user\" })).toString(\"base64url\");\nconst decoded = JSON.parse(Buffer.from(payload, \"base64url\").toString());\ndecoded.role = \"admin\";\nconsole.log(decoded.role, Buffer.from(JSON.stringify(decoded)).toString(\"base64url\") === payload);",
+        "options": [
+          "admin false",
+          "user true",
+          "admin true",
+          "user false"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El payload de un JWT es solo base64: cualquiera lo lee y lo cambia. Lo que lo protege es la firma, que se verifica con el secreto del servidor."
+    },
+    {
+      "slug": "ba-d2-ej-base64-largo",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "archivos",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log([\"a\", \"ab\", \"abc\", \"abcd\"].map((s) => Buffer.from(s).toString(\"base64\").length).join());",
+        "options": [
+          "4,4,4,8",
+          "1,2,3,4",
+          "2,3,4,6",
+          "4,8,12,16"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Base64 codifica de a 3 bytes en 4 caracteres (con relleno =): por eso una imagen en base64 pesa un tercio más."
+    },
+    {
+      "slug": "ba-d2-ej-refresh",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "seguridad",
+      "module": 8,
+      "prompt": "¿Por qué los access tokens JWT duran poco tiempo (por ejemplo 15 minutos)?",
+      "content": {
+        "options": [
+          "Porque un JWT no se puede invalidar fácilmente: si se roba, el daño queda limitado a su vida útil",
+          "Porque se gastan con cada uso",
+          "Porque el servidor los guarda en memoria",
+          "Porque el navegador los borra solo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un JWT firmado es válido hasta que vence; por eso se usan tokens cortos y, si hace falta, un refresh token."
+    },
+    {
+      "slug": "ba-d2-red-mascara",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "IP",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const toNum = (ip) => ip.split(\".\").reduce((a, n) => a * 256 + Number(n), 0);\nconst same = (a, b, bits) => Math.floor(toNum(a) / 2 ** (32 - bits)) === Math.floor(toNum(b) / 2 ** (32 - bits));\nconsole.log(same(\"192.168.1.10\", \"192.168.1.200\", 24), same(\"192.168.1.10\", \"192.168.2.10\", 24), same(\"192.168.1.10\", \"192.168.2.10\", 16));",
+        "options": [
+          "true false true",
+          "true true true",
+          "false false true",
+          "true false false"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La máscara indica cuántos bits iniciales identifican la red: con /24 cuentan los primeros tres números, con /16 solo los dos primeros."
+    },
+    {
+      "slug": "ba-d2-red-handshake",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "TCP y UDP",
+      "module": 6,
+      "prompt": "¿En qué orden se dan los mensajes del saludo de tres vías (three-way handshake) de TCP?",
+      "content": {
+        "options": [
+          "SYN, SYN-ACK, ACK",
+          "ACK, SYN, SYN-ACK",
+          "SYN, ACK, SYN-ACK",
+          "SYN-ACK, SYN, ACK"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El cliente pide conectar (SYN), el servidor acepta y pide lo mismo (SYN-ACK) y el cliente confirma (ACK). Recién ahí viajan datos."
+    },
+    {
+      "slug": "ba-d2-red-dns-ttl",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "DNS",
+      "module": 6,
+      "prompt": "Cambiaste la IP de tu servidor en el DNS pero algunos usuarios siguen entrando al servidor viejo un rato. ¿Por qué?",
+      "content": {
+        "options": [
+          "Porque los resolvers guardan la respuesta en caché durante el TTL del registro",
+          "Porque el DNS es lento",
+          "Porque el navegador usa HTTP viejo",
+          "Porque el dominio venció"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El TTL indica cuánto tiempo puede guardarse la respuesta; hasta que vence, algunos siguen viendo la IP anterior."
+    },
+    {
+      "slug": "ba-d2-ej-hash",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "seguridad",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const { createHash } = require(\"node:crypto\");\nconst h = (s) => createHash(\"sha256\").update(s).digest(\"hex\");\nconsole.log(h(\"pw\") === h(\"pw\"), h(\"pw\" + \"s1\") === h(\"pw\" + \"s2\"), h(\"a\").length);",
+        "options": [
+          "true false 64",
+          "false false 64",
+          "true true 64",
+          "true false 32"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El mismo texto da siempre el mismo hash, y por eso se agrega una sal distinta a cada usuario: dos contraseñas iguales dan hashes distintos."
+    },
+    {
+      "slug": "ba-d2-ej-hilo",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "diseño",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const comments = [\n  { id: 1, parentId: null },\n  { id: 2, parentId: 1 },\n  { id: 3, parentId: 1 },\n  { id: 4, parentId: 2 },\n];\nconst thread = (id) => [id, ...comments.filter((c) => c.parentId === id).flatMap((c) => thread(c.id))];\nconsole.log(thread(1).join());",
+        "options": [
+          "1,2,4,3",
+          "1,2,3,4",
+          "1,3,2,4",
+          "1,4,2,3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La función recorre los hijos de cada comentario antes de pasar al siguiente: primero todo lo de la respuesta 2 y recién después la 3."
+    },
+    {
+      "slug": "ba-d2-ej-uploads-validar",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "archivos",
+      "module": 8,
+      "prompt": "Alguien sube un archivo llamado «foto.png» pero adentro es un script. ¿Qué es más confiable para validar el tipo?",
+      "content": {
+        "options": [
+          "Revisar el contenido real (los primeros bytes del archivo), no solo la extensión o el mimetype que declara el cliente",
+          "Confiar en la extensión del nombre",
+          "Confiar en el Content-Type que manda el navegador",
+          "No validar: Multer ya lo hace"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La extensión y el Content-Type los controla quien sube el archivo; el contenido es lo que no se puede disfrazar tan fácil."
+    },
+    {
+      "slug": "ba-d2-ej-docker-datos",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Docker",
+      "module": 8,
+      "prompt": "Corrés un contenedor con una base de datos, lo borrás y lo creás de nuevo: los datos desaparecieron. ¿Qué faltó?",
+      "content": {
+        "options": [
+          "Un volumen que guarde los datos fuera del contenedor",
+          "Usar una imagen más pesada",
+          "Exponer otro puerto",
+          "Reiniciar Docker"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El sistema de archivos de un contenedor es efímero. Los volúmenes persisten aunque el contenedor se elimine."
+    },
+    {
+      "slug": "ba-d2-ej-soft-delete",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "CRUD",
+      "module": 8,
+      "prompt": "Con borrado lógico, ¿qué tenés que acordarte de hacer en los GET?",
+      "content": {
+        "options": [
+          "Filtrar los registros marcados como borrados, o aparecen igual en las listas",
+          "Nada: el borrado lógico los oculta solo",
+          "Responder siempre 404",
+          "Borrar los registros cuando alguien los pide"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El registro sigue existiendo; hay que excluirlo en cada consulta (por ejemplo, deletedAt es null)."
+    },
+    {
+      "slug": "ba-d2-red-url",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "HTTP",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const u = new URL(\"https://api.test.com:8080/v1/users/5?sort=desc&page=2#top\");\nconsole.log(u.pathname, u.search, u.port, u.hostname, u.hash);",
+        "options": [
+          "/v1/users/5 ?sort=desc&page=2 8080 api.test.com #top",
+          "/v1/users/5 sort=desc&page=2 8080 api.test.com:8080 top",
+          "v1/users/5 ?sort=desc 8080 api.test.com #top",
+          "/v1/users/5?sort=desc&page=2 8080 api.test.com #top"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "La URL se compone de protocolo, host, puerto, ruta, query y hash. El hash no viaja nunca al servidor."
+    },
+    {
+      "slug": "ba-d2-red-puertos",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "IP",
+      "module": 6,
+      "prompt": "Tu servidor Express escucha en el puerto 3000. ¿Qué pasa si abrís otra terminal y levantás otro servidor en el mismo puerto?",
+      "content": {
+        "options": [
+          "Falla con EADDRINUSE: un puerto solo lo puede usar un proceso a la vez",
+          "Los dos funcionan y se reparten las peticiones",
+          "El segundo reemplaza al primero",
+          "Express elige otro puerto solo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El puerto identifica a un proceso en la máquina; si ya está ocupado, listen produce un error."
+    },
+    {
+      "slug": "ba-d2-red-tcpip-capa",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "modelos",
+      "module": 6,
+      "prompt": "En el modelo TCP/IP, ¿a qué capa pertenece el protocolo IP?",
+      "content": {
+        "options": [
+          "A la de Internet",
+          "A la de Aplicación",
+          "A la de Transporte",
+          "A la de Acceso a la red"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "TCP y UDP están en la de Transporte; HTTP y DNS, en Aplicación; IP, en Internet."
+    },
+    {
+      "slug": "ba-d2-red-udp-perdido",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "TCP y UDP",
+      "module": 6,
+      "prompt": "Con UDP, si un paquete se pierde en el camino, ¿qué ocurre?",
+      "content": {
+        "options": [
+          "Nadie lo reenvía: UDP no confirma la entrega ni reordena",
+          "El emisor lo reenvía automáticamente",
+          "La conexión se corta",
+          "El receptor lo pide de nuevo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "UDP no tiene confirmaciones: es más rápido, pero la app tiene que tolerar las pérdidas."
+    },
+    {
+      "slug": "ba-d2-red-https-que-cifra",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "HTTP",
+      "module": 6,
+      "prompt": "Con HTTPS, ¿cuál de estas cosas sigue viéndose para quien espía la red?",
+      "content": {
+        "options": [
+          "El dominio al que te conectás (por ejemplo, vía el DNS o el SNI), aunque no el contenido",
+          "El contenido del body",
+          "Los encabezados con el token",
+          "La ruta completa y los parámetros de la URL"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "TLS cifra lo que viaja (ruta, headers, body), pero el nombre del servidor al que vas sigue siendo visible."
+    },
+    {
+      "slug": "ba-d2-so-reentrante",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "eventos",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const { EventEmitter } = require(\"node:events\");\nconst e = new EventEmitter();\nlet n = 0;\ne.on(\"ping\", () => {\n  console.log(\"ping\", ++n);\n  if (n < 3) e.emit(\"ping\");\n  console.log(\"fin\", n);\n});\ne.emit(\"ping\");",
+        "options": [
+          "ping 1\nping 2\nping 3\nfin 3\nfin 3\nfin 3",
+          "ping 1\nfin 1\nping 2\nfin 2\nping 3\nfin 3",
+          "ping 1\nping 2\nping 3",
+          "ping 1\nping 2\nping 3\nfin 1\nfin 2\nfin 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Emitir dentro de un listener lo ejecuta enseguida y de forma anidada; los «fin» salen al desarmarse las llamadas, cuando n ya vale 3."
+    },
+    {
+      "slug": "ba-d2-so-online",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "Socket.IO",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const online = new Set();\nconst connect = (id) => online.add(id);\nconst disconnect = (id) => online.delete(id);\nconnect(\"a\");\nconnect(\"b\");\nconnect(\"a\");\ndisconnect(\"c\");\ndisconnect(\"a\");\nconsole.log([...online].join(), online.size);",
+        "options": [
+          "b 1",
+          "a,b 2",
+          "b 2",
+          "a,b,a 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un Set no guarda repetidos y borrar algo que no está no falla: una buena estructura para llevar la lista de usuarios conectados."
+    },
+    {
+      "slug": "ba-d2-so-rooms",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "Socket.IO",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const rooms = new Map();\nconst join = (room, id) => rooms.set(room, (rooms.get(room) ?? new Set()).add(id));\nconst emitTo = (room, from) => [...(rooms.get(room) ?? [])].filter((id) => id !== from);\njoin(\"r1\", \"a\");\njoin(\"r1\", \"b\");\njoin(\"r2\", \"c\");\nconsole.log(emitTo(\"r1\", \"a\").join(), emitTo(\"r2\", \"c\").length, emitTo(\"r3\", \"a\").length);",
+        "options": [
+          "b 0 0",
+          "a,b 1 0",
+          "b 0 1",
+          "b 1 0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Es lo que hace socket.to(sala).emit: avisar a todos los de la sala menos al que lo envió. Una sala vacía no da error."
+    },
+    {
+      "slug": "ba-d2-so-broadcast-diff",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Socket.IO",
+      "module": 7,
+      "prompt": "En un chat, ¿qué diferencia hay entre io.emit('msg', data) y socket.broadcast.emit('msg', data)?",
+      "content": {
+        "options": [
+          "io.emit llega a todos los conectados, incluido el remitente; broadcast.emit llega a todos menos al socket que lo llama",
+          "No hay diferencia",
+          "broadcast.emit llega solo al remitente",
+          "io.emit llega solo a los que están en una sala"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Con broadcast el que envía no recibe su propio mensaje, útil para avisar «fulano entró»."
+    },
+    {
+      "slug": "ba-d2-so-http-ws",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "sockets",
+      "module": 7,
+      "prompt": "¿Cómo empieza una conexión WebSocket?",
+      "content": {
+        "options": [
+          "Con una petición HTTP normal que pide pasar al protocolo WebSocket (Upgrade) y después queda abierta",
+          "Con un paquete UDP",
+          "Con un POST a /socket",
+          "Con un handshake de DNS"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "WebSocket arranca con HTTP y después cambia de protocolo, manteniendo la conexión TCP abierta en las dos direcciones."
+    },
+    {
+      "slug": "ba-d2-so-escalar",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "Socket.IO",
+      "module": 7,
+      "prompt": "Tenés dos instancias de tu servidor de chat detrás de un balanceador. Un usuario conectado a la instancia 1 manda un mensaje a todos, pero los de la instancia 2 no lo reciben. ¿Por qué?",
+      "content": {
+        "options": [
+          "Cada instancia solo conoce sus propios sockets; hace falta un adaptador compartido (por ejemplo Redis)",
+          "Socket.IO no soporta más de un servidor",
+          "El balanceador bloquea los mensajes",
+          "Hay que usar UDP"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "io.emit solo recorre los sockets de su propio proceso; para varios procesos se comunican por un adaptador."
+    },
+    {
+      "slug": "ba-d2-par-filtrar-ids",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "find",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const users = [{ id: 1, age: 20 }, { id: 2, age: 30 }, { id: 3, age: 40 }];\nconsole.log(users.filter((u) => u.age > 25).map((u) => u.id));",
+        "options": [
+          "[ 2, 3 ]",
+          "[ { id: 2, age: 30 }, { id: 3, age: 40 } ]",
+          "[ 30, 40 ]",
+          "[ 1 ]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "filter se queda con los que cumplen la condición y map transforma cada uno: el resultado es una lista de ids."
+    },
+    {
+      "slug": "ba-d2-par-body-vacio",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "req.body",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const empty = (b) => Object.keys(b ?? {}).length === 0;\nconsole.log(empty({}), empty(undefined), empty({ name: \"\" }));",
+        "options": [
+          "true true false",
+          "true false false",
+          "false true false",
+          "true true true"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un body vacío puede llegar como {} o undefined (si falta express.json); un campo con string vacío igual cuenta como una clave."
+    },
+    {
+      "slug": "ba-d2-ws-put-inexistente",
+      "type": "multiple_choice",
+      "difficulty": "medium",
+      "topic": "métodos HTTP",
+      "module": 2,
+      "prompt": "Recibís un PUT /users/99 y no existe ningún usuario con id 99. ¿Qué es lo más prolijo en una API de ABM como la del curso?",
+      "content": {
+        "options": [
+          "Responder 404 sin crear nada",
+          "Crear el usuario con id 99 y responder 200",
+          "Responder 500",
+          "Responder 200 con un array vacío"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "En esta API el PUT modifica algo que ya existe; si no existe, el recurso no se encontró y es un 404."
+    },
+    {
+      "slug": "ba-d2-ws-reduce-total",
+      "type": "output",
+      "difficulty": "medium",
+      "topic": "CRUD",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const cart = [{ price: 100, qty: 2 }, { price: 50, qty: 3 }];\nconsole.log(cart.reduce((sum, i) => sum + i.price * i.qty, 0));",
+        "options": [
+          "350",
+          "150",
+          "700",
+          "250"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "reduce acumula 100×2 + 50×3. El 0 del final es el valor inicial de la suma."
+    },
+    {
+      "slug": "ba-d2-t-pwd",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "¿Qué hace el comando pwd?",
+      "content": {
+        "options": [
+          "Muestra la ruta de la carpeta en la que estás",
+          "Cambia la contraseña",
+          "Borra la carpeta actual",
+          "Lista los archivos"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "pwd significa «print working directory»."
+    },
+    {
+      "slug": "ba-d2-t-mkdir",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "terminal",
+      "module": 1,
+      "prompt": "¿Qué comando crea una carpeta nueva?",
+      "content": {
+        "options": [
+          "mkdir",
+          "cd",
+          "ls",
+          "rm"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "mkdir viene de «make directory»."
+    },
+    {
+      "slug": "ba-d2-t-node-modules",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "npm",
+      "module": 1,
+      "prompt": "Después de correr npm install express, ¿qué aparece en tu proyecto?",
+      "content": {
+        "options": [
+          "La carpeta node_modules con las librerías instaladas",
+          "Un servidor ya levantado",
+          "Una base de datos",
+          "Una carpeta public"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las dependencias se descargan en node_modules y quedan anotadas en package.json."
+    },
+    {
+      "slug": "ba-d2-t-gitignore",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "npm",
+      "module": 1,
+      "prompt": "¿Por qué suele ir node_modules en el .gitignore?",
+      "content": {
+        "options": [
+          "Porque pesa mucho y se puede volver a generar con npm install",
+          "Porque contiene contraseñas",
+          "Porque Git no puede leer carpetas",
+          "Porque se borra sola"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El package.json alcanza para reconstruir las dependencias."
+    },
+    {
+      "slug": "ba-d2-t-dependencias",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "npm",
+      "module": 1,
+      "prompt": "¿Qué diferencia hay entre dependencies y devDependencies en el package.json?",
+      "content": {
+        "options": [
+          "Las primeras se necesitan para que la app funcione; las otras, solo para desarrollar (por ejemplo, herramientas de testing)",
+          "No hay diferencia",
+          "Las dev se instalan solo en Windows",
+          "Las primeras son más viejas"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Se instalan con npm install --save-dev para lo que no hace falta en producción."
+    },
+    {
+      "slug": "ba-d2-ws-endpoint",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "web service",
+      "module": 2,
+      "prompt": "¿Qué es un endpoint?",
+      "content": {
+        "options": [
+          "Una URL de la API junto con un método HTTP, por ejemplo GET /users",
+          "Un archivo de configuración",
+          "Una base de datos",
+          "Un tipo de middleware"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Cada combinación de método y ruta es un punto de entrada de la API."
+    },
+    {
+      "slug": "ba-d2-ws-200",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "status codes",
+      "module": 2,
+      "prompt": "¿Qué significa un código de estado 200?",
+      "content": {
+        "options": [
+          "La petición salió bien",
+          "El recurso no existe",
+          "Falló el servidor",
+          "Falta autenticarse"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los 2xx son éxitos; el 200 es el más general."
+    },
+    {
+      "slug": "ba-d2-ws-stringify-simple",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "JSON",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const user = { name: \"Ana\", age: 30 };\nconsole.log(JSON.stringify(user));",
+        "options": [
+          "{\"name\":\"Ana\",\"age\":30}",
+          "{ name: 'Ana', age: 30 }",
+          "[object Object]",
+          "{name:\"Ana\",age:30}"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "JSON.stringify convierte el objeto en texto JSON, con las claves entre comillas dobles."
+    },
+    {
+      "slug": "ba-d2-ws-parse-tipo",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "JSON",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const data = JSON.parse('{\"id\": 5}');\nconsole.log(typeof data, data.id);",
+        "options": [
+          "object 5",
+          "string 5",
+          "object undefined",
+          "string {\"id\": 5}"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "JSON.parse convierte el texto en un objeto de JavaScript."
+    },
+    {
+      "slug": "ba-d2-ws-json-ext",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "JSON",
+      "module": 2,
+      "prompt": "¿Qué formato de datos es el más usado hoy para enviar y recibir información en una API?",
+      "content": {
+        "options": [
+          "JSON",
+          "PDF",
+          "MP3",
+          "EXE"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "JSON es liviano, legible y JavaScript lo entiende de forma nativa."
+    },
+    {
+      "slug": "ba-d2-ex-require",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "Express",
+      "module": 3,
+      "prompt": "¿Qué hace const express = require('express')?",
+      "content": {
+        "options": [
+          "Importa la librería Express para poder usarla",
+          "Instala Express",
+          "Levanta el servidor",
+          "Crea el package.json"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "require trae un módulo; la instalación se hace antes con npm."
+    },
+    {
+      "slug": "ba-d2-ex-send",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "Express",
+      "module": 3,
+      "prompt": "¿Qué hace res.send('Hola') dentro de una ruta?",
+      "content": {
+        "options": [
+          "Responde al cliente con el texto «Hola»",
+          "Imprime «Hola» en la consola del servidor",
+          "Envía un mail",
+          "Guarda «Hola» en un archivo"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Para ver algo en la consola usás console.log; res es lo que le llega al cliente."
+    },
+    {
+      "slug": "ba-d2-par-template",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "req.params",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const id = 5;\nconsole.log(`/users/${id}`);",
+        "options": [
+          "/users/5",
+          "/users/${id}",
+          "/users/id",
+          "/users/"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las comillas invertidas permiten insertar variables con ${...}."
+    },
+    {
+      "slug": "ba-d2-par-includes",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "find",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const roles = [\"user\", \"admin\"];\nconsole.log(roles.includes(\"admin\"), roles.includes(\"root\"));",
+        "options": [
+          "true false",
+          "false true",
+          "true true",
+          "false false"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "includes dice si el elemento está en el array."
+    },
+    {
+      "slug": "ba-d2-par-categoria",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "req.query",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const products = [{ n: \"A\", cat: \"x\" }, { n: \"B\", cat: \"y\" }, { n: \"C\", cat: \"x\" }];\nconsole.log(products.filter((p) => p.cat === \"x\").length);",
+        "options": [
+          "2",
+          "3",
+          "1",
+          "0"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Filtrar por categoría con req.query.categoria funciona igual que este filter."
+    },
+    {
+      "slug": "ba-d2-red-puerto-https",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "HTTP",
+      "module": 6,
+      "prompt": "¿Cuál es el puerto por defecto de HTTPS?",
+      "content": {
+        "options": [
+          "443",
+          "80",
+          "3000",
+          "8080"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "HTTP usa el 80 y HTTPS el 443, por eso en una URL común no hace falta escribirlos."
+    },
+    {
+      "slug": "ba-d2-red-localhost",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "topic": "IP",
+      "module": 6,
+      "prompt": "¿A qué dirección IP apunta localhost?",
+      "content": {
+        "options": [
+          "127.0.0.1, tu propia computadora",
+          "192.168.0.1, el router",
+          "8.8.8.8, Google",
+          "0.0.0.0, nadie"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "localhost siempre significa «esta misma máquina»."
     }
   ]
 }

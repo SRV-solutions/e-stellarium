@@ -9005,6 +9005,509 @@
         "correct": 0
       },
       "explanation": "Son el siguiente paso natural después de la programación orientada a objetos."
+    },
+    {
+      "slug": "js-d2-regex-codiciosa",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const s = \"<b>x</b><b>y</b>\";\nconsole.log(s.match(/<b>.*<\\/b>/)[0].length, s.match(/<b>.*?<\\/b>/)[0]);",
+        "options": [
+          "16 <b>x</b>",
+          "8 <b>x</b>",
+          "16 <b>x</b><b>y</b>",
+          "8 <b>y</b>"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El .* es codicioso: toma todo lo que pueda hasta el último </b>. Con .*? (perezoso) se detiene en el primero."
+    },
+    {
+      "slug": "js-d2-regex-lastindex",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const r = /a/g;\nconsole.log(r.test('aa'), r.test('aa'), r.test('aa'));",
+        "options": [
+          "true true false",
+          "true true true",
+          "true false false",
+          "true false true"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una regex con la bandera g guarda dónde quedó (lastIndex) entre llamadas: la tercera búsqueda arranca después de la última «a» y falla."
+    },
+    {
+      "slug": "js-d2-regex-reemplazo",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log('juan perez'.replace(/\\b\\w/g, (c) => c.toUpperCase()), '2024-05-17'.replace(/(\\d+)-(\\d+)-(\\d+)/, '$3/$2/$1'));",
+        "options": [
+          "Juan Perez 17/05/2024",
+          "Juan perez 17/05/2024",
+          "Juan Perez 2024/05/17",
+          "JUAN PEREZ 17/05/2024"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "\\b\\w marca la primera letra de cada palabra; en el reemplazo, $1, $2 y $3 son los grupos capturados."
+    },
+    {
+      "slug": "js-d2-regex-match-g",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "regex",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log('a1b22c333'.match(/\\d+/g), 'abc'.match(/\\d/g), 'abc'.match(/\\d/));",
+        "options": [
+          "[ '1', '22', '333' ] null null",
+          "[ '1', '22', '333' ] [] []",
+          "[ '1', '22', '333' ] null []",
+          "[ '1' ] null null"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "match con g devuelve todas las coincidencias (sin grupos); si no hay ninguna, devuelve null, no un array vacío."
+    },
+    {
+      "slug": "js-d2-race-any",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "promesas",
+      "module": 12,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const w = (ms, v) => new Promise((r) => setTimeout(() => r(v), ms));\nPromise.race([w(30, 'lento'), w(10, 'rapido')]).then(console.log);\nPromise.any([Promise.reject(1), w(5, 'ok')]).then(console.log);",
+        "options": [
+          "ok\nrapido",
+          "rapido\nok",
+          "lento\nok",
+          "1\nok"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "race se resuelve con la primera que termina (bien o mal); any, con la primera que sale bien, ignorando los rechazos. La de 5 ms llega antes."
+    },
+    {
+      "slug": "js-d2-then-promesa",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "promesas",
+      "module": 12,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "Promise.resolve().then(() => { console.log(1); return Promise.resolve(2); }).then((v) => console.log(v));\nPromise.resolve().then(() => console.log(3)).then(() => console.log(4)).then(() => console.log(5));",
+        "options": [
+          "1\n3\n4\n5\n2",
+          "1\n2\n3\n4\n5",
+          "1\n3\n2\n4\n5",
+          "3\n1\n4\n2\n5"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Devolver una promesa desde un then cuesta unos turnos extra de la cola de microtareas: la otra cadena avanza mientras tanto."
+    },
+    {
+      "slug": "js-d2-fetch-ok",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "promesas",
+      "module": 12,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "(async () => {\n  const r = new Response('{\"a\":1}', { status: 404 });\n  console.log(r.ok, r.status, (await r.json()).a);\n})();",
+        "options": [
+          "false 404 1",
+          "true 404 1",
+          "false 404 undefined",
+          "false 200 1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "fetch no rechaza la promesa con un 404: la respuesta llega igual y hay que mirar response.ok o response.status."
+    },
+    {
+      "slug": "js-d2-error-clase",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "errores",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class DbError extends Error {\n  constructor(m) { super(m); this.name = \"DbError\"; }\n}\ntry {\n  throw new DbError(\"x\");\n} catch (e) {\n  console.log(e instanceof DbError, e instanceof Error, e.name, String(e));\n}",
+        "options": [
+          "true true DbError DbError: x",
+          "true false DbError x",
+          "true true Error Error: x",
+          "false true DbError DbError: x"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una clase que hereda de Error sigue siendo un Error; String(e) arma «nombre: mensaje»."
+    },
+    {
+      "slug": "js-d2-finally-pisa",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "errores",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "function f() {\n  try {\n    throw new Error(\"a\");\n  } finally {\n    return \"finally gana\";\n  }\n}\nconsole.log(f());",
+        "options": [
+          "finally gana",
+          "Error: a",
+          "undefined",
+          "Uncaught Error: a"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un return dentro del finally pisa al error que estaba en camino: la excepción se pierde sin avisar."
+    },
+    {
+      "slug": "js-d2-recursion-infinita",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "errores",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "try {\n  (function f() { f(); })();\n} catch (e) {\n  console.log(e instanceof RangeError, e.name);\n}",
+        "options": [
+          "true RangeError",
+          "false Error",
+          "true TypeError",
+          "Nada: se cuelga"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una recursión sin caso base llena la pila de llamadas y JavaScript lanza RangeError (maximum call stack size exceeded), que se puede atrapar."
+    },
+    {
+      "slug": "js-d2-flat",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "arreglos",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const a = [1, [2, [3, [4]]]];\nconsole.log(a.flat().length, a.flat(Infinity).length, [[1, 2], [3]].flatMap((x) => x).join());",
+        "options": [
+          "3 4 1,2,3",
+          "4 4 1,2,3",
+          "3 3 1,2,3",
+          "3 4 [1,2],[3]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "flat() aplana un nivel; flat(Infinity) los aplana todos. flatMap hace un map y aplana un nivel."
+    },
+    {
+      "slug": "js-d2-array-huecos",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "arreglos",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(Array(3).map((_, i) => i), Array.from({ length: 3 }, (_, i) => i), [...Array(3).keys()]);",
+        "options": [
+          "[ <3 empty items> ] [ 0, 1, 2 ] [ 0, 1, 2 ]",
+          "[ 0, 1, 2 ] [ 0, 1, 2 ] [ 0, 1, 2 ]",
+          "[ undefined, undefined, undefined ] [ 0, 1, 2 ] [ 0, 1, 2 ]",
+          "[ <3 empty items> ] [ <3 empty items> ] [ 0, 1, 2 ]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Array(3) crea tres huecos, no tres undefined: map se salta los huecos. Array.from y el spread de keys() sí los recorren."
+    },
+    {
+      "slug": "js-d2-length-escribible",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "arreglos",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const a = [1, 2, 3];\na.length = 1;\na[3] = 9;\nconsole.log(a, a.length);",
+        "options": [
+          "[ 1, <2 empty items>, 9 ] 4",
+          "[ 1, 9 ] 2",
+          "[ 1, undefined, undefined, 9 ] 4",
+          "[ 1, 2, 3, 9 ] 4"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Bajar length corta el array; asignar en un índice lejano deja huecos entre medio."
+    },
+    {
+      "slug": "js-d2-includes-nan",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "arreglos",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log([NaN].includes(NaN), [NaN].indexOf(NaN), [1, 2, 3].findLast((x) => x < 3), [1, 2, 3].at(-1));",
+        "options": [
+          "true -1 2 3",
+          "false -1 2 3",
+          "true 0 1 3",
+          "true -1 3 1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "NaN no es igual a sí mismo: indexOf (que usa ===) no lo encuentra, pero includes sí."
+    },
+    {
+      "slug": "js-d2-orden-claves",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "objetos",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(Object.keys({ b: 1, 2: 1, a: 1, 1: 1 }).join());",
+        "options": [
+          "1,2,b,a",
+          "b,2,a,1",
+          "1,2,a,b",
+          "2,1,b,a"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las claves que son números enteros van primero y en orden numérico; el resto, en el orden en que se crearon."
+    },
+    {
+      "slug": "js-d2-freeze",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "objetos",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const o = Object.freeze({ a: 1, n: { b: 1 } });\no.a = 2;\no.n.b = 2;\ndelete o.a;\nconsole.log(o);",
+        "options": [
+          "{ a: 1, n: { b: 2 } }",
+          "{ a: 1, n: { b: 1 } }",
+          "{ a: 2, n: { b: 2 } }",
+          "{ n: { b: 2 } }"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "freeze es superficial: bloquea las propiedades del primer nivel (en silencio, sin error) pero no los objetos anidados."
+    },
+    {
+      "slug": "js-d2-emoji-largo",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "texto",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log('😀'.length, [...'😀'].length, 'ñ'.normalize('NFD').length);",
+        "options": [
+          "2 1 2",
+          "1 1 1",
+          "2 2 1",
+          "1 1 2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "length cuenta unidades UTF-16: un emoji ocupa 2. El spread recorre caracteres completos, y la ñ descompuesta es n + tilde."
+    },
+    {
+      "slug": "js-d2-bases-numericas",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "tipos",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log((25).toString(2), parseInt('ff', 16), parseFloat('3.14abc'), Number('1e3'), (255).toString(16).toUpperCase());",
+        "options": [
+          "11001 255 3.14 1000 FF",
+          "11001 15 3.14 NaN FF",
+          "25 255 3.14 1000 ff",
+          "11001 255 3 1000 FF"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "toString(base) y parseInt(texto, base) convierten entre sistemas de numeración; parseFloat lee hasta donde puede y Number acepta notación científica."
+    },
+    {
+      "slug": "js-d2-bigint",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "tipos",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "console.log(typeof 10n, 10n * 2n, 2 ** 53 + 1, 2n ** 53n + 1n);",
+        "options": [
+          "bigint 20n 9007199254740992 9007199254740993n",
+          "number 20 9007199254740993 9007199254740993",
+          "bigint 20 9007199254740993 9007199254740993",
+          "bigint 20n 9007199254740993 9007199254740993n"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "BigInt no pierde precisión con números enormes, pero no se puede mezclar con Number en una operación."
+    },
+    {
+      "slug": "js-d2-tostring",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class P {\n  constructor(n) { this.n = n; }\n  toString() { return `P(${this.n})`; }\n}\nconsole.log(`${new P(1)}`, new P(2) + '', [new P(3)].join(), String(new P(4)), JSON.stringify(new P(5)));",
+        "options": [
+          "P(1) P(2) P(3) P(4) {\"n\":5}",
+          "P(1) P(2) P(3) P(4) P(5)",
+          "[object Object] [object Object] [object Object] P(4) {}",
+          "P(1) P(2) P(3) P(4) \"P(5)\""
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Los textos, la concatenación y join usan toString(); JSON.stringify ignora toString y serializa las propiedades."
+    },
+    {
+      "slug": "js-d2-super-this",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "herencia",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class A {\n  hi() { return 'A' + this.n(); }\n  n() { return 1; }\n}\nclass B extends A {\n  n() { return 2; }\n  hi() { return 'B' + super.hi(); }\n}\nconsole.log(new B().hi());",
+        "options": [
+          "BA2",
+          "BA1",
+          "AB2",
+          "B2"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "super.hi() ejecuta el hi del padre, pero con this siendo la instancia de B: por eso n() es el de B (polimorfismo)."
+    },
+    {
+      "slug": "js-d2-insercion",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "ordenamiento",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const a = [4, 3, 2, 1];\nfor (let i = 1; i < 3; i++) {\n  const k = a[i];\n  let j = i - 1;\n  while (j >= 0 && a[j] > k) {\n    a[j + 1] = a[j];\n    j--;\n  }\n  a[j + 1] = k;\n}\nconsole.log(a);",
+        "options": [
+          "[ 2, 3, 4, 1 ]",
+          "[ 1, 2, 3, 4 ]",
+          "[ 3, 4, 2, 1 ]",
+          "[ 3, 2, 4, 1 ]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El ordenamiento por inserción va armando un tramo ordenado al principio: después de procesar los dos primeros elementos, el último (1) todavía no se tocó."
+    },
+    {
+      "slug": "js-d2-assert",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "testing",
+      "module": 13,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "const assert = require('node:assert');\nconst t = (f) => { try { f(); return 'ok'; } catch (e) { return 'fail'; } };\nconsole.log(t(() => assert.equal(1, '1')), t(() => assert.strictEqual(1, '1')), t(() => assert.deepStrictEqual({ a: 1 }, { a: 1 })), t(() => assert.strictEqual({ a: 1 }, { a: 1 })));",
+        "options": [
+          "ok fail ok fail",
+          "ok ok ok ok",
+          "fail fail ok fail",
+          "ok fail fail fail"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "equal compara con == (laxo), strictEqual con ===, y para objetos hay que usar deepStrictEqual porque dos objetos distintos nunca son ===."
+    },
+    {
+      "slug": "js-d2-export-default",
+      "type": "multiple_choice",
+      "difficulty": "hard",
+      "topic": "módulos",
+      "module": 5,
+      "prompt": "Un módulo hace «export default suma;» y «export const PI = 3;». ¿Cómo se importan las dos cosas en otro archivo?",
+      "content": {
+        "options": [
+          "import suma, { PI } from './m.mjs'",
+          "import { suma, PI } from './m.mjs'",
+          "import { suma }, PI from './m.mjs'",
+          "import suma and PI from './m.mjs'"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Lo exportado por defecto se importa sin llaves y con el nombre que quieras; lo exportado con nombre va entre llaves."
     }
   ]
 }

@@ -7509,6 +7509,699 @@
         "correct": 0
       },
       "explanation": "\"C:\\nuevo\" tendría un salto de línea en el medio. Con / no hay problema."
+    },
+    {
+      "slug": "py-d2-args-kwargs",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "def f(a, *args, b=2, **kw):\n    return (a, args, b, kw)\nprint(f(1, 2, 3, b=4, c=5))",
+        "options": [
+          "(1, (2, 3), 4, {'c': 5})",
+          "(1, [2, 3], 4, {'c': 5})",
+          "(1, (2, 3), 2, {'b': 4, 'c': 5})",
+          "(1, (2, 3, 4), 2, {'c': 5})"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "*args junta los posicionales sobrantes en una tupla; lo que está después de *args solo se pasa por nombre (b), y **kw junta el resto de los nombrados."
+    },
+    {
+      "slug": "py-d2-recursion-llamadas",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "funciones",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "calls = 0\ndef fib(n):\n    global calls\n    calls += 1\n    return n if n < 2 else fib(n - 1) + fib(n - 2)\nprint(fib(6), calls)",
+        "options": [
+          "8 25",
+          "8 13",
+          "13 25",
+          "8 6"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "fib(6) vale 8, pero para calcularlo la función se llama 25 veces: repite muchísimo trabajo (por eso la recursión ingenua es lenta)."
+    },
+    {
+      "slug": "py-d2-global-local",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "scope",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "x = []\ndef f():\n    x.append(1)\ndef g():\n    x += [2]\nf()\ntry:\n    g()\nexcept UnboundLocalError:\n    print('unbound')\nprint(x)",
+        "options": [
+          "unbound\n[1]",
+          "[1, 2]",
+          "unbound\n[1, 2]",
+          "[1]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "x.append modifica la lista global sin reasignarla, pero x += ... es una asignación: Python cree que x es local en g y falla porque todavía no tiene valor."
+    },
+    {
+      "slug": "py-d2-copia-profunda",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "listas",
+      "module": 7,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "import copy\na = [[1], [2]]\nb = a.copy()\nc = copy.deepcopy(a)\na[0].append(9)\nprint(b, c)",
+        "options": [
+          "[[1, 9], [2]] [[1], [2]]",
+          "[[1], [2]] [[1], [2]]",
+          "[[1, 9], [2]] [[1, 9], [2]]",
+          "[[1], [2]] [[1, 9], [2]]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "copy() copia solo la lista de afuera: las listas internas se comparten. deepcopy copia todo."
+    },
+    {
+      "slug": "py-d2-desempaquetar",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "listas",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "a, *b, c = range(5)\nprint(a, b, c)",
+        "options": [
+          "0 [1, 2, 3] 4",
+          "0 (1, 2, 3) 4",
+          "0 [1, 2, 3, 4] 4",
+          "0 1 4"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El * recoge lo que sobra del medio en una lista."
+    },
+    {
+      "slug": "py-d2-tupla-lista",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "tuplas",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "t = ([1], 2)\ntry:\n    t[0] += [3]\nexcept TypeError:\n    print('error')\nprint(t)",
+        "options": [
+          "error\n([1, 3], 2)",
+          "([1, 3], 2)",
+          "error\n([1], 2)",
+          "([1], 2)"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una tupla no se puede reasignar, pero la lista que contiene sí se puede modificar: += primero extiende la lista y recién después falla al reasignar el elemento de la tupla."
+    },
+    {
+      "slug": "py-d2-sets",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "sets",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "a = {1, 2, 3}\nb = {3, 4}\nprint(a & b, a | b, a - b, a ^ b)",
+        "options": [
+          "{3} {1, 2, 3, 4} {1, 2} {1, 2, 4}",
+          "{3} {1, 2, 3, 4} {1, 2} {4}",
+          "{1, 2} {3} {1, 2, 3, 4} {4}",
+          "{3} {1, 2, 3, 3, 4} {1, 2} {1, 2, 4}"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "& es la intersección, | la unión, - la diferencia y ^ lo que está en uno solo de los dos."
+    },
+    {
+      "slug": "py-d2-dict-claves",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "diccionarios",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "d = {k: v for k, v in [('a', 1), ('b', 2), ('a', 3)]}\nprint(d, {**{'a': 1, 'b': 2}, **{'b': 3}})",
+        "options": [
+          "{'a': 3, 'b': 2} {'a': 1, 'b': 3}",
+          "{'a': 1, 'b': 2} {'a': 1, 'b': 2}",
+          "{'a': 3, 'b': 2} {'a': 1, 'b': 2}",
+          "{'a': 1, 'b': 2, 'a': 3} {'a': 1, 'b': 3}"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una clave no se repite: la última asignación pisa el valor. Con ** pasa lo mismo: gana el diccionario de la derecha."
+    },
+    {
+      "slug": "py-d2-remove-iterando",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "listas",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "a = [1, 2, 2, 3]\nfor x in a:\n    if x == 2:\n        a.remove(x)\nprint(a)",
+        "options": [
+          "[1, 2, 3]",
+          "[1, 3]",
+          "[1, 2, 2, 3]",
+          "Error"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Al borrar un elemento mientras recorrés, la lista se corre y el for se salta el siguiente: el segundo 2 nunca se revisa."
+    },
+    {
+      "slug": "py-d2-bool-clave",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "diccionarios",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(isinstance(True, int), {1: 'a', True: 'b', 1.0: 'c'}, sum([True, True, False]))",
+        "options": [
+          "True {1: 'c'} 2",
+          "True {1: 'a', True: 'b', 1.0: 'c'} 2",
+          "False {1: 'c'} 2",
+          "True {1: 'a'} 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "True es un int que vale 1, y 1 == 1.0, así que son la misma clave: queda la primera clave con el último valor."
+    },
+    {
+      "slug": "py-d2-json-dumps",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "JSON",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "import json\nprint(json.dumps({'a': None, 'b': True, 'c': (1, 2), 1: 'x'}))",
+        "options": [
+          "{\"a\": null, \"b\": true, \"c\": [1, 2], \"1\": \"x\"}",
+          "{\"a\": None, \"b\": True, \"c\": (1, 2), 1: \"x\"}",
+          "{\"a\": null, \"b\": true, \"c\": (1, 2), \"1\": \"x\"}",
+          "{\"a\": null, \"b\": true, \"c\": [1, 2], 1: \"x\"}"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "JSON usa null, true y false; las tuplas pasan a listas y las claves siempre son texto."
+    },
+    {
+      "slug": "py-d2-split",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "texto",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print('a b  c'.split(), 'a b  c'.split(' '))",
+        "options": [
+          "['a', 'b', 'c'] ['a', 'b', '', 'c']",
+          "['a', 'b', 'c'] ['a', 'b', 'c']",
+          "['a', 'b', '', 'c'] ['a', 'b', 'c']",
+          "['a b  c'] ['a', 'b', 'c']"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "split() sin argumentos agrupa cualquier cantidad de espacios; split(' ') corta en cada espacio y deja textos vacíos."
+    },
+    {
+      "slug": "py-d2-strip-chars",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "texto",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print('abcba'.strip('ab'), 'banana'.rstrip('na'), 'a.b.c'.rsplit('.', 1))",
+        "options": [
+          "c b ['a.b', 'c']",
+          "cb banan ['a', 'b.c']",
+          "abcba banana ['a.b', 'c']",
+          "c banana ['a.b', 'c']"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "strip recibe un conjunto de caracteres, no un texto: saca cualquiera de ellos de los extremos hasta encontrar otro."
+    },
+    {
+      "slug": "py-d2-formato",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "texto",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(f\"{3.14159:.2f}|{42:05d}|{1234567:,}|{0.5:.0%}|{'x':>3}|{'x':^5}|\")",
+        "options": [
+          "3.14|00042|1,234,567|50%|  x|  x  |",
+          "3.14|42000|1234567|0.5%|x  |x    |",
+          "3.14|00042|1,234,567|0.50|  x|  x  |",
+          "3.1|00042|1.234.567|50%|  x|  x  |"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Después de los dos puntos va el formato: .2f decimales, 05d relleno de ceros, , separador de miles, % porcentaje, > derecha y ^ centrado."
+    },
+    {
+      "slug": "py-d2-and-or",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "operadores lógicos",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(repr(0 or 'x'), repr('' and 5), 3 and 4, repr(None or 0 or []), [] or None)",
+        "options": [
+          "'x' '' 4 [] None",
+          "True False True False None",
+          "'x' 5 4 0 []",
+          "x  4 [] None"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "or devuelve el primer valor verdadero (o el último) y and devuelve el primer valor falso (o el último): no devuelven True o False, sino uno de los operandos."
+    },
+    {
+      "slug": "py-d2-comparaciones",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "operadores",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(1 < 2 < 3, 3 > 2 > 2, 1 == 1.0, '1' == 1, 0.1 + 0.2 == 0.3, abs(0.1 + 0.2 - 0.3) < 1e-9)",
+        "options": [
+          "True False True False False True",
+          "True True True False False True",
+          "True False True True False True",
+          "True False False False True True"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Las comparaciones encadenadas se leen como «y»: 3 > 2 y 2 > 2. Para decimales se compara con una tolerancia, no con ==."
+    },
+    {
+      "slug": "py-d2-math-redondeos",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "math",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "import math\nprint(math.floor(-2.5), math.ceil(-2.5), int(-2.5), round(-2.5), math.trunc(2.7), math.isclose(0.1 + 0.2, 0.3))",
+        "options": [
+          "-3 -2 -2 -2 2 True",
+          "-3 -3 -3 -3 3 True",
+          "-2 -2 -2 -3 2 False",
+          "-3 -2 -3 -2 2 True"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "floor baja, ceil sube, int corta los decimales y round lleva el .5 al par (−2). isclose compara con tolerancia."
+    },
+    {
+      "slug": "py-d2-for-else",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "bucles",
+      "module": 3,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "for n in [3, 5, 7]:\n    if n % 2 == 0:\n        print('par')\n        break\nelse:\n    print('sin pares')\nfor n in [3, 4]:\n    if n % 2 == 0:\n        print('par')\n        break\nelse:\n    print('sin pares')",
+        "options": [
+          "sin pares\npar",
+          "sin pares\nsin pares",
+          "par\npar",
+          "sin pares\npar\nsin pares"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El else de un for se ejecuta solo si el bucle terminó sin llegar a un break."
+    },
+    {
+      "slug": "py-d2-break-interno",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "bucles",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "c = 0\nfor i in range(3):\n    for j in range(3):\n        if j == i:\n            break\n        c += 1\nprint(c)",
+        "options": [
+          "3",
+          "0",
+          "6",
+          "9"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El break solo corta el bucle de adentro: para i=0 no suma nada, para i=1 suma 1 y para i=2 suma 2."
+    },
+    {
+      "slug": "py-d2-range",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "for",
+      "module": 6,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(list(range(10, 0, -3)), range(5)[-1], len(range(2, 10, 3)), list(range(3, 3)))",
+        "options": [
+          "[10, 7, 4, 1] 4 3 []",
+          "[10, 7, 4] 4 3 []",
+          "[10, 7, 4, 1] 5 3 [3]",
+          "[10, 7, 4, 1] 4 4 []"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "range no incluye el final, acepta paso negativo, se puede indexar y un rango «vacío» no da error."
+    },
+    {
+      "slug": "py-d2-burbuja-pasada",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "ordenamiento",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "a = [5, 1, 4, 2]\nfor i in range(len(a) - 1):\n    if a[i] > a[i + 1]:\n        a[i], a[i + 1] = a[i + 1], a[i]\nprint(a)",
+        "options": [
+          "[1, 4, 2, 5]",
+          "[1, 2, 4, 5]",
+          "[1, 5, 4, 2]",
+          "[5, 1, 2, 4]"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Una sola pasada del ordenamiento burbuja lleva el mayor al final, pero el resto queda a medio ordenar: hacen falta más pasadas."
+    },
+    {
+      "slug": "py-d2-busqueda-binaria",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "ordenamiento",
+      "module": 8,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "a = [1, 3, 5, 7, 9, 11, 13]\nlo, hi, target, steps = 0, 6, 11, 0\nwhile lo <= hi:\n    mid = (lo + hi) // 2\n    steps += 1\n    if a[mid] == target:\n        break\n    elif a[mid] < target:\n        lo = mid + 1\n    else:\n        hi = mid - 1\nprint(mid, steps)",
+        "options": [
+          "5 2",
+          "5 3",
+          "4 2",
+          "3 1"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Primero mira el del medio (índice 3, valor 7); como 7 < 11, descarta la mitad izquierda y mira el índice 5, que es el 11: 2 pasos."
+    },
+    {
+      "slug": "py-d2-str-repr",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class P:\n    def __str__(self):\n        return 'str'\n    def __repr__(self):\n        return 'repr'\np = P()\nprint(p, [p], f'{p}', str([p]))",
+        "options": [
+          "str [repr] str [repr]",
+          "str [str] str [str]",
+          "repr [repr] repr [repr]",
+          "str repr str repr"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "print y f-string usan __str__; pero los elementos dentro de una lista se muestran con __repr__."
+    },
+    {
+      "slug": "py-d2-mro",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "herencia",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class A:\n    def hi(self): return 'A'\nclass B(A):\n    def hi(self): return 'B' + super().hi()\nclass C(A):\n    def hi(self): return 'C' + super().hi()\nclass D(B, C):\n    def hi(self): return 'D' + super().hi()\nprint(D().hi(), [k.__name__ for k in D.__mro__])",
+        "options": [
+          "DBCA ['D', 'B', 'C', 'A', 'object']",
+          "DBA ['D', 'B', 'A', 'object']",
+          "DBAC ['D', 'B', 'A', 'C', 'object']",
+          "DCBA ['D', 'C', 'B', 'A', 'object']"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "super() sigue el orden de resolución de métodos (MRO): en el diamante, B pasa el turno a C antes de llegar a A."
+    },
+    {
+      "slug": "py-d2-eq-hash",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "POO",
+      "module": 9,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "class P:\n    def __init__(self, x):\n        self.x = x\n    def __eq__(self, o):\n        return self.x == o.x\nprint(P(1) == P(1), P(1) in [P(1)])\ntry:\n    len({P(1), P(1)})\nexcept TypeError:\n    print('unhashable')",
+        "options": [
+          "True True\nunhashable",
+          "True True",
+          "False False\nunhashable",
+          "True False\nunhashable"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Si definís __eq__ sin __hash__, Python deja los objetos sin hash: no se pueden usar en sets ni como claves de diccionario."
+    },
+    {
+      "slug": "py-d2-excepcion-reraise",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "try/except",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "def f():\n    try:\n        print('a')\n        raise ValueError('x')\n    except ValueError:\n        print('b')\n        raise KeyError('y')\n    finally:\n        print('c')\ntry:\n    f()\nexcept Exception as e:\n    print(type(e).__name__, e)",
+        "options": [
+          "a\nb\nc\nKeyError 'y'",
+          "a\nb\nKeyError 'y'\nc",
+          "a\nc\nb\nKeyError 'y'",
+          "a\nb\nc\nValueError x"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "El finally corre antes de que la excepción nueva salga de la función; KeyError muestra su mensaje entre comillas."
+    },
+    {
+      "slug": "py-d2-with-cierra",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "archivos",
+      "module": 10,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "f = open('a.txt', 'w')\nprint(f.closed)\nf.close()\nwith open('a.txt') as g:\n    pass\nprint(f.closed, g.closed)",
+        "options": [
+          "False\nTrue True",
+          "True\nTrue True",
+          "False\nTrue False",
+          "False\nFalse True"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Un archivo abierto con with se cierra solo al salir del bloque, aunque haya un error adentro."
+    },
+    {
+      "slug": "py-d2-urlencode",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "requests",
+      "module": 11,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "from urllib.parse import urlencode, quote\nprint(urlencode({'q': 'a b', 'n': 1}), quote('ñ/a b'))",
+        "options": [
+          "q=a+b&n=1 %C3%B1/a%20b",
+          "q=a b&n=1 ñ/a b",
+          "q=a%20b&n=1 %C3%B1%2Fa%20b",
+          "q=a+b;n=1 %F1/a+b"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "Para armar un query string hay que codificar los caracteres especiales: el espacio pasa a + o %20 y la ñ se convierte en bytes %C3%B1."
+    },
+    {
+      "slug": "py-d2-datetime",
+      "type": "output",
+      "difficulty": "hard",
+      "topic": "datetime",
+      "module": 13,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "from datetime import datetime, timedelta\nd = datetime(2024, 1, 31)\nprint((d + timedelta(days=1)).strftime('%d/%m/%Y'), (datetime(2024, 3, 1) - datetime(2024, 2, 1)).days, d.weekday())",
+        "options": [
+          "01/02/2024 29 2",
+          "32/01/2024 29 3",
+          "01/02/2024 28 2",
+          "01/02/2024 29 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "timedelta suma días respetando el calendario; restar fechas da un timedelta (2024 es bisiesto: febrero tuvo 29 días) y weekday() cuenta desde el lunes = 0."
+    },
+    {
+      "slug": "py-d2-type-basicos",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "tipos",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(type(5), type(5.0), type('5'), type(True))",
+        "options": [
+          "<class 'int'> <class 'float'> <class 'str'> <class 'bool'>",
+          "int float str bool",
+          "<class 'int'> <class 'int'> <class 'str'> <class 'bool'>",
+          "<class 'int'> <class 'float'> <class 'str'> <class 'int'>"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "type() muestra el tipo de dato: 5 es int, 5.0 es float, '5' es str y True es bool."
+    },
+    {
+      "slug": "py-d2-texto-metodos",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "texto",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print(len('hola'), 'hola'.upper(), 'HOLA'.lower())",
+        "options": [
+          "4 HOLA hola",
+          "4 hola HOLA",
+          "3 HOLA hola",
+          "hola HOLA hola"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "len cuenta los caracteres; upper pasa a mayúsculas y lower a minúsculas."
+    },
+    {
+      "slug": "py-d2-concatenar-repetir",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "texto",
+      "module": 2,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "print('a' + 'b', 'a' * 3)",
+        "options": [
+          "ab aaa",
+          "a b aaa",
+          "ab a3",
+          "ab 3a"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "+ une textos y * los repite."
+    },
+    {
+      "slug": "py-d2-sum-max-len",
+      "type": "output",
+      "difficulty": "easy",
+      "topic": "listas",
+      "module": 4,
+      "prompt": "¿Qué imprime este código?",
+      "content": {
+        "code": "nums = [1, 2, 3]\nprint(sum(nums), max(nums), len(nums))",
+        "options": [
+          "6 3 3",
+          "3 6 3",
+          "6 3 6",
+          "1 3 3"
+        ]
+      },
+      "answer": {
+        "correct": 0
+      },
+      "explanation": "sum suma todos, max da el mayor y len cuenta los elementos."
     }
   ]
 }
