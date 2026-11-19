@@ -563,6 +563,9 @@
   place-items: center;
   grid-auto-flow: column;
   align-items: baseline;
+  justify-content: center; /* el número y el % juntos, en el medio (sin esto cada uno se queda en su mitad) */
+  align-content: center;
+  column-gap: 2px;
   width: 44px;
   height: 30px;
   border: 1px dashed var(--dim);
