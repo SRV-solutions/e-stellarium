@@ -77,6 +77,12 @@ beforeEach(async () => {
       ('ready_to_launch', 'title', 'Lista para despegar', 'o Listo para despegar', 180, NULL, NULL, 'Listo para despegar', 29, now(), now()),
       ('unstoppable', 'title', 'Imparable', '', 200, NULL, NULL, NULL, 30, now(), now()),
       ('mind_in_orbit', 'title', 'Mente en órbita', '', 250, NULL, NULL, NULL, 31, now(), now());
+    INSERT INTO shop_items (id, kind, name, note, price, hex, effect, position, created_at, updated_at) VALUES
+      ('twinkle', 'color', 'Titilar', 'Estrellas que brillan a destiempo', 400, '#b9a6ff', 'twinkle', 32, now(), now()),
+      ('pulse', 'color', 'Pulso', 'La línea respira', 450, '#3fe0a2', 'pulse', 33, now(), now()),
+      ('flow', 'color', 'Corriente', 'Puntos de luz que recorren la línea', 550, '#4fa3ff', 'flow', 34, now(), now()),
+      ('comet', 'color', 'Cometa', 'Un destello viaja de estrella en estrella', 700, '#ffc94a', 'comet', 35, now(), now()),
+      ('rainbow', 'color', 'Arcoíris', 'El color recorre todo el espectro', 900, '#ff5ea0', 'rainbow', 36, now(), now());
   `);
   // Todo sellado al empezar: los DVH y DVV coinciden con la base vacía
   await sealAll();

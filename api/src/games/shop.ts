@@ -135,6 +135,7 @@ export async function shopView(user: User, now = new Date(), t?: Transaction): P
       name: c.name,
       note: c.note,
       hex: c.hex,
+      effect: c.effect,
       variants: c.altName ? ([c.name, c.altName] as [string, string]) : null,
       price: c.price,
       missing: owned.has(c.id) ? 0 : missing(c.price),

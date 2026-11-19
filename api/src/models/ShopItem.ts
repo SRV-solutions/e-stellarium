@@ -18,6 +18,7 @@ export class ShopItem extends Model<InferAttributes<ShopItem>, InferCreationAttr
   declare price: number;
   declare percent: number | null; // solo los cupones
   declare hex: string | null; // solo los colores
+  declare effect: string | null; // solo los colores: cómo se anima el trazo (TRAIL_EFFECTS); vacío = sin animación
   declare altName: string | null; // la otra forma de un título: "Cazador de cometas"
   declare position: number;
   declare active: CreationOptional<boolean>;
@@ -34,6 +35,7 @@ ShopItem.init(
     price: { type: DataTypes.INTEGER, allowNull: false },
     percent: { type: DataTypes.SMALLINT, allowNull: true },
     hex: { type: DataTypes.STRING(7), allowNull: true },
+    effect: { type: DataTypes.STRING(12), allowNull: true },
     altName: { type: DataTypes.STRING(60), allowNull: true },
     position: { type: DataTypes.SMALLINT, allowNull: false },
     active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },

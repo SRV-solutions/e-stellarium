@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { Avatar } from "../../components/Avatar/Avatar";
 import { Cosmos } from "../../components/Cosmos/Cosmos";
+import { TrailSwatch } from "../../components/TrailSwatch/TrailSwatch";
 import { Glint } from "../../components/Glint/Glint";
 import { useAuth } from "../../auth/useAuth";
 import { api, ApiError } from "../../lib/api";
@@ -400,7 +401,7 @@ function CosmeticRow({ cosmetic, worn, alias, glints, onBuy, onWear }: RowProps)
 
   let swatch;
   if (kind === "frame") swatch = <Avatar alias={alias} frame={item} />;
-  else if (kind === "color") swatch = <Trail color={cosmetic.hex ?? "#4fa3ff"} />;
+  else if (kind === "color") swatch = <TrailSwatch color={cosmetic.hex ?? "#4fa3ff"} effect={cosmetic.effect} className={styles.trail} />;
   else swatch = <span className={styles.titleSwatch}>“…”</span>;
 
   let end;
@@ -457,27 +458,5 @@ function CosmeticRow({ cosmetic, worn, alias, glints, onBuy, onWear }: RowProps)
       </span>
       {end}
     </li>
-  );
-}
-
-// El trazo de una constelación, en su color: cuatro estrellas unidas
-const TRAIL = [
-  [2, 24],
-  [16, 12],
-  [30, 18],
-  [46, 4],
-];
-
-function Trail({ color }: { color: string }) {
-  return (
-    <svg className={styles.trail} viewBox="0 0 48 28" aria-hidden="true">
-      <polyline points={TRAIL.map((p) => p.join(",")).join(" ")} fill="none" stroke={color} strokeWidth="1.8" strokeLinejoin="round" />
-      {TRAIL.map(([x, y]) => (
-        <g key={x}>
-          <circle cx={x} cy={y} r="5" fill={color} opacity=".25" />
-          <circle cx={x} cy={y} r="2.6" fill="#fff" />
-        </g>
-      ))}
-    </svg>
   );
 }

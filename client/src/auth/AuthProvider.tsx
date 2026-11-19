@@ -40,9 +40,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // El color del trazo que lleva puesto se aplica a toda la página
   const wornColorHex = user?.wornColorHex ?? null;
+  const wornColorEffect = user?.wornColorEffect ?? null;
   useEffect(() => {
-    applyTrail(wornColorHex);
-  }, [wornColorHex]);
+    applyTrail(wornColorHex, wornColorEffect);
+  }, [wornColorHex, wornColorEffect]);
 
   // Al abrir la app, preguntamos si ya hay una sesión activa
   useEffect(() => {
@@ -93,6 +94,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           wornFrame: worn.frame,
           wornColor: worn.color === "blue" ? null : worn.color,
           wornColorHex: worn.colorHex,
+          wornColorEffect: worn.colorEffect,
           wornTitle: worn.title,
           titleVariant: worn.titleVariant,
         }

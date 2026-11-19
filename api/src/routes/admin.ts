@@ -165,13 +165,13 @@ adminRouter.get("/admin/shop", requireAuth, requirePermission("economy:edit"), a
   res.json({ items: await listShopItems() });
 });
 
-// Agrega un cupón, un color o un título: { kind, name, note?, price, percent?, hex?, altName? }
+// Agrega un cupón, un color o un título: { kind, name, note?, price, percent?, hex?, effect?, altName? }
 adminRouter.post("/admin/shop", requireAuth, requirePermission("economy:edit"), async (req, res) => {
   const item = await sequelize.transaction((t) => createShopItem(t, auditContext(req), req.body));
   res.status(201).json({ item });
 });
 
-// Cambia un ítem: { name?, note?, price?, percent?, hex?, altName?, active? } (active: false lo retira)
+// Cambia un ítem: { name?, note?, price?, percent?, hex?, effect?, altName?, active? } (active: false lo retira)
 adminRouter.patch("/admin/shop/:id", requireAuth, requirePermission("economy:edit"), async (req, res) => {
   const id = String(req.params.id);
   const item = await sequelize.transaction(async (t) => {

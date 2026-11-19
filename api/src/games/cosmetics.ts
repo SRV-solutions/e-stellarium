@@ -8,6 +8,11 @@ import { ShopItem, User, UserCosmetic } from "../models/index.js";
 export type CosmeticKind = "frame" | "color" | "title";
 export const COSMETIC_KINDS: CosmeticKind[] = ["frame", "color", "title"];
 
+// Los efectos de un color de trazo (shop_items.effect): el cliente anima la línea según cuál lleve puesto.
+// Si se agrega uno, también va en la restricción de la tabla (migración) y en el cliente (lib/trail.ts)
+export const TRAIL_EFFECTS = ["twinkle", "pulse", "flow", "comet", "rainbow"] as const;
+export type TrailEffect = (typeof TRAIL_EFFECTS)[number];
+
 // El azul de siempre: gratis y puesto si no eligió otro (worn_color vacío)
 export const DEFAULT_COLOR = "blue";
 
@@ -35,10 +40,17 @@ export async function wornBy(user: User, t?: Transaction) {
     frame: user.wornFrame,
     color,
     colorHex: colorItem?.hex ?? null,
+    colorEffect: colorItem?.effect ?? null,
     title: user.wornTitle,
     titleVariant: user.titleVariant,
     titleText: titleText(title, user.titleVariant),
   };
+}
+
+// El trazo que lleva puesto, para la sesión del navegador: su color y su efecto salen de la tienda
+export async function trailOf(user: User, t?: Transaction) {
+  const item = await findCosmetic(user.wornColor ?? DEFAULT_COLOR, t);
+  return { wornColorHex: item?.hex ?? null, wornColorEffect: item?.effect ?? null };
 }
 
 export async function ownedCosmetics(userId: string, t?: Transaction) {

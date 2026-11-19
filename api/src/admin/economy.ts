@@ -7,7 +7,7 @@ import { Setting, ShopItem } from "../models/index.js";
 import type { ShopItemKind } from "../models/ShopItem.js";
 import { groupOf, isSettingKey, keysOf, loadSettings, SETTINGS, type SettingGroup, type SettingKey } from "../games/economy.js";
 import { challengeSettingsProblem } from "../games/challenge.js";
-import { DEFAULT_COLOR } from "../games/cosmetics.js";
+import { DEFAULT_COLOR, TRAIL_EFFECTS } from "../games/cosmetics.js";
 import type { ChangeOptions } from "./users.js";
 
 // La economía editable desde el panel (economy:edit): los valores de settings y lo que se vende.
@@ -107,7 +107,7 @@ const CREATABLE: ShopItemKind[] = ["coupon", "color", "title"];
 const MAX_PRICE = 100_000;
 
 // Los campos que se editan, como los guarda la bitácora
-const FIELDS = ["name", "note", "price", "percent", "hex", "altName", "active"] as const;
+const FIELDS = ["name", "note", "price", "percent", "hex", "effect", "altName", "active"] as const;
 type Field = (typeof FIELDS)[number];
 export type ItemChanges = Partial<{
   name: string;
@@ -115,6 +115,7 @@ export type ItemChanges = Partial<{
   price: number;
   percent: number;
   hex: string;
+  effect: string | null;
   altName: string | null;
   active: boolean;
 }>;
@@ -127,6 +128,7 @@ function snapshot(item: ShopItem) {
     price: item.price,
     percent: item.percent,
     hex: item.hex,
+    effect: item.effect,
     altName: item.altName,
     active: item.active,
   };
@@ -201,6 +203,14 @@ export function parseItemChanges(body: unknown, kind: ShopItemKind): ItemChanges
       throw new HttpError(400, "El color tiene que ser como #4fa3ff.");
     }
     out.hex = input.hex.toLowerCase();
+  }
+  if ("effect" in input) {
+    if (kind !== "color") throw new HttpError(400, "Solo los colores tienen efecto.");
+    const effect = input.effect;
+    if (effect !== null && !TRAIL_EFFECTS.includes(effect as (typeof TRAIL_EFFECTS)[number])) {
+      throw new HttpError(400, `El efecto tiene que ser uno de: ${TRAIL_EFFECTS.join(", ")} (o null para ninguno).`);
+    }
+    out.effect = effect as string | null;
   }
   if ("altName" in input) {
     if (kind !== "title") throw new HttpError(400, "Solo los títulos tienen otra forma.");
@@ -300,6 +310,7 @@ export async function createShopItem(t: Transaction, ctx: AuditContext, body: un
       price: changes.price,
       percent: changes.percent ?? null,
       hex: changes.hex ?? null,
+      effect: changes.effect ?? null,
       altName: changes.altName ?? null,
       position: (last ?? -1) + 1,
     },

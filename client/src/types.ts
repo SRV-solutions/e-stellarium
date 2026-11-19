@@ -34,6 +34,7 @@ export type User = {
   wornFrame: string | null;
   wornColor: string | null;
   wornColorHex: string | null; // el color de ese trazo, como lo guarda la tienda
+  wornColorEffect: TrailEffect | null; // cómo se anima ese trazo (null: no se anima)
   wornTitle: string | null;
   titleVariant: number; // 0 o 1: "Cazadora" o "Cazador"
   createdAt: string;
@@ -337,6 +338,9 @@ export type Ranking = {
 // ya compró los protectores del mes o ya tiene ese cosmético. null: se puede
 export type Blocked = "glints" | "weekly_limit" | "monthly_limit" | "owned" | null;
 
+// Los efectos de un color de trazo (la API los valida con la misma lista; los dibujan StarMap y CourseLine)
+export type TrailEffect = "twinkle" | "pulse" | "flow" | "comet" | "rainbow";
+
 export type CosmeticKind = "frame" | "color" | "title";
 
 // Lo que lleva puesto (PUT /me/cosmetics lo devuelve igual)
@@ -344,6 +348,7 @@ export type Worn = {
   frame: string | null;
   color: string; // "blue" si no eligió otro
   colorHex: string | null;
+  colorEffect: TrailEffect | null;
   title: string | null;
   titleVariant: number;
   titleText: string | null;
@@ -372,6 +377,7 @@ export type Shop = {
     name: string;
     note: string;
     hex: string | null;
+    effect: TrailEffect | null; // solo los colores
     variants: [string, string] | null;
     price: number;
     missing: number;

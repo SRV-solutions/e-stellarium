@@ -4,6 +4,7 @@ import { useAuth } from "../../auth/useAuth";
 import { api, ApiError } from "../../lib/api";
 import type { CosmeticKind, Shop, Worn } from "../../types";
 import { Avatar } from "../Avatar/Avatar";
+import { TrailSwatch } from "../TrailSwatch/TrailSwatch";
 import styles from "./Inventory.module.css";
 
 type Cosmetic = Shop["cosmetics"][number];
@@ -143,7 +144,7 @@ function Option({ kind, name, checked, alias, cosmetic, variant = 0, onPick, onV
   let stage;
   if (!cosmetic) stage = <span className={styles.none} />;
   else if (kind === "frame") stage = <Avatar alias={alias} frame={cosmetic.item} size={26} />;
-  else if (kind === "color") stage = <Trail color={cosmetic.hex ?? "#4fa3ff"} />;
+  else if (kind === "color") stage = <TrailSwatch color={cosmetic.hex ?? "#4fa3ff"} effect={cosmetic.effect} />;
   else stage = <span className={styles.titleMark}>“…”</span>;
 
   // Los títulos con dos formas muestran la que lleva puesta
@@ -162,27 +163,5 @@ function Option({ kind, name, checked, alias, cosmetic, variant = 0, onPick, onV
         </button>
       )}
     </li>
-  );
-}
-
-// El trazo de una constelación, en su color: cuatro estrellas unidas
-const TRAIL = [
-  [2, 24],
-  [16, 12],
-  [30, 18],
-  [46, 4],
-];
-
-function Trail({ color }: { color: string }) {
-  return (
-    <svg className={styles.trail} viewBox="0 0 48 28" aria-hidden="true">
-      <polyline points={TRAIL.map((p) => p.join(",")).join(" ")} fill="none" stroke={color} strokeWidth="1.8" strokeLinejoin="round" />
-      {TRAIL.map(([x, y]) => (
-        <g key={x}>
-          <circle cx={x} cy={y} r="5" fill={color} opacity=".25" />
-          <circle cx={x} cy={y} r="2.6" fill="#fff" />
-        </g>
-      ))}
-    </svg>
   );
 }

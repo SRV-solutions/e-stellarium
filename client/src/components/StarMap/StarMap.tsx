@@ -147,6 +147,8 @@ export function StarMap({ courseKey, stars, selectedId, onSelect }: Props) {
           y2={spots[lastOpen]!.y}
         >
           <stop offset="0" stopColor="#ffffff" />
+          {/* Un punto intermedio igual al degradé de siempre; con un efecto (lib/trail.ts) el color llega antes */}
+          <stop offset=".35" style={{ stopColor: "var(--trail-mid, color-mix(in srgb, #fff 65%, var(--trail)))" }} />
           {/* El color del trazo que compró en la tienda (el azul, si no eligió otro) */}
           <stop offset="1" style={{ stopColor: "var(--trail)" }} />
         </linearGradient>
@@ -186,7 +188,16 @@ export function StarMap({ courseKey, stars, selectedId, onSelect }: Props) {
           d={polyline([spots[spots.length - 1]!, center])}
         />
       )}
-      {litPath && <path key={layout} className={styles.lit} d={litPath} pathLength={1} />}
+      {litPath && (
+        <g key={layout} className={styles.litFx}>
+          <path className={styles.lit} d={litPath} pathLength={1} />
+          {/* Los efectos del trazo (se ven solo si lleva uno puesto: lo dice data-trail-effect, en lib/trail.ts) */}
+          <path className={styles.fxPulse} d={litPath} />
+          <path className={styles.fxFlow} d={litPath} pathLength={1} />
+          <path className={styles.fxTail} d={litPath} pathLength={1} />
+          <path className={styles.fxComet} d={litPath} pathLength={1} />
+        </g>
+      )}
 
       {lessons.map((star, i) => (
         <StarNode
@@ -313,7 +324,13 @@ function StarNode({ star, point, letterSpot, hitRadius, fontSize, selected, onSe
         </>
       )}
 
-      <circle className={styles.core} cx={x} cy={y} r={status === "locked" ? 4.5 : status === "current" ? 7.5 : 6} />
+      <circle
+        className={styles.core}
+        style={{ animationDelay: `${((star.position * 0.37) % 2).toFixed(2)}s` }}
+        cx={x}
+        cy={y}
+        r={status === "locked" ? 4.5 : status === "current" ? 7.5 : 6}
+      />
 
       {letterSpot && (
         <text

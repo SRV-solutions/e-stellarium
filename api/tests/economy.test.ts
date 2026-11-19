@@ -135,7 +135,7 @@ describe("GET, POST y PATCH /admin/shop", () => {
     const { agent } = await staff();
     const res = await agent.get("/admin/shop");
     expect(res.status).toBe(200);
-    expect(res.body.items).toHaveLength(32);
+    expect(res.body.items).toHaveLength(37);
     expect(res.body.items[0]).toMatchObject({ id: "coupon_10", kind: "coupon", percent: 10, price: 150, count: 0 });
     expect(res.body.items.find((i: { id: string }) => i.id === "blue")).toMatchObject({ fixed: true, retirable: false });
   });
@@ -194,11 +194,24 @@ describe("GET, POST y PATCH /admin/shop", () => {
     expect((await patch(agent, "no-existe", { price: 5 })).status).toBe(404);
   });
 
+  it("un color puede llevar un efecto de la lista, y solo los colores", async () => {
+    const { agent } = await staff();
+    const ok = await agent.post("/admin/shop").send({ kind: "color", name: "Brasa", price: 300, hex: "#ff5533", effect: "pulse" });
+    expect(ok.status).toBe(201);
+    expect(ok.body.item).toMatchObject({ id: "brasa", effect: "pulse" });
+    expect((await patch(agent, "brasa", { effect: null })).body.item.effect).toBeNull();
+    expect((await patch(agent, "brasa", { effect: "flow" })).body.item.effect).toBe("flow");
+
+    expect((await agent.post("/admin/shop").send({ kind: "color", name: "Raro", price: 1, hex: "#ff5533", effect: "humo" })).status).toBe(400);
+    expect((await patch(agent, "brasa", { effect: "humo" })).status).toBe(400);
+    expect((await patch(agent, "navigator", { effect: "flow" })).status).toBe(400); // un título no lleva efecto
+  });
+
   it("agrega cupones, colores y títulos, pero no marcos", async () => {
     const { agent } = await staff();
     const color = await agent.post("/admin/shop").send({ kind: "color", name: "Marte", note: "Rojo óxido", price: 200, hex: "#FF7A50" });
     expect(color.status).toBe(201);
-    expect(color.body.item).toMatchObject({ id: "marte", hex: "#ff7a50", active: true, position: 32 });
+    expect(color.body.item).toMatchObject({ id: "marte", hex: "#ff7a50", active: true, position: 37 });
     const coupon = await agent.post("/admin/shop").send({ kind: "coupon", name: "Cupón del 15 %", price: 250, percent: 15 });
     expect(coupon.body.item.id).toBe("coupon_15");
     const title = await agent

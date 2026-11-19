@@ -55,6 +55,113 @@
   animation: draw 1.6s cubic-bezier(0.6, 0.05, 0.25, 1) 0.3s both;
 }
 
+/* Los trazos con efecto (lib/trail.ts pone data-trail-effect en la página). Sin efecto, nada de esto se ve.
+   Los efectos esperan a que la línea termine de dibujarse (2 s) */
+.fxPulse,
+.fxFlow,
+.fxTail,
+.fxComet {
+  display: none;
+  fill: none;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+:global(:root[data-trail-effect]) {
+  --trail-mid: var(--trail);
+}
+
+:global(:root[data-trail-effect="pulse"]) .fxPulse {
+  display: inline;
+  stroke: var(--trail);
+  stroke-width: 6.5;
+  animation: fxIn 0.4s 1.9s both, pulse 2.6s ease-in-out 2.3s infinite;
+}
+
+:global(:root[data-trail-effect="flow"]) .fxFlow {
+  display: inline;
+  stroke: #fff;
+  stroke-width: 3.2;
+  stroke-dasharray: 0.004 0.045;
+  animation: fxIn 0.4s 1.9s both, flow 3.5s linear 2.3s infinite;
+}
+
+:global(:root[data-trail-effect="comet"]) .fxTail {
+  display: inline;
+  stroke: var(--trail);
+  stroke-width: 5;
+  stroke-dasharray: 0.3 1;
+  opacity: 0.55;
+  animation: fxIn 0.4s 1.9s both, comet 2.6s linear 2.5s infinite;
+}
+
+:global(:root[data-trail-effect="comet"]) .fxComet {
+  display: inline;
+  stroke: #fff;
+  stroke-width: 6;
+  stroke-dasharray: 0.13 1;
+  animation: fxIn 0.4s 1.9s both, comet 2.6s linear 2.3s infinite;
+}
+
+:global(:root[data-trail-effect="rainbow"]) .litFx {
+  animation: hue 4s linear infinite;
+}
+
+:global(:root[data-trail-effect="twinkle"]) .done .core {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: starTwinkle 1.6s ease-in-out infinite;
+}
+
+@keyframes fxIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes comet {
+  from {
+    stroke-dashoffset: 0.3;
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes hue {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes starTwinkle {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scale(0.45);
+  }
+}
+
 @keyframes draw {
   from {
     stroke-dashoffset: 1;
@@ -392,7 +499,13 @@
   .pulse,
   .sight,
   .beat,
-  .lit {
+  .lit,
+  .fxPulse,
+  .fxFlow,
+  .fxTail,
+  .fxComet,
+  .litFx,
+  .done .core {
     animation: none;
   }
   .reticle {

@@ -196,6 +196,43 @@ a.title:hover .hint,
   stroke-width: 1.8;
 }
 
+/* Los trazos con efecto (lib/trail.ts pone data-trail-effect en la página). Titilar no se ve acá: no hay estrellas grandes */
+:global(:root[data-trail-effect="flow"]) .segmentOn,
+:global(:root[data-trail-effect="comet"]) .segmentOn {
+  stroke-width: 2.4;
+  stroke-dasharray: 1 6;
+  stroke-linecap: round;
+  animation: segmentFlow 2.4s linear infinite;
+}
+
+:global(:root[data-trail-effect="pulse"]) .segmentOn {
+  stroke-width: 2.4;
+  animation: segmentPulse 2.6s ease-in-out infinite;
+}
+
+:global(:root[data-trail-effect="rainbow"]) .segmentOn {
+  stroke-width: 2.4;
+  animation: segmentHue 4s linear infinite;
+}
+
+@keyframes segmentFlow {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+
+@keyframes segmentPulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes segmentHue {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
 /* La mira chiquita sobre la próxima estrella */
 .scope {
   fill: none;
@@ -224,6 +261,7 @@ a.title:hover .hint,
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .segmentOn,
   .scope {
     animation: none;
   }

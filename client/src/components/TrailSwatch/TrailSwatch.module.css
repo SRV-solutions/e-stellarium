@@ -1,0 +1,84 @@
+.trail {
+  width: 52px;
+  height: 30px;
+  overflow: visible;
+}
+
+.flow {
+  stroke-dasharray: 0.004 0.09;
+  animation: flow 3.5s linear infinite;
+}
+
+.comet {
+  stroke-dasharray: 0.13 1;
+  animation: comet 2.6s linear infinite;
+}
+
+.pulse {
+  animation: pulse 2.6s ease-in-out infinite;
+}
+
+.rainbow {
+  animation: hue 4s linear infinite;
+}
+
+.twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: twinkle 1.6s ease-in-out infinite;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes comet {
+  from {
+    stroke-dashoffset: 0.3;
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    stroke-width: 1.4;
+  }
+  50% {
+    opacity: 1;
+    stroke-width: 3.6;
+  }
+}
+
+@keyframes hue {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scale(0.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow,
+  .comet,
+  .pulse,
+  .rainbow,
+  .twinkle {
+    animation: none;
+  }
+}

@@ -30,6 +30,7 @@ describe("comprar cosméticos", () => {
       frame: null,
       color: "blue",
       colorHex: "#4fa3ff",
+      colorEffect: null,
       title: null,
       titleVariant: 0,
       titleText: null,
@@ -50,6 +51,23 @@ describe("comprar cosméticos", () => {
     expect((await wear(agent, { kind: "frame", id: "galaxy" })).body.worn.frame).toBe("galaxy");
     expect((await buy(agent, "curious")).status).toBe(201);
     expect((await wear(agent, { kind: "title", id: "curious", variant: 1 })).body.worn.titleText).toBe("Curioso");
+  });
+
+  it("un trazo con efecto lo manda la tienda, lo puesto y la sesión", async () => {
+    const { agent } = await shopper(1000);
+    const { body } = await agent.get("/shop");
+    const byId = Object.fromEntries(body.cosmetics.map((c: { item: string }) => [c.item, c]));
+    expect(byId.comet).toMatchObject({ kind: "color", effect: "comet", price: 700, hex: "#ffc94a" });
+    expect(byId.blue.effect).toBeNull();
+    expect(body.worn.colorEffect).toBeNull();
+
+    expect((await buy(agent, "comet")).status).toBe(201);
+    const worn = (await wear(agent, { kind: "color", id: "comet" })).body.worn;
+    expect(worn).toMatchObject({ color: "comet", colorHex: "#ffc94a", colorEffect: "comet" });
+    expect((await agent.get("/me")).body.user).toMatchObject({ wornColorHex: "#ffc94a", wornColorEffect: "comet" });
+
+    // Volver al azul saca el efecto
+    expect((await wear(agent, { kind: "color", id: "blue" })).body.worn.colorEffect).toBeNull();
   });
 
   it("se compra una sola vez y descuenta los destellos", async () => {
@@ -110,6 +128,7 @@ describe("ponerse cosméticos", () => {
       frame: "eclipse",
       color: "nebula",
       colorHex: "#b9a6ff",
+      colorEffect: null,
       title: "comet_hunter",
       titleVariant: 1,
       titleText: "Cazador de cometas",
