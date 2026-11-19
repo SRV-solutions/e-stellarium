@@ -26,6 +26,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   // Los cosméticos puestos (ids del catálogo de games/cosmetics.ts). Vacío = ninguno, o el azul de siempre
   declare wornFrame: CreationOptional<string | null>;
   declare wornColor: CreationOptional<string | null>;
+  declare wornTheme: CreationOptional<string | null>; // el tema de la app; vacío = Marino
   declare wornTitle: CreationOptional<string | null>;
   declare titleVariant: CreationOptional<number>; // 0 o 1: "Cazadora" o "Cazador"
   // Preferencias: los mails que se pueden desactivar (desafío nuevo, banco bajo) y los avisos de la campanita
@@ -106,6 +107,7 @@ User.init(
     },
     wornFrame: { type: DataTypes.STRING(40), allowNull: true },
     wornColor: { type: DataTypes.STRING(40), allowNull: true },
+    wornTheme: { type: DataTypes.STRING(40), allowNull: true },
     wornTitle: { type: DataTypes.STRING(40), allowNull: true },
     titleVariant: { type: DataTypes.SMALLINT, allowNull: false, defaultValue: 0 },
     notifyEmail: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },

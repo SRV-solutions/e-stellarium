@@ -5,8 +5,8 @@ import { ShopItem, User, UserCosmetic } from "../models/index.js";
 
 // Los cosméticos: no dan ninguna ventaja, solo se ven. Se compran una vez y se elige cuál llevar puesto.
 // El catálogo (nombres, precios, colores y títulos) está en shop_items y se edita desde el panel.
-export type CosmeticKind = "frame" | "color" | "title";
-export const COSMETIC_KINDS: CosmeticKind[] = ["frame", "color", "title"];
+export type CosmeticKind = "frame" | "color" | "title" | "theme";
+export const COSMETIC_KINDS: CosmeticKind[] = ["frame", "color", "title", "theme"];
 
 // Los efectos de un color de trazo (shop_items.effect): el cliente anima la línea según cuál lleve puesto.
 // Si se agrega uno, también va en la restricción de la tabla (migración) y en el cliente (lib/trail.ts)
@@ -15,6 +15,8 @@ export type TrailEffect = (typeof TRAIL_EFFECTS)[number];
 
 // El azul de siempre: gratis y puesto si no eligió otro (worn_color vacío)
 export const DEFAULT_COLOR = "blue";
+// Marino, el tema de siempre: gratis y puesto si no eligió otro (worn_theme vacío)
+export const DEFAULT_THEME = "marino";
 
 // Un cosmético por su id, aunque esté retirado (quien lo compró lo sigue pudiendo llevar)
 export async function findCosmetic(id: unknown, t?: Transaction): Promise<ShopItem | null> {
@@ -41,6 +43,7 @@ export async function wornBy(user: User, t?: Transaction) {
     color,
     colorHex: colorItem?.hex ?? null,
     colorEffect: colorItem?.effect ?? null,
+    theme: user.wornTheme ?? DEFAULT_THEME,
     title: user.wornTitle,
     titleVariant: user.titleVariant,
     titleText: titleText(title, user.titleVariant),
@@ -55,13 +58,14 @@ export async function trailOf(user: User, t?: Transaction) {
 
 export async function ownedCosmetics(userId: string, t?: Transaction) {
   const rows = await UserCosmetic.findAll({ where: { userId }, transaction: t });
-  return new Set([DEFAULT_COLOR, ...rows.map((r) => r.cosmeticId)]);
+  return new Set([DEFAULT_COLOR, DEFAULT_THEME, ...rows.map((r) => r.cosmeticId)]);
 }
 
-const COLUMN: Record<CosmeticKind, "wornFrame" | "wornColor" | "wornTitle"> = {
+const COLUMN: Record<CosmeticKind, "wornFrame" | "wornColor" | "wornTitle" | "wornTheme"> = {
   frame: "wornFrame",
   color: "wornColor",
   title: "wornTitle",
+  theme: "wornTheme",
 };
 
 // Se pone (o se saca, con id null) un cosmético. Solo lo que compró; el color no se saca: se vuelve al azul.
@@ -77,9 +81,11 @@ export async function wear(userId: string, kind: CosmeticKind, id: string | null
       if (!(await ownedCosmetics(userId, t)).has(id)) throw new HttpError(409, "Todavía no lo compraste.");
     }
     if (kind === "color" && id === null) throw new HttpError(400, "Elegí un color.");
+    if (kind === "theme" && id === null) throw new HttpError(400, "Elegí un tema.");
 
     // El azul de siempre se guarda como vacío: no es una fila de user_cosmetics
-    const value = kind === "color" && id === DEFAULT_COLOR ? null : id;
+    const isDefault = (kind === "color" && id === DEFAULT_COLOR) || (kind === "theme" && id === DEFAULT_THEME);
+    const value = isDefault ? null : id;
     await user.update(
       { [COLUMN[kind]]: value, ...(kind === "title" ? { titleVariant: variant } : {}) },
       { transaction: t }

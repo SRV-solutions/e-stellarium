@@ -7,7 +7,7 @@ import {
 } from "sequelize";
 import { sequelize } from "../db.js";
 
-export type ShopItemKind = "coupon" | "streak_freeze" | "frame" | "color" | "title";
+export type ShopItemKind = "coupon" | "streak_freeze" | "frame" | "color" | "title" | "theme";
 
 // Lo que se vende en la tienda. No se borra: se retira (active = false), y quien lo compró lo sigue teniendo
 export class ShopItem extends Model<InferAttributes<ShopItem>, InferCreationAttributes<ShopItem>> {
@@ -29,7 +29,7 @@ export class ShopItem extends Model<InferAttributes<ShopItem>, InferCreationAttr
 ShopItem.init(
   {
     id: { type: DataTypes.STRING(40), primaryKey: true },
-    kind: { type: DataTypes.ENUM("coupon", "streak_freeze", "frame", "color", "title"), allowNull: false },
+    kind: { type: DataTypes.ENUM("coupon", "streak_freeze", "frame", "color", "title", "theme"), allowNull: false },
     name: { type: DataTypes.STRING(60), allowNull: false },
     note: { type: DataTypes.STRING(80), allowNull: false, defaultValue: "" },
     price: { type: DataTypes.INTEGER, allowNull: false },

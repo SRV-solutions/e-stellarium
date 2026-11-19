@@ -7,7 +7,7 @@ import { Setting, ShopItem } from "../models/index.js";
 import type { ShopItemKind } from "../models/ShopItem.js";
 import { groupOf, isSettingKey, keysOf, loadSettings, SETTINGS, type SettingGroup, type SettingKey } from "../games/economy.js";
 import { challengeSettingsProblem } from "../games/challenge.js";
-import { DEFAULT_COLOR, TRAIL_EFFECTS } from "../games/cosmetics.js";
+import { DEFAULT_COLOR, DEFAULT_THEME, TRAIL_EFFECTS } from "../games/cosmetics.js";
 import type { ChangeOptions } from "./users.js";
 
 // La economía editable desde el panel (economy:edit): los valores de settings y lo que se vende.
@@ -156,8 +156,8 @@ function present(item: ShopItem, count: number) {
     position: item.position,
     count,
     // Lo que el panel no deja tocar (lo garantiza también la API, más abajo)
-    fixed: item.id === DEFAULT_COLOR, // el azul: gratis y siempre a la venta
-    retirable: item.id !== DEFAULT_COLOR && item.kind !== "streak_freeze",
+    fixed: item.id === DEFAULT_COLOR || item.id === DEFAULT_THEME, // el azul y Marino: gratis y siempre a la venta
+    retirable: item.id !== DEFAULT_COLOR && item.id !== DEFAULT_THEME && item.kind !== "streak_freeze",
   };
 }
 
@@ -234,8 +234,8 @@ export async function updateShopItem(
   const item = await ShopItem.findByPk(id, { lock: t.LOCK.UPDATE, transaction: t });
   if (!item) throw new HttpError(404, "No existe eso en la tienda.");
 
-  if (item.id === DEFAULT_COLOR && ((changes.price ?? 0) !== 0 || changes.active === false)) {
-    throw new HttpError(409, "El azul es el color de todos: no se cobra ni se retira.");
+  if ((item.id === DEFAULT_COLOR || item.id === DEFAULT_THEME) && ((changes.price ?? 0) !== 0 || changes.active === false)) {
+    throw new HttpError(409, "El azul y Marino son de todos: no se cobran ni se retiran.");
   }
   if (item.kind === "streak_freeze" && changes.active === false) {
     throw new HttpError(409, "El protector de racha no se retira. Si no querés venderlo, subile el precio.");

@@ -83,6 +83,13 @@ beforeEach(async () => {
       ('flow', 'color', 'Corriente', 'Puntos de luz que recorren la línea', 550, '#4fa3ff', 'flow', 34, now(), now()),
       ('comet', 'color', 'Cometa', 'Un destello viaja de estrella en estrella', 700, '#ffc94a', 'comet', 35, now(), now()),
       ('rainbow', 'color', 'Arcoíris', 'El color recorre todo el espectro', 900, '#ff5ea0', 'rainbow', 36, now(), now());
+    INSERT INTO shop_items (id, kind, name, note, price, position, created_at, updated_at) VALUES
+      ('marino', 'theme', 'Marino', 'El de siempre', 0, 37, now(), now()),
+      ('bordo', 'theme', 'Bordó', 'Vino oscuro', 1000, 38, now(), now()),
+      ('bosque', 'theme', 'Bosque', 'Verde profundo', 1000, 39, now(), now()),
+      ('ciruela', 'theme', 'Ciruela', 'Violeta noche', 1000, 40, now(), now()),
+      ('grafito', 'theme', 'Grafito', 'Gris carbón', 1000, 41, now(), now()),
+      ('cafe', 'theme', 'Café', 'Marrón nocturno', 1000, 42, now(), now());
   `);
   // Todo sellado al empezar: los DVH y DVV coinciden con la base vacía
   await sealAll();

@@ -135,7 +135,7 @@ describe("GET, POST y PATCH /admin/shop", () => {
     const { agent } = await staff();
     const res = await agent.get("/admin/shop");
     expect(res.status).toBe(200);
-    expect(res.body.items).toHaveLength(37);
+    expect(res.body.items).toHaveLength(43);
     expect(res.body.items[0]).toMatchObject({ id: "coupon_10", kind: "coupon", percent: 10, price: 150, count: 0 });
     expect(res.body.items.find((i: { id: string }) => i.id === "blue")).toMatchObject({ fixed: true, retirable: false });
   });
@@ -211,7 +211,7 @@ describe("GET, POST y PATCH /admin/shop", () => {
     const { agent } = await staff();
     const color = await agent.post("/admin/shop").send({ kind: "color", name: "Marte", note: "Rojo óxido", price: 200, hex: "#FF7A50" });
     expect(color.status).toBe(201);
-    expect(color.body.item).toMatchObject({ id: "marte", hex: "#ff7a50", active: true, position: 37 });
+    expect(color.body.item).toMatchObject({ id: "marte", hex: "#ff7a50", active: true, position: 43 });
     const coupon = await agent.post("/admin/shop").send({ kind: "coupon", name: "Cupón del 15 %", price: 250, percent: 15 });
     expect(coupon.body.item.id).toBe("coupon_15");
     const title = await agent

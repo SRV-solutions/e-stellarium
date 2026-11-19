@@ -31,6 +31,7 @@ describe("comprar cosméticos", () => {
       color: "blue",
       colorHex: "#4fa3ff",
       colorEffect: null,
+      theme: "marino",
       title: null,
       titleVariant: 0,
       titleText: null,
@@ -68,6 +69,26 @@ describe("comprar cosméticos", () => {
 
     // Volver al azul saca el efecto
     expect((await wear(agent, { kind: "color", id: "blue" })).body.worn.colorEffect).toBeNull();
+  });
+
+  it("un tema de la app se compra, se lleva puesto y se vuelve a Marino", async () => {
+    const { agent, user } = await shopper(1200);
+    const { body } = await agent.get("/shop");
+    const byId = Object.fromEntries(body.cosmetics.map((c: { item: string }) => [c.item, c]));
+    expect(byId.marino).toMatchObject({ kind: "theme", price: 0, owned: true });
+    expect(byId.bordo).toMatchObject({ kind: "theme", price: 1000, owned: false });
+    expect(body.worn.theme).toBe("marino");
+
+    expect((await wear(agent, { kind: "theme", id: "bordo" })).status).toBe(409); // todavía no lo compró
+    expect((await wear(agent, { kind: "theme", id: null })).status).toBe(400); // el tema no se saca: se elige otro
+    expect((await buy(agent, "bordo")).status).toBe(201);
+    expect((await wear(agent, { kind: "theme", id: "bordo" })).body.worn.theme).toBe("bordo");
+    expect((await agent.get("/me")).body.user.wornTheme).toBe("bordo");
+    expect((await User.findByPk(user.id))!.wornTheme).toBe("bordo");
+
+    // Marino es de todos: se vuelve sin comprarlo, y la base guarda vacío
+    expect((await wear(agent, { kind: "theme", id: "marino" })).body.worn.theme).toBe("marino");
+    expect((await User.findByPk(user.id))!.wornTheme).toBeNull();
   });
 
   it("se compra una sola vez y descuenta los destellos", async () => {
@@ -129,6 +150,7 @@ describe("ponerse cosméticos", () => {
       color: "nebula",
       colorHex: "#b9a6ff",
       colorEffect: null,
+      theme: "marino",
       title: "comet_hunter",
       titleVariant: 1,
       titleText: "Cazador de cometas",

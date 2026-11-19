@@ -39,7 +39,7 @@ meRouter.get("/me/stats", requireAuth, async (req, res) => {
 // Se pone un cosmético que ya compró (o se saca, con id null). Devuelve lo que lleva puesto
 meRouter.put("/me/cosmetics", requireAuth, async (req, res) => {
   const { kind, id, variant = 0 } = req.body ?? {};
-  if (kind !== "frame" && kind !== "color" && kind !== "title") throw new HttpError(400, "No existe ese tipo de cosmético.");
+  if (kind !== "frame" && kind !== "color" && kind !== "title" && kind !== "theme") throw new HttpError(400, "No existe ese tipo de cosmético.");
   if (id !== null && typeof id !== "string") throw new HttpError(400, "Falta el cosmético.");
   if (variant !== 0 && variant !== 1) throw new HttpError(400, "La forma del título tiene que ser 0 o 1.");
   res.json({ worn: await wear(req.user!.id, kind as CosmeticKind, id, variant) });
