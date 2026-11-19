@@ -469,9 +469,10 @@
     padding: 0 16px;
     gap: 10px;
   }
+  /* El link entero y no solo el avatar: vacío igual ocupaba un hueco del gap */
   .nav,
   .logout,
-  .avatar {
+  .avatarLink {
     display: none;
   }
   .user {
@@ -485,14 +486,22 @@
   }
 }
 
-/* Los más angostos: los destellos y el medidor quedan solo en el menú */
-@media (max-width: 400px) {
-  .glints,
+/* Celulares comunes (360 a 460 px, como el Galaxy S25 FE con 412): el nivel queda solo con los XP */
+@media (max-width: 460px) {
   .gauge {
     display: none;
   }
-  .streak,
   .level {
+    padding: 5px 10px;
+  }
+}
+
+/* Los más angostos: los destellos también quedan solo en el menú */
+@media (max-width: 400px) {
+  .glints {
+    display: none;
+  }
+  .streak {
     padding: 5px 10px;
   }
 }
