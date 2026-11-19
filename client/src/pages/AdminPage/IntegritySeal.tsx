@@ -2,7 +2,7 @@ import type { IntegrityCheck, IntegrityProblem } from "../../types";
 import styles from "./IntegritySeal.module.css";
 
 // Las tablas protegidas (las de api/src/lib/sealing.ts) y la bitácora
-const TABLES = ["users", "coupons", "xp_events", "roles", "role_permissions", "audit_logs"];
+const TABLES = ["users", "coupons", "xp_events", "roles", "role_permissions", "settings", "shop_items", "audit_logs"];
 
 type Props = {
   check: IntegrityCheck | null; // la última verificación; vacío = nunca se corrió
@@ -51,30 +51,40 @@ function Mark({ ok }: { ok: boolean }) {
   );
 }
 
-function Problem({ problem, onJump }: { problem: IntegrityProblem; onJump: (id: number) => void }) {
-  if (problem.kind === "chain") {
-    const id = Number(problem.rowId);
-    return (
-      <li>
-        La cadena de la bitácora se corta en el registro{" "}
-        <button type="button" className={styles.jump} onClick={() => onJump(id)}>
-          #{id}
-        </button>
-        .
-      </li>
-    );
-  }
-  if (problem.kind === "row") {
-    return (
-      <li>
-        Una fila de <code>{problem.table}</code> no coincide con su dígito verificador (<code>{problem.rowId.slice(0, 8)}</code>).
-      </li>
-    );
+// Los problemas, agrupados: una línea por tabla (con cuántas filas no coinciden) y una por cada corte de la cadena.
+// Cientos de filas sueltas llenaban la pantalla sin decir nada más que "esta tabla está mal"
+function Problems({ problems, onJump }: { problems: IntegrityProblem[]; onJump: (id: number) => void }) {
+  const rows = new Map<string, number>();
+  const tables = new Set<string>();
+  const chains: number[] = [];
+  for (const p of problems) {
+    if (p.kind === "row") rows.set(p.table, (rows.get(p.table) ?? 0) + 1);
+    else if (p.kind === "table") tables.add(p.table);
+    else chains.push(Number(p.rowId));
   }
   return (
-    <li>
-      A <code>{problem.table}</code> le agregaron o le borraron filas.
-    </li>
+    <ul>
+      {[...rows].map(([table, count]) => (
+        <li key={`row-${table}`}>
+          <code>{table}</code>: {count === 1 ? "1 fila no coincide" : `${count} filas no coinciden`} con su dígito verificador.
+        </li>
+      ))}
+      {[...tables].map((table) => (
+        <li key={`table-${table}`}>
+          A <code>{table}</code> le agregaron o le borraron filas.
+        </li>
+      ))}
+      {chains.slice(0, 5).map((id) => (
+        <li key={`chain-${id}`}>
+          La cadena de la bitácora se corta en el registro{" "}
+          <button type="button" className={styles.jump} onClick={() => onJump(id)}>
+            #{id}
+          </button>
+          .
+        </li>
+      ))}
+      {chains.length > 5 && <li>Y {chains.length - 5} cortes más en la bitácora.</li>}
+    </ul>
   );
 }
 
@@ -118,13 +128,11 @@ export function IntegritySeal({ check, checking, error, onCheck, onJump }: Props
       {check && !check.ok && (
         <div className={styles.problems}>
           <p>Alguien tocó la base por fuera de la app:</p>
-          <ul>
-            {check.problems.map((problem, i) => (
-              <Problem key={i} problem={problem} onJump={onJump} />
-            ))}
-          </ul>
+          <Problems problems={check.problems} onJump={onJump} />
           {check.problemCount > check.problems.length && (
-            <p>Y {check.problemCount - check.problems.length} más.</p>
+            <p>
+              Se guardan los primeros {check.problems.length}: en total son {check.problemCount}, así que las cuentas de arriba pueden quedar cortas.
+            </p>
           )}
         </div>
       )}

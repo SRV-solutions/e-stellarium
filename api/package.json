@@ -15,6 +15,7 @@
     "load-content": "tsx src/scripts/load-content.ts",
     "open-exam": "tsx src/scripts/open-exam.ts",
     "set-role": "tsx src/scripts/set-role.ts",
+    "check-integrity": "tsx src/scripts/check-integrity.ts",
     "seal-integrity": "tsx src/scripts/seal-integrity.ts",
     "set-password": "tsx src/scripts/set-password.ts",
     "send-test-mails": "tsx src/scripts/send-test-mails.ts",
