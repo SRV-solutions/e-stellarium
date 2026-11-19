@@ -51,10 +51,14 @@ export function Magnitude({ position }: { position: number }) {
 
 export const xp = (n: number) => n.toLocaleString("es-AR");
 
+// "1 perfecto", "3 perfectos"
+const perfects = (n: number) => `${xp(n)} ${n === 1 ? "perfecto" : "perfectos"}`;
+
 // Las más brillantes: el ranking de la semana o de siempre, con tu fila apuntada con la mira
 export function RankingBoard({ ranking, period, onPeriod }: Props) {
   const { user } = useAuth();
   const top = ranking?.top ?? [];
+  const seasonName = ranking?.season.name || "la temporada";
   const me = ranking?.me ?? null;
   const outside = me && me.position !== null && me.position > top.length;
 
@@ -63,37 +67,34 @@ export function RankingBoard({ ranking, period, onPeriod }: Props) {
   if (me && me.position === null) {
     chase = (
       <p className={styles.empty}>
-        {period === "week"
-          ? "Esta semana todavía no sumaste. Cualquier acierto te pone en el cielo: estrellas, repaso o desafío."
-          : "Todavía no sumaste experiencia. Cualquier acierto te pone en el cielo."}
+        Todavía no completaste un desafío con las 10 preguntas bien. Con uno ya entrás al ranking.
       </p>
     );
   } else if (me && outside && top.length > 0) {
     chase = (
       <p className={styles.chase}>
-        Te faltan <b>{xp(top.at(-1)!.value - me.value + 1)} XP</b> para entrar entre las {top.length} más brillantes.
+        Te faltan <b>{perfects(top.at(-1)!.value - me.value + 1)}</b> para entrar entre los {top.length} primeros.
       </p>
     );
   } else if (me && me.position !== null && me.position > 1) {
     const above = top[me.position - 2]!;
     chase = (
       <p className={styles.chase}>
-        Con <b>{xp(above.value - me.value + 1)} XP</b> más pasás a <b>{above.alias}</b>.
+        Con <b>{perfects(above.value - me.value + 1)}</b> más pasás a <b>{above.alias}</b>.
       </p>
     );
   }
 
   return (
     <aside className={styles.rank} aria-labelledby="rank-title">
-      <h2 id="rank-title">Las más brillantes</h2>
+      <h2 id="rank-title">Los desafíos perfectos</h2>
       <p className={styles.sub}>
-        {period === "week"
-          ? "Suma todo lo que jugás en la semana: estrellas, repaso y desafíos. Se reinicia el lunes a las 00:00."
-          : "Toda la experiencia desde que empezaste."}
+        Desafíos completados con todas las preguntas bien.{" "}
+        {period === "season" ? `Cuenta desde que empezó ${seasonName}.` : "Desde siempre, sin importar la temporada."}
       </p>
       <div className={styles.seg} role="group" aria-label="Período">
-        <button type="button" aria-pressed={period === "week"} onClick={() => onPeriod("week")}>
-          Esta semana
+        <button type="button" aria-pressed={period === "season"} onClick={() => onPeriod("season")}>
+          {ranking?.season.name || "Temporada"}
         </button>
         <button type="button" aria-pressed={period === "all"} onClick={() => onPeriod("all")}>
           Desde siempre
@@ -118,7 +119,7 @@ export function RankingBoard({ ranking, period, onPeriod }: Props) {
                 {e.title && <small className={styles.title}>{e.title}</small>}
               </span>
               <span className={styles.xp}>
-                {xp(e.value)} <small>XP</small>
+                {xp(e.value)} <small>{e.value === 1 ? "perfecto" : "perfectos"}</small>
               </span>
             </li>
           ))}
@@ -137,14 +138,14 @@ export function RankingBoard({ ranking, period, onPeriod }: Props) {
                   <span className={styles.alias}>Vos</span>
                 </span>
                 <span className={styles.xp}>
-                  {xp(me.value)} <small>XP</small>
+                  {xp(me.value)} <small>{me.value === 1 ? "perfecto" : "perfectos"}</small>
                 </span>
               </li>
             </>
           )}
         </ol>
       )}
-      {top.length === 0 && ranking && !chase && <p className={styles.empty}>Todavía nadie sumó experiencia.</p>}
+      {top.length === 0 && ranking && !chase && <p className={styles.empty}>Todavía nadie completó un desafío sin errores.</p>}
       {chase}
     </aside>
   );

@@ -37,7 +37,7 @@ type State = { status: "loading" } | { status: "error"; message: string } | { st
 export function ChallengesPage() {
   const [state, setState] = useState<State>({ status: "loading" });
   const [ranking, setRanking] = useState<Ranking | null>(null);
-  const [period, setPeriod] = useState<Ranking["period"]>("week");
+  const [period, setPeriod] = useState<Ranking["period"]>("season");
   const [mode, setMode] = useState<Mode>({ screen: "page" });
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -56,9 +56,9 @@ export function ChallengesPage() {
 
   useEffect(() => {
     let cancelled = false;
-    api<Ranking>(`/ranking?period=${period}`)
+    api<Ranking>(`/ranking?board=challenges&period=${period}`)
       .then((r) => !cancelled && setRanking(r))
-      .catch(() => !cancelled && setRanking({ board: "xp", period, season: { id: "", name: "", startedAt: "" }, startsAt: null, endsAt: null, top: [], me: null }));
+      .catch(() => !cancelled && setRanking({ board: "challenges", period, season: { id: "", name: "", startedAt: "" }, startsAt: null, endsAt: null, top: [], me: null }));
     return () => {
       cancelled = true;
     };
