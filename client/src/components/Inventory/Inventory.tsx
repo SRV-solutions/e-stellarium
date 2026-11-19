@@ -151,10 +151,10 @@ function Option({ kind, name, checked, alias, cosmetic, variant = 0, onPick, onV
 
   return (
     <li>
-      <button type="button" role="radio" aria-checked={checked} className={styles.opt} onClick={onPick} title={label}>
+      <button type="button" role="radio" aria-checked={checked} className={styles.opt} onClick={onPick} title={cosmetic?.note ? `${label} · ${cosmetic.note}` : label}>
         <span className={styles.stage}>{stage}</span>
         <b>{label}</b>
-        <small>{checked ? "Puesto" : (cosmetic?.note ?? "")}</small>
+        <small>{checked ? "Puesto" : ""}</small>
       </button>
       {checked && cosmetic?.variants && onVariant && (
         <button type="button" className={styles.variant} onClick={() => onVariant(variant === 0 ? 1 : 0)}>

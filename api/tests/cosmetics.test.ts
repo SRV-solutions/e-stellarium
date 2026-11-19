@@ -36,6 +36,22 @@ describe("comprar cosméticos", () => {
     });
   });
 
+  it("los marcos y títulos de la segunda tanda se compran y se llevan puestos", async () => {
+    const { agent } = await shopper(2000);
+    const { body } = await agent.get("/shop");
+    const byId = Object.fromEntries(body.cosmetics.map((c: { item: string }) => [c.item, c]));
+
+    expect(byId.galaxy).toMatchObject({ kind: "frame", name: "Galaxia", price: 1500 });
+    expect(byId.solar_system.price).toBe(1200);
+    expect(byId.curious.variants).toEqual(["Curiosa", "Curioso"]);
+    expect(byId.constant.variants).toBeNull(); // los neutros tienen una sola forma
+
+    expect((await buy(agent, "galaxy")).status).toBe(201);
+    expect((await wear(agent, { kind: "frame", id: "galaxy" })).body.worn.frame).toBe("galaxy");
+    expect((await buy(agent, "curious")).status).toBe(201);
+    expect((await wear(agent, { kind: "title", id: "curious", variant: 1 })).body.worn.titleText).toBe("Curioso");
+  });
+
   it("se compra una sola vez y descuenta los destellos", async () => {
     const { agent, user } = await shopper(300);
 

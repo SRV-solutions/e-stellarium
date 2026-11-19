@@ -1,5 +1,6 @@
 import styles from "./Avatar.module.css";
 import { Drawing } from "./drawings";
+import { ExtraFrame } from "./frames";
 
 type Props = {
   alias: string;
@@ -77,5 +78,5 @@ function Frame({ id }: { id: string }) {
       </svg>
     );
   }
-  return null;
+  return <ExtraFrame id={id} />; // los marcos de la segunda tanda
 }

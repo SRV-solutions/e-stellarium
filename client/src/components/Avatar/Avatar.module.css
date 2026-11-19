@@ -32,8 +32,71 @@
   }
 }
 
+/* Los marcos de frames.tsx: un grupo que gira (--t: lo que tarda una vuelta, --dir: el sentido, --o: el centro) */
+.turn {
+  transform-origin: var(--o, 24px 24px);
+  animation: orbit var(--t, 12s) linear infinite var(--dir, normal);
+}
+
+/* Una raya o línea de puntos que corre sobre su círculo */
+.flow {
+  animation: flow var(--t, 5s) linear infinite var(--dir, normal);
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -80;
+  }
+}
+
+/* La onda de la supernova: crece y se apaga */
+.wave {
+  transform-origin: 24px 24px;
+  animation: wave 3s ease-out infinite;
+}
+
+@keyframes wave {
+  from {
+    transform: scale(0.78);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.32);
+    opacity: 0;
+  }
+}
+
+.hue {
+  animation: hue 8s linear infinite;
+}
+
+@keyframes hue {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.twinkle {
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .moon {
+  .moon,
+  .turn,
+  .flow,
+  .wave,
+  .hue,
+  .twinkle {
     animation: none;
   }
 }

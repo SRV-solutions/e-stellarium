@@ -58,7 +58,25 @@ beforeEach(async () => {
       ('corona', 'color', 'Corona solar', 'Oro', 250, NULL, '#ffc94a', NULL, 10, now(), now()),
       ('comet_hunter', 'title', 'Cazadora de cometas', 'o Cazador', 100, NULL, NULL, 'Cazador de cometas', 11, now(), now()),
       ('navigator', 'title', 'Navegante', '', 100, NULL, NULL, NULL, 12, now(), now()),
-      ('astronomer', 'title', 'Astrónoma de guardia', 'o Astrónomo', 180, NULL, NULL, 'Astrónomo de guardia', 13, now(), now());
+      ('astronomer', 'title', 'Astrónoma de guardia', 'o Astrónomo', 180, NULL, NULL, 'Astrónomo de guardia', 13, now(), now()),
+      ('constellation', 'frame', 'Constelación', 'Estrellas unidas por una línea', 220, NULL, NULL, NULL, 14, now(), now()),
+      ('pulsar', 'frame', 'Púlsar', 'Dos haces de luz', 250, NULL, NULL, NULL, 15, now(), now()),
+      ('belt', 'frame', 'Cinturón', 'Un anillo de asteroides', 180, NULL, NULL, NULL, 16, now(), now()),
+      ('double_orbit', 'frame', 'Doble órbita', 'Dos lunas, una en cada sentido', 320, NULL, NULL, NULL, 17, now(), now()),
+      ('phases', 'frame', 'Fases', 'Ocho lunas, de nueva a llena', 280, NULL, NULL, NULL, 18, now(), now()),
+      ('supernova', 'frame', 'Supernova', 'Rayos y ondas de luz que se expanden', 600, NULL, NULL, NULL, 19, now(), now()),
+      ('black_hole', 'frame', 'Agujero negro', 'Un disco de materia que gira', 750, NULL, NULL, NULL, 20, now(), now()),
+      ('aurora_borealis', 'frame', 'Aurora boreal', 'Cintas de luz que cambian de color', 850, NULL, NULL, NULL, 21, now(), now()),
+      ('solar_system', 'frame', 'Sistema solar', 'Tres planetas en órbita', 1200, NULL, NULL, NULL, 22, now(), now()),
+      ('galaxy', 'frame', 'Galaxia', 'Brazos espirales y estrellas que titilan', 1500, NULL, NULL, NULL, 23, now(), now()),
+      ('curious', 'title', 'Curiosa', 'o Curioso', 100, NULL, NULL, 'Curioso', 24, now(), now()),
+      ('constant', 'title', 'Constante', '', 100, NULL, NULL, NULL, 25, now(), now()),
+      ('bug_hunter', 'title', 'Cazabugs', '', 120, NULL, NULL, NULL, 26, now(), now()),
+      ('self_taught', 'title', 'Autodidacta', '', 150, NULL, NULL, NULL, 27, now(), now()),
+      ('future_dev', 'title', 'Futura dev', 'o Futuro dev', 150, NULL, NULL, 'Futuro dev', 28, now(), now()),
+      ('ready_to_launch', 'title', 'Lista para despegar', 'o Listo para despegar', 180, NULL, NULL, 'Listo para despegar', 29, now(), now()),
+      ('unstoppable', 'title', 'Imparable', '', 200, NULL, NULL, NULL, 30, now(), now()),
+      ('mind_in_orbit', 'title', 'Mente en órbita', '', 250, NULL, NULL, NULL, 31, now(), now());
   `);
   // Todo sellado al empezar: los DVH y DVV coinciden con la base vacía
   await sealAll();
