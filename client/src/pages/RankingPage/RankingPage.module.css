@@ -214,6 +214,7 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+  padding-left: 12px; /* el marco sobresale ~7 px del avatar y no tiene que tocar el nombre */
   line-height: 1.25;
 }
 

@@ -88,6 +88,7 @@
 
 .who {
   min-width: 0;
+  padding-left: 12px; /* el marco sobresale ~7 px del avatar y no tiene que tocar el nombre */
   font-size: 16px;
   font-weight: 600;
   line-height: 1.15;
