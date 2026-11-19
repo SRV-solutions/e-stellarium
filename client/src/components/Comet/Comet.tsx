@@ -16,19 +16,24 @@ export function Comet({ streak, activeToday, size, className = "" }: Props) {
   const big = size === "large";
   const state = streak === 0 ? styles.off : activeToday ? "" : styles.risk;
 
-  const width = big ? 150 : 30;
-  const height = big ? 84 : 20;
+  const r = big ? 7 : 3.2;
+  const length = big ? 40 + Math.min(streak, 30) * 2.6 : 22;
+  const days = Math.min(streak, big ? 7 : 3);
+  // En el inicio el cuadro mide lo que mide la cola (con racha corta, casi nada): así el cometa no deja un hueco
+  // a la izquierda y queda alineado con lo de abajo. Cuánto de la cola se ve: toda si hay más de un día; si no,
+  // hasta el último puntito
+  const shown = streak > 1 ? 1 : days / (days + 1);
+  const extent = big ? length * shown : 0;
+  const width = big ? Math.round(Math.max(extent + 6, r * 3.2) + 16) : 30;
   const hx = width - (big ? 16 : 5);
   // En el encabezado, la cabeza va a media altura para quedar alineada con el número
   const hy = big ? 18 : streak > 0 ? 8 : 10;
-  const r = big ? 7 : 3.2;
-  const length = big ? 40 + Math.min(streak, 30) * 2.6 : 22;
+  const height = big ? Math.round(hy + 50 * shown * shown + 16) : 20;
   // La cola baja hacia la izquierda en una curva suave. t va de 0 (la cabeza) a 1 (la punta)
   const at = (t: number) => ({ x: hx - length * t, y: hy + (big ? 50 : 6) * t * t });
   const end = at(1);
   const mid = at(0.5);
 
-  const days = Math.min(streak, big ? 7 : 3);
   const dots = Array.from({ length: days }, (_, i) => {
     const k = i + 1;
     const p = big ? at(k / (days + 1)) : at(k / 4);
