@@ -71,7 +71,7 @@
   bottom: 14px;
   width: 4px;
   margin-left: -2px;
-  background: radial-gradient(circle, rgba(5, 13, 36, 0.95) 1.6px, transparent 2px) center top / 4px 9px repeat-y;
+  background: radial-gradient(circle, color-mix(in srgb, var(--deep) 95%, transparent) 1.6px, transparent 2px) center top / 4px 9px repeat-y;
 }
 
 /* El talón: la estrella de examen y el porcentaje */
@@ -272,7 +272,7 @@
   height: 4px;
   overflow: hidden;
   border-radius: 4px;
-  background: rgba(36, 55, 107, 0.8);
+  background: color-mix(in srgb, var(--line) 80%, transparent);
 }
 
 .bar i {
@@ -607,7 +607,7 @@
   font-size: 14px;
   color: var(--muted);
   border-radius: 9px;
-  background: rgba(36, 55, 107, 0.25);
+  background: color-mix(in srgb, var(--line) 25%, transparent);
 }
 
 .spentList b {

@@ -47,7 +47,7 @@
 }
 
 li.row:hover {
-  background: rgba(17, 33, 74, 0.45);
+  background: color-mix(in srgb, var(--night-2) 45%, transparent);
 }
 
 .colhead {
@@ -242,7 +242,7 @@ li.row:hover {
   padding: 9px 12px;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 15px;
@@ -279,7 +279,7 @@ li.row:hover {
   padding: 0 12px;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   color: var(--placeholder);
 }
 
@@ -311,7 +311,7 @@ li.row:hover {
   margin: -6px 0 14px;
   padding: 10px 12px;
   border-radius: 12px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   font-size: 14px;
   color: var(--muted);
 }
@@ -342,7 +342,7 @@ li.row:hover {
   margin-top: 14px;
   padding: 12px 14px;
   border-radius: 12px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   font-size: 14px;
   color: var(--muted);
 }
@@ -358,7 +358,7 @@ li.row:hover {
   padding: 12px 14px;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: rgba(5, 13, 36, 0.45);
+  background: color-mix(in srgb, var(--deep) 45%, transparent);
 }
 
 .opt .check {

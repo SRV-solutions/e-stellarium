@@ -35,6 +35,7 @@ export type User = {
   wornColor: string | null;
   wornColorHex: string | null; // el color de ese trazo, como lo guarda la tienda
   wornColorEffect: TrailEffect | null; // cómo se anima ese trazo (null: no se anima)
+  wornTheme: string | null; // el tema de la app; vacío = Marino, el de siempre
   wornTitle: string | null;
   titleVariant: number; // 0 o 1: "Cazadora" o "Cazador"
   createdAt: string;
@@ -341,7 +342,10 @@ export type Blocked = "glints" | "weekly_limit" | "monthly_limit" | "owned" | nu
 // Los efectos de un color de trazo (la API los valida con la misma lista; los dibujan StarMap y CourseLine)
 export type TrailEffect = "twinkle" | "pulse" | "flow" | "comet" | "rainbow";
 
-export type CosmeticKind = "frame" | "color" | "title";
+// Los temas de la app: cada uno es un bloque de variables en index.css y su muestra está en lib/theme.ts
+export type ThemeId = "marino" | "bordo" | "bosque" | "ciruela" | "grafito" | "cafe";
+
+export type CosmeticKind = "frame" | "color" | "title" | "theme";
 
 // Lo que lleva puesto (PUT /me/cosmetics lo devuelve igual)
 export type Worn = {
@@ -349,6 +353,7 @@ export type Worn = {
   color: string; // "blue" si no eligió otro
   colorHex: string | null;
   colorEffect: TrailEffect | null;
+  theme: string; // "marino" si no eligió otro
   title: string | null;
   titleVariant: number;
   titleText: string | null;

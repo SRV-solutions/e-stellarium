@@ -5,7 +5,7 @@
 
 .change {
   padding: 12px 0;
-  border-top: 1px solid rgba(36, 55, 107, 0.45);
+  border-top: 1px solid color-mix(in srgb, var(--line) 45%, transparent);
   font-size: 15px;
 }
 

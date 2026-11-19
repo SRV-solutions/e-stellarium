@@ -184,7 +184,7 @@ button.notice {
 }
 
 button.notice:hover {
-  background: rgba(23, 42, 90, 0.7);
+  background: color-mix(in srgb, var(--night-3) 70%, transparent);
 }
 
 .glyph {
@@ -323,7 +323,7 @@ button.notice:hover {
 
 .foot {
   padding: 10px 20px 14px;
-  border-top: 1px solid rgba(36, 55, 107, 0.6);
+  border-top: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
   font-size: 12px;
   color: var(--placeholder);
 }

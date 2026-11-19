@@ -98,9 +98,9 @@
 .how {
   margin-top: 18px;
   padding: 16px 18px 14px;
-  border: 1px solid rgba(36, 55, 107, 0.6);
+  border: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
   border-radius: 16px;
-  background: rgba(5, 13, 36, 0.4);
+  background: color-mix(in srgb, var(--deep) 40%, transparent);
 }
 
 .how .stop {

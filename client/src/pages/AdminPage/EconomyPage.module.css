@@ -56,7 +56,7 @@
   padding: 3px;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: rgba(5, 13, 36, 0.55);
+  background: color-mix(in srgb, var(--deep) 55%, transparent);
 }
 
 .kinds button {
@@ -146,12 +146,12 @@
 
 .val th,
 .val td {
-  border-top: 1px solid rgba(36, 55, 107, 0.4);
+  border-top: 1px solid color-mix(in srgb, var(--line) 40%, transparent);
 }
 
 .val:hover th,
 .val:hover td {
-  background: rgba(17, 33, 74, 0.35);
+  background: color-mix(in srgb, var(--night-2) 35%, transparent);
 }
 
 .label {
@@ -212,7 +212,7 @@
   padding: 0 10px 0 8px;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: rgba(5, 13, 36, 0.55);
+  background: color-mix(in srgb, var(--deep) 55%, transparent);
   cursor: text;
 }
 
@@ -260,7 +260,7 @@
   padding: 22px;
   border: 1px solid var(--line);
   border-radius: 18px;
-  background: rgba(10, 23, 53, 0.8);
+  background: color-mix(in srgb, var(--night) 80%, transparent);
 }
 
 .reckon h2 {
@@ -328,7 +328,7 @@
 .weeks {
   margin-top: 18px;
   padding-top: 16px;
-  border-top: 1px solid rgba(36, 55, 107, 0.6);
+  border-top: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
 }
 
 .weeks h3 {
@@ -413,7 +413,7 @@
 }
 
 .items > li {
-  border-top: 1px solid rgba(36, 55, 107, 0.4);
+  border-top: 1px solid color-mix(in srgb, var(--line) 40%, transparent);
 }
 
 .item {
@@ -426,7 +426,7 @@
 }
 
 .item:hover {
-  background: rgba(17, 33, 74, 0.35);
+  background: color-mix(in srgb, var(--night-2) 35%, transparent);
 }
 
 .off .glyph,
@@ -535,7 +535,7 @@
 
 .small {
   border-color: var(--line);
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   color: var(--text);
 }
 
@@ -611,7 +611,7 @@
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: rgba(5, 13, 36, 0.5);
+  background: color-mix(in srgb, var(--deep) 50%, transparent);
   animation: rise 0.2s both;
 }
 
@@ -627,7 +627,7 @@
   padding: 0 10px;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: rgba(5, 13, 36, 0.55);
+  background: color-mix(in srgb, var(--deep) 55%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 14px;
@@ -701,7 +701,7 @@
   margin: 8px 0 0;
   padding: 10px 12px;
   border-radius: 12px;
-  background: rgba(5, 13, 36, 0.5);
+  background: color-mix(in srgb, var(--deep) 50%, transparent);
   font-size: 13px;
   color: var(--muted);
 }
@@ -797,7 +797,7 @@
   padding: 0 16px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 14px;

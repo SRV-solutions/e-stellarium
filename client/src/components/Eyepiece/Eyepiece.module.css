@@ -8,7 +8,7 @@
   background: radial-gradient(circle at 50% 50%, #0d1d48 0%, #071234 60%, #030a20 100%);
   box-shadow:
     0 0 0 1px rgba(154, 170, 208, 0.25),
-    0 0 0 10px rgba(5, 13, 36, 0.9),
+    0 0 0 10px color-mix(in srgb, var(--deep) 90%, transparent),
     0 0 0 11px rgba(154, 170, 208, 0.14),
     0 30px 80px -20px rgba(0, 60, 180, 0.5);
 }

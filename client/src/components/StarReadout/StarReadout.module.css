@@ -1,6 +1,6 @@
 .readout {
   border-top: 1px solid rgba(255, 153, 0, 0.35);
-  background: linear-gradient(180deg, rgba(5, 13, 36, 0.6), #050d24);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--deep) 60%, transparent), var(--deep));
 }
 
 .inner {

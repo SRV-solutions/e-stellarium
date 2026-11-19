@@ -62,7 +62,7 @@
   padding: 12px 14px;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: rgba(5, 13, 36, 0.55);
+  background: color-mix(in srgb, var(--deep) 55%, transparent);
   font-size: 14px;
   color: var(--muted);
 }
@@ -147,7 +147,7 @@
   padding: 0 16px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 14px;
@@ -238,7 +238,7 @@
   padding: 8px 10px;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 14px;

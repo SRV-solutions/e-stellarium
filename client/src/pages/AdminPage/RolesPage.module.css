@@ -94,11 +94,11 @@
 }
 
 .perm > * {
-  border-top: 1px solid rgba(36, 55, 107, 0.4);
+  border-top: 1px solid color-mix(in srgb, var(--line) 40%, transparent);
 }
 
 .perm:hover > * {
-  background: rgba(17, 33, 74, 0.35);
+  background: color-mix(in srgb, var(--night-2) 35%, transparent);
 }
 
 .label {
@@ -251,7 +251,7 @@
   padding: 0 16px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 14px;

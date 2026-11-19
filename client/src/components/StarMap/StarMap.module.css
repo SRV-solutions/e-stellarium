@@ -75,7 +75,7 @@
   display: inline;
   stroke: var(--trail);
   stroke-width: 6.5;
-  animation: fxIn 0.4s 1.9s both, pulse 2.6s ease-in-out 2.3s infinite;
+  animation: fxIn 0.4s 1.9s both, fxPulseBeat 2.6s ease-in-out 2.3s infinite;
 }
 
 :global(:root[data-trail-effect="flow"]) .fxFlow {
@@ -83,7 +83,7 @@
   stroke: #fff;
   stroke-width: 3.2;
   stroke-dasharray: 0.004 0.045;
-  animation: fxIn 0.4s 1.9s both, flow 3.5s linear 2.3s infinite;
+  animation: fxIn 0.4s 1.9s both, fxFlowRun 3.5s linear 2.3s infinite;
 }
 
 :global(:root[data-trail-effect="comet"]) .fxTail {
@@ -92,7 +92,7 @@
   stroke-width: 5;
   stroke-dasharray: 0.3 1;
   opacity: 0.55;
-  animation: fxIn 0.4s 1.9s both, comet 2.6s linear 2.5s infinite;
+  animation: fxIn 0.4s 1.9s both, fxCometTail 2.6s linear 2.5s infinite;
 }
 
 :global(:root[data-trail-effect="comet"]) .fxComet {
@@ -100,17 +100,17 @@
   stroke: #fff;
   stroke-width: 6;
   stroke-dasharray: 0.13 1;
-  animation: fxIn 0.4s 1.9s both, comet 2.6s linear 2.3s infinite;
+  animation: fxIn 0.4s 1.9s both, fxCometHead 2.6s linear 2.3s infinite;
 }
 
 :global(:root[data-trail-effect="rainbow"]) .litFx {
-  animation: hue 4s linear infinite;
+  animation: fxHue 4s linear infinite;
 }
 
 :global(:root[data-trail-effect="twinkle"]) .done .core {
   transform-box: fill-box;
   transform-origin: center;
-  animation: starTwinkle 1.6s ease-in-out infinite;
+  animation: fxStarTwinkle 1.6s ease-in-out infinite;
 }
 
 @keyframes fxIn {
@@ -119,7 +119,7 @@
   }
 }
 
-@keyframes pulse {
+@keyframes fxPulseBeat {
   0%,
   100% {
     opacity: 0.1;
@@ -129,13 +129,24 @@
   }
 }
 
-@keyframes flow {
+/* Cada recorrido mide un número exacto de períodos del patrón (0,049 × 20): sin salto al repetirse */
+@keyframes fxFlowRun {
+  to {
+    stroke-dashoffset: -0.98;
+  }
+}
+
+/* El destello entra por el principio y sale por el final: recorre justo un período (0,13 + 1), sin volver atrás */
+@keyframes fxCometHead {
+  from {
+    stroke-dashoffset: 0.13;
+  }
   to {
     stroke-dashoffset: -1;
   }
 }
 
-@keyframes comet {
+@keyframes fxCometTail {
   from {
     stroke-dashoffset: 0.3;
   }
@@ -144,13 +155,13 @@
   }
 }
 
-@keyframes hue {
+@keyframes fxHue {
   to {
     filter: hue-rotate(360deg);
   }
 }
 
-@keyframes starTwinkle {
+@keyframes fxStarTwinkle {
   0%,
   100% {
     opacity: 1;

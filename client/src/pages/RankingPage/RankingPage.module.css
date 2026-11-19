@@ -63,7 +63,7 @@
 }
 
 .index button:hover {
-  background: rgba(23, 42, 90, 0.5);
+  background: color-mix(in srgb, var(--night-3) 50%, transparent);
 }
 
 .gl {
@@ -136,7 +136,7 @@
   padding: 3px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
 }
 
 .seg button {
@@ -172,7 +172,7 @@
 }
 
 .board li + li {
-  border-top: 1px solid rgba(36, 55, 107, 0.35);
+  border-top: 1px solid color-mix(in srgb, var(--line) 35%, transparent);
 }
 
 .withBadge li {

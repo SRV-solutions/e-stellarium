@@ -134,7 +134,7 @@
 }
 
 .wrong .next {
-  color: #050d24;
+  color: var(--deep);
   background: var(--text);
 }
 

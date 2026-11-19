@@ -40,7 +40,7 @@
   padding: 0 14px 0 40px;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: rgba(5, 13, 36, 0.55);
+  background: color-mix(in srgb, var(--deep) 55%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 15px;
@@ -68,7 +68,7 @@
   padding: 3px;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: rgba(5, 13, 36, 0.55);
+  background: color-mix(in srgb, var(--deep) 55%, transparent);
 }
 
 .kinds button {
@@ -134,7 +134,7 @@
 }
 
 .list li + li {
-  border-top: 1px solid rgba(36, 55, 107, 0.45);
+  border-top: 1px solid color-mix(in srgb, var(--line) 45%, transparent);
 }
 
 .none {
@@ -155,7 +155,7 @@
 }
 
 .row:hover {
-  background: rgba(17, 33, 74, 0.45);
+  background: color-mix(in srgb, var(--night-2) 45%, transparent);
 }
 
 .row[aria-current="true"] {
@@ -260,7 +260,7 @@
   padding: 0 18px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 14px;

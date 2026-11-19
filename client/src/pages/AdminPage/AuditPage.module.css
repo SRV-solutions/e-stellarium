@@ -44,7 +44,7 @@
   padding: 0 4px 0 12px;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: rgba(5, 13, 36, 0.55);
+  background: color-mix(in srgb, var(--deep) 55%, transparent);
   font-size: 14px;
   color: var(--muted);
 }
@@ -181,7 +181,7 @@
 }
 
 .entry:hover {
-  background: rgba(17, 33, 74, 0.45);
+  background: color-mix(in srgb, var(--night-2) 45%, transparent);
 }
 
 .flash {
@@ -397,7 +397,7 @@
   padding: 0 14px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 14px;
@@ -465,7 +465,7 @@
   padding: 0 18px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 14px;

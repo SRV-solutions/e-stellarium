@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { Avatar } from "../../components/Avatar/Avatar";
 import { Cosmos } from "../../components/Cosmos/Cosmos";
+import { ThemeSwatch } from "../../components/ThemeSwatch/ThemeSwatch";
 import { TrailSwatch } from "../../components/TrailSwatch/TrailSwatch";
 import { Glint } from "../../components/Glint/Glint";
 import { useAuth } from "../../auth/useAuth";
@@ -27,10 +28,11 @@ const KINDS: { kind: CosmeticKind; title: string; note: string }[] = [
   { kind: "frame", title: "Marco del avatar", note: "En el encabezado y en el ranking." },
   { kind: "color", title: "Color del trazo", note: "Las líneas de tus constelaciones." },
   { kind: "title", title: "Título", note: "Debajo de tu alias en el ranking." },
+  { kind: "theme", title: "Tema de la app", note: "Los colores de fondo de toda la app." },
 ];
 
 // Para la pregunta de confirmar: "el marco Órbita", "el color Aurora", "el título Navegante"
-const KIND_NAME: Record<CosmeticKind, string> = { frame: "el marco", color: "el color", title: "el título" };
+const KIND_NAME: Record<CosmeticKind, string> = { frame: "el marco", color: "el color", title: "el título", theme: "el tema" };
 
 type State = { status: "loading" } | { status: "error"; message: string } | { status: "ready"; shop: Shop };
 
@@ -402,6 +404,7 @@ function CosmeticRow({ cosmetic, worn, alias, glints, onBuy, onWear }: RowProps)
   let swatch;
   if (kind === "frame") swatch = <Avatar alias={alias} frame={item} />;
   else if (kind === "color") swatch = <TrailSwatch color={cosmetic.hex ?? "#4fa3ff"} effect={cosmetic.effect} className={styles.trail} />;
+  else if (kind === "theme") swatch = <ThemeSwatch id={item} />;
   else swatch = <span className={styles.titleSwatch}>“…”</span>;
 
   let end;

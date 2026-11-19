@@ -19,7 +19,7 @@
   padding: 3px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
 }
 
 .seg button {

@@ -37,7 +37,7 @@
   padding: 0 16px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 14px;
@@ -85,7 +85,7 @@
   padding: 0 12px;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: rgba(5, 13, 36, 0.55);
+  background: color-mix(in srgb, var(--deep) 55%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 14px;
@@ -118,7 +118,7 @@
   padding: 3px;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: rgba(5, 13, 36, 0.55);
+  background: color-mix(in srgb, var(--deep) 55%, transparent);
 }
 
 .kinds button {
@@ -273,7 +273,7 @@
 }
 
 .rows > li {
-  border-top: 1px solid rgba(36, 55, 107, 0.4);
+  border-top: 1px solid color-mix(in srgb, var(--line) 40%, transparent);
 }
 
 .row {
@@ -288,7 +288,7 @@
 }
 
 .row:hover {
-  background: rgba(17, 33, 74, 0.4);
+  background: color-mix(in srgb, var(--night-2) 40%, transparent);
 }
 
 .type {

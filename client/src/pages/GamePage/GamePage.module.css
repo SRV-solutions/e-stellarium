@@ -7,7 +7,7 @@
   background:
     radial-gradient(60% 40% at 50% -5%, rgba(0, 123, 255, 0.22), transparent 70%),
     radial-gradient(40% 30% at 100% 100%, rgba(118, 92, 240, 0.16), transparent 70%),
-    #050d24;
+    var(--deep);
 }
 
 .wrap {
@@ -150,7 +150,7 @@ main.wrap {
   padding: 10px 14px;
   font-size: 15px;
   color: var(--error);
-  background: rgba(5, 13, 36, 0.9);
+  background: color-mix(in srgb, var(--deep) 90%, transparent);
   border: 1px solid var(--error);
   border-radius: 10px;
 }

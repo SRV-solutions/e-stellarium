@@ -21,13 +21,13 @@
   text-align: center;
   background:
     radial-gradient(60% 40% at 50% -5%, rgba(255, 153, 0, 0.14), transparent 70%),
-    #050d24;
+    var(--deep);
 }
 
 .introScreen {
   background:
     radial-gradient(60% 40% at 50% -5%, rgba(0, 123, 255, 0.16), transparent 70%),
-    #050d24;
+    var(--deep);
 }
 
 .inner {

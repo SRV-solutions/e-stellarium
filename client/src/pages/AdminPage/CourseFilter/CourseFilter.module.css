@@ -27,7 +27,7 @@
   padding: 0 12px;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: rgba(5, 13, 36, 0.55);
+  background: color-mix(in srgb, var(--deep) 55%, transparent);
   color: var(--text);
   font: inherit;
   font-size: 14px;
@@ -112,7 +112,7 @@
 
 .item:hover {
   color: var(--text);
-  background: rgba(23, 42, 90, 0.6);
+  background: color-mix(in srgb, var(--night-3) 60%, transparent);
 }
 
 .active {

@@ -98,8 +98,8 @@
   gap: 8px 26px;
   margin: 26px 0 0;
   padding: 14px 0;
-  border-top: 1px solid rgba(36, 55, 107, 0.6);
-  border-bottom: 1px solid rgba(36, 55, 107, 0.6);
+  border-top: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
   list-style: none;
   font-size: 15px;
   color: var(--muted);
@@ -308,7 +308,7 @@
   padding: 20px 22px;
   border: 1px solid var(--line);
   border-radius: 16px;
-  background: rgba(10, 23, 53, 0.6);
+  background: color-mix(in srgb, var(--night) 60%, transparent);
 }
 
 .shield {
@@ -345,7 +345,7 @@
 /* Los cosméticos: tres familias, cada pieza como una muestra que se ve puesta */
 .kinds {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 36px;
   margin: 22px 0 0;
 }
@@ -400,7 +400,7 @@
 
 .item:hover {
   border-color: var(--line);
-  background: rgba(10, 23, 53, 0.5);
+  background: color-mix(in srgb, var(--night) 50%, transparent);
 }
 
 .itemWorn,

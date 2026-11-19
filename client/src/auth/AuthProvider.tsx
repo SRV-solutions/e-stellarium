@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
 import { api } from "../lib/api";
 import { applyTrail } from "../lib/trail";
+import { applyTheme } from "../lib/theme";
 import { BadgeEarned } from "../components/BadgeEarned/BadgeEarned";
 import type { Economy, NewBadge, Stats, User, Worn } from "../types";
 
@@ -44,6 +45,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     applyTrail(wornColorHex, wornColorEffect);
   }, [wornColorHex, wornColorEffect]);
+
+  // El tema de la app que lleva puesto (al cerrar la sesión vuelve el Marino)
+  const wornTheme = user?.wornTheme ?? null;
+  useEffect(() => {
+    if (!loading) applyTheme(wornTheme); // mientras carga la sesión queda el que se acordó este navegador
+  }, [wornTheme, loading]);
 
   // Al abrir la app, preguntamos si ya hay una sesión activa
   useEffect(() => {
@@ -95,6 +102,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           wornColor: worn.color === "blue" ? null : worn.color,
           wornColorHex: worn.colorHex,
           wornColorEffect: worn.colorEffect,
+          wornTheme: worn.theme === "marino" ? null : worn.theme,
           wornTitle: worn.title,
           titleVariant: worn.titleVariant,
         }

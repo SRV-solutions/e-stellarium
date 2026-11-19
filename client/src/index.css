@@ -20,10 +20,101 @@
   --coral: #ff7a6b;
   --glint: #8fe3ff; /* los destellos, la moneda de la tienda */
   --violet: #b9a6ff; /* lo que espera revisión (la campanita) */
+  /* El brillo de la nebulosa del fondo (Cosmos): cambia con el tema */
+  --nebula-1: rgba(0, 123, 255, 0.2);
+  --nebula-2: rgba(118, 92, 240, 0.16);
+  --nebula-3: rgba(0, 123, 255, 0.1);
   --trail: #4fa3ff; /* el color del trazo de las constelaciones: cambia con el que compró (lib/trail.ts) */
   --font: "Bricolage Grotesque", system-ui, sans-serif;
   --greek: "Noto Serif Display", Georgia, serif;
   --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Los temas de la app (cosméticos de la tienda: shop_items.kind = 'theme'). Cambian solo las superficies, las líneas
+   y la nebulosa; el texto blanco y los acentos quedan igual. lib/theme.ts pone data-theme en la raíz. Marino es el de arriba. */
+:root[data-theme="bordo"] {
+  --night: #26091a;
+  --night-2: #3a1226;
+  --night-3: #4b1a33;
+  --line: #6e2b4b;
+  --line-hover: #8c3b61;
+  --track: #3d1428;
+  --deep: #12040c;
+  --code: #0c0308;
+  --muted: #d0a8bb;
+  --placeholder: #9b6c81;
+  --dim: #74475b;
+  --nebula-1: rgba(255,60,120,0.18);
+  --nebula-2: rgba(180,60,200,0.14);
+  --nebula-3: rgba(255,60,120,0.09);
+}
+
+:root[data-theme="bosque"] {
+  --night: #0a2018;
+  --night-2: #113227;
+  --night-3: #184533;
+  --line: #256049;
+  --line-hover: #348260;
+  --track: #123025;
+  --deep: #041009;
+  --code: #030c07;
+  --muted: #a4cbb8;
+  --placeholder: #628a76;
+  --dim: #44695a;
+  --nebula-1: rgba(40,200,120,0.16);
+  --nebula-2: rgba(60,160,200,0.12);
+  --nebula-3: rgba(40,200,120,0.08);
+}
+
+:root[data-theme="ciruela"] {
+  --night: #1a1038;
+  --night-2: #271a50;
+  --night-3: #33236a;
+  --line: #4c3a8c;
+  --line-hover: #6350ae;
+  --track: #2a1c55;
+  --deep: #0c0620;
+  --code: #090418;
+  --muted: #b9afe0;
+  --placeholder: #7d72b0;
+  --dim: #584f88;
+  --nebula-1: rgba(150,90,255,0.2);
+  --nebula-2: rgba(255,90,200,0.12);
+  --nebula-3: rgba(150,90,255,0.1);
+}
+
+:root[data-theme="grafito"] {
+  --night: #16181d;
+  --night-2: #222530;
+  --night-3: #2d313e;
+  --line: #434859;
+  --line-hover: #5c6275;
+  --track: #252835;
+  --deep: #0a0b0e;
+  --code: #07080a;
+  --muted: #aeb3c2;
+  --placeholder: #747a8c;
+  --dim: #555a6b;
+  --nebula-1: rgba(120,140,200,0.14);
+  --nebula-2: rgba(160,160,200,0.1);
+  --nebula-3: rgba(120,140,200,0.07);
+}
+
+:root[data-theme="cafe"] {
+  --night: #241710;
+  --night-2: #38241a;
+  --night-3: #4a3022;
+  --line: #6b4a36;
+  --line-hover: #8a6249;
+  --track: #3a261b;
+  --deep: #120a06;
+  --code: #0d0704;
+  --muted: #cdb09c;
+  --placeholder: #977a66;
+  --dim: #6f5948;
+  --nebula-1: rgba(255,160,80,0.16);
+  --nebula-2: rgba(200,100,60,0.12);
+  --nebula-3: rgba(255,160,80,0.08);
 }
 
 *,

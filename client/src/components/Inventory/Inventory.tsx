@@ -4,6 +4,7 @@ import { useAuth } from "../../auth/useAuth";
 import { api, ApiError } from "../../lib/api";
 import type { CosmeticKind, Shop, Worn } from "../../types";
 import { Avatar } from "../Avatar/Avatar";
+import { ThemeSwatch } from "../ThemeSwatch/ThemeSwatch";
 import { TrailSwatch } from "../TrailSwatch/TrailSwatch";
 import styles from "./Inventory.module.css";
 
@@ -16,6 +17,7 @@ const GROUPS: { kind: CosmeticKind; title: string; note: string; none: string | 
   { kind: "frame", title: "Marco del avatar", note: "Se ve en el encabezado y en el ranking.", none: "Sin marco" },
   { kind: "color", title: "Color del trazo", note: "Las líneas de tus constelaciones.", none: null },
   { kind: "title", title: "Título", note: "Debajo de tu alias en el ranking.", none: "Sin título" },
+  { kind: "theme", title: "Tema de la app", note: "Los colores de fondo de toda la app.", none: null },
 ];
 
 // El inventario: lo que ya compró, para ponerse o sacarse. Usa GET /shop (qué tiene) y PUT /me/cosmetics (ponerse),
@@ -145,6 +147,7 @@ function Option({ kind, name, checked, alias, cosmetic, variant = 0, onPick, onV
   if (!cosmetic) stage = <span className={styles.none} />;
   else if (kind === "frame") stage = <Avatar alias={alias} frame={cosmetic.item} size={26} />;
   else if (kind === "color") stage = <TrailSwatch color={cosmetic.hex ?? "#4fa3ff"} effect={cosmetic.effect} />;
+  else if (kind === "theme") stage = <ThemeSwatch id={cosmetic.item} />;
   else stage = <span className={styles.titleMark}>“…”</span>;
 
   // Los títulos con dos formas muestran la que lleva puesta

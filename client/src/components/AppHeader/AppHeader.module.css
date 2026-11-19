@@ -2,8 +2,8 @@
 .bar {
   position: relative;
   z-index: 2;
-  border-bottom: 1px solid rgba(36, 55, 107, 0.7);
-  background: rgba(10, 23, 53, 0.65);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  background: color-mix(in srgb, var(--night) 65%, transparent);
   backdrop-filter: blur(10px);
 }
 
@@ -89,7 +89,7 @@
   text-decoration: none;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   transition: border-color 0.15s;
 }
 
@@ -123,7 +123,7 @@
   text-decoration: none;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   transition: border-color 0.15s;
 }
 
@@ -171,7 +171,7 @@
   text-decoration: none;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   transition: border-color 0.15s;
 }
 
@@ -209,7 +209,7 @@
   height: 42px;
   border: 1px solid var(--line);
   border-radius: 50%;
-  background: rgba(5, 13, 36, 0.6);
+  background: color-mix(in srgb, var(--deep) 60%, transparent);
   cursor: pointer;
 }
 
@@ -295,7 +295,7 @@
   align-items: center;
   gap: 16px;
   padding-bottom: 20px;
-  border-bottom: 1px solid rgba(36, 55, 107, 0.6);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
 }
 
 .who strong {
@@ -345,7 +345,7 @@
   letter-spacing: -0.01em;
   text-decoration: none;
   color: var(--muted);
-  border-bottom: 1px solid rgba(36, 55, 107, 0.35);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 35%, transparent);
 }
 
 .drawerLink svg {
@@ -385,7 +385,7 @@
   flex-direction: column;
   margin: 4px 0 8px 11px;
   padding-left: 20px;
-  border-left: 1px solid rgba(36, 55, 107, 0.8);
+  border-left: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
 }
 
 .subLink {

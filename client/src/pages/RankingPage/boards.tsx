@@ -43,7 +43,7 @@ export const BOARDS: BoardInfo[] = [
     empty: "Todavía nadie tiene racha. Jugá hoy y empezá la tuya.",
     icon: (
       <svg viewBox="-32 -32 64 64">
-        <circle r="27" fill="none" stroke="#24376b" strokeWidth="3.5" />
+        <circle r="27" fill="none" stroke="var(--line)" strokeWidth="3.5" />
         <circle r="27" fill="none" stroke="#dff6ff" strokeWidth="3.5" />
         <path d="M2 -2 Q -10 4 -19 11" fill="none" stroke="#dff6ff" strokeWidth="2.4" strokeLinecap="round" opacity=".8" />
         <path d="M-1 2 Q -10 7 -19 13" fill="none" stroke="#dff6ff" strokeWidth="1.8" strokeLinecap="round" opacity=".5" />
