@@ -13,6 +13,9 @@ import styles from "./ShopPage.module.css";
 
 type Cosmetic = Shop["cosmetics"][number];
 
+// Cuántas piezas se ven de entrada en cada tipo; el resto, con "Ver todos"
+const VISIBLE = 6;
+
 const TIME_ZONE = "America/Argentina/Buenos_Aires";
 
 // "1 de diciembre"
@@ -143,6 +146,7 @@ function ShopContent({ shop, alias, freeFreezes, wearError, onBuy, onWear }: Con
   const { glints: GLINTS, badges, freezes } = useEconomy();
   const { freeze } = shop;
   const freezesLeft = freeze.monthlyLimit - freeze.boughtThisMonth;
+  const [expanded, setExpanded] = useState<Partial<Record<CosmeticKind, boolean>>>({});
 
   return (
     <>
@@ -276,13 +280,15 @@ function ShopContent({ shop, alias, freeFreezes, wearError, onBuy, onWear }: Con
         </p>
         {wearError && <p className={styles.error}>{wearError}</p>}
         <div className={styles.kinds}>
-          {KINDS.map(({ kind, title, note }) => (
+          {KINDS.map(({ kind, title, note }) => {
+            const all = shop.cosmetics.filter((c) => c.kind === kind);
+            const shown = expanded[kind] ? all : all.slice(0, VISIBLE);
+            return (
             <div key={kind}>
               <h3 className={styles.kindTitle}>{title}</h3>
               <p className={styles.kindNote}>{note}</p>
               <ul className={styles.items}>
-                {shop.cosmetics
-                  .filter((c) => c.kind === kind)
+                {shown
                   .map((cosmetic) => (
                     <CosmeticRow
                       key={cosmetic.item}
@@ -303,8 +309,14 @@ function ShopContent({ shop, alias, freeFreezes, wearError, onBuy, onWear }: Con
                     />
                   ))}
               </ul>
+              {all.length > VISIBLE && (
+                <button type="button" className={styles.showMore} onClick={() => setExpanded({ ...expanded, [kind]: !expanded[kind] })}>
+                  {expanded[kind] ? "Ver menos" : `Ver todos (${all.length})`}
+                </button>
+              )}
             </div>
-          ))}
+            );
+          })}
         </div>
       </section>
     </>

@@ -370,6 +370,24 @@
   list-style: none;
 }
 
+.showMore {
+  margin-top: 10px;
+  padding: 6px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.showMore:hover {
+  border-color: var(--muted);
+  color: var(--text);
+}
+
 .item {
   display: grid;
   grid-template-columns: 56px 1fr auto;
