@@ -35,12 +35,77 @@ export function ProfilePage() {
             </p>
           </div>
         </div>
+        <NameSection user={user} />
         <AliasSection user={user} />
         <DrawingSection user={user} />
         <Inventory />
         <NoticesSection user={user} />
       </main>
     </>
+  );
+}
+
+// El nombre llega del pago de Mercado Pago y a veces viene vacío ("Estudiante"): acá se corrige.
+// Misma regla que PATCH /me/name; la API junta los espacios repetidos.
+const NAME_HELP = "De 2 a 60 caracteres, con al menos una letra.";
+const normalizeName = (value: string) => value.trim().replace(/\s+/g, " ");
+const validName = (value: string) => value.length >= 2 && value.length <= 60 && /\p{L}/u.test(value) && !/[<>]/.test(value);
+
+function NameSection({ user }: { user: User }) {
+  const { updateProfile } = useAuth();
+  const [value, setValue] = useState(user.name);
+  const [saving, setSaving] = useState(false);
+  const [note, setNote] = useState<Note>(null);
+
+  const normalized = normalizeName(value);
+  const valid = validName(normalized);
+  const invalid = normalized.length > 0 && !valid;
+
+  async function save(event: FormEvent) {
+    event.preventDefault();
+    if (!valid || normalized === user.name) return;
+    setSaving(true);
+    setNote(null);
+    try {
+      const res = await api<{ name: string }>("/me/name", { method: "PATCH", body: JSON.stringify({ name: normalized }) });
+      updateProfile({ name: res.name });
+      setValue(res.name);
+      setNote({ kind: "ok", text: "Listo." });
+    } catch (err) {
+      setNote({ kind: "err", text: message(err) });
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <section className={styles.section} aria-labelledby="perfil-nombre">
+      <h2 id="perfil-nombre" className={styles.h2}>
+        Tu nombre
+      </h2>
+      <p className={styles.lead}>Es el que usamos en los mails. No sale en el ranking.</p>
+      <form className={styles.field} onSubmit={save} noValidate>
+        <label htmlFor="nombre">Nombre</label>
+        <input
+          id="nombre"
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+            setNote(null);
+          }}
+          maxLength={60}
+          autoComplete="name"
+          aria-invalid={invalid}
+          aria-describedby="nombre-hint"
+        />
+        <button type="submit" className={styles.button} disabled={!valid || normalized === user.name || saving}>
+          {saving ? "Guardando…" : "Guardar"}
+        </button>
+        <p id="nombre-hint" className={`${styles.hint} ${invalid || note?.kind === "err" ? styles.err : ""} ${note?.kind === "ok" ? styles.ok : ""}`} aria-live="polite">
+          {note?.text ?? NAME_HELP}
+        </p>
+      </form>
+    </section>
   );
 }
 

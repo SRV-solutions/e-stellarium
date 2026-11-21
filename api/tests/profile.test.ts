@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { User } from "../src/models/index.js";
+import { checkIntegrity, sealAll } from "../src/lib/integrity.js";
 import { createUser, http, loginAs } from "./helpers.js";
 
 describe("PATCH /me/alias", () => {
@@ -48,6 +49,31 @@ describe("PATCH /me/alias", () => {
     await sofia.patch("/me/alias").send({ alias: "segundo" }).expect(200);
     // Mandar el mismo alias no cuenta como cambio
     await sofia.patch("/me/alias").send({ alias: "segundo" }).expect(200);
+  });
+});
+
+describe("PATCH /me/name", () => {
+  it("cambia el nombre, junta los espacios y deja sellada la fila", async () => {
+    await createUser("sofia@test.com");
+    await sealAll(); // createUser escribe fuera de una transacción: la fila nace sin sellar
+    const sofia = await loginAs("sofia@test.com");
+    const res = await sofia.patch("/me/name").send({ name: "  María   José Núñez " }).expect(200);
+    expect(res.body.name).toBe("María José Núñez");
+    expect((await sofia.get("/me")).body.user.name).toBe("María José Núñez");
+    // Se puede volver a cambiar enseguida: no tiene espera como el alias
+    await sofia.patch("/me/name").send({ name: "Sofi" }).expect(200);
+    const problems = (await checkIntegrity()).filter((p) => "table" in p && p.table === "users");
+    expect(problems).toEqual([]);
+  });
+
+  it("rechaza nombres vacíos, sin letras, muy largos o con caracteres raros, y pide sesión", async () => {
+    await createUser("sofia@test.com");
+    const sofia = await loginAs("sofia@test.com");
+    for (const name of ["", "   ", "a", "12345", "a".repeat(61), "<b>Sofía</b>", "Sofía​", 5, undefined]) {
+      expect((await sofia.patch("/me/name").send({ name })).status).toBe(400);
+    }
+    expect((await User.findOne({ where: { email: "sofia@test.com" } }))!.name).not.toBe("a");
+    expect((await http().patch("/me/name").send({ name: "Sofía" })).status).toBe(401);
   });
 });
 

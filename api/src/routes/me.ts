@@ -87,6 +87,23 @@ meRouter.patch("/me/alias", requireAuth, async (req, res) => {
   res.json({ alias: user.alias, aliasChangedAt: user.aliasChangedAt });
 });
 
+// Cambia el nombre (el de los mails y el del panel; en el ranking sale el alias). Llega del pago de Mercado Pago
+// y a veces viene vacío ("Estudiante"). Sin límite de cambios. Se juntan los espacios repetidos.
+const NAME_MIN = 2;
+const NAME_MAX = 60;
+meRouter.patch("/me/name", requireAuth, async (req, res) => {
+  const name = typeof req.body?.name === "string" ? req.body.name.trim().replace(/\s+/g, " ") : "";
+  if (name.length < NAME_MIN || name.length > NAME_MAX || !/\p{L}/u.test(name) || /[\p{Cc}\p{Cf}<>]/u.test(name)) {
+    throw new HttpError(400, `El nombre tiene de ${NAME_MIN} a ${NAME_MAX} caracteres, con al menos una letra.`);
+  }
+  const user = await sequelize.transaction(async (t) => {
+    const row = await User.findByPk(req.user!.id, { lock: t.LOCK.UPDATE, transaction: t });
+    if (!row) throw new HttpError(404, "No encontramos al usuario.");
+    return row.update({ name }, { transaction: t });
+  });
+  res.json({ name: user.name });
+});
+
 // El dibujo del avatar, de la lista de lib/avatars.ts (null = las iniciales)
 meRouter.patch("/me/avatar", requireAuth, async (req, res) => {
   const avatar = req.body?.avatar;

@@ -109,7 +109,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     );
   }
 
-  function updateProfile(changes: Partial<Pick<User, "alias" | "aliasChangedAt" | "avatar" | "notifyEmail" | "notifyApp">>) {
+  function updateProfile(changes: Partial<Pick<User, "name" | "alias" | "aliasChangedAt" | "avatar" | "notifyEmail" | "notifyApp">>) {
     setUser((previous) => previous && { ...previous, ...changes });
   }
 
