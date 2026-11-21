@@ -617,6 +617,7 @@ export type StudentDetail = {
   id: string;
   name: string;
   email: string;
+  alias: string; // el del ranking
   createdAt: string;
   deletedAt: string | null;
   totalXp: number;

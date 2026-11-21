@@ -84,6 +84,7 @@ describe("GET /admin/students/:id", () => {
     expect(course).toMatchObject({ key: "python", status: "active", manual: false, lit: 0, total: 1 });
     expect(course.current).toMatchObject({ lesson: star.title, index: 1, of: 1 });
     expect(res.body.student.access).toEqual({ hasPassword: true, linkUntil: null });
+    expect(res.body.student.alias).toBe(sofia.alias);
     expect(res.body.student.courseOptions.length).toBeGreaterThan(1);
     expect((await agent.get("/admin/students/no-es-un-id")).status).toBe(404);
   });

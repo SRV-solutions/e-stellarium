@@ -231,8 +231,8 @@ async function lastChallenges(userId: string) {
 // manage: quien mira puede dar y sacar cursos (users:manage). Ve también los cursos sacados,
 // cómo entra a la plataforma y sus registros de la bitácora.
 export async function studentDetail(id: string, scope: string[] | null, manage: boolean) {
-  const [row] = await sequelize.query<StudentRow & { password_hash: string | null; total_xp: number; deleted_at: Date | null }>(
-    `SELECT u.id, u.name, u.email, u.created_at, u.streak, u.last_active_on, u.streak_freezes, u.bought_freezes,
+  const [row] = await sequelize.query<StudentRow & { alias: string; password_hash: string | null; total_xp: number; deleted_at: Date | null }>(
+    `SELECT u.id, u.name, u.email, u.alias, u.created_at, u.streak, u.last_active_on, u.streak_freezes, u.bought_freezes,
             u.password_hash, u.total_xp, u.deleted_at
        FROM users u JOIN roles r ON r.id = u.role_id
       WHERE u.id = :id AND r.key = 'student'`,
@@ -265,6 +265,7 @@ export async function studentDetail(id: string, scope: string[] | null, manage: 
     id: row.id,
     name: row.name,
     email: row.email,
+    alias: row.alias, // el del ranking: así el staff reconoce a quien ve ahí
     createdAt: row.created_at,
     deletedAt: row.deleted_at,
     totalXp: row.total_xp,

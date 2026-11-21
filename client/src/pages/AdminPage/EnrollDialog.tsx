@@ -128,7 +128,7 @@ export function EnrollDialog({ open, onClose, onDone }: Props) {
           <label className={styles.field}>
             <span>Nombre</span>
             <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nombre y apellido" maxLength={120} />
-            <small>Así lo saludamos en el mail y así aparece en el ranking.</small>
+            <small>Así lo saludamos en los mails. En el ranking sale el alias, que se cambia desde el perfil.</small>
           </label>
         )}
 

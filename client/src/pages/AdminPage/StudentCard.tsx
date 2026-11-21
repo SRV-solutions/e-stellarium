@@ -217,6 +217,9 @@ export function StudentCard({ id, onClose, onChanged }: Props) {
         <div>
           <h2>{student.name}</h2>
           <p>{student.email}</p>
+          <p>
+            En el ranking: <strong>{student.alias}</strong>
+          </p>
         </div>
       </div>
 
