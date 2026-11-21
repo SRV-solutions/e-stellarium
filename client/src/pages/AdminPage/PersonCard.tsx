@@ -112,6 +112,8 @@ export function PersonCard({ id, roles, meId, onClose, onChanged }: Props) {
       </div>
 
       <dl className={styles.facts}>
+        <dt>Alias</dt>
+        <dd>{person.alias}</dd>
         <dt>Desde</dt>
         <dd>{dayMonth(person.createdAt)}</dd>
         <dt>Cursos</dt>
